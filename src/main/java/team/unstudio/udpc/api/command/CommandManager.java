@@ -32,6 +32,7 @@ public class CommandManager implements CommandExecutor{
 			for(Method m:h.getClass().getMethods()){
 				m.setAccessible(true);
 				team.unstudio.udpc.api.command.Command c = m.getAnnotation(team.unstudio.udpc.api.command.Command.class);
+				if(c==null) continue;
 				if(c.value().length<args.length) continue;
 				boolean flag = false;
 				for(int i=0;i<c.value().length;i++){
