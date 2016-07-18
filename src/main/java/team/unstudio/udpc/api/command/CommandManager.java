@@ -9,6 +9,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * 指令管理者
+ */
 public class CommandManager implements CommandExecutor{
 
 	private final JavaPlugin plugin;
@@ -30,13 +33,16 @@ public class CommandManager implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		for(CommandHandler h:handlers){
 			for(Method m:h.getClass().getMethods()){
+				
 				m.setAccessible(true);
-				team.unstudio.udpc.api.command.Command c = m.getAnnotation(team.unstudio.udpc.api.command.Command.class);
-				if(c==null) continue;
-				if(c.value().length<args.length) continue;
+				team.unstudio.udpc.api.command.Command anno = m.getAnnotation(team.unstudio.udpc.api.command.Command.class);
+				
+				if(anno==null) continue;
+				if(anno.value().length<args.length) continue;
+				
 				boolean flag = false;
-				for(int i=0;i<c.value().length;i++){
-					if(!args[i].equalsIgnoreCase(c.value()[i])){
+				for(int i=0;i<anno.value().length;i++){
+					if(!args[i].equalsIgnoreCase(anno.value()[i])){
 						flag = true;
 						break;
 					}
@@ -44,26 +50,25 @@ public class CommandManager implements CommandExecutor{
 				
 				if(flag) continue;
 				else{
-					
-					for(Class<? extends CommandSender> s:c.sender()){
+					for(Class<? extends CommandSender> s:anno.sender()){
 						if(!sender.getClass().isAssignableFrom(s)){
-							onWrongSender(sender, command, label, args);
+							onWrongSender(sender, command, label, args, anno);
 							return true;
 						}
 					}
-					if(!sender.hasPermission(c.permission())){
-						onNoPermission(sender, command, label, args);
+					if(!sender.hasPermission(anno.permission())){
+						onNoPermission(sender, command, label, args, anno);
 						return true;
 					}
-					if(c.value().length+c.parameter().length<args.length){
-						onNoEnoughParameter(sender, command, label, args);
+					if(anno.value().length+anno.parameter().length<args.length){
+						onNoEnoughParameter(sender, command, label, args, anno);
 						return true;
 					}
-					Object[] objs = new Object[args.length-c.value().length];
-					for(int i=0;i<args.length-c.value().length;i++){
+					Object[] objs = new Object[args.length-anno.value().length];
+					for(int i=0;i<args.length-anno.value().length;i++){
 						try{
-							String s = args[c.value().length+i];
-							Class<?> clazz = c.parameter()[i];
+							String s = args[anno.value().length+i];
+							Class<?> clazz = anno.parameter()[i];
 							if(clazz.equals(String.class)) objs[i]=s;
 							else if(clazz.equals(int.class)) objs[i]=Integer.parseInt(s);
 							else if(clazz.equals(boolean.class)) objs[i]=Boolean.parseBoolean(s);
@@ -74,7 +79,7 @@ public class CommandManager implements CommandExecutor{
 							else if(clazz.equals(short.class)) objs[i]=Short.parseShort(s);
 							else objs[i]=s;
 						}catch(Exception e){
-							onErrorParameter(sender, command, label, args);
+							onErrorParameter(sender, command, label, args, anno);
 							return true;
 						}
 					}
@@ -84,14 +89,12 @@ public class CommandManager implements CommandExecutor{
 						try {
 							result = (boolean) m.invoke(h,sender,objs);
 						} catch (Exception e) {}
-						finally {
-							if(!result)onExecutionFailure(sender, command, label, args);
-							}
+						if(!result)onExecutionFailure(sender, command, label, args, anno);
 					}else{
 						try {
 							m.invoke(h, sender,objs);
 						} catch (Exception e) {
-							onExecutionFailure(sender, command, label, args);
+							onExecutionFailure(sender, command, label, args, anno);
 						}
 					}
 					return true;
@@ -152,34 +155,30 @@ public class CommandManager implements CommandExecutor{
 		this.errorParameterMessage = def;
 	}
 
-	public void onNoPermission(CommandSender sender, Command command, String label, String[] args){
+	private void onNoPermission(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(noPermissionMessage);
 	}
 	
-	public void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args){
+	private void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(noEnoughParameterMessage);
 	}
 	
-	public void onWrongSender(CommandSender sender, Command command, String label, String[] args){
+	private void onWrongSender(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(wrongSenderMessage);
 	}
 	
-	public void onErrorParameter(CommandSender sender, Command command, String label, String[] args){
+	private void onErrorParameter(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(errorParameterMessage);
 	}
 	
-	public void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
+	private void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
 		sender.sendMessage(unknownCommandMessage);
 	}
 	
-	public void onExecutionFailure(CommandSender sender, Command command, String label, String[] args){
+	private void onExecutionFailure(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(executionFailureMessage);
 	}
-
-	public JavaPlugin getPlugin() {
-		return plugin;
-	}
-
+	
 	public String getUnknownCommandMessage() {
 		return unknownCommandMessage;
 	}
@@ -194,5 +193,9 @@ public class CommandManager implements CommandExecutor{
 
 	public void setExecutionFailureMessage(String def) {
 		this.executionFailureMessage = def;
+	}
+
+	public JavaPlugin getPlugin() {
+		return plugin;
 	}
 }

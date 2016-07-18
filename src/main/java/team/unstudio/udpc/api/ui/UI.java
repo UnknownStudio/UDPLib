@@ -25,10 +25,19 @@ public class UI implements Listener,Cloneable{
 		this.buttons = new ArrayList<>();
 	}
 
+	/**
+	 * 获取背包
+	 * @return
+	 */
 	public Inventory getInventory() {
 		return inventory;
 	}
 	
+	/**
+	 * 打开
+	 * @param player
+	 * @param plugin
+	 */
 	public void open(final HumanEntity player,final JavaPlugin plugin){
 		inventory.clear();
 		for(Button b:buttons) b.paint();
@@ -41,6 +50,10 @@ public class UI implements Listener,Cloneable{
 		}, 1L);
 	}
 	
+	/**
+	 * 关闭
+	 * @param player
+	 */
 	public void close(HumanEntity player){
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
 			InventoryClickEvent.getHandlerList().unregister(this);
@@ -50,6 +63,11 @@ public class UI implements Listener,Cloneable{
 		}
 	}
 	
+	/**
+	 * 添加按钮
+	 * @param button
+	 * @return
+	 */
 	public boolean addButton(Button button){
 		if(button==null) return false;
 		buttons.add(button);
@@ -57,6 +75,11 @@ public class UI implements Listener,Cloneable{
 		return true;
 	}
 	
+	/**
+	 * 删除按钮
+	 * @param button
+	 * @return
+	 */
 	public boolean removeButton(Button button){
 		if(button==null) return false;
 		buttons.remove(button);

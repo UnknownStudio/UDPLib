@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import org.bukkit.command.CommandSender;
 
 /**
- * 表示一个指令处理器
+ * 表示一个指令
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
