@@ -18,21 +18,24 @@ public @interface Command {
 	 * 指令
 	 * @return
 	 */
-	String value();
+	String[] value();
+	
 	/**
 	 * 权限
 	 * @return
 	 */
-	String permission();
+	String permission() default "";
+	
 	/**
-	 * 指定发送者
+	 * 发送者
 	 * @return
 	 */
 	Class<? extends CommandSender>[] sender() default CommandSender.class;
+	
 	/**
-	 * 参数数量
+	 * 参数
 	 * @return
 	 */
-	int parameter();
+	Class<?>[] parameter() default void.class;
 	
 }
