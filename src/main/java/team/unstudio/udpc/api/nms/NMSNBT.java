@@ -3,8 +3,6 @@ package team.unstudio.udpc.api.nms;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.inventory.ItemStack;
-
 public interface NMSNBT {
 	
 	public Map<String, Object> toMap(Object nbt) throws Exception;
@@ -31,9 +29,5 @@ public interface NMSNBT {
 	
 	public Object toObject(Object nbt) throws Exception;
 	
-	public Object toNBTBase(Object obj) throws Exception;
-	
-	public Map<String,Object> getNBTFromItemStack(ItemStack itemStack) throws Exception;
-	
-	public ItemStack setNBTToItemStack(ItemStack itemStack, Map<String,Object> nbt) throws Exception;
+	public Object toNBT(Object obj) throws Exception;
 }

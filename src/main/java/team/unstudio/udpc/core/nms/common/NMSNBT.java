@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.inventory.ItemStack;
-
-import team.unstudio.udpc.core.nms.NMSManager;
+import team.unstudio.udpc.api.nms.NMSManager;
 
 public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 
@@ -203,7 +201,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Object toNBTBase(Object obj) throws Exception{
+	public Object toNBT(Object obj) throws Exception{
 		if (obj instanceof Byte){
 			Class<?> clist = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".NBTTagByte");
 			Constructor<?> cons = clist.getDeclaredConstructor(byte.class);
@@ -256,7 +254,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 			Method add = clist.getMethod("add", cnbtbase);
 			add.setAccessible(true);
 			for(Object e:(List<Object>)obj){
-				add.invoke(o,toNBTBase(e));
+				add.invoke(o,toNBT(e));
 			}
 			return o;
 		} else if (obj instanceof Map) {
@@ -266,36 +264,10 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 			Method set = cmap.getMethod("set", String.class, cnbtbase);
 			set.setAccessible(true);
 			for(String key:((Map<String,Object>) obj).keySet()){
-				set.invoke(o, key,toNBTBase(((Map<String,Object>) obj).get(key)));
+				set.invoke(o, key,toNBT(((Map<String,Object>) obj).get(key)));
 			}
 			return o;
 		} else
 			return null;
-	}
-
-	@Override
-	public Map<String, Object> getNBTFromItemStack(ItemStack itemStack) throws Exception{
-		Class<?> ccitemstack = Class.forName("org.bukkit.craftbukkit." + NMSManager.NMS_VERSION + ".inventory.CraftItemStack");
-		Class<?> citemstack = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".ItemStack");
-		Method asnmscopy = ccitemstack.getMethod("asNMSCopy", ItemStack.class);
-		asnmscopy.setAccessible(true);
-		Method gettag = citemstack.getMethod("getTag");
-		gettag.setAccessible(true);
-		return toMap(gettag.invoke(asnmscopy.invoke(null, itemStack)));
-	}
-
-	@Override
-	public ItemStack setNBTToItemStack(ItemStack itemStack, Map<String,Object> nbt) throws Exception{
-		Class<?> ccitemstack = Class.forName("org.bukkit.craftbukkit." + NMSManager.NMS_VERSION + ".inventory.CraftItemStack");
-		Class<?> citemstack = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".ItemStack");
-		Method asnmscopy = ccitemstack.getMethod("asNMSCopy", ItemStack.class);
-		asnmscopy.setAccessible(true);
-		Method settag = citemstack.getMethod("setTag");
-		settag.setAccessible(true);
-		Method asbukkitcopy = ccitemstack.getMethod("asBukkitCopy", citemstack);
-		asbukkitcopy.setAccessible(true);
-		Object nitem = asnmscopy.invoke(null, itemStack);
-		settag.invoke(nitem,toNBTBase(nbt));
-		return (ItemStack) asbukkitcopy.invoke(null, nitem);
 	}
 }

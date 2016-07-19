@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
-import org.bukkit.inventory.ItemStack;
-
 import net.minecraft.server.v1_10_R1.NBTBase;
 import net.minecraft.server.v1_10_R1.NBTTagByte;
 import net.minecraft.server.v1_10_R1.NBTTagByteArray;
@@ -24,100 +21,109 @@ import net.minecraft.server.v1_10_R1.NBTTagString;
 
 public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	
+	@Override
 	@SuppressWarnings("unchecked")
-	public Map<String,Object> toMap(Object nbt){
+	public Map<String,Object> toMap(Object nbt) throws Exception{
 		Map<String,Object> map = new HashMap<>();
-		try {
 			Field field = nbt.getClass().getField("map");
 			field.setAccessible(true);
 			Map<String, NBTBase> nmap = (Map<String, NBTBase>) field.get(nbt);
 			for(String key:nmap.keySet()){
 				map.put(key, toObject(nmap.get(key)));
 			}
-		} catch (Exception e) {}
 		return map;
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<Object> toList(Object nbt){
+	public List<Object> toList(Object nbt) throws Exception{
 		List<Object> list = new ArrayList<>();
-		try {
 			Field field = nbt.getClass().getField("list");
 			field.setAccessible(true);
 			List<NBTBase> nlist = (List<NBTBase>) field.get(nbt);
 			for(NBTBase base:nlist){
 				list.add(toObject(base));
 			}
-		} catch (Exception e) {}
 		return list;
 	}
 	
+	@Override
 	public byte toByte(Object nbt){
 		return ((NBTTagByte) nbt).g();
 	}
 	
+	@Override
 	public short toShort(Object nbt){
 		return ((NBTTagShort) nbt).f();
 	}
 	
+	@Override
 	public int toInt(Object nbt){
 		return ((NBTTagInt) nbt).e();
 	}
 	
+	@Override
 	public long toLong(Object nbt){
 		return ((NBTTagLong) nbt).d();
 	}
 	
+	@Override
 	public float toFloat(Object nbt){
 		return ((NBTTagFloat) nbt).i();
 	}
 	
+	@Override
 	public double toDouble(Object nbt){
 		return ((NBTTagDouble) nbt).h();
 	}
 	
+	@Override
 	public String toString(Object nbt){
 		return ((NBTTagString) nbt).c_();
 	}
 	
+	@Override
 	public byte[] toByteArray(Object nbt){
 		return ((NBTTagByteArray) nbt).c().clone();
 	}
 	
+	@Override
 	public int[] toIntArray(Object nbt){
 		return ((NBTTagIntArray) nbt).d().clone();
 	}
 	
-	public Object toObject(Object nbt){
+	@Override
+	public Object toObject(Object nbt) throws Exception{
 		switch (((NBTBase) nbt).getTypeId()) {
 		case 1:
-			return toByte((NBTTagByte) nbt);
+			return toByte(nbt);
 		case 2:
-			return toShort((NBTTagShort) nbt);
+			return toShort(nbt);
 		case 3:
-			return toInt((NBTTagInt) nbt);
+			return toInt(nbt);
 		case 4:
-			return toLong((NBTTagLong) nbt);
+			return toLong(nbt);
 		case 5:
-			return toFloat((NBTTagFloat) nbt);
+			return toFloat(nbt);
 		case 6:
-			return toDouble((NBTTagDouble) nbt);
+			return toDouble(nbt);
 		case 7:
-			return toByteArray((NBTTagByteArray) nbt);
+			return toByteArray(nbt);
 		case 11:
-			return toIntArray((NBTTagIntArray) nbt);
+			return toIntArray(nbt);
 		case 8:
-			return toString((NBTTagString) nbt);
+			return toString(nbt);
 		case 9:
-			return toList((NBTTagList) nbt);
+			return toList(nbt);
 		case 10:
-			return toMap((NBTTagCompound) nbt);
+			return toMap(nbt);
 		}
 		return null;
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
-	public NBTBase toNBTBase(Object obj){
+	public NBTBase toNBT(Object obj){
 		if(obj instanceof Byte)return new NBTTagByte((byte) obj);
 		else if (obj instanceof Short)return new NBTTagShort((short) obj);
 		else if(obj instanceof Integer)return new NBTTagInt((int) obj);
@@ -129,24 +135,14 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 		else if(obj instanceof String)return new NBTTagString((String) obj);
 		else if(obj instanceof List){
 			NBTTagList nlist = new NBTTagList();
-			for(Object o:(List<Object>)obj) nlist.add(toNBTBase(o));
+			for(Object o:(List<Object>)obj) nlist.add(toNBT(o));
 			return nlist;
 		}
 		else if(obj instanceof Map) {
 			NBTTagCompound nmap = new NBTTagCompound();
-			for(String key:((Map<String,Object>) obj).keySet()) nmap.set(key, toNBTBase(((Map<String,Object>) obj).get(key)));
+			for(String key:((Map<String,Object>) obj).keySet()) nmap.set(key, toNBT(((Map<String,Object>) obj).get(key)));
 			return nmap;
 		}
 		else return null;
-	}
-	
-	public Map<String, Object> getNBTFromItemStack(ItemStack itemStack) {
-		return toMap(CraftItemStack.asNMSCopy(itemStack).getTag());
-	}
-
-	public ItemStack setNBTToItemStack(ItemStack itemStack,Map<String,Object> nbt) {
-		net.minecraft.server.v1_10_R1.ItemStack nitem = CraftItemStack.asNMSCopy(itemStack);
-		nitem.setTag((NBTTagCompound)toNBTBase(nbt));
-		return CraftItemStack.asBukkitCopy(nitem);
 	}
 }
