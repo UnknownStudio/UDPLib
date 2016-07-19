@@ -1,0 +1,4 @@
+name: udpcore
+main: team.unstudio.udpc.core.UDPCore
+version: 1.0.0
+authors: [Mouse]

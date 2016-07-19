@@ -9,12 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * 界面的包装类
+ */
 public class UI implements Listener,Cloneable{
 	
 	private final Inventory inventory;
@@ -56,11 +59,15 @@ public class UI implements Listener,Cloneable{
 	 */
 	public void close(HumanEntity player){
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
-			InventoryClickEvent.getHandlerList().unregister(this);
-			InventoryDragEvent.getHandlerList().unregister(this);
-			InventoryMoveItemEvent.getHandlerList().unregister(this);
+			if(inventory.getViewers().size()<=1)unregisterAllListener();
 			player.getOpenInventory().close();
 		}
+	}
+	
+	private void unregisterAllListener(){
+		InventoryClickEvent.getHandlerList().unregister(this);
+		InventoryDragEvent.getHandlerList().unregister(this);
+		InventoryCloseEvent.getHandlerList().unregister(this);
 	}
 	
 	/**
@@ -106,8 +113,10 @@ public class UI implements Listener,Cloneable{
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onMoveItem(InventoryMoveItemEvent event){
-		if(event.getSource().equals(inventory))event.setCancelled(true);
+	public void onClose(InventoryCloseEvent event){
+		if(event.getInventory().equals(inventory)){
+			if(inventory.getViewers().size()<=1)unregisterAllListener();
+		}
 	}
 	
 	@Override
@@ -115,11 +124,14 @@ public class UI implements Listener,Cloneable{
 		UI ui = null;
 		if(inventory.getType()==InventoryType.CHEST){
 			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getSize(), inventory.getTitle()));
+			for(Button b:buttons){
+				ui.addButton(b.clone());
+			}
 		}else{
 			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getType(), inventory.getTitle()));
-		}
-		for(Button b:buttons){
-			ui.addButton(b.clone());
+			for(Button b:buttons){
+				ui.addButton(b.clone());
+			}
 		}
 		return ui;
 	}

@@ -14,29 +14,37 @@
   </properties>
   
     <repositories>
-        <repository>
+      	<repository>
             <id>elmakers-repo</id>
             <url>http://maven.elmakers.com/repository</url>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <!--UDREPO <repository>
-            <id>Mayo_Huang-Repo</id>
-            <url>http://maven.xhyun.net/repository/</url>
-        </repository> API-->
+        </repository> 
+		<!--  <repository>
+        	<id>unknowndoamin-repo</id>
+        	<url>http://maven.mccraft.cn/repository/</url>
+    	</repository>
+    	<repository>
+			<id>dmulloy2-repo</id>
+			<url>http://repo.dmulloy2.net/content/groups/public/</url>
+		</repository>-->
+    	<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+		</repository>
     </repositories>
-
     <dependencies>
-        <!--Bukkit  API-->
+		<!--Spigot
+        <dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+            <version>1.10.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
