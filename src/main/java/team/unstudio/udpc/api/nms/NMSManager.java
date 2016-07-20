@@ -2,6 +2,7 @@ package team.unstudio.udpc.api.nms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 public class NMSManager {
@@ -42,6 +43,15 @@ public class NMSManager {
 			return new team.unstudio.udpc.core.nms.v1_10_R1.NMSItemStack(itemStack);
 		default:
 			return new team.unstudio.udpc.core.nms.common.NMSItemStack(itemStack);
+		}
+	}
+	
+	public static NMSEntity createNMSEntity(Entity entity){
+		switch (NMS_VERSION) {
+		case "v1_10_R1":
+			return new team.unstudio.udpc.core.nms.v1_10_R1.NMSEntity(entity);
+		default:
+			return new team.unstudio.udpc.core.nms.common.NMSEntity(entity);
 		}
 	}
 }
