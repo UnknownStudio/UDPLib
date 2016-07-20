@@ -40,9 +40,9 @@ public class NMSManager {
 	public static NMSItemStack createNMSItemStack(ItemStack itemStack){
 		switch (NMS_VERSION) {
 		case "v1_10_R1":
-			return new team.unstudio.udpc.core.nms.v1_10_R1.NMSItemStack(itemStack);
+			return new team.unstudio.udpc.core.nms.v1_10_R1.NMSItemStack();
 		default:
-			return new team.unstudio.udpc.core.nms.common.NMSItemStack(itemStack);
+			return new team.unstudio.udpc.core.nms.common.NMSItemStack();
 		}
 	}
 	

@@ -6,9 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 public interface NMSItemStack {
 	
-	public ItemStack getItemStack();
-	
-	public Map<String, Object> getNBT() throws Exception;
+	public Map<String, Object> getNBT(ItemStack itemStack) throws Exception;
 
-	public NMSItemStack setNBT(Map<String, Object> map) throws Exception;
+	public ItemStack setNBT(ItemStack itemStack,Map<String, Object> map) throws Exception;
 }
