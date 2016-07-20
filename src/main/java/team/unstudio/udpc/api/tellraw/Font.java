@@ -59,7 +59,7 @@ public class Font {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		if(color!=null)builder.append(",color:"+color.color);
+		if(color!=null)builder.append(",color:"+color.toString().toLowerCase());
 		builder.append(",bold:"+bold);
 		builder.append(",underlined:"+underlined);
 		builder.append(",italic:"+italic);
