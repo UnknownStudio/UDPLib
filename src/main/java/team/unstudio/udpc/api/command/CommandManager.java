@@ -47,58 +47,69 @@ public class CommandManager implements CommandExecutor{
 						break;
 					}
 				}
-				
 				if(flag) continue;
-				else{
-					for(Class<? extends CommandSender> s:anno.sender()){
-						if(!sender.getClass().isAssignableFrom(s)){
-							onWrongSender(sender, command, label, args, anno);
-							return true;
-						}
-					}
-					if(!sender.hasPermission(anno.permission())){
-						onNoPermission(sender, command, label, args, anno);
+				
+				for (Class<? extends CommandSender> s : anno.sender()) {
+					if (!sender.getClass().isAssignableFrom(s)) {
+						onWrongSender(sender, command, label, args, anno);
 						return true;
 					}
-					if(anno.value().length+anno.parameter().length<args.length){
-						onNoEnoughParameter(sender, command, label, args, anno);
-						return true;
-					}
-					Object[] objs = new Object[args.length-anno.value().length];
-					for(int i=0;i<args.length-anno.value().length;i++){
-						try{
-							String s = args[anno.value().length+i];
-							Class<?> clazz = anno.parameter()[i];
-							if(clazz.equals(String.class)) objs[i]=s;
-							else if(clazz.equals(int.class)) objs[i]=Integer.parseInt(s);
-							else if(clazz.equals(boolean.class)) objs[i]=Boolean.parseBoolean(s);
-							else if(clazz.equals(float.class)) objs[i]=Float.parseFloat(s);
-							else if(clazz.equals(double.class)) objs[i]=Double.parseDouble(s);
-							else if(clazz.equals(long.class)) objs[i]=Long.parseLong(s);
-							else if(clazz.equals(byte.class)) objs[i]=Byte.parseByte(s);
-							else if(clazz.equals(short.class)) objs[i]=Short.parseShort(s);
-							else objs[i]=s;
-						}catch(Exception e){
-							onErrorParameter(sender, command, label, args, anno);
-							return true;
-						}
-					}
-					
-					if(m.getReturnType().equals(boolean.class)){
-						boolean result = false;
-						try {
-							result = (boolean) m.invoke(h,sender,objs);
-						} catch (Exception e) {}
-						if(!result)onExecutionFailure(sender, command, label, args, anno);
-					}else{
-						try {
-							m.invoke(h, sender,objs);
-						} catch (Exception e) {
-							onExecutionFailure(sender, command, label, args, anno);
-						}
-					}
+				}
+				if (!sender.hasPermission(anno.permission())) {
+					onNoPermission(sender, command, label, args, anno);
 					return true;
 				}
+				if (anno.value().length + anno.parameter().length < args.length) {
+					onNoEnoughParameter(sender, command, label, args, anno);
+					return true;
+				}
+				Object[] objs = new Object[args.length - anno.value().length];
+				for (int i = 0; i < args.length - anno.value().length; i++) {
+					try {
+						String s = args[anno.value().length + i];
+						if(i<anno.parameter().length){
+							Class<?> clazz = anno.parameter()[i];
+							if (clazz.equals(String.class))
+								objs[i] = s;
+							else if (clazz.equals(int.class))
+								objs[i] = Integer.parseInt(s);
+							else if (clazz.equals(boolean.class))
+								objs[i] = Boolean.parseBoolean(s);
+							else if (clazz.equals(float.class))
+								objs[i] = Float.parseFloat(s);
+							else if (clazz.equals(double.class))
+								objs[i] = Double.parseDouble(s);
+							else if (clazz.equals(long.class))
+								objs[i] = Long.parseLong(s);
+							else if (clazz.equals(byte.class))
+								objs[i] = Byte.parseByte(s);
+							else if (clazz.equals(short.class))
+								objs[i] = Short.parseShort(s);
+							else
+								objs[i] = s;
+						}else objs[i] = s;
+					} catch (Exception e) {
+						onErrorParameter(sender, command, label, args, anno);
+						return true;
+					}
+				}
+
+				if (m.getReturnType().equals(boolean.class)) {
+					boolean result = false;
+					try {
+						result = (boolean) m.invoke(h, sender, objs);
+					} catch (Exception e) {
+					}
+					if (!result)
+						onExecutionFailure(sender, command, label, args, anno);
+				} else {
+					try {
+						m.invoke(h, sender, objs);
+					} catch (Exception e) {
+						onExecutionFailure(sender, command, label, args, anno);
+					}
+				}
+				return true;
 			}
 		}
 		onUnknownCommand(sender, command, label, args);
