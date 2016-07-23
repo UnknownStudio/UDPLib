@@ -1,11 +1,10 @@
 package team.unstudio.udpc.core.nms.common;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
-import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import team.unstudio.udpc.api.nms.NMSManager;
 
 public class NMSEntity implements team.unstudio.udpc.api.nms.NMSEntity{
@@ -23,12 +22,27 @@ public class NMSEntity implements team.unstudio.udpc.api.nms.NMSEntity{
 
 	@Override
 	public Map<String, Object> getNBT() throws Exception {
-		return NMSManager.getNMSNBT().toMap(((CraftEntity)entity).getHandle().e(new NBTTagCompound()));
+		Class<?> NBTTagCompound = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".NBTTagCompound");
+		Object nbt = NBTTagCompound.newInstance();
+		Class<?> Entity = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".Entity");
+		Method getHandle = entity.getClass().getMethod("getHandle");
+		getHandle.setAccessible(true);
+		Method e = Entity.getMethod("e", NBTTagCompound);
+		e.setAccessible(true);
+		e.invoke(getHandle.invoke(entity),nbt);
+		return NMSManager.getNMSNBT().toMap(nbt);
 	}
 
 	@Override
 	public team.unstudio.udpc.api.nms.NMSEntity setNBT(Map<String, Object> map) throws Exception {
-		((CraftEntity)entity).getHandle().f((NBTTagCompound)NMSManager.getNMSNBT().toNBT(map));
+		Class<?> NBTTagCompound = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".NBTTagCompound");
+		Object nbt = NMSManager.getNMSNBT().toNBT(map);
+		Class<?> Entity = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".Entity");
+		Method getHandle = entity.getClass().getMethod("getHandle");
+		getHandle.setAccessible(true);
+		Method f = Entity.getMethod("f", NBTTagCompound);
+		f.setAccessible(true);
+		f.invoke(getHandle.invoke(entity),nbt);
 		return this;
 	}
 
