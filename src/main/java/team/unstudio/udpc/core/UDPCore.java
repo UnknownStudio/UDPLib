@@ -2,6 +2,10 @@ package team.unstudio.udpc.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import team.unstudio.udpc.api.command.CommandManager;
+import team.unstudio.udpc.api.command.TabCompleteHelper;
+import team.unstudio.udpc.api.pluginmanager.PluginManager;
+
 public class UDPCore extends JavaPlugin{
 	
 	public static final String NAME = "UDPCore";
@@ -17,6 +21,8 @@ public class UDPCore extends JavaPlugin{
 	
 	@Override
 	public void onEnable() {
+		new CommandManager("pm", this).addCommandHandler(new PluginManager()).registerCommand();
+		getServer().getPluginManager().registerEvents(new TabCompleteHelper(null), this);
 	}
 	
 	@Override

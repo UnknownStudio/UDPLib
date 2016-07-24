@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CommandManager implements CommandExecutor{
 
 	private final JavaPlugin plugin;
+	private final String name;
 	
 	private List<CommandHandler> handlers = new ArrayList<>();
 	
@@ -25,7 +26,13 @@ public class CommandManager implements CommandExecutor{
 	private String unknownCommandMessage;
 	private String executionFailureMessage;
 	
-	public CommandManager(JavaPlugin plugin){
+	/**
+	 * 创建指令管理者
+	 * @param name 指令
+	 * @param plugin 插件
+	 */
+	public CommandManager(String name,JavaPlugin plugin){
+		this.name = name;
 		this.plugin = plugin;
 	}
 
@@ -38,7 +45,7 @@ public class CommandManager implements CommandExecutor{
 				team.unstudio.udpc.api.command.Command anno = m.getAnnotation(team.unstudio.udpc.api.command.Command.class);
 				
 				if(anno==null) continue;
-				if(anno.value().length<args.length) continue;
+				if(anno.value().length>args.length) continue;
 				
 				boolean flag = false;
 				for(int i=0;i<anno.value().length;i++){
@@ -121,8 +128,9 @@ public class CommandManager implements CommandExecutor{
 	 * @param handler
 	 * @return
 	 */
-	public boolean addCommandHandler(CommandHandler handler){
-		return handlers.add(handler);
+	public CommandManager addCommandHandler(CommandHandler handler){
+		handlers.add(handler);
+		return this;
 	}
 	
 	/**
@@ -132,6 +140,14 @@ public class CommandManager implements CommandExecutor{
 	 */
 	public boolean removeCommandHandler(CommandHandler handler){
 		return handlers.remove(handler);
+	}
+	
+	/**
+	 * 获取全部处理者
+	 * @return
+	 */
+	public CommandHandler[] getCommandHandlers(){
+		return handlers.toArray(new CommandHandler[0]);
 	}
 
 	public String getNoPermissionMessage() {
@@ -208,5 +224,16 @@ public class CommandManager implements CommandExecutor{
 
 	public JavaPlugin getPlugin() {
 		return plugin;
+	}
+	
+	/**
+	 * 注册指令
+	 */
+	public void registerCommand(){
+		plugin.getCommand(name).setExecutor(this);
+	}
+
+	public String getName() {
+		return name;
 	}
 }
