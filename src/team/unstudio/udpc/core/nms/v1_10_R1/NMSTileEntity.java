@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_10_R1.block.CraftBlockState;
-
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import team.unstudio.udpc.api.nms.NMSManager;
 
@@ -31,4 +30,6 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 		((CraftBlockState)blockState).getTileEntity().a((NBTTagCompound)NMSManager.getNMSNBT().toNBT(map));
 		return this;
 	}
+	
+
 }
