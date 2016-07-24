@@ -2,8 +2,9 @@
 
 !README.md
 !.gitignore
-!src/main/
+!src/
 !.classpath
 !pom.xml
 !.project
 !.classpath
+!.libs/
