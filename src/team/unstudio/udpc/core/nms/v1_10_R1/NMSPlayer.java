@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -24,6 +25,7 @@ import net.minecraft.server.v1_10_R1.IChatBaseComponent;
 import net.minecraft.server.v1_10_R1.MapIcon;
 import net.minecraft.server.v1_10_R1.Packet;
 import net.minecraft.server.v1_10_R1.PacketPlayOutBlockChange;
+import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_10_R1.PacketPlayOutMap;
 import net.minecraft.server.v1_10_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
@@ -188,5 +190,13 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 				CraftParticle.toNMS(particle), true, (float) x, (float) y, (float) z, (float) offsetX, (float) offsetY,
 				(float) offsetZ, (float) extra, count, CraftParticle.toData(particle, data));
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetplayoutworldparticles);
+	}
+	
+	public void sendActionBar(String message){
+	    CraftPlayer cPlayer = (CraftPlayer)player;
+	    String string = ChatColor.translateAlternateColorCodes('&', message);
+	    IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + string + "\"}");
+	    PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte)2);
+	    cPlayer.getHandle().playerConnection.sendPacket(ppoc);
 	}
 }
