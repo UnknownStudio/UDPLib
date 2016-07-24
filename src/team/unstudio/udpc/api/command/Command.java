@@ -37,4 +37,15 @@ public @interface Command {
 	 * @return
 	 */
 	Class<?>[] parameter() default void.class;
+	
+	/**
+	 * 用法
+	 * @return
+	 */
+	String usage() default "";
+	
+	/**
+	 * 描述
+	 */
+	String description() default "";
 }

@@ -194,6 +194,9 @@ public class CommandManager implements CommandExecutor{
 	
 	private void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(noEnoughParameterMessage);
+		StringBuilder builder = new StringBuilder();
+		for(String s:anno.value()) builder.append(s+" ");
+		sender.sendMessage(String.format("Usage: /%s %s %s",label,builder.substring(0, builder.length()-1),anno.usage()));
 	}
 	
 	private void onWrongSender(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
@@ -202,6 +205,9 @@ public class CommandManager implements CommandExecutor{
 	
 	private void onErrorParameter(CommandSender sender, Command command, String label, String[] args, team.unstudio.udpc.api.command.Command anno){
 		sender.sendMessage(errorParameterMessage);
+		StringBuilder builder = new StringBuilder();
+		for(String s:anno.value()) builder.append(s+" ");
+		sender.sendMessage(String.format("Usage: /%s %s %s",label,builder.substring(0, builder.length()-1),anno.usage()));
 	}
 	
 	private void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
