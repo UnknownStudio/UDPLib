@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,29 +44,23 @@ public class UI implements Listener,Cloneable{
 	public void open(final HumanEntity player,final JavaPlugin plugin){
 		inventory.clear();
 		for(Button b:buttons) b.paint();
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			@Override
-			public void run() {
-				Bukkit.getPluginManager().registerEvents(UI.this, plugin);
-				player.openInventory(inventory);
-			}
-		}, 1L);
+		Bukkit.getPluginManager().registerEvents(UI.this, plugin);
+		player.openInventory(inventory);
 	}
 	
 	/**
 	 * 关闭
 	 * @param player
 	 */
-	public void close(HumanEntity player){
+	public void close(Player player){
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
-			if(inventory.getViewers().size()<=1)unregisterAllListener();
-			player.getOpenInventory().close();
+			unregisterAllListener();
+			player.closeInventory();
 		}
 	}
 	
 	private void unregisterAllListener(){
 		InventoryClickEvent.getHandlerList().unregister(this);
-		InventoryDragEvent.getHandlerList().unregister(this);
 		InventoryCloseEvent.getHandlerList().unregister(this);
 	}
 	
@@ -100,7 +94,8 @@ public class UI implements Listener,Cloneable{
 			for(Button b:buttons){
 				if(b.getSlot()==event.getRawSlot()){
 					b.onClick(event);
-					event.setCancelled(true);
+					if(!b.isCanOperate())event.setCancelled(true);
+					((Player)event.getWhoClicked()).updateInventory();
 					return;
 				}
 			}
@@ -108,14 +103,9 @@ public class UI implements Listener,Cloneable{
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onDrag(InventoryDragEvent event){
-		if(event.getInventory().equals(inventory))event.setCancelled(true);
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onClose(InventoryCloseEvent event){
 		if(event.getInventory().equals(inventory)){
-			if(inventory.getViewers().size()<=1)unregisterAllListener();
+			unregisterAllListener();
 		}
 	}
 	

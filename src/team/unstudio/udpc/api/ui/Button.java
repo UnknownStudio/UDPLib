@@ -8,6 +8,7 @@ public abstract class Button implements Cloneable{
 	private UI parent;
 	private ItemStack itemStack;
 	private int slot;
+	private boolean canOperate;
 	
 	public Button() {}
 	
@@ -88,5 +89,13 @@ public abstract class Button implements Cloneable{
 			e.printStackTrace();
 		}
 		return button;
+	}
+
+	public boolean isCanOperate() {
+		return canOperate;
+	}
+
+	public void setCanOperate(boolean canOperate) {
+		this.canOperate = canOperate;
 	}
 }
