@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.block.BlockState;
 import team.unstudio.udpc.api.nms.NMSManager;
+import team.unstudio.udpc.api.nms.NMSUtils;
 
 public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 	
@@ -21,9 +22,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 	
 	@Override
 	public Map<String, Object> getNBT() throws Exception{
-		Class<?> NBTTagCompound = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".NBTTagCompound");
+		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NBTTagCompound.newInstance();
-		Class<?> TileEntity = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".TileEntity");
+		Class<?> TileEntity = NMSUtils.getNMSClass("TileEntity");
 		Method getTileEntity = blockState.getClass().getMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
 		Method save = TileEntity.getMethod("save", NBTTagCompound);
@@ -34,9 +35,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 
 	@Override
 	public team.unstudio.udpc.api.nms.NMSTileEntity setNBT(Map<String, Object> map) throws Exception{
-		Class<?> NBTTagCompound = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".NBTTagCompound");
+		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NMSManager.getNMSNBT().toNBT(map);
-		Class<?> TileEntity = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".TileEntity");
+		Class<?> TileEntity = NMSUtils.getNMSClass("TileEntity");
 		Method getTileEntity = blockState.getClass().getMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
 		Method a = TileEntity.getMethod("a", NBTTagCompound);

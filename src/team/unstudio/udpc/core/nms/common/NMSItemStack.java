@@ -6,13 +6,14 @@ import java.util.Map;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpc.api.nms.NMSManager;
+import team.unstudio.udpc.api.nms.NMSUtils;
 
 public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 	
 	@Override
 	public Map<String, Object> getNBT(ItemStack itemStack) throws Exception {
-		Class<?> ccitemstack = Class.forName("org.bukkit.craftbukkit." + NMSManager.NMS_VERSION + ".inventory.CraftItemStack");
-		Class<?> citemstack = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".ItemStack");
+		Class<?> ccitemstack = NMSUtils.getCBClass("inventory.CraftItemStack");
+		Class<?> citemstack = NMSUtils.getNMSClass("ItemStack");
 		Method asnmscopy = ccitemstack.getMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
 		Method gettag = citemstack.getMethod("getTag");
@@ -22,8 +23,8 @@ public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 
 	@Override
 	public ItemStack setNBT(ItemStack itemStack, Map<String, Object> map) throws Exception {
-		Class<?> ccitemstack = Class.forName("org.bukkit.craftbukkit." + NMSManager.NMS_VERSION + ".inventory.CraftItemStack");
-		Class<?> citemstack = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".ItemStack");
+		Class<?> ccitemstack = NMSUtils.getCBClass("inventory.CraftItemStack");
+		Class<?> citemstack = NMSUtils.getNMSClass("ItemStack");
 		Method asnmscopy = ccitemstack.getMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
 		Method settag = citemstack.getMethod("setTag");

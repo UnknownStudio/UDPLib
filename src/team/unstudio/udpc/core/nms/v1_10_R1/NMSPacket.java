@@ -6,10 +6,12 @@ import org.bukkit.craftbukkit.v1_10_R1.CraftParticle;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 
 import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent;
 import net.minecraft.server.v1_10_R1.PacketPlayOutBlockChange;
+import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
 
-public class NMSPacket {
+public class NMSPacket implements team.unstudio.udpc.api.nms.NMSPacket{
 
 	public Object createPacketPlayOutBlockChange(Location loc, int material, byte data){
 		return new PacketPlayOutBlockChange(((CraftWorld) loc.getWorld()).getHandle(),new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
@@ -74,5 +76,14 @@ public class NMSPacket {
 			throw new IllegalArgumentException("data should be " + particle.getDataType() + " got " + data.getClass());
 		}
 		return new PacketPlayOutWorldParticles(CraftParticle.toNMS(particle), true, (float) x, (float) y, (float) z, (float) offsetX, (float) offsetY,(float) offsetZ, (float) extra, count, CraftParticle.toData(particle, data));
+	}
+	
+	public Object createPacketPlayOutChat(String message,byte type){
+		return new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a(message),type);
+	}
+	
+	@Override
+	public Object createPacketPlayOutChat(String message) throws Exception {
+		return createPacketPlayOutChat(message, (byte) 1);
 	}
 }

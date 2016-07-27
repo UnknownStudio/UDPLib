@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 import org.bukkit.entity.Player;
 
-import team.unstudio.udpc.api.nms.NMSManager;
+import team.unstudio.udpc.api.nms.NMSUtils;
 
 public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.NMSPlayer{
 	
@@ -23,14 +23,14 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 	
 	@Override
 	public void sendPacket(Object packet) throws Exception{
-		Class<?> cPacket = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".Packet");
+		Class<?> cPacket = NMSUtils.getNMSClass("Packet");
 		if(packet.getClass().isAssignableFrom(cPacket)) return;
 		Method getHandle = player.getClass().getMethod("getHandle");
 		getHandle.setAccessible(true);
-		Class<?> player = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".EntityPlayer");
+		Class<?> player = NMSUtils.getNMSClass("EntityPlayer");
 		Field playerConnection = player.getField("playerConnection");
 		playerConnection.setAccessible(true);
-		Class<?> cPlayerConnection = Class.forName("net.minecraft.server." + NMSManager.NMS_VERSION + ".PlayerConnection");
+		Class<?> cPlayerConnection = NMSUtils.getNMSClass("PlayerConnection");
 		Method sendPacket = cPlayerConnection.getMethod("sendPacket", cPacket);
 		sendPacket.setAccessible(true);
 		sendPacket.invoke(playerConnection.get(getHandle.invoke(player)),packet);

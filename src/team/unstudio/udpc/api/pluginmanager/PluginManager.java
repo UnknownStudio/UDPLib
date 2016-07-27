@@ -21,13 +21,13 @@ public class PluginManager implements CommandHandler{
 		pluginManager = Bukkit.getPluginManager();
 	}
 	
-	@Command(value = "disable",permission = "udpc.plugin.disable",parameter = String.class)
+	@Command(value = "disable",permission = "udpc.plugin.disable",parameter = String.class,usage="<Plugin>")
 	public void disable(CommandSender sender,Object[] args){
 		pluginManager.disablePlugin(pluginManager.getPlugin((String)args[0]));
 		sender.sendMessage("[PluginManager]卸载插件成功: "+args[0]);
 	}
 	
-	@Command(value = "enable",permission = "udpc.plugin.enable",parameter = String.class)
+	@Command(value = "enable",permission = "udpc.plugin.enable",parameter = String.class,usage="<Plugin>")
 	public void enable(CommandSender sender,Object[] args){
 		String file = (String) args[0];
 		if(!file.endsWith(".jar"))file=file+".jar";

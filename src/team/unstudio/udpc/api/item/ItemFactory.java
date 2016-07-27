@@ -68,6 +68,11 @@ public class ItemFactory {
     	return itemStack;
     }
 
+    /**
+     * 转换为JSON格式
+     * @param itemStack 物品
+     * @return
+     */
     public static String toJson(ItemStack itemStack){
     	StringBuilder builder = new StringBuilder();
 		return builder.toString();

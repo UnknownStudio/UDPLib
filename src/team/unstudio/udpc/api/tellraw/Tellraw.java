@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import team.unstudio.udpc.api.nms.NMSManager;
 
 public class Tellraw {
 
-	private String text;
+	private String text = "";
 	private Font font;
 	private List<Event> events;
 	
@@ -28,7 +29,7 @@ public class Tellraw {
 		return text;
 	}
 
-	public Tellraw setText(String text) {
+	public Tellraw setText(@Nonnull String text) {
 		this.text = text;
 		return this;
 	}
@@ -55,11 +56,9 @@ public class Tellraw {
 		return events;
 	}
 	
-	public boolean runTellraw(Player player){
+	public void runTellraw(Player player) throws Exception{
 		StringBuilder builder = new StringBuilder();
-		builder.append("/minecraft:tellraw ");
-		builder.append(player.getName());
-		builder.append(" {");
+		builder.append("{");
 		builder.append("text:\"");
 		builder.append(text);
 		builder.append("\"");
@@ -68,6 +67,6 @@ public class Tellraw {
 			builder.append(","+e.toString());
 		}
 		builder.append("}");
-		return Bukkit.dispatchCommand(Bukkit.getConsoleSender(),builder.toString());
+		NMSManager.createNMSPlayer(player).sendPacket(NMSManager.getNMSPacket().createPacketPlayOutChat(builder.toString(), (byte) 1));
 	}
 }
