@@ -26,9 +26,9 @@ public class NMSEntity implements team.unstudio.udpc.api.nms.NMSEntity{
 		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NBTTagCompound.newInstance();
 		Class<?> Entity = NMSUtils.getNMSClass("Entity");
-		Method getHandle = entity.getClass().getMethod("getHandle");
+		Method getHandle = entity.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
-		Method e = Entity.getMethod("e", NBTTagCompound);
+		Method e = Entity.getDeclaredMethod("e", NBTTagCompound);
 		e.setAccessible(true);
 		e.invoke(getHandle.invoke(entity),nbt);
 		return NMSManager.getNMSNBT().toMap(nbt);
@@ -39,9 +39,9 @@ public class NMSEntity implements team.unstudio.udpc.api.nms.NMSEntity{
 		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NMSManager.getNMSNBT().toNBT(map);
 		Class<?> Entity = NMSUtils.getNMSClass("Entity");
-		Method getHandle = entity.getClass().getMethod("getHandle");
+		Method getHandle = entity.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
-		Method f = Entity.getMethod("f", NBTTagCompound);
+		Method f = Entity.getDeclaredMethod("f", NBTTagCompound);
 		f.setAccessible(true);
 		f.invoke(getHandle.invoke(entity),nbt);
 		return this;

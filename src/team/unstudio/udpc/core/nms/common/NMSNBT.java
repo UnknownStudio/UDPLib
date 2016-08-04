@@ -169,7 +169,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTBase"))) {
 			throw new RuntimeException("Type isn't NBTBase");
 		}
-		Method method = nbt.getClass().getMethod("getTypeId");
+		Method method = nbt.getClass().getDeclaredMethod("getTypeId");
 		method.setAccessible(true);
 		switch ((byte) method.invoke(nbt)) {
 		case 1:
@@ -251,7 +251,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 			Class<?> cnbtbase = NMSUtils.getNMSClass("NBTBase");
 			Class<?> clist = NMSUtils.getNMSClass("NBTTagList");
 			Object o = clist.newInstance();
-			Method add = clist.getMethod("add", cnbtbase);
+			Method add = clist.getDeclaredMethod("add", cnbtbase);
 			add.setAccessible(true);
 			for(Object e:(List<Object>)obj){
 				add.invoke(o,toNBT(e));
@@ -261,7 +261,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 			Class<?> cnbtbase = NMSUtils.getNMSClass("NBTBase");
 			Class<?> cmap = NMSUtils.getNMSClass("NBTTagCompound");
 			Object o = cmap.newInstance();
-			Method set = cmap.getMethod("set", String.class, cnbtbase);
+			Method set = cmap.getDeclaredMethod("set", String.class, cnbtbase);
 			set.setAccessible(true);
 			for(String key:((Map<String,Object>) obj).keySet()){
 				set.invoke(o, key,toNBT(((Map<String,Object>) obj).get(key)));

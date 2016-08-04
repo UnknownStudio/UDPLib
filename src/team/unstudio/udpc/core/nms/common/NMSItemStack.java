@@ -14,9 +14,9 @@ public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 	public Map<String, Object> getNBT(ItemStack itemStack) throws Exception {
 		Class<?> ccitemstack = NMSUtils.getCBClass("inventory.CraftItemStack");
 		Class<?> citemstack = NMSUtils.getNMSClass("ItemStack");
-		Method asnmscopy = ccitemstack.getMethod("asNMSCopy", ItemStack.class);
+		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
-		Method gettag = citemstack.getMethod("getTag");
+		Method gettag = citemstack.getDeclaredMethod("getTag");
 		gettag.setAccessible(true);
 		return NMSManager.getNMSNBT().toMap(gettag.invoke(asnmscopy.invoke(null, itemStack)));
 	}
@@ -25,11 +25,11 @@ public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 	public ItemStack setNBT(ItemStack itemStack, Map<String, Object> map) throws Exception {
 		Class<?> ccitemstack = NMSUtils.getCBClass("inventory.CraftItemStack");
 		Class<?> citemstack = NMSUtils.getNMSClass("ItemStack");
-		Method asnmscopy = ccitemstack.getMethod("asNMSCopy", ItemStack.class);
+		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
-		Method settag = citemstack.getMethod("setTag");
+		Method settag = citemstack.getDeclaredMethod("setTag");
 		settag.setAccessible(true);
-		Method asbukkitcopy = ccitemstack.getMethod("asBukkitCopy", citemstack);
+		Method asbukkitcopy = ccitemstack.getDeclaredMethod("asBukkitCopy", citemstack);
 		asbukkitcopy.setAccessible(true);
 		Object nitem = asnmscopy.invoke(null, itemStack);
 		settag.invoke(nitem,NMSManager.getNMSNBT().toNBT(map));

@@ -25,9 +25,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NBTTagCompound.newInstance();
 		Class<?> TileEntity = NMSUtils.getNMSClass("TileEntity");
-		Method getTileEntity = blockState.getClass().getMethod("getTileEntity");
+		Method getTileEntity = blockState.getClass().getDeclaredMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
-		Method save = TileEntity.getMethod("save", NBTTagCompound);
+		Method save = TileEntity.getDeclaredMethod("save", NBTTagCompound);
 		save.setAccessible(true);
 		save.invoke(getTileEntity.invoke(blockState),nbt);
 		return NMSManager.getNMSNBT().toMap(nbt);
@@ -38,9 +38,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NMSManager.getNMSNBT().toNBT(map);
 		Class<?> TileEntity = NMSUtils.getNMSClass("TileEntity");
-		Method getTileEntity = blockState.getClass().getMethod("getTileEntity");
+		Method getTileEntity = blockState.getClass().getDeclaredMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
-		Method a = TileEntity.getMethod("a", NBTTagCompound);
+		Method a = TileEntity.getDeclaredMethod("a", NBTTagCompound);
 		a.setAccessible(true);
 		a.invoke(getTileEntity.invoke(blockState),nbt);
 		return this;

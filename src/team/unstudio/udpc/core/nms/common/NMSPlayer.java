@@ -25,13 +25,13 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 	public void sendPacket(Object packet) throws Exception{
 		Class<?> cPacket = NMSUtils.getNMSClass("Packet");
 		if(packet.getClass().isAssignableFrom(cPacket)) return;
-		Method getHandle = player.getClass().getMethod("getHandle");
+		Method getHandle = player.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
 		Class<?> player = NMSUtils.getNMSClass("EntityPlayer");
 		Field playerConnection = player.getField("playerConnection");
 		playerConnection.setAccessible(true);
 		Class<?> cPlayerConnection = NMSUtils.getNMSClass("PlayerConnection");
-		Method sendPacket = cPlayerConnection.getMethod("sendPacket", cPacket);
+		Method sendPacket = cPlayerConnection.getDeclaredMethod("sendPacket", cPacket);
 		sendPacket.setAccessible(true);
 		sendPacket.invoke(playerConnection.get(getHandle.invoke(player)),packet);
 	}
