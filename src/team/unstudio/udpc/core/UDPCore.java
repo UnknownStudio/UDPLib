@@ -4,9 +4,6 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.InvalidDescriptionException;
-import org.bukkit.plugin.InvalidPluginException;
-import org.bukkit.plugin.UnknownDependencyException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpc.api.command.CommandHandler;
@@ -45,12 +42,8 @@ public class UDPCore extends JavaPlugin{
 					try {
 						Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File(PLUGIN_PATH, file)));
 						sender.sendMessage("[PluginManager]加载插件成功: "+file);
-					} catch (UnknownDependencyException e) {
-						sender.sendMessage("[PluginManager]没有加载该插件的依赖: "+file);
-					} catch (InvalidPluginException e) {
-						sender.sendMessage("[PluginManager]插件已加载: "+file);
-					} catch (InvalidDescriptionException e) {
-						sender.sendMessage("[PluginManager]加载插件失败,无效的plugin.yml: "+file);
+					} catch (Exception e) {
+						sender.sendMessage("[PluginManager]加载插件失败: "+file);
 					}
 				return true;
 			}
