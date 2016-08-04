@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * 
  * @author HotFlow
  */
-public class MySql implements SQL {
+public class MYSQL implements SQL {
 
 	private String schema;
 	private String table;
@@ -41,12 +41,12 @@ public class MySql implements SQL {
 	 *            密码
 	 * @throws java.sql.SQLException
 	 */
-	public MySql(String host, int port, String schema, String table,
+	public MYSQL(String host, int port, String schema, String table,
 			String userName, String password) throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(MySql.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(MYSQL.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		this.schema = schema;
