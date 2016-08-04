@@ -22,7 +22,7 @@ public abstract class Button implements Cloneable{
 	 * @return
 	 */
 	public ItemStack getItemStack() {
-		return itemStack;
+		return parent!=null?parent.getInventory().getItem(slot):itemStack;
 	}
 	
 	/**
@@ -31,6 +31,7 @@ public abstract class Button implements Cloneable{
 	 */
 	public void setItemSstack(ItemStack itemstack) {
 		this.itemStack = itemstack;
+		if(parent!=null)parent.getInventory().setItem(slot, itemstack);
 	}
 	
 	/**
@@ -47,6 +48,7 @@ public abstract class Button implements Cloneable{
 	 */
 	public void setSlot(int slot) {
 		this.slot = slot;
+		if(parent!=null)parent.getInventory().setItem(slot, itemStack);
 	}
 	
 	/**
@@ -69,6 +71,7 @@ public abstract class Button implements Cloneable{
 	 */
 	public void setParent(UI parent) {
 		this.parent = parent;
+		if(parent!=null)parent.getInventory().setItem(slot, itemStack);
 	}
 	
 	/**
@@ -91,10 +94,18 @@ public abstract class Button implements Cloneable{
 		return button;
 	}
 
+	/**
+	 * 是否可以操作
+	 * @return
+	 */
 	public boolean isCanOperate() {
 		return canOperate;
 	}
 
+	/**
+	 * 设置操作
+	 * @param canOperate
+	 */
 	public void setCanOperate(boolean canOperate) {
 		this.canOperate = canOperate;
 	}

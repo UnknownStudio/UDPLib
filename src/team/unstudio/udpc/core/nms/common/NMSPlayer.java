@@ -28,7 +28,7 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 		Method getHandle = player.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
 		Class<?> player = NMSUtils.getNMSClass("EntityPlayer");
-		Field playerConnection = player.getField("playerConnection");
+		Field playerConnection = player.getDeclaredField("playerConnection");
 		playerConnection.setAccessible(true);
 		Class<?> cPlayerConnection = NMSUtils.getNMSClass("PlayerConnection");
 		Method sendPacket = cPlayerConnection.getDeclaredMethod("sendPacket", cPacket);

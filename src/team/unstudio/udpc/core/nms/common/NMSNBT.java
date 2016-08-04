@@ -20,7 +20,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				NMSUtils.getNMSClass("NBTTagCompound"))) {
 			throw new RuntimeException("Type isn't NBTTagCompound");
 		}
-		Field field = nbt.getClass().getField("map");
+		Field field = nbt.getClass().getDeclaredField("map");
 		field.setAccessible(true);
 		Map<String, Object> nmap = (Map<String, Object>) field.get(nbt);
 		for (String key : nmap.keySet()) {
@@ -37,7 +37,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagList"))) {
 			throw new RuntimeException("Type isn't NBTTagList");
 		}
-		Field field = nbt.getClass().getField("list");
+		Field field = nbt.getClass().getDeclaredField("list");
 		field.setAccessible(true);
 		List<Object> nlist = (List<Object>) field.get(nbt);
 		for (Object base : nlist) {
@@ -53,7 +53,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagByte"))) {
 			throw new RuntimeException("Type isn't NBTTagByte");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (byte) field.get(nbt);
 		return value;
@@ -66,7 +66,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagShort"))) {
 			throw new RuntimeException("Type isn't NBTTagShort");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (short) field.get(nbt);
 		return value;
@@ -79,7 +79,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagInt"))) {
 			throw new RuntimeException("Type isn't NBTTagInt");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (int) field.get(nbt);
 		return value;
@@ -92,7 +92,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagLong"))) {
 			throw new RuntimeException("Type isn't NBTTagLong");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (long) field.get(nbt);
 		return value;
@@ -105,7 +105,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagFloat"))) {
 			throw new RuntimeException("Type isn't NBTTagFloat");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (float) field.get(nbt);
 		return value;
@@ -118,7 +118,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagDouble"))) {
 			throw new RuntimeException("Type isn't NBTTagDouble");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (double) field.get(nbt);
 		return value;
@@ -131,7 +131,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagString"))) {
 			throw new RuntimeException("Type isn't NBTTagString");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (String) field.get(nbt);
 		return value;
@@ -144,7 +144,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				NMSUtils.getNMSClass("NBTTagByteArray"))) {
 			throw new RuntimeException("Type isn't NBTTagByteArray");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (byte[]) field.get(nbt);
 		return value.clone();
@@ -157,7 +157,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 				NMSUtils.getNMSClass("NBTTagIntArray"))) {
 			throw new RuntimeException("Type isn't NBTTagIntArray");
 		}
-		Field field = nbt.getClass().getField("data");
+		Field field = nbt.getClass().getDeclaredField("data");
 		field.setAccessible(true);
 		value = (int[]) field.get(nbt);
 		return value.clone();
