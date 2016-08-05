@@ -22,7 +22,16 @@ public class UI implements Listener,Cloneable{
 	
 	private final Inventory inventory;
 	private final List<Button> buttons;
+	private boolean canOperate = false;
 	
+	public boolean isCanOperate() {
+		return canOperate;
+	}
+
+	public void setCanOperate(boolean canOperate) {
+		this.canOperate = canOperate;
+	}
+
 	public UI(Inventory inventory) {
 		this.inventory = inventory;
 		this.buttons = new ArrayList<>();
@@ -100,6 +109,8 @@ public class UI implements Listener,Cloneable{
 				}
 			}
 		}
+		if(!canOperate) event.setCancelled(true);
+		((Player)event.getWhoClicked()).updateInventory();
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)

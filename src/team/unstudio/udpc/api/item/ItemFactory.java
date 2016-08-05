@@ -74,8 +74,7 @@ public class ItemFactory {
     /**
      * 转换为JSON格式
      * @param itemStack 物品
-     * @return
-     * @throws Exception 
+     * @return 
      */
     public static String toJson(ItemStack itemStack){
     	try{
