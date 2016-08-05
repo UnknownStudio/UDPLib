@@ -28,8 +28,9 @@ public class UI implements Listener,Cloneable{
 		return canOperate;
 	}
 
-	public void setCanOperate(boolean canOperate) {
+	public UI setCanOperate(boolean canOperate) {
 		this.canOperate = canOperate;
+		return this;
 	}
 
 	public UI(Inventory inventory) {
@@ -53,7 +54,7 @@ public class UI implements Listener,Cloneable{
 	public void open(final HumanEntity player,final JavaPlugin plugin){
 		inventory.clear();
 		for(Button b:buttons) b.paint();
-		Bukkit.getPluginManager().registerEvents(UI.this, plugin);
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 		player.openInventory(inventory);
 	}
 	
@@ -62,9 +63,9 @@ public class UI implements Listener,Cloneable{
 	 * @param player
 	 */
 	public void close(Player player){
-		if(player.getOpenInventory().getTopInventory().equals(inventory)){
-			unregisterAllListener();
+		if(player.getOpenInventory().getTopInventory().equals(inventory)&&inventory.getViewers().size()==1){
 			player.closeInventory();
+			unregisterAllListener();
 		}
 	}
 	
@@ -78,11 +79,10 @@ public class UI implements Listener,Cloneable{
 	 * @param button
 	 * @return
 	 */
-	public boolean addButton(Button button){
-		if(button==null) return false;
+	public UI addButton(Button button){
 		buttons.add(button);
 		button.setParent(this);
-		return true;
+		return this;
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class UI implements Listener,Cloneable{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onClose(InventoryCloseEvent event){
-		if(event.getInventory().equals(inventory)){
+		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()==1){
 			unregisterAllListener();
 		}
 	}
