@@ -3,7 +3,6 @@ package team.unstudio.udpc.api.nms;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class NMSManager {
 
@@ -55,7 +54,7 @@ public class NMSManager {
 		}
 	}
 	
-	public static NMSItemStack createNMSItemStack(ItemStack itemStack){
+	public static NMSItemStack getNMSItemStack(){
 		switch (NMSUtils.NMS_VERSION) {
 		case "v1_10_R1":
 			return new team.unstudio.udpc.core.nms.v1_10_R1.NMSItemStack();

@@ -5,6 +5,9 @@ import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import team.unstudio.udpc.api.nms.NMSUtils;
+
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -72,9 +75,17 @@ public class ItemFactory {
      * 转换为JSON格式
      * @param itemStack 物品
      * @return
+     * @throws Exception 
      */
-    public static String toJson(ItemStack itemStack){
-    	StringBuilder builder = new StringBuilder();
-		return builder.toString();
+    public static String toJson(ItemStack itemStack) throws Exception{
+		Class<?> ccitemstack = NMSUtils.getCBClass("inventory.CraftItemStack");
+		Class<?> citemstack = NMSUtils.getNMSClass("ItemStack");
+		Class<?> cmap = NMSUtils.getNMSClass("NBTTagCompound");
+		Object nbt = cmap.newInstance();
+		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
+		asnmscopy.setAccessible(true);
+		Method save = citemstack.getDeclaredMethod("save",cmap);
+		save.setAccessible(true);
+		return save.invoke(asnmscopy.invoke(null, itemStack),nbt).toString();
     }
 }
