@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.bukkit.block.BlockState;
 import team.unstudio.udpc.api.nms.NMSManager;
-import team.unstudio.udpc.api.nms.NMSUtils;
+import team.unstudio.udpc.api.nms.ReflectionUtils;
 
 public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 	
@@ -22,9 +22,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 	
 	@Override
 	public Map<String, Object> getNBT() throws Exception{
-		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
+		Class<?> NBTTagCompound = ReflectionUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NBTTagCompound.newInstance();
-		Class<?> TileEntity = NMSUtils.getNMSClass("TileEntity");
+		Class<?> TileEntity = ReflectionUtils.getNMSClass("TileEntity");
 		Method getTileEntity = blockState.getClass().getDeclaredMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
 		Method save = TileEntity.getDeclaredMethod("save", NBTTagCompound);
@@ -35,9 +35,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 
 	@Override
 	public team.unstudio.udpc.api.nms.NMSTileEntity setNBT(Map<String, Object> map) throws Exception{
-		Class<?> NBTTagCompound = NMSUtils.getNMSClass("NBTTagCompound");
+		Class<?> NBTTagCompound = ReflectionUtils.getNMSClass("NBTTagCompound");
 		Object nbt = NMSManager.getNMSNBT().toNBT(map);
-		Class<?> TileEntity = NMSUtils.getNMSClass("TileEntity");
+		Class<?> TileEntity = ReflectionUtils.getNMSClass("TileEntity");
 		Method getTileEntity = blockState.getClass().getDeclaredMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
 		Method a = TileEntity.getDeclaredMethod("a", NBTTagCompound);

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import team.unstudio.udpc.api.nms.NMSUtils;
+import team.unstudio.udpc.api.nms.ReflectionUtils;
 
 public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 
@@ -17,7 +17,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public Map<String, Object> toMap(Object nbt) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		if (!nbt.getClass().isAssignableFrom(
-				NMSUtils.getNMSClass("NBTTagCompound"))) {
+				ReflectionUtils.getNMSClass("NBTTagCompound"))) {
 			throw new RuntimeException("Type isn't NBTTagCompound");
 		}
 		Field field = nbt.getClass().getDeclaredField("map");
@@ -34,7 +34,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public List<Object> toList(Object nbt) throws Exception {
 		List<Object> list = new ArrayList<>();
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagList"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagList"))) {
 			throw new RuntimeException("Type isn't NBTTagList");
 		}
 		Field field = nbt.getClass().getDeclaredField("list");
@@ -50,7 +50,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public byte toByte(Object nbt) throws Exception {
 		byte value = 0;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagByte"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagByte"))) {
 			throw new RuntimeException("Type isn't NBTTagByte");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -63,7 +63,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public short toShort(Object nbt) throws Exception {
 		short value = 0;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagShort"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagShort"))) {
 			throw new RuntimeException("Type isn't NBTTagShort");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -76,7 +76,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public int toInt(Object nbt) throws Exception {
 		int value = 0;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagInt"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagInt"))) {
 			throw new RuntimeException("Type isn't NBTTagInt");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -89,7 +89,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public long toLong(Object nbt) throws Exception {
 		long value = 0;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagLong"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagLong"))) {
 			throw new RuntimeException("Type isn't NBTTagLong");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -102,7 +102,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public float toFloat(Object nbt) throws Exception {
 		float value = 0;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagFloat"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagFloat"))) {
 			throw new RuntimeException("Type isn't NBTTagFloat");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -115,7 +115,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public double toDouble(Object nbt) throws Exception {
 		double value = 0;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagDouble"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagDouble"))) {
 			throw new RuntimeException("Type isn't NBTTagDouble");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -128,7 +128,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public String toString(Object nbt) throws Exception {
 		String value = null;
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTTagString"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTTagString"))) {
 			throw new RuntimeException("Type isn't NBTTagString");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -141,7 +141,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public byte[] toByteArray(Object nbt) throws Exception {
 		byte[] value = new byte[0];
 		if (!nbt.getClass().isAssignableFrom(
-				NMSUtils.getNMSClass("NBTTagByteArray"))) {
+				ReflectionUtils.getNMSClass("NBTTagByteArray"))) {
 			throw new RuntimeException("Type isn't NBTTagByteArray");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -154,7 +154,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	public int[] toIntArray(Object nbt) throws Exception {
 		int[] value = new int[0];
 		if (!nbt.getClass().isAssignableFrom(
-				NMSUtils.getNMSClass("NBTTagIntArray"))) {
+				ReflectionUtils.getNMSClass("NBTTagIntArray"))) {
 			throw new RuntimeException("Type isn't NBTTagIntArray");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -166,7 +166,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public Object toObject(Object nbt) throws Exception {
 		if (!nbt.getClass()
-				.isAssignableFrom(NMSUtils.getNMSClass("NBTBase"))) {
+				.isAssignableFrom(ReflectionUtils.getNMSClass("NBTBase"))) {
 			throw new RuntimeException("Type isn't NBTBase");
 		}
 		Method method = nbt.getClass().getDeclaredMethod("getTypeId");
@@ -203,53 +203,53 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@SuppressWarnings("unchecked")
 	public Object toNBT(Object obj) throws Exception{
 		if (obj instanceof Byte){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagByte");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagByte");
 			Constructor<?> cons = clist.getDeclaredConstructor(byte.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof Short){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagShort");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagShort");
 			Constructor<?> cons = clist.getDeclaredConstructor(short.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof Integer){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagInt");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagInt");
 			Constructor<?> cons = clist.getDeclaredConstructor(int.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof Long){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagLong");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagLong");
 			Constructor<?> cons = clist.getDeclaredConstructor(long.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof Float){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagFloat");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagFloat");
 			Constructor<?> cons = clist.getDeclaredConstructor(float.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof Double){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagDouble");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagDouble");
 			Constructor<?> cons = clist.getDeclaredConstructor(double.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof Byte[]){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagByteArray");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagByteArray");
 			Constructor<?> cons = clist.getDeclaredConstructor(byte[].class);
 			cons.setAccessible(true);
 			return cons.newInstance(((Object[]) obj).clone());
 		}else if (obj instanceof Integer[]){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagIntArray");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagIntArray");
 			Constructor<?> cons = clist.getDeclaredConstructor(int[].class);
 			cons.setAccessible(true);
 			return cons.newInstance(((Object[]) obj).clone());
 		}else if (obj instanceof String){
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagString");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagString");
 			Constructor<?> cons = clist.getDeclaredConstructor(String.class);
 			cons.setAccessible(true);
 			return cons.newInstance(obj);
 		}else if (obj instanceof List) {
-			Class<?> cnbtbase = NMSUtils.getNMSClass("NBTBase");
-			Class<?> clist = NMSUtils.getNMSClass("NBTTagList");
+			Class<?> cnbtbase = ReflectionUtils.getNMSClass("NBTBase");
+			Class<?> clist = ReflectionUtils.getNMSClass("NBTTagList");
 			Object o = clist.newInstance();
 			Method add = clist.getDeclaredMethod("add", cnbtbase);
 			add.setAccessible(true);
@@ -258,8 +258,8 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 			}
 			return o;
 		} else if (obj instanceof Map) {
-			Class<?> cnbtbase = NMSUtils.getNMSClass("NBTBase");
-			Class<?> cmap = NMSUtils.getNMSClass("NBTTagCompound");
+			Class<?> cnbtbase = ReflectionUtils.getNMSClass("NBTBase");
+			Class<?> cmap = ReflectionUtils.getNMSClass("NBTTagCompound");
 			Object o = cmap.newInstance();
 			Method set = cmap.getDeclaredMethod("set", String.class, cnbtbase);
 			set.setAccessible(true);
