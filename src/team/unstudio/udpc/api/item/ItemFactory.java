@@ -5,7 +5,7 @@ import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import team.unstudio.udpc.api.nms.NMSUtils;
+import team.unstudio.udpc.api.nms.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -77,15 +77,20 @@ public class ItemFactory {
      * @return
      * @throws Exception 
      */
-    public static String toJson(ItemStack itemStack) throws Exception{
-		Class<?> ccitemstack = NMSUtils.getCBClass("inventory.CraftItemStack");
-		Class<?> citemstack = NMSUtils.getNMSClass("ItemStack");
-		Class<?> cmap = NMSUtils.getNMSClass("NBTTagCompound");
-		Object nbt = cmap.newInstance();
-		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
-		asnmscopy.setAccessible(true);
-		Method save = citemstack.getDeclaredMethod("save",cmap);
-		save.setAccessible(true);
-		return save.invoke(asnmscopy.invoke(null, itemStack),nbt).toString();
+    public static String toJson(ItemStack itemStack){
+    	try{
+			Class<?> ccitemstack = ReflectionUtils.getCBClass("inventory.CraftItemStack");
+			Class<?> citemstack = ReflectionUtils.getNMSClass("ItemStack");
+			Class<?> cmap = ReflectionUtils.getNMSClass("NBTTagCompound");
+			Object nbt = cmap.newInstance();
+			Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
+			asnmscopy.setAccessible(true);
+			Method save = citemstack.getDeclaredMethod("save",cmap);
+			save.setAccessible(true);
+			return save.invoke(asnmscopy.invoke(null, itemStack),nbt).toString();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return "";
     }
 }

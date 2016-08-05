@@ -2,7 +2,7 @@ package team.unstudio.udpc.api.nms;
 
 import org.bukkit.Bukkit;
 
-public class NMSUtils {
+public class ReflectionUtils {
 	
 	public static final String NMS_VERSION = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 

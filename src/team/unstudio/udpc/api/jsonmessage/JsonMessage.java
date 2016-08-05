@@ -6,12 +6,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 
+import team.unstudio.udpc.api.item.ItemFactory;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import static team.unstudio.udpc.api.jsonmessage.TextualComponent.rawText;
 
@@ -208,6 +211,11 @@ public class JsonMessage implements JsonRepresentedObject, Cloneable, Iterable<M
 	 */
 	public JsonMessage achievementTooltip(final String name) {
 		onHover("show_achievement", new JsonString("achievement." + name));
+		return this;
+	}
+	
+	public JsonMessage itemTooltip(final ItemStack itemStack) {
+		onHover("show_item", new JsonString(ItemFactory.toJson(itemStack)));
 		return this;
 	}
 
