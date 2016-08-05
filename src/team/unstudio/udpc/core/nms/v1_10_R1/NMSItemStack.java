@@ -11,15 +11,20 @@ import team.unstudio.udpc.api.nms.NMSManager;
 public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 
 	@Override
-	public Map<String, Object> getNBT(ItemStack itemStack) throws Exception {
+	public Map<String, Object> getTag(ItemStack itemStack) throws Exception {
 		return NMSManager.getNMSNBT().toMap(CraftItemStack.asNMSCopy(itemStack).getTag());
 	}
 
 	@Override
-	public ItemStack setNBT(ItemStack itemStack,Map<String, Object> map) throws Exception {
+	public ItemStack setTag(ItemStack itemStack,Map<String, Object> map) throws Exception {
 		net.minecraft.server.v1_10_R1.ItemStack nitem = CraftItemStack.asNMSCopy(itemStack);
 		nitem.setTag((NBTTagCompound)NMSManager.getNMSNBT().toNBT(map));
 		return CraftItemStack.asBukkitCopy(nitem);
 	}
-
+	
+	@Override
+	public boolean hasTag(ItemStack itemStack){
+		net.minecraft.server.v1_10_R1.ItemStack nitem = CraftItemStack.asNMSCopy(itemStack);
+		return nitem.hasTag();
+	}
 }
