@@ -3,6 +3,11 @@ package team.unstudio.udpc.api.ui;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * 按钮
+ * @author AAA
+ *
+ */
 public abstract class Button implements Cloneable{
 	
 	private UI parent;

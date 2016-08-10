@@ -2,6 +2,11 @@ package team.unstudio.udpc.api.util;
 
 import org.bukkit.entity.Player;
 
+/**
+ * 一个修复Bukkit的经验Bug的API
+ * @author AAA
+ *
+ */
 public class SetExpFix {
 	
 	/**

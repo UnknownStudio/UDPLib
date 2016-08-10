@@ -11,6 +11,11 @@ import team.unstudio.udpc.api.command.CommandManager;
 import team.unstudio.udpc.api.command.SubCommand;
 import team.unstudio.udpc.test.Example;
 
+/**
+ * UDPCore
+ * @author AAA
+ *
+ */
 public class UDPCore extends JavaPlugin{
 	
 	public static final String NAME = "UDPCore";
