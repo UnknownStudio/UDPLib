@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 
 import org.bukkit.entity.Player;
 
+import team.unstudio.udpc.api.nms.NMSManager;
 import team.unstudio.udpc.api.nms.ReflectionUtils;
 
 public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.NMSPlayer{
@@ -34,5 +35,10 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 		Method sendPacket = cPlayerConnection.getDeclaredMethod("sendPacket", cPacket);
 		sendPacket.setAccessible(true);
 		sendPacket.invoke(playerConnection.get(getHandle.invoke(player)),packet);
+	}
+	
+	@Override
+	public void sendActionBar(String message) throws Exception{
+	    sendPacket(NMSManager.getNMSPacket().createPacketPlayOutChat("{\"text\": \"" + message + "\"}", (byte)2));
 	}
 }
