@@ -3,6 +3,11 @@ package team.unstudio.udpc.api.ui;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 
+/**
+ * 界面的工厂类
+ * @author AAA
+ *
+ */
 public class UIFactory {
 
 	/**

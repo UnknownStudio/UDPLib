@@ -4,6 +4,11 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+/**
+ * NMS的工厂类
+ * @author AAA
+ *
+ */
 public class NMSManager {
 
 	private static final NMSNBT COMMON_NMSNBT = new team.unstudio.udpc.core.nms.common.NMSNBT();
@@ -33,6 +38,10 @@ public class NMSManager {
 		return COMMON_NMSNBT;
 	}
 	
+	/**
+	 * 获取NBT的操作类
+	 * @return
+	 */
 	public static NMSNBT getNMSNBT(){
 		return INSTANCE_NMSNBT;
 	}
@@ -41,10 +50,19 @@ public class NMSManager {
 		return COMMON_NMSPACKET;
 	}
 	
+	/**
+	 * 获取通信包的操作类
+	 * @return
+	 */
 	public static NMSPacket getNMSPacket(){
 		return INSTANCE_NMSPACKET;
 	}
 	
+	/**
+	 * 创建一个对TileEntity操作的包装对象
+	 * @param blockState
+	 * @return
+	 */
 	public static NMSTileEntity createNMSTileEntity(BlockState blockState){
 		switch (ReflectionUtils.NMS_VERSION) {
 		case "v1_10_R1":
@@ -54,6 +72,10 @@ public class NMSManager {
 		}
 	}
 	
+	/**
+	 * 创建一个对ItemStack操作的包装对象
+	 * @return
+	 */
 	public static NMSItemStack getNMSItemStack(){
 		switch (ReflectionUtils.NMS_VERSION) {
 		case "v1_10_R1":
@@ -63,6 +85,11 @@ public class NMSManager {
 		}
 	}
 	
+	/**
+	 * 创建一个对Entity操作的包装对象
+	 * @param entity
+	 * @return
+	 */
 	public static NMSEntity createNMSEntity(Entity entity){
 		switch (ReflectionUtils.NMS_VERSION) {
 		case "v1_10_R1":
@@ -72,6 +99,11 @@ public class NMSManager {
 		}
 	}
 	
+	/**
+	 * 创建一个对Player操作的包装对象
+	 * @param player
+	 * @return
+	 */
 	public static NMSPlayer createNMSPlayer(Player player){
 		switch (ReflectionUtils.NMS_VERSION) {
 		case "v1_10_R1":

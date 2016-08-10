@@ -24,10 +24,19 @@ public class UI implements Listener,Cloneable{
 	private final List<Button> buttons;
 	private boolean canOperate = false;
 	
+	/**
+	 * 是否可以操作
+	 * @return
+	 */
 	public boolean isCanOperate() {
 		return canOperate;
 	}
 
+	/**
+	 * 设置是否可以操作
+	 * @param canOperate
+	 * @return
+	 */
 	public UI setCanOperate(boolean canOperate) {
 		this.canOperate = canOperate;
 		return this;
@@ -103,14 +112,18 @@ public class UI implements Listener,Cloneable{
 			for(Button b:buttons){
 				if(b.getSlot()==event.getRawSlot()){
 					b.onClick(event);
-					if(!b.isCanOperate())event.setCancelled(true);
-					((Player)event.getWhoClicked()).updateInventory();
+					if(!b.isCanOperate()){
+						event.setCancelled(true);
+						((Player)event.getWhoClicked()).updateInventory();
+					}
 					return;
 				}
 			}
 		}
-		if(!canOperate) event.setCancelled(true);
-		((Player)event.getWhoClicked()).updateInventory();
+		if(!canOperate){
+			event.setCancelled(true);
+			((Player)event.getWhoClicked()).updateInventory();
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
