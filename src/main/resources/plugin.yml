@@ -3,6 +3,7 @@ main: team.unstudio.udpc.core.UDPCore
 version: 1.0.0
 authors: [Mouse]
 description: Unknown Domain Plugin Core
+softdepend: [ProtocolLib]
 commands:
   pm:
   udpc:
