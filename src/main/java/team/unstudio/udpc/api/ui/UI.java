@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -93,11 +94,11 @@ public class UI implements Listener,Cloneable{
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onClick(InventoryClickEvent event){
-		if(event.getClickedInventory().equals(inventory)){
+		if(event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
 			for(Slot b:slots){
 				if(b.getSlot()==event.getRawSlot()){
 					b.onClick(event);
-					if(!b.isCanOperate()){
+					if(!b.isAllowOperate()){
 						event.setCancelled(true);
 						((Player)event.getWhoClicked()).updateInventory();
 					}

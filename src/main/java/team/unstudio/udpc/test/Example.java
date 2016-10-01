@@ -37,13 +37,13 @@ public class Example {
 					public void onClick(InventoryClickEvent event) {
 						event.getWhoClicked().sendMessage("点击按钮1");
 					}
-				}.setCanOperate(true)).addSlot(new Slot(1) {
+				}.setAllowOperate(true)).addSlot(new Slot(1) {
 					
 					@Override
 					public void onClick(InventoryClickEvent event) {
 						event.getWhoClicked().sendMessage("点击按钮2");
 					}
-				}.setCanOperate(false)).open((HumanEntity) sender, UDPCore.INSTANCE);
+				}.setAllowOperate(false)).open((HumanEntity) sender, UDPCore.INSTANCE);
 				return true;
 			}
 		}.setNode("ui").setSenders(Player.class)).registerCommand();
