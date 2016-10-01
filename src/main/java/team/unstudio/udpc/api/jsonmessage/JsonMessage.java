@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 
-import team.unstudio.udpc.api.item.ItemFactory;
+import team.unstudio.udpc.api.item.ItemUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -215,7 +215,7 @@ public class JsonMessage implements JsonRepresentedObject, Cloneable, Iterable<M
 	}
 	
 	public JsonMessage itemTooltip(final ItemStack itemStack) {
-		onHover("show_item", new JsonString(ItemFactory.toJson(itemStack)));
+		onHover("show_item", new JsonString(ItemUtils.toJson(itemStack)));
 		return this;
 	}
 
