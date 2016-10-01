@@ -13,7 +13,7 @@ public abstract class Slot implements Cloneable{
 	private UI parent;
 	private ItemStack itemStack;
 	private int slot;
-	private boolean canOperate;
+	private boolean allowOperate;
 	
 	public Slot() {}
 	
@@ -109,16 +109,16 @@ public abstract class Slot implements Cloneable{
 	 * 是否可以操作
 	 * @return
 	 */
-	public boolean isCanOperate() {
-		return canOperate;
+	public boolean isAllowOperate() {
+		return allowOperate;
 	}
 
 	/**
 	 * 设置操作
-	 * @param canOperate
+	 * @param allowOperate
 	 */
-	public Slot setCanOperate(boolean canOperate) {
-		this.canOperate = canOperate;
+	public Slot setAllowOperate(boolean allowOperate) {
+		this.allowOperate = allowOperate;
 		return this;
 	}
 }

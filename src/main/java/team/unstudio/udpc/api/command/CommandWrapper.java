@@ -77,6 +77,7 @@ public class CommandWrapper {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<String> onTabComplete(String[] args){
 		if(method==null){
 			List<String> list = new ArrayList<>();
