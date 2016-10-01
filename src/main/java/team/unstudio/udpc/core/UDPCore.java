@@ -4,10 +4,12 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpc.api.command.tree.TreeCommandManager;
+import team.unstudio.udpc.api.area.Area;
 import team.unstudio.udpc.api.command.tree.CommandNode;
 import team.unstudio.udpc.test.Example;
 
@@ -20,7 +22,7 @@ public class UDPCore extends JavaPlugin{
 	
 	public static final String NAME = "UDPCore";
 	public static final String VERSION = "1.0.0-SANPSHOT";
-	//BossBar,Scoreboard,Hologram,Tab,Title
+	//TODO:BossBar,Scoreboard,Hologram,Tab,Title
 	
 	private static final File PLUGIN_PATH = new File("plugins");
 	
@@ -30,10 +32,15 @@ public class UDPCore extends JavaPlugin{
 	@Override
 	public void onLoad() {
 		INSTANCE = this;
+		
+		ConfigurationSerialization.registerClass(Area.class);
 	}
 	
 	@Override
 	public void onEnable() {
+		saveDefaultConfig();
+		ConfigurationHandler.reload();
+		
 		new TreeCommandManager("pm", this).addNode(new CommandNode() {
 			@Override
 			public boolean onCommand(CommandSender sender, Object[] args) {
@@ -65,6 +72,7 @@ public class UDPCore extends JavaPlugin{
 				return true;
 			}
 		}.setNode("plugins").setPermission("udpc.pm.plugins")).registerCommand();
+		
 		Example.INSTANCE.onEnable();
 	}
 	
