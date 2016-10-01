@@ -8,20 +8,20 @@ import org.bukkit.inventory.ItemStack;
  * @author AAA
  *
  */
-public abstract class Button implements Cloneable{
+public abstract class Slot implements Cloneable{
 	
 	private UI parent;
 	private ItemStack itemStack;
 	private int slot;
 	private boolean canOperate;
 	
-	public Button() {}
+	public Slot() {}
 	
-	public Button(int slot){
+	public Slot(int slot){
 		this.slot = slot;
 	}
 	
-	public Button(ItemStack itemStack,int slot){
+	public Slot(ItemStack itemStack,int slot){
 		this(slot);
 		this.itemStack = itemStack;
 	}
@@ -38,7 +38,7 @@ public abstract class Button implements Cloneable{
 	 * 设置物品
 	 * @param itemstack
 	 */
-	public Button setItemSstack(ItemStack itemstack) {
+	public Slot setItemSstack(ItemStack itemstack) {
 		this.itemStack = itemstack;
 		if(parent!=null)parent.getInventory().setItem(slot, itemstack);
 		return this;
@@ -56,7 +56,7 @@ public abstract class Button implements Cloneable{
 	 * 设置所在格子
 	 * @param slot
 	 */
-	public Button setSlot(int slot) {
+	public Slot setSlot(int slot) {
 		this.slot = slot;
 		if(parent!=null)parent.getInventory().setItem(slot, itemStack);
 		return this;
@@ -93,10 +93,10 @@ public abstract class Button implements Cloneable{
 	}
 	
 	@Override
-	public Button clone(){
-		Button button = null;
+	public Slot clone(){
+		Slot button = null;
 		try {
-			button = (Button) super.clone();
+			button = (Slot) super.clone();
 			button.itemStack = itemStack.clone();
 			button.slot = slot;
 		} catch (CloneNotSupportedException e) {
@@ -117,7 +117,7 @@ public abstract class Button implements Cloneable{
 	 * 设置操作
 	 * @param canOperate
 	 */
-	public Button setCanOperate(boolean canOperate) {
+	public Slot setCanOperate(boolean canOperate) {
 		this.canOperate = canOperate;
 		return this;
 	}

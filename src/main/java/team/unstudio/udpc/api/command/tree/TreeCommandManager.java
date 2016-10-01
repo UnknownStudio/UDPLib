@@ -1,6 +1,5 @@
-package team.unstudio.udpc.api.command;
+package team.unstudio.udpc.api.command.tree;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +11,14 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandManager implements CommandExecutor,TabCompleter{
+/**
+ * 指令管理者
+ */
+public class TreeCommandManager implements CommandExecutor,TabCompleter{
+
 	private final JavaPlugin plugin;
 	private final String name;
-	private final List<CommandWrapper> wrappers = new ArrayList<>();
+	private final List<CommandNode> children = new ArrayList<>();
 	
 	private String noPermissionMessage = "";
 	private String noEnoughParameterMessage = "";
@@ -29,7 +32,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	 * @param name 指令
 	 * @param plugin 插件
 	 */
-	public CommandManager(String name,JavaPlugin plugin){
+	public TreeCommandManager(String name,JavaPlugin plugin){
 		this.name = name;
 		this.plugin = plugin;
 	}
@@ -37,9 +40,9 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		int i=0;
-		List<CommandWrapper> tsubs = wrappers;
+		List<CommandNode> tsubs = children;
 		while(!tsubs.isEmpty()&&i<args.length){
-			for(CommandWrapper s:tsubs){
+			for(CommandNode s:tsubs){
 				if(s.getNode().equalsIgnoreCase(args[i])){
 					i++;
 					tsubs = s.getChildren();
@@ -66,7 +69,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 							break;
 						default:
 							break;
-						}
+						};
 						return true;
 					}
 					break;
@@ -78,55 +81,20 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	}
 
 	/**
-	 * 添加指令
-	 * @param sub
+	 * 添加指令子指令
+	 * @param node
 	 * @return
 	 */
-	public CommandManager addCommand(Object object){
-		for(Method method:object.getClass().getDeclaredMethods()){
-			if(method.getAnnotation(team.unstudio.udpc.api.command.Command.class)==null) continue;
-			
-			team.unstudio.udpc.api.command.Command anno = method.getAnnotation(team.unstudio.udpc.api.command.Command.class);
-			
-			CommandWrapper wrapper = getCommandWrapper(anno.value());
-			wrapper.setMethod(object, method);
-		}
+	public TreeCommandManager addNode(CommandNode node){
+		children.add(node);
 		return this;
-	}
-	
-	public CommandWrapper getCommandWrapper(String args[]){
-		if(args.length==0){
-			for(CommandWrapper w:wrappers) if(w.getNode().equalsIgnoreCase("")) return w;
-			CommandWrapper wrapper = new CommandWrapper("");
-			wrappers.add(wrapper);
-			return wrapper;
-		}else{
-			CommandWrapper w = null;
-			for(CommandWrapper w1:wrappers) if(w1.getNode().equalsIgnoreCase(args[0])){
-				w = w1;
-			}
-			if(w == null){
-				w = new CommandWrapper(args[0]);
-				wrappers.add(w);
-			}
-			w: for(int i=1;i<args.length;i++){
-				for(CommandWrapper w1:w.getChildren()) if(w.getNode().equalsIgnoreCase(args[i])){
-					w=w1;
-					continue w;
-				}
-				CommandWrapper w2 = new CommandWrapper(args[i]);
-				w.getChildren().add(w2);
-				w = w2;
-			}
-			return w;
-		}
 	}
 
 	public String getNoPermissionMessage() {
 		return noPermissionMessage;
 	}
 
-	public CommandManager setNoPermissionMessage(String def) {
+	public TreeCommandManager setNoPermissionMessage(String def) {
 		this.noPermissionMessage = def;
 		return this;
 	}
@@ -135,7 +103,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return noEnoughParameterMessage;
 	}
 
-	public CommandManager setNoEnoughParameterMessage(String def) {
+	public TreeCommandManager setNoEnoughParameterMessage(String def) {
 		this.noEnoughParameterMessage = def;
 		return this;
 	}
@@ -144,7 +112,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return wrongSenderMessage;
 	}
 
-	public CommandManager setWrongSenderMessage(String def) {
+	public TreeCommandManager setWrongSenderMessage(String def) {
 		this.wrongSenderMessage = def;
 		return this;
 	}
@@ -153,24 +121,24 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return errorParameterMessage;
 	}
 
-	public CommandManager setErrorParameterMessage(String def) {
+	public TreeCommandManager setErrorParameterMessage(String def) {
 		this.errorParameterMessage = def;
 		return this;
 	}
 
-	private void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	private void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(noPermissionMessage);
 	}
 	
-	private void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	private void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(noEnoughParameterMessage);
 	}
 	
-	private void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	private void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(wrongSenderMessage);
 	}
 	
-	private void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	private void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(errorParameterMessage);
 	}
 	
@@ -178,7 +146,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		sender.sendMessage(unknownCommandMessage);
 	}
 	
-	private void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	private void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(runCommandFailureMessage);
 	}
 	
@@ -186,7 +154,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return unknownCommandMessage;
 	}
 
-	public CommandManager setUnknownCommandMessage(String def) {
+	public TreeCommandManager setUnknownCommandMessage(String def) {
 		this.unknownCommandMessage = def;
 		return this;
 	}
@@ -195,7 +163,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return runCommandFailureMessage;
 	}
 
-	public CommandManager setRunCommandFailureMessage(String def) {
+	public TreeCommandManager setRunCommandFailureMessage(String def) {
 		this.runCommandFailureMessage = def;
 		return this;
 	}
@@ -207,7 +175,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	/**
 	 * 注册指令
 	 */
-	public CommandManager registerCommand(){
+	public TreeCommandManager registerCommand(){
 		plugin.getCommand(name).setExecutor(this);
 		plugin.getCommand(name).setTabCompleter(this);
 		return this;
@@ -222,9 +190,9 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		List<String> list = new ArrayList<>();
 		
 		int i=0;
-		List<CommandWrapper> tsubs = wrappers;
+		List<CommandNode> tsubs = children;
 		while(!tsubs.isEmpty()&&i<args.length-1){
-			for(CommandWrapper s:tsubs){
+			for(CommandNode s:tsubs){
 				if(s.getNode().equalsIgnoreCase(args[i])){
 					i++;
 					tsubs = s.getChildren();
@@ -237,7 +205,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 				}
 			}
 		}
-		if(!tsubs.isEmpty())for(CommandWrapper s:tsubs)if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))list.add(s.getNode());
+		if(!tsubs.isEmpty())for(CommandNode s:tsubs)if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))list.add(s.getNode());
 		
 		if(list.isEmpty())for(Player player:Bukkit.getOnlinePlayers())if(player.getName().startsWith(args[0]))list.add(player.getName());
 		return list;

@@ -1,4 +1,4 @@
-package team.unstudio.udpc.api.command;
+package team.unstudio.udpc.api.command.tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public abstract class SubCommand {
+import team.unstudio.udpc.api.command.CommandResult;
+
+public abstract class CommandNode {
 	
-	private String sub;
-	private final List<SubCommand> subs = new ArrayList<>();
-	private SubCommand parent;
+	private String node;
+	private final List<CommandNode> children = new ArrayList<>();
 	private String permission;
 	@SuppressWarnings("unchecked")
 	private Class<? extends CommandSender> senders[] = new Class[]{CommandSender.class};
@@ -19,12 +20,12 @@ public abstract class SubCommand {
 	private String usage = "";
 	private String description = "";
 
-	public String getSub() {
-		return sub;
+	public String getNode() {
+		return node;
 	}
 
-	public SubCommand setSub(String sub) {
-		this.sub = sub;
+	public CommandNode setNode(String node) {
+		this.node = node;
 		return this;
 	}
 	
@@ -32,7 +33,7 @@ public abstract class SubCommand {
 		return permission;
 	}
 
-	public SubCommand setPermission(String permission) {
+	public CommandNode setPermission(String permission) {
 		this.permission = permission;
 		return this;
 	}
@@ -42,7 +43,7 @@ public abstract class SubCommand {
 	}
 
 	@SuppressWarnings("unchecked")
-	public SubCommand setSenders(Class<? extends CommandSender> ...senders) {
+	public CommandNode setSenders(Class<? extends CommandSender> ...senders) {
 		this.senders = senders;
 		return this;
 	}
@@ -51,7 +52,7 @@ public abstract class SubCommand {
 		return parameterTypes;
 	}
 
-	public SubCommand setParameterTypes(Class<?> ...parameterTypes) {
+	public CommandNode setParameterTypes(Class<?> ...parameterTypes) {
 		this.parameterTypes = parameterTypes;
 		return this;
 	}
@@ -60,7 +61,7 @@ public abstract class SubCommand {
 		return usage;
 	}
 
-	public SubCommand setUsage(String usage) {
+	public CommandNode setUsage(String usage) {
 		this.usage = usage;
 		return this;
 	}
@@ -69,19 +70,18 @@ public abstract class SubCommand {
 		return description;
 	}
 
-	public SubCommand setDescription(String description) {
+	public CommandNode setDescription(String description) {
 		this.description = description;
 		return this;
 	}
 	
-	public SubCommand addSub(SubCommand sub){
-		subs.add(sub);
-		sub.setParent(this);
+	public CommandNode addChildren(CommandNode sub){
+		children.add(sub);
 		return this;
 	}
 	
-	public List<SubCommand> getSubs(){
-		return subs;
+	public List<CommandNode> getChildren(){
+		return children;
 	}
 	
 	public CommandResult onCommand(CommandSender sender,String[] args){
@@ -106,19 +106,19 @@ public abstract class SubCommand {
 					Class<?> clazz = getParameterTypes()[i];
 					if (clazz.equals(String.class))
 						objs[i] = s;
-					else if (clazz.equals(int.class))
+					else if (clazz.equals(int.class) || clazz.equals(Integer.class))
 						objs[i] = Integer.parseInt(s);
-					else if (clazz.equals(boolean.class))
+					else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
 						objs[i] = Boolean.parseBoolean(s);
-					else if (clazz.equals(float.class))
+					else if (clazz.equals(float.class) || clazz.equals(Float.class))
 						objs[i] = Float.parseFloat(s);
-					else if (clazz.equals(double.class))
+					else if (clazz.equals(double.class) || clazz.equals(Double.class))
 						objs[i] = Double.parseDouble(s);
-					else if (clazz.equals(long.class))
+					else if (clazz.equals(long.class) || clazz.equals(Long.class))
 						objs[i] = Long.parseLong(s);
-					else if (clazz.equals(byte.class))
+					else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
 						objs[i] = Byte.parseByte(s);
-					else if (clazz.equals(short.class))
+					else if (clazz.equals(short.class) || clazz.equals(Short.class))
 						objs[i] = Short.parseShort(s);
 					else
 						objs[i] = s;
@@ -139,13 +139,5 @@ public abstract class SubCommand {
 		List<String> list = new ArrayList<>();
 		for(Player player:Bukkit.getOnlinePlayers())if(player.getName().startsWith(args[0]))list.add(player.getName());
 		return list;
-	}
-
-	public SubCommand getParent() {
-		return parent;
-	}
-
-	public void setParent(SubCommand parent) {
-		this.parent = parent;
 	}
 }

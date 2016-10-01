@@ -10,11 +10,11 @@ import org.bukkit.inventory.ItemStack;
  * @author AAA
  *
  */
-public class DefaultButton extends Button{
+public class DefaultSlot extends Slot{
 	
-	public DefaultButton() {}
+	public DefaultSlot() {}
 	
-	public DefaultButton(ItemStack itemStack,int slot){
+	public DefaultSlot(ItemStack itemStack,int slot){
 		super(itemStack, slot);
 	}
 

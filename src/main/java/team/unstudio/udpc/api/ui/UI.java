@@ -21,30 +21,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UI implements Listener,Cloneable{
 	
 	private final Inventory inventory;
-	private final List<Button> buttons;
-	private boolean canOperate = false;
-	
-	/**
-	 * 是否可以操作
-	 * @return
-	 */
-	public boolean isCanOperate() {
-		return canOperate;
-	}
-
-	/**
-	 * 设置是否可以操作
-	 * @param canOperate
-	 * @return
-	 */
-	public UI setCanOperate(boolean canOperate) {
-		this.canOperate = canOperate;
-		return this;
-	}
+	private final List<Slot> slots;
+	private boolean allowOperateInventory = false;
+	private boolean allowOperateBackpack = false;
 
 	public UI(Inventory inventory) {
 		this.inventory = inventory;
-		this.buttons = new ArrayList<>();
+		this.slots = new ArrayList<>();
 	}
 
 	/**
@@ -62,7 +45,7 @@ public class UI implements Listener,Cloneable{
 	 */
 	public void open(final HumanEntity player,final JavaPlugin plugin){
 		inventory.clear();
-		for(Button b:buttons) b.paint();
+		for(Slot b:slots) b.paint();
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		player.openInventory(inventory);
 	}
@@ -84,32 +67,34 @@ public class UI implements Listener,Cloneable{
 	}
 	
 	/**
-	 * 添加按钮
-	 * @param button
+	 * 添加槽
+	 * @param slot
 	 * @return
 	 */
-	public UI addButton(Button button){
-		buttons.add(button);
-		button.setParent(this);
+	public UI addSlot(Slot ...slot){
+		for(Slot s:slot){
+			slots.add(s);
+			s.setParent(this);
+		}
 		return this;
 	}
 	
 	/**
-	 * 删除按钮
-	 * @param button
+	 * 删除槽
+	 * @param slot
 	 * @return
 	 */
-	public boolean removeButton(Button button){
-		if(button==null) return false;
-		buttons.remove(button);
-		button.setParent(null);
+	public boolean removeSlot(Slot slot){
+		if(slot==null) return false;
+		slots.remove(slot);
+		slot.setParent(null);
 		return true;
 	}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onClick(InventoryClickEvent event){
 		if(event.getClickedInventory().equals(inventory)){
-			for(Button b:buttons){
+			for(Slot b:slots){
 				if(b.getSlot()==event.getRawSlot()){
 					b.onClick(event);
 					if(!b.isCanOperate()){
@@ -120,7 +105,7 @@ public class UI implements Listener,Cloneable{
 				}
 			}
 		}
-		if(!canOperate){
+		if(event.getSlot()==event.getRawSlot()&&!allowOperateInventory||event.getSlot()!=event.getRawSlot()&&!allowOperateBackpack){
 			event.setCancelled(true);
 			((Player)event.getWhoClicked()).updateInventory();
 		}
@@ -138,15 +123,31 @@ public class UI implements Listener,Cloneable{
 		UI ui = null;
 		if(inventory.getType()==InventoryType.CHEST){
 			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getSize(), inventory.getTitle()));
-			for(Button b:buttons){
-				ui.addButton(b.clone());
+			for(Slot b:slots){
+				ui.addSlot(b.clone());
 			}
 		}else{
 			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getType(), inventory.getTitle()));
-			for(Button b:buttons){
-				ui.addButton(b.clone());
+			for(Slot b:slots){
+				ui.addSlot(b.clone());
 			}
 		}
 		return ui;
+	}
+
+	public boolean isAllowOperateBackpack() {
+		return allowOperateBackpack;
+	}
+
+	public void setAllowOperateBackpack(boolean allowOperateBackpack) {
+		this.allowOperateBackpack = allowOperateBackpack;
+	}
+
+	public boolean isAllowOperateInventory() {
+		return allowOperateInventory;
+	}
+
+	public void setAllowOperateInventory(boolean allowOperateInventory) {
+		this.allowOperateInventory = allowOperateInventory;
 	}
 }
