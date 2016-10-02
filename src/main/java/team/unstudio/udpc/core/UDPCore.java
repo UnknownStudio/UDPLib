@@ -10,6 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpc.api.command.tree.TreeCommandManager;
 import team.unstudio.udpc.api.area.Area;
+import team.unstudio.udpc.api.area.AreaListener;
+import team.unstudio.udpc.api.area.AreaManager;
 import team.unstudio.udpc.api.command.tree.CommandNode;
 import team.unstudio.udpc.test.Example;
 
@@ -74,10 +76,14 @@ public class UDPCore extends JavaPlugin{
 		}.setNode("plugins").setPermission("udpc.pm.plugins")).registerCommand();
 		
 		Example.INSTANCE.onEnable();
+		
+		getServer().getPluginManager().registerEvents(new AreaListener(), this);
+		AreaManager.loadAll();
 	}
 	
 	@Override
 	public void onDisable() {
+		AreaManager.saveAll();
 	}
 	
 	public static void debug(String arg){

@@ -37,8 +37,9 @@ public class CommandWrapper {
 
 		if (anno.parameterTypes().length != args.length) return CommandResult.NoEnoughParameter;
 
-		Object[] objs = new Object[args.length];
-		for (int i = 0; i < args.length; i++) {
+		Object[] objs = new Object[args.length+1];
+		objs[0] = sender;
+		for (int i = 1; i < args.length; i++) {
 			try {
 				String s = args[i];
 				Class<?> clazz = anno.parameterTypes()[i];

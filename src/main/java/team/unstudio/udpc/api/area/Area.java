@@ -33,11 +33,42 @@ public class Area implements ConfigurationSerializable{
 		return point2;
 	}
 	
+	/**
+	 * 判断坐标是否含于该区域
+	 * @param location
+	 * @return
+	 */
 	public boolean contain(Location location){
 		if(point1.getBlockX()>=location.getBlockX()&&location.getBlockX()>=point2.getBlockX()&&
 				point1.getBlockY()>=location.getBlockY()&&location.getBlockY()>=point2.getBlockY()&&
 				point1.getBlockZ()>=location.getBlockZ()&&location.getBlockZ()>=point2.getBlockZ()&&
 				point1.getWorld().equals(location.getWorld())) return true;
+		return false;
+	}
+	
+	/**
+	 * 判断区域是否含于该区域
+	 * @param area
+	 * @return
+	 */
+	public boolean contain(Area area){
+		if(point1.getBlockX()>=area.getPoint1().getBlockX()&&point2.getBlockX()<=area.getPoint2().getBlockX()&&
+				point1.getBlockY()>=area.getPoint1().getBlockY()&&point2.getBlockY()<=area.getPoint2().getBlockY()&&
+				point1.getBlockZ()>=area.getPoint1().getBlockZ()&&point2.getBlockZ()<=area.getPoint2().getBlockZ()&&
+				point1.getWorld().equals(area.getPoint1().getWorld())) return true;
+		return false;
+	}
+	
+	/**
+	 * 判断区域是否与该区域相交
+	 * @param area
+	 * @return
+	 */
+	public boolean intersect(Area area){
+		if(point1.getBlockX()>=area.getPoint2().getBlockX()&&point2.getBlockX()<=area.getPoint1().getBlockX()&&
+				point1.getBlockY()>=area.getPoint2().getBlockY()&&point2.getBlockY()<=area.getPoint1().getBlockY()&&
+				point1.getBlockZ()>=area.getPoint2().getBlockZ()&&point2.getBlockZ()<=area.getPoint1().getBlockZ()&&
+				point1.getWorld().equals(area.getPoint1().getWorld())) return true;
 		return false;
 	}
 
@@ -53,7 +84,6 @@ public class Area implements ConfigurationSerializable{
 	public boolean hasProperty(String key) {
 		return properties.containsKey(key);
 	}
-
 
 	@Override
 	public Map<String, Object> serialize() {
