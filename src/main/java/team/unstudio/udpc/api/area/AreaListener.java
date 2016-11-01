@@ -27,5 +27,4 @@ public class AreaListener implements Listener{
 			if(newArea!=null)Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea, event.getPlayer()));
 		}
 	}
-
 }

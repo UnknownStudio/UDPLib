@@ -23,9 +23,9 @@ public class NMSEntity implements team.unstudio.udpc.api.nms.NMSEntity{
 
 	@Override
 	public Map<String, Object> getNBT() throws Exception {
-		Class<?> NBTTagCompound = ReflectionUtils.getNMSClass("NBTTagCompound");
+		Class<?> NBTTagCompound = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound");
 		Object nbt = NBTTagCompound.newInstance();
-		Class<?> Entity = ReflectionUtils.getNMSClass("Entity");
+		Class<?> Entity = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("Entity");
 		Method getHandle = entity.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
 		Method e = Entity.getDeclaredMethod("e", NBTTagCompound);
@@ -36,9 +36,9 @@ public class NMSEntity implements team.unstudio.udpc.api.nms.NMSEntity{
 
 	@Override
 	public team.unstudio.udpc.api.nms.NMSEntity setNBT(Map<String, Object> map) throws Exception {
-		Class<?> NBTTagCompound = ReflectionUtils.getNMSClass("NBTTagCompound");
+		Class<?> NBTTagCompound = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound");
 		Object nbt = NMSManager.getNMSNBT().toNBT(map);
-		Class<?> Entity = ReflectionUtils.getNMSClass("Entity");
+		Class<?> Entity = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("Entity");
 		Method getHandle = entity.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
 		Method f = Entity.getDeclaredMethod("f", NBTTagCompound);

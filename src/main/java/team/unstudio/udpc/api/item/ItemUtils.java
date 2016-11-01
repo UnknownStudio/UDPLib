@@ -14,9 +14,9 @@ public class ItemUtils {
      */
     public static String toJson(ItemStack itemStack){
     	try{
-			Class<?> ccitemstack = ReflectionUtils.getCBClass("inventory.CraftItemStack");
-			Class<?> citemstack = ReflectionUtils.getNMSClass("ItemStack");
-			Class<?> cmap = ReflectionUtils.getNMSClass("NBTTagCompound");
+			Class<?> ccitemstack = ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack");
+			Class<?> citemstack = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("ItemStack");
+			Class<?> cmap = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound");
 			Object nbt = cmap.newInstance();
 			Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
 			asnmscopy.setAccessible(true);

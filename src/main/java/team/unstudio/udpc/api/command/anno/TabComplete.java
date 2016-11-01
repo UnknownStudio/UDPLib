@@ -1,4 +1,4 @@
-package team.unstudio.udpc.api.command;
+package team.unstudio.udpc.api.command.anno;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
