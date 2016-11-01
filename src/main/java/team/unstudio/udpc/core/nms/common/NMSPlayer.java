@@ -45,7 +45,7 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 	}
 	
 	public void sendTitle(String title, String subtitle) throws Exception{
-		Class<?> enumTitleAction = PackageType.MINECRAFT_SERVER.getClass("PacketPlayOutTitle.EnumTitleAction");
+		Class<?> enumTitleAction = PackageType.MINECRAFT_SERVER.getClass("PacketPlayOutTitle$EnumTitleAction");
 		Class<?> iChatBaseComponent = PackageType.MINECRAFT_SERVER.getClass("IChatBaseComponent");
 		Method fromString = ReflectionUtils.getMethod(PackageType.CRAFTBUKKIT_UTIL.getClass("CraftChatMessage"),"fromString",String.class);
 		Constructor<?> PacketPlayOutTitle = ReflectionUtils.getConstructor("PacketPlayOutTitle", PackageType.MINECRAFT_SERVER, enumTitleAction, iChatBaseComponent);
@@ -65,7 +65,7 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 	}
 
 	public void resetTitle() throws Exception {
-		Class<?> enumTitleAction = PackageType.MINECRAFT_SERVER.getClass("PacketPlayOutTitle.EnumTitleAction");
+		Class<?> enumTitleAction = PackageType.MINECRAFT_SERVER.getClass("PacketPlayOutTitle$EnumTitleAction");
 		Class<?> iChatBaseComponent = PackageType.MINECRAFT_SERVER.getClass("IChatBaseComponent");
 		Constructor<?> PacketPlayOutTitle = ReflectionUtils.getConstructor("PacketPlayOutTitle", PackageType.MINECRAFT_SERVER, enumTitleAction, iChatBaseComponent);
 		Object enumTitle = null;
