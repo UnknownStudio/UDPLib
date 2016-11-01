@@ -22,9 +22,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 	
 	@Override
 	public Map<String, Object> getNBT() throws Exception{
-		Class<?> NBTTagCompound = ReflectionUtils.getNMSClass("NBTTagCompound");
+		Class<?> NBTTagCompound = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound");
 		Object nbt = NBTTagCompound.newInstance();
-		Class<?> TileEntity = ReflectionUtils.getNMSClass("TileEntity");
+		Class<?> TileEntity = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("TileEntity");
 		Method getTileEntity = blockState.getClass().getDeclaredMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
 		Method save = TileEntity.getDeclaredMethod("save", NBTTagCompound);
@@ -35,9 +35,9 @@ public class NMSTileEntity implements team.unstudio.udpc.api.nms.NMSTileEntity{
 
 	@Override
 	public team.unstudio.udpc.api.nms.NMSTileEntity setNBT(Map<String, Object> map) throws Exception{
-		Class<?> NBTTagCompound = ReflectionUtils.getNMSClass("NBTTagCompound");
+		Class<?> NBTTagCompound = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound");
 		Object nbt = NMSManager.getNMSNBT().toNBT(map);
-		Class<?> TileEntity = ReflectionUtils.getNMSClass("TileEntity");
+		Class<?> TileEntity = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("TileEntity");
 		Method getTileEntity = blockState.getClass().getDeclaredMethod("getTileEntity");
 		getTileEntity.setAccessible(true);
 		Method a = TileEntity.getDeclaredMethod("a", NBTTagCompound);

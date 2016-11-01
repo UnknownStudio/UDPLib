@@ -1,4 +1,4 @@
-package team.unstudio.udpc.api.command;
+package team.unstudio.udpc.api.command.anno;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,6 +8,8 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import team.unstudio.udpc.api.command.CommandResult;
 
 public class CommandWrapper {
 	

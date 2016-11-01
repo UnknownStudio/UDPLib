@@ -26,14 +26,14 @@ public class NMSPlayer extends NMSEntity implements team.unstudio.udpc.api.nms.N
 	
 	@Override
 	public void sendPacket(Object packet) throws Exception{
-		Class<?> cPacket = ReflectionUtils.getNMSClass("Packet");
-		if(packet.getClass().isAssignableFrom(cPacket)) return;
+		Class<?> cPacket = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("Packet");
+		if(!cPacket.isAssignableFrom(packet.getClass())) return;
 		Method getHandle = player.getClass().getDeclaredMethod("getHandle");
 		getHandle.setAccessible(true);
-		Class<?> player = ReflectionUtils.getNMSClass("EntityPlayer");
+		Class<?> player = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("EntityPlayer");
 		Field playerConnection = player.getDeclaredField("playerConnection");
 		playerConnection.setAccessible(true);
-		Class<?> cPlayerConnection = ReflectionUtils.getNMSClass("PlayerConnection");
+		Class<?> cPlayerConnection = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("PlayerConnection");
 		Method sendPacket = cPlayerConnection.getDeclaredMethod("sendPacket", cPacket);
 		sendPacket.setAccessible(true);
 		sendPacket.invoke(playerConnection.get(getHandle.invoke(player)),packet);

@@ -1,4 +1,4 @@
-package team.unstudio.udpc.api.command;
+package team.unstudio.udpc.api.command.anno;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -8,6 +8,9 @@ import java.lang.annotation.Target;
 
 import org.bukkit.command.CommandSender;
 
+/**
+ * 标记一个指令执行方法
+ */
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface Command {

@@ -12,8 +12,8 @@ public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 	
 	@Override
 	public Map<String, Object> getTag(ItemStack itemStack) throws Exception {
-		Class<?> ccitemstack = ReflectionUtils.getCBClass("inventory.CraftItemStack");
-		Class<?> citemstack = ReflectionUtils.getNMSClass("ItemStack");
+		Class<?> ccitemstack = ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack");
+		Class<?> citemstack = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("ItemStack");
 		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
 		Method gettag = citemstack.getDeclaredMethod("getTag");
@@ -23,8 +23,8 @@ public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 
 	@Override
 	public ItemStack setTag(ItemStack itemStack, Map<String, Object> map) throws Exception {
-		Class<?> ccitemstack = ReflectionUtils.getCBClass("inventory.CraftItemStack");
-		Class<?> citemstack = ReflectionUtils.getNMSClass("ItemStack");
+		Class<?> ccitemstack = ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack");
+		Class<?> citemstack = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("ItemStack");
 		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
 		Method settag = citemstack.getDeclaredMethod("setTag");
@@ -38,8 +38,8 @@ public class NMSItemStack implements team.unstudio.udpc.api.nms.NMSItemStack{
 
 	@Override
 	public boolean hasTag(ItemStack itemStack) throws Exception {
-		Class<?> ccitemstack = ReflectionUtils.getCBClass("inventory.CraftItemStack");
-		Class<?> citemstack = ReflectionUtils.getNMSClass("ItemStack");
+		Class<?> ccitemstack = ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack");
+		Class<?> citemstack = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("ItemStack");
 		Method asnmscopy = ccitemstack.getDeclaredMethod("asNMSCopy", ItemStack.class);
 		asnmscopy.setAccessible(true);
 		Method hastag = citemstack.getDeclaredMethod("hasTag");

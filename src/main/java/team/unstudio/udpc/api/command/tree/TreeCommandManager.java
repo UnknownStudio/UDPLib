@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * 指令管理者
+ * 树形指令管理者
  */
 public class TreeCommandManager implements CommandExecutor,TabCompleter{
 

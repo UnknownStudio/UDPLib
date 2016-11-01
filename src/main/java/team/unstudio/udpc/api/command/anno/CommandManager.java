@@ -1,4 +1,4 @@
-package team.unstudio.udpc.api.command;
+package team.unstudio.udpc.api.command.anno;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -84,9 +84,9 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	 */
 	public CommandManager addCommand(Object object){
 		for(Method method:object.getClass().getDeclaredMethods()){
-			if(method.getAnnotation(team.unstudio.udpc.api.command.Command.class)==null) continue;
+			if(method.getAnnotation(team.unstudio.udpc.api.command.anno.Command.class)==null) continue;
 			
-			team.unstudio.udpc.api.command.Command anno = method.getAnnotation(team.unstudio.udpc.api.command.Command.class);
+			team.unstudio.udpc.api.command.anno.Command anno = method.getAnnotation(team.unstudio.udpc.api.command.anno.Command.class);
 			
 			CommandWrapper wrapper = getCommandWrapper(anno.value());
 			wrapper.setMethod(object, method);
