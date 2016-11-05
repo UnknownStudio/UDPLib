@@ -31,10 +31,12 @@ public class UDPCore extends JavaPlugin{
 	public static UDPCore INSTANCE;
 	public static boolean debug;
 	
+	public UDPCore() {
+		INSTANCE = this;
+	}
+	
 	@Override
 	public void onLoad() {
-		INSTANCE = this;
-		
 		ConfigurationSerialization.registerClass(Area.class);
 	}
 	
