@@ -16,8 +16,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> toMap(Object nbt) throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		if (!nbt.getClass().isAssignableFrom(
-				ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagCompound");
 		}
 		Field field = nbt.getClass().getDeclaredField("map");
@@ -33,8 +32,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@SuppressWarnings("unchecked")
 	public List<Object> toList(Object nbt) throws Exception {
 		List<Object> list = new ArrayList<>();
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagList"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagList").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagList");
 		}
 		Field field = nbt.getClass().getDeclaredField("list");
@@ -49,8 +47,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public byte toByte(Object nbt) throws Exception {
 		byte value = 0;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagByte"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagByte").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagByte");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -62,8 +59,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public short toShort(Object nbt) throws Exception {
 		short value = 0;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagShort"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagShort").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagShort");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -75,8 +71,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public int toInt(Object nbt) throws Exception {
 		int value = 0;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagInt"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagInt").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagInt");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -88,8 +83,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public long toLong(Object nbt) throws Exception {
 		long value = 0;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagLong"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagLong").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagLong");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -101,8 +95,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public float toFloat(Object nbt) throws Exception {
 		float value = 0;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagFloat"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagFloat").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagFloat");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -114,8 +107,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public double toDouble(Object nbt) throws Exception {
 		double value = 0;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagDouble"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagDouble").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagDouble");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -127,8 +119,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public String toString(Object nbt) throws Exception {
 		String value = null;
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagString"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagString").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagString");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -140,8 +131,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public byte[] toByteArray(Object nbt) throws Exception {
 		byte[] value = new byte[0];
-		if (!nbt.getClass().isAssignableFrom(
-				ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagByteArray"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagByteArray").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagByteArray");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -153,8 +143,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 	@Override
 	public int[] toIntArray(Object nbt) throws Exception {
 		int[] value = new int[0];
-		if (!nbt.getClass().isAssignableFrom(
-				ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagIntArray"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTTagIntArray").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTTagIntArray");
 		}
 		Field field = nbt.getClass().getDeclaredField("data");
@@ -165,8 +154,7 @@ public class NMSNBT implements team.unstudio.udpc.api.nms.NMSNBT{
 
 	@Override
 	public Object toObject(Object nbt) throws Exception {
-		if (!nbt.getClass()
-				.isAssignableFrom(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTBase"))) {
+		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTBase").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTBase");
 		}
 		Method method = nbt.getClass().getDeclaredMethod("getTypeId");

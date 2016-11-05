@@ -4,9 +4,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * 按钮
- * @author AAA
- *
+ * 界面槽
  */
 public abstract class Slot implements Cloneable{
 	

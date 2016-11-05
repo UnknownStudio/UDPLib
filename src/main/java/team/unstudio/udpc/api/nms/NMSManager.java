@@ -3,6 +3,7 @@ package team.unstudio.udpc.api.nms;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * NMS的工厂类
@@ -46,6 +47,10 @@ public class NMSManager {
 		return INSTANCE_NMSNBT;
 	}
 	
+	/**
+	 * 获取NBT的反射操作类
+	 * @return
+	 */
 	public static NMSPacket getNMSPacketCommon(){
 		return COMMON_NMSPACKET;
 	}
@@ -74,9 +79,10 @@ public class NMSManager {
 	
 	/**
 	 * 创建一个对ItemStack操作的包装对象
+	 * @param itemstack
 	 * @return
 	 */
-	public static NMSItemStack getNMSItemStack(){
+	public static NMSItemStack getNMSItemStack(ItemStack itemstack){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_10_R1":
 			return new team.unstudio.udpc.core.nms.v1_10_R1.NMSItemStack();
