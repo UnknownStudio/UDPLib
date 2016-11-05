@@ -56,9 +56,9 @@ public class UI implements Listener,Cloneable{
 	 * @param player
 	 */
 	public void close(Player player){
-		if(player.getOpenInventory().getTopInventory().equals(inventory)&&inventory.getViewers().size()<=1){
+		if(player.getOpenInventory().getTopInventory().equals(inventory)){
 			player.closeInventory();
-			unregisterAllListener();
+			if(inventory.getViewers().size()<=1) unregisterAllListener();
 		}
 	}
 	
@@ -112,7 +112,7 @@ public class UI implements Listener,Cloneable{
 		}
 	}
 	
-	@EventHandler(priority=EventPriority.MONITOR)
+	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onClose(InventoryCloseEvent event){
 		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1){
 			unregisterAllListener();

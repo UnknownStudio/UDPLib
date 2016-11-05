@@ -4,11 +4,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * 
- * 一个默认的按钮
- * 
- * @author AAA
- *
+ * 提供默认实现的槽
  */
 public class DefaultSlot extends Slot{
 	
