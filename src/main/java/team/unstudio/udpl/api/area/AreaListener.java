@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,12 +20,14 @@ public class AreaListener implements Listener{
 	
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onPlayerMove(PlayerMoveEvent event){
-		Area oldArea = playerArea.get(event.getPlayer());
-		Area newArea = AreaManager.getAreaManager(event.getTo().getWorld()).getArea(event.getTo());
+		Player player =event.getPlayer();
+		Location to = event.getTo();
+		Area oldArea = playerArea.get(player);
+		Area newArea = AreaManager.getAreaManager(to.getWorld()).getArea(to);
 		if(oldArea==null&&newArea!=null||!oldArea.equals(newArea)) {
-			if(oldArea!=null)Bukkit.getPluginManager().callEvent(new PlayerLeaveAreaEvent(oldArea,event.getPlayer()));
-			playerArea.put(event.getPlayer(), newArea);
-			if(newArea!=null)Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea, event.getPlayer()));
+			if(oldArea!=null)Bukkit.getPluginManager().callEvent(new PlayerLeaveAreaEvent(oldArea,player));
+			playerArea.put(player, newArea);
+			if(newArea!=null)Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea, player));
 		}
 	}
 }
