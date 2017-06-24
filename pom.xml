@@ -23,6 +23,10 @@
 			<url>http://repo.dmulloy2.net/content/groups/public/</url>
 		</repository>
 		<repository>
+			<id>spigotmc-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
 			<id>elmakers-repo</id>
 			<url>http://maven.elmakers.com/repository</url>
 		</repository>
@@ -45,7 +49,7 @@
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
-			<version>3.6.5</version>
+			<version>4.2.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.ow2.asm</groupId>
