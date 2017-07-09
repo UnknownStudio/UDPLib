@@ -2,9 +2,15 @@ package team.unstudio.udpl.api.mapping;
 
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
+
 public enum MappingHelper {
 	
 	;
+	
+	static{
+		loadMapping(Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().indexOf("-")));
+	}
 	
 	private static ClassMapping classMapping;
 	private static MemberMapping memberMapping;
