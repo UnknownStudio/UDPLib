@@ -5,6 +5,7 @@ import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,6 +14,7 @@ import team.unstudio.udpl.api.area.AreaListener;
 import team.unstudio.udpl.api.area.AreaManager;
 import team.unstudio.udpl.api.command.tree.CommandNode;
 import team.unstudio.udpl.api.command.tree.TreeCommandManager;
+import team.unstudio.udpl.test.Test;
 
 public final class UDPLib extends JavaPlugin{
 	
@@ -77,11 +79,18 @@ public final class UDPLib extends JavaPlugin{
 			getServer().getPluginManager().registerEvents(new AreaListener(), this);
 			AreaManager.loadAll();
 		}
+		
+		Test.INSTANCE.onEnable();
 	}
 	
 	@Override
 	public void onDisable() {
-		AreaManager.saveAll();
+		if(CONFIG.enableAreaAPI)
+			AreaManager.saveAll();
+		
+		//防止玩家有未关闭的界面造成刷物品
+		for(Player player:Bukkit.getOnlinePlayers())
+			player.closeInventory();
 	}
 	
 	public static void debug(String arg){
