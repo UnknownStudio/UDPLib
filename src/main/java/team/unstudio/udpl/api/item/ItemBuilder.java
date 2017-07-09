@@ -3,6 +3,7 @@ package team.unstudio.udpl.api.item;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,8 +12,17 @@ public class ItemBuilder {
 
 	private final ItemStack itemStack;
 	
+	public ItemBuilder(){
+		this(new ItemStack(Material.AIR));
+	}
+	
 	public ItemBuilder(ItemStack itemStack) {
 		this.itemStack = itemStack;
+	}
+	
+	public ItemBuilder setType(Material type){
+		itemStack.setType(type);
+		return this;
 	}
 	
 	public ItemBuilder setDurability(short durability){
