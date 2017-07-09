@@ -19,8 +19,8 @@ public class NMSManager {
 	
 	private static NMSNBT loadNMSNBT(){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
-		case "v1_10_R1":
-			return new team.unstudio.udpl.core.nms.v1_10_R1.NMSNBT();
+		case "v1_11_R1":
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSNBT();
 		default:
 			return COMMON_NMSNBT;
 		}
@@ -28,8 +28,8 @@ public class NMSManager {
 	
 	private static NMSPacket loadNMSPacket(){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
-		case "v1_10_R1":
-			return new team.unstudio.udpl.core.nms.v1_10_R1.NMSPacket();
+		case "v1_11_R1":
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSPacket();
 		default:
 			return COMMON_NMSPACKET;
 		}
@@ -70,8 +70,8 @@ public class NMSManager {
 	 */
 	public static NMSTileEntity createNMSTileEntity(BlockState blockState){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
-		case "v1_10_R1":
-			return new team.unstudio.udpl.core.nms.v1_10_R1.NMSTileEntity(blockState);
+		case "v1_11_R1":
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSTileEntity(blockState);
 		default:
 			return new team.unstudio.udpl.core.nms.common.NMSTileEntity(blockState);
 		}
@@ -84,8 +84,8 @@ public class NMSManager {
 	 */
 	public static NMSItemStack getNMSItemStack(ItemStack itemstack){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
-		case "v1_10_R1":
-			return new team.unstudio.udpl.core.nms.v1_10_R1.NMSItemStack();
+		case "v1_11_R1":
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSItemStack();
 		default:
 			return new team.unstudio.udpl.core.nms.common.NMSItemStack();
 		}
@@ -98,8 +98,8 @@ public class NMSManager {
 	 */
 	public static NMSEntity createNMSEntity(Entity entity){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
-		case "v1_10_R1":
-			return new team.unstudio.udpl.core.nms.v1_10_R1.NMSEntity(entity);
+		case "v1_11_R1":
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSEntity(entity);
 		default:
 			return new team.unstudio.udpl.core.nms.common.NMSEntity(entity);
 		}
@@ -112,8 +112,8 @@ public class NMSManager {
 	 */
 	public static NMSPlayer createNMSPlayer(Player player){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
-		case "v1_10_R1":
-			return new team.unstudio.udpl.core.nms.v1_10_R1.NMSPlayer(player);
+		case "v1_11_R1":
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSPlayer(player);
 		default:
 			return new team.unstudio.udpl.core.nms.common.NMSPlayer(player);
 		}

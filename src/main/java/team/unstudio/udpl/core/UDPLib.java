@@ -13,7 +13,6 @@ import team.unstudio.udpl.api.area.AreaListener;
 import team.unstudio.udpl.api.area.AreaManager;
 import team.unstudio.udpl.api.command.tree.CommandNode;
 import team.unstudio.udpl.api.command.tree.TreeCommandManager;
-import team.unstudio.udpl.test.Example;
 
 public final class UDPLib extends JavaPlugin{
 	
@@ -73,8 +72,6 @@ public final class UDPLib extends JavaPlugin{
 				return true;
 			}
 		}.setNode("plugins").setPermission("udpc.pm.plugins")).registerCommand();
-		
-		Example.INSTANCE.onEnable();
 		
 		if(CONFIG.enableAreaAPI){
 			getServer().getPluginManager().registerEvents(new AreaListener(), this);
