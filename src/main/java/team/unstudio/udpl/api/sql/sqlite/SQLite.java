@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.sql;
+package team.unstudio.udpl.api.sql.sqlite;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import team.unstudio.udpl.api.sql.Column;
+import team.unstudio.udpl.api.sql.SQL;
 
 public class SQLite implements SQL {
 
@@ -50,8 +53,7 @@ public class SQLite implements SQL {
 	public Boolean hasTable() throws SQLException {
 		if (!this.connection.isClosed()) {
 			try {
-				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT * FROM " + this.table + ";");
+				PreparedStatement sql = this.connection.prepareStatement("SELECT * FROM " + this.table + ";");
 
 				return sql.execute();
 			} catch (SQLException ex) {
@@ -83,22 +85,20 @@ public class SQLite implements SQL {
 	 * @return Boolean
 	 * @throws java.sql.SQLException
 	 */
-	public synchronized Boolean createTable(String table, Column[] slots)
-			throws SQLException {
+	public synchronized Boolean createTable(String table, Column[] slots) throws SQLException {
 		if (this.isConnected()) {
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < slots.length; i++) {
 				Column slot = slots[i];
-				sb.append(slot.flag);
+				sb.append(slot.toSQLCommand());
 				if (i < slots.length - 1) {
 					sb.append(", ");
 				}
 			}
 
 			PreparedStatement sql = this.connection
-					.prepareStatement("CREATE TABLE IF NOT EXISTS "
-							+ this.table + " (" + sb.toString() + ");");
+					.prepareStatement("CREATE TABLE IF NOT EXISTS " + this.table + " (" + sb.toString() + ");");
 			return sql.execute();
 		}
 
@@ -118,8 +118,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized ResultSet executeQuery(String statement)
-			throws SQLException {
+	public synchronized ResultSet executeQuery(String statement) throws SQLException {
 		if (this.isConnected()) {
 			PreparedStatement sql = this.connection.prepareStatement(statement);
 			return sql.executeQuery();
@@ -149,8 +148,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean insert(HashMap<String, String> map)
-			throws SQLException {
+	public synchronized Boolean insert(HashMap<String, String> map) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				StringBuilder keys = new StringBuilder();
@@ -169,10 +167,8 @@ public class SQLite implements SQL {
 					values.deleteCharAt(values.length() - 1);
 				}
 
-				PreparedStatement sql = this.connection
-						.prepareStatement("Insert into " + this.table + " ("
-								+ keys.toString() + ")" + " values ("
-								+ values.toString() + ")");
+				PreparedStatement sql = this.connection.prepareStatement("Insert into " + this.table + " ("
+						+ keys.toString() + ")" + " values (" + values.toString() + ")");
 				int i = 1;
 				for (String key : map.keySet()) {
 					sql.setString(i, map.get(key));
@@ -186,14 +182,11 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized int update(String condition, String key, String value)
-			throws SQLException {
+	public synchronized int update(String condition, String key, String value) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
-				PreparedStatement sql = this.connection
-						.prepareStatement("Update " + this.table + " SET "
-								+ key + "='" + value + "' WHERE " + condition
-								+ ";");
+				PreparedStatement sql = this.connection.prepareStatement(
+						"Update " + this.table + " SET " + key + "='" + value + "' WHERE " + condition + ";");
 				return sql.executeUpdate();
 			}
 		}
@@ -202,13 +195,11 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized int delete(String key, String value)
-			throws SQLException {
+	public synchronized int delete(String key, String value) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				PreparedStatement sql = this.connection
-						.prepareStatement("DELETE FROM " + this.table
-								+ " WHERE " + key + " ='" + value + "';");
+						.prepareStatement("DELETE FROM " + this.table + " WHERE " + key + " ='" + value + "';");
 				return sql.executeUpdate();
 			}
 		}
@@ -217,13 +208,11 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized ResultSet getValuesOfKey(String condition, String key)
-			throws SQLException {
+	public synchronized ResultSet getValuesOfKey(String condition, String key) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT " + key + " FROM "
-								+ this.table + " WHERE " + condition + ";");
+						.prepareStatement("SELECT " + key + " FROM " + this.table + " WHERE " + condition + ";");
 				return sql.executeQuery();
 			}
 		}
@@ -232,15 +221,13 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized List<Object> getObjectsOfKey(String condition,
-			String key) throws SQLException {
+	public synchronized List<Object> getObjectsOfKey(String condition, String key) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				List<Object> values = new ArrayList<Object>();
 
 				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT " + key + " FROM "
-								+ this.table + " WHERE " + condition + ";");
+						.prepareStatement("SELECT " + key + " FROM " + this.table + " WHERE " + condition + ";");
 				ResultSet result = sql.executeQuery();
 
 				while (result.next()) {
@@ -255,8 +242,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized List<Integer> getIntegersOfKey(String condition,
-			String key) throws SQLException {
+	public synchronized List<Integer> getIntegersOfKey(String condition, String key) throws SQLException {
 		List<Integer> list = new ArrayList<Integer>();
 		for (Object o : this.getObjectsOfKey(condition, key)) {
 			list.add((Integer) o);
@@ -266,8 +252,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized List<String> getStringsOfKey(String condition,
-			String key) throws SQLException {
+	public synchronized List<String> getStringsOfKey(String condition, String key) throws SQLException {
 		List<String> list = new ArrayList<String>();
 		for (Object o : this.getObjectsOfKey(condition, key)) {
 			list.add((String) o);
@@ -281,9 +266,7 @@ public class SQLite implements SQL {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				int size = 0;
-				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT " + key + " FROM "
-								+ this.table + ";");
+				PreparedStatement sql = this.connection.prepareStatement("SELECT " + key + " FROM " + this.table + ";");
 				ResultSet result = sql.executeQuery();
 
 				while (result.next()) {
@@ -302,9 +285,8 @@ public class SQLite implements SQL {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				List<String> keys = new ArrayList<String>();
-				PreparedStatement sql = this.connection
-						.prepareStatement("select COLUMN_NAME from information_schema.COLUMNS where table_name = '"
-								+ this.table + "';");
+				PreparedStatement sql = this.connection.prepareStatement(
+						"select COLUMN_NAME from information_schema.COLUMNS where table_name = '" + this.table + "';");
 				ResultSet result = sql.executeQuery();
 
 				while (result.next()) {
@@ -318,24 +300,20 @@ public class SQLite implements SQL {
 		return null;
 	}
 
-
 	@Override
-	public synchronized Boolean isKeyHasValue(String key, String value)
-			throws SQLException {
+	public synchronized Boolean isKeyHasValue(String key, String value) throws SQLException {
 		return this.getObjectsOfKey(key + "='" + value + "'", key) == null ? false
 				: this.getObjectsOfKey(key + "='" + value + "'", key).size() > 0;
 	}
 
-
 	@Override
 	public synchronized ResultSet getKeyInfo(String key) throws SQLException {
-		return this.connection.prepareStatement(
-				"show columns from " + this.table + " where Field = '" + key
-						+ "';").executeQuery();
+		return this.connection.prepareStatement("show columns from " + this.table + " where Field = '" + key + "';")
+				.executeQuery();
 	}
 
 	@Override
-	public SqlType getType() {
-		return SqlType.SQLite;
+	public String getDatabaseName() {
+		return "sqlite";
 	}
 }

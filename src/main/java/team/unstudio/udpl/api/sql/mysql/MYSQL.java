@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.sql;
+package team.unstudio.udpl.api.sql.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import team.unstudio.udpl.api.sql.Column;
+import team.unstudio.udpl.api.sql.SQL;
 
 /**
  * MySql支持类 直接面向MySql的操作，以后更改为HashMap读写
@@ -41,8 +44,8 @@ public class MYSQL implements SQL {
 	 *            密码
 	 * @throws java.sql.SQLException
 	 */
-	public MYSQL(String host, int port, String schema, String table,
-			String userName, String password) throws SQLException {
+	public MYSQL(String host, int port, String schema, String table, String userName, String password)
+			throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException ex) {
@@ -51,8 +54,7 @@ public class MYSQL implements SQL {
 
 		this.schema = schema;
 		this.table = table;
-		this.connection = DriverManager.getConnection("jdbc:mysql://" + host
-				+ ":" + port + "/", userName, password);
+		this.connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/", userName, password);
 	}
 
 	/**
@@ -80,8 +82,7 @@ public class MYSQL implements SQL {
 	 */
 	public Boolean hasSchema() throws SQLException {
 		int i = 0;
-		PreparedStatement sql = this.connection
-				.prepareStatement("SHOW Schemas Like '" + this.schema + "';");
+		PreparedStatement sql = this.connection.prepareStatement("SHOW Schemas Like '" + this.schema + "';");
 		ResultSet result = sql.executeQuery();
 
 		while (result.next()) {
@@ -118,8 +119,7 @@ public class MYSQL implements SQL {
 		if (!this.connection.isClosed()) {
 			try {
 				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT * FROM " + this.schema + "."
-								+ this.table + ";");
+						.prepareStatement("SELECT * FROM " + this.schema + "." + this.table + ";");
 
 				return sql.execute();
 			} catch (SQLException ex) {
@@ -172,8 +172,7 @@ public class MYSQL implements SQL {
 	 * @throws SQLException
 	 */
 	public synchronized Boolean createSchema(String name) throws SQLException {
-		PreparedStatement sql = this.connection
-				.prepareStatement("create database " + name);
+		PreparedStatement sql = this.connection.prepareStatement("create database " + name);
 		return sql.execute();
 	}
 
@@ -188,23 +187,21 @@ public class MYSQL implements SQL {
 	 * @return Boolean
 	 * @throws java.sql.SQLException
 	 */
-	public synchronized Boolean createTable(String table, Column[] slots)
-			throws SQLException {
+	public synchronized Boolean createTable(String table, Column[] slots) throws SQLException {
 		if (this.isConnected()) {
 			if (this.schema != null) {
 				StringBuilder sb = new StringBuilder();
 
 				for (int i = 0; i < slots.length; i++) {
 					Column slot = slots[i];
-					sb.append(slot.flag);
+					sb.append(slot.toSQLCommand());
 					if (i < slots.length - 1) {
 						sb.append(", ");
 					}
 				}
 
 				PreparedStatement sql = this.connection
-						.prepareStatement("CREATE TABLE " + this.schema + "."
-								+ table + "(" + sb.toString() + ");");
+						.prepareStatement("CREATE TABLE " + this.schema + "." + table + "(" + sb.toString() + ");");
 				return sql.execute();
 			}
 		}
@@ -213,8 +210,7 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized ResultSet executeQuery(String statement)
-			throws SQLException {
+	public synchronized ResultSet executeQuery(String statement) throws SQLException {
 		if (this.isConnected()) {
 			PreparedStatement sql = this.connection.prepareStatement(statement);
 			return sql.executeQuery();
@@ -244,8 +240,7 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean insert(HashMap<String, String> map)
-			throws SQLException {
+	public synchronized Boolean insert(HashMap<String, String> map) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				StringBuilder keys = new StringBuilder();
@@ -264,10 +259,8 @@ public class MYSQL implements SQL {
 					values.deleteCharAt(values.length() - 1);
 				}
 
-				PreparedStatement sql = this.connection
-						.prepareStatement("Insert into " + this.table + " ("
-								+ keys.toString() + ")" + " values ("
-								+ values.toString() + ")");
+				PreparedStatement sql = this.connection.prepareStatement("Insert into " + this.table + " ("
+						+ keys.toString() + ")" + " values (" + values.toString() + ")");
 				int i = 1;
 				for (String key : map.keySet()) {
 					sql.setString(i, map.get(key));
@@ -281,14 +274,11 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized int update(String condition, String key, String value)
-			throws SQLException {
+	public synchronized int update(String condition, String key, String value) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getSchema() != null && this.getTable() != null) {
-				PreparedStatement sql = this.connection
-						.prepareStatement("Update " + this.schema + "."
-								+ this.table + " SET " + key + "='" + value
-								+ "' WHERE " + condition + ";");
+				PreparedStatement sql = this.connection.prepareStatement("Update " + this.schema + "." + this.table
+						+ " SET " + key + "='" + value + "' WHERE " + condition + ";");
 				return sql.executeUpdate();
 			}
 		}
@@ -297,14 +287,11 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized int delete(String key, String value)
-			throws SQLException {
+	public synchronized int delete(String key, String value) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getSchema() != null && this.getTable() != null) {
-				PreparedStatement sql = this.connection
-						.prepareStatement("DELETE FROM " + this.schema + "."
-								+ this.table + " WHERE " + key + " ='" + value
-								+ "';");
+				PreparedStatement sql = this.connection.prepareStatement(
+						"DELETE FROM " + this.schema + "." + this.table + " WHERE " + key + " ='" + value + "';");
 				return sql.executeUpdate();
 			}
 		}
@@ -313,13 +300,11 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized ResultSet getValuesOfKey(String condition, String key)
-			throws SQLException {
+	public synchronized ResultSet getValuesOfKey(String condition, String key) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT " + key + " FROM "
-								+ this.table + " WHERE " + condition + ";");
+						.prepareStatement("SELECT " + key + " FROM " + this.table + " WHERE " + condition + ";");
 				return sql.executeQuery();
 			}
 		}
@@ -328,15 +313,13 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized List<Object> getObjectsOfKey(String condition,
-			String key) throws SQLException {
+	public synchronized List<Object> getObjectsOfKey(String condition, String key) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				List<Object> values = new ArrayList<Object>();
 
 				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT " + key + " FROM "
-								+ this.table + " WHERE " + condition + ";");
+						.prepareStatement("SELECT " + key + " FROM " + this.table + " WHERE " + condition + ";");
 				ResultSet result = sql.executeQuery();
 
 				while (result.next()) {
@@ -351,8 +334,7 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized List<Integer> getIntegersOfKey(String condition,
-			String key) throws SQLException {
+	public synchronized List<Integer> getIntegersOfKey(String condition, String key) throws SQLException {
 		List<Integer> list = new ArrayList<Integer>();
 		for (Object o : this.getObjectsOfKey(condition, key)) {
 			list.add((Integer) o);
@@ -362,8 +344,7 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized List<String> getStringsOfKey(String condition,
-			String key) throws SQLException {
+	public synchronized List<String> getStringsOfKey(String condition, String key) throws SQLException {
 		List<String> list = new ArrayList<String>();
 		for (Object o : this.getObjectsOfKey(condition, key)) {
 			list.add((String) o);
@@ -377,9 +358,7 @@ public class MYSQL implements SQL {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				int size = 0;
-				PreparedStatement sql = this.connection
-						.prepareStatement("SELECT " + key + " FROM "
-								+ this.table + ";");
+				PreparedStatement sql = this.connection.prepareStatement("SELECT " + key + " FROM " + this.table + ";");
 				ResultSet result = sql.executeQuery();
 
 				while (result.next()) {
@@ -398,9 +377,8 @@ public class MYSQL implements SQL {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				List<String> keys = new ArrayList<String>();
-				PreparedStatement sql = this.connection
-						.prepareStatement("select COLUMN_NAME from information_schema.COLUMNS where table_name = '"
-								+ this.table + "';");
+				PreparedStatement sql = this.connection.prepareStatement(
+						"select COLUMN_NAME from information_schema.COLUMNS where table_name = '" + this.table + "';");
 				ResultSet result = sql.executeQuery();
 
 				while (result.next()) {
@@ -415,21 +393,19 @@ public class MYSQL implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean isKeyHasValue(String key, String value)
-			throws SQLException {
+	public synchronized Boolean isKeyHasValue(String key, String value) throws SQLException {
 		return this.getObjectsOfKey(key + "='" + value + "'", key) == null ? false
 				: this.getObjectsOfKey(key + "='" + value + "'", key).size() > 0;
 	}
 
 	@Override
 	public synchronized ResultSet getKeyInfo(String key) throws SQLException {
-		return this.connection.prepareStatement(
-				"show columns from " + this.table + " where Field = '" + key
-						+ "';").executeQuery();
+		return this.connection.prepareStatement("show columns from " + this.table + " where Field = '" + key + "';")
+				.executeQuery();
 	}
 
 	@Override
-	public SqlType getType() {
-		return SqlType.MySql;
+	public String getDatabaseName() {
+		return "mysql";
 	}
 }

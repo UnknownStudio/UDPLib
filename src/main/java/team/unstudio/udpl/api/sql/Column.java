@@ -1,31 +1,23 @@
 package team.unstudio.udpl.api.sql;
 
-/**
- * MySql列
- * <p>
- */
 public class Column {
-	public final String flag;
+	
+	private final DataType type;
+	private final ColumnRule[] rules;
+	private final String name;
+	private final int size;
 
-	/**
-	 * 构造列 type: VARCHAR/CHAR 字符型 TEXT 文本型 INT/SMALLINT/TINYINT 整数型 NUMERIC 浮点型
-	 * MONEY/SMALLMONEY 金钱型 BIT 逻辑型 DATETIME/SMALLDATETIME 日期型
-	 * <p>
-	 * 
-	 * @param type
-	 *            类型
-	 * @param rules
-	 *            规则
-	 * @param size
-	 *            大小
-	 * @param name
-	 *            名称
-	 */
-	public Column(String type, ColumnRule[] rules, int size, String name) {
+	public Column(String name, DataType type, ColumnRule[] rules, int size) {
+		this.type = type;
+		this.rules = rules;
+		this.name = name;
+		this.size = size;
+	}
+	
+	public String toSQLCommand(){
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(name).append(" ").append(type).append("(").append(size)
-				.append(")");
+		sb.append(name).append(" ").append(type).append("(").append(size).append(")");
 
 		if (rules != null) {
 			sb.append(" ");
@@ -34,6 +26,6 @@ public class Column {
 			}
 		}
 
-		this.flag = sb.toString();
+		return sb.toString();
 	}
 }

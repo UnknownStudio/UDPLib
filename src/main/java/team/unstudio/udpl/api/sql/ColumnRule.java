@@ -1,9 +1,5 @@
 package team.unstudio.udpl.api.sql;
 
-/**
- * MySql列规则
- * <p>
- */
 public enum ColumnRule {
 	/**
 	 * 主键
