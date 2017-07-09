@@ -124,7 +124,7 @@ public class Board {
 	 * setTitle 设置标题.
 	 *
 	 * 
-	 * @param 标题名称
+	 * @param title 标题名称
 	 */
 	public void setTitle(String title){
 		this.objective.setDisplayName(title);
