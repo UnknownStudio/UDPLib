@@ -15,11 +15,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import team.unstudio.udpl.api.area.event.AreaCreateEvent;
 import team.unstudio.udpl.api.area.event.AreaRemoveEvent;
 import team.unstudio.udpl.api.util.Utils;
-import team.unstudio.udpl.core.UDPCore;
+import team.unstudio.udpl.core.UDPLib;
 
 public final class AreaManager {
 	
-	private static final File AreaPath = new File(UDPCore.INSTANCE.getDataFolder(), "area");
+	private static final File AreaPath = new File(UDPLib.getInstance().getDataFolder(), "area");
 
 	private final World world;
 	private final List<Area> areas = new ArrayList<>();

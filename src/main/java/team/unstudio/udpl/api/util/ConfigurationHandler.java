@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 /**
  * 配置文件处理器
  */
-public class ConfigurationHandler{
+public abstract class ConfigurationHandler{
 
 	private final File file;
 	private final Map<String,Object> defaults = new HashMap<>();
