@@ -39,7 +39,7 @@ public class CommandWrapper {
 
 		if (anno.parameterTypes().length != args.length) return CommandResult.NoEnoughParameter;
 
-		Object[] objs = new Object[args.length+1];
+		Object[] objs = new Object[method.getParameterTypes().length];
 		objs[0] = sender;
 		for (int i = 1; i < args.length; i++) {
 			try {

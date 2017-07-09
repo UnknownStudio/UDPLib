@@ -126,27 +126,27 @@ public class TreeCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 
-	private void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
+	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(noPermissionMessage);
 	}
 	
-	private void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
+	protected void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(noEnoughParameterMessage);
 	}
 	
-	private void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
+	protected void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(wrongSenderMessage);
 	}
 	
-	private void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
+	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(errorParameterMessage);
 	}
 	
-	private void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
+	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
 		sender.sendMessage(unknownCommandMessage);
 	}
 	
-	private void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
+	protected void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandNode handler){
 		sender.sendMessage(runCommandFailureMessage);
 	}
 	

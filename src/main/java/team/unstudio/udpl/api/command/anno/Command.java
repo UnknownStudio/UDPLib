@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import org.bukkit.command.CommandSender;
 
 /**
- * 标记一个指令执行方法
+ * 标记一个指令执行方法<br>
  */
 @Retention(RUNTIME)
 @Target(METHOD)
