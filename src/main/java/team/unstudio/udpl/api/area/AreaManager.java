@@ -17,7 +17,7 @@ import team.unstudio.udpl.api.area.event.AreaRemoveEvent;
 import team.unstudio.udpl.api.util.Utils;
 import team.unstudio.udpl.core.UDPCore;
 
-public class AreaManager {
+public final class AreaManager {
 	
 	private static final File AreaPath = new File(UDPCore.INSTANCE.getDataFolder(), "area");
 
