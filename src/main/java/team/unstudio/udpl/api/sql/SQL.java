@@ -7,13 +7,10 @@ import java.util.List;
 
 public interface SQL {
 
-	
 	/**
-	 * 获取数据库类型
-	 * 
-	 * @return
+	 * 获取数据库名称
 	 */
-	public SqlType getType();
+	public String getDatabaseName();
 
 	/**
 	 * 是否连接
@@ -197,9 +194,5 @@ public interface SQL {
 	 *            键
 	 * @return ResultSet
 	 */
-	public  ResultSet getKeyInfo(String key) throws SQLException;
-
-	public enum SqlType {
-		MySql, SQLite, Unknown;
-	}
+	public ResultSet getKeyInfo(String key) throws SQLException;
 }

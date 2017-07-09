@@ -12,7 +12,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandManager implements CommandExecutor,TabCompleter{
+public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	private final JavaPlugin plugin;
 	private final String name;
 	private final List<CommandWrapper> wrappers = new ArrayList<>();
@@ -29,7 +29,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	 * @param name 指令
 	 * @param plugin 插件
 	 */
-	public CommandManager(String name,JavaPlugin plugin){
+	public AnnoCommandManager(String name,JavaPlugin plugin){
 		this.name = name;
 		this.plugin = plugin;
 	}
@@ -82,7 +82,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	 * @param sub
 	 * @return
 	 */
-	public CommandManager addCommand(Object object){
+	public AnnoCommandManager addCommand(Object object){
 		for(Method method:object.getClass().getDeclaredMethods()){
 			if(method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class)==null) continue;
 			
@@ -126,7 +126,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return noPermissionMessage;
 	}
 
-	public CommandManager setNoPermissionMessage(String def) {
+	public AnnoCommandManager setNoPermissionMessage(String def) {
 		this.noPermissionMessage = def;
 		return this;
 	}
@@ -135,7 +135,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return noEnoughParameterMessage;
 	}
 
-	public CommandManager setNoEnoughParameterMessage(String def) {
+	public AnnoCommandManager setNoEnoughParameterMessage(String def) {
 		this.noEnoughParameterMessage = def;
 		return this;
 	}
@@ -144,7 +144,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return wrongSenderMessage;
 	}
 
-	public CommandManager setWrongSenderMessage(String def) {
+	public AnnoCommandManager setWrongSenderMessage(String def) {
 		this.wrongSenderMessage = def;
 		return this;
 	}
@@ -153,32 +153,32 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return errorParameterMessage;
 	}
 
-	public CommandManager setErrorParameterMessage(String def) {
+	public AnnoCommandManager setErrorParameterMessage(String def) {
 		this.errorParameterMessage = def;
 		return this;
 	}
 
-	private void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(noPermissionMessage);
 	}
 	
-	private void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	protected void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(noEnoughParameterMessage);
 	}
 	
-	private void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	protected void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(wrongSenderMessage);
 	}
 	
-	private void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(errorParameterMessage);
 	}
 	
-	private void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
+	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
 		sender.sendMessage(unknownCommandMessage);
 	}
 	
-	private void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+	protected void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(runCommandFailureMessage);
 	}
 	
@@ -186,7 +186,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return unknownCommandMessage;
 	}
 
-	public CommandManager setUnknownCommandMessage(String def) {
+	public AnnoCommandManager setUnknownCommandMessage(String def) {
 		this.unknownCommandMessage = def;
 		return this;
 	}
@@ -195,7 +195,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 		return runCommandFailureMessage;
 	}
 
-	public CommandManager setRunCommandFailureMessage(String def) {
+	public AnnoCommandManager setRunCommandFailureMessage(String def) {
 		this.runCommandFailureMessage = def;
 		return this;
 	}
@@ -207,7 +207,7 @@ public class CommandManager implements CommandExecutor,TabCompleter{
 	/**
 	 * 注册指令
 	 */
-	public CommandManager registerCommand(){
+	public AnnoCommandManager registerCommand(){
 		plugin.getCommand(name).setExecutor(this);
 		plugin.getCommand(name).setTabCompleter(this);
 		return this;
