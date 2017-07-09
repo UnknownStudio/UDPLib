@@ -9,7 +9,7 @@ import team.unstudio.udpl.api.command.tree.CommandNode;
 import team.unstudio.udpl.api.command.tree.TreeCommandManager;
 import team.unstudio.udpl.api.ui.Slot;
 import team.unstudio.udpl.api.ui.UIFactory;
-import team.unstudio.udpl.core.UDPCore;
+import team.unstudio.udpl.core.UDPLib;
 
 public class Example {
 	
@@ -20,11 +20,11 @@ public class Example {
 	
 	@SuppressWarnings("unchecked")
 	public void onEnable() {
-		new TreeCommandManager("udpc", UDPCore.INSTANCE).addNode(new CommandNode() {
+		new TreeCommandManager("udpc", UDPLib.getInstance()).addNode(new CommandNode() {
 			
 			@Override
 			public boolean onCommand(CommandSender sender, Object[] args) {
-				sender.sendMessage(UDPCore.NAME+" "+UDPCore.VERSION);
+				sender.sendMessage(UDPLib.NAME+" "+UDPLib.VERSION);
 				return true;
 			}
 		}.setNode("help")).addNode(new CommandNode() {
@@ -43,7 +43,7 @@ public class Example {
 					public void onClick(InventoryClickEvent event) {
 						event.getWhoClicked().sendMessage("点击按钮2");
 					}
-				}.setAllowOperate(false)).open((HumanEntity) sender, UDPCore.INSTANCE);
+				}.setAllowOperate(false)).open((HumanEntity) sender, UDPLib.getInstance());
 				return true;
 			}
 		}.setNode("ui").setSenders(Player.class)).registerCommand();
