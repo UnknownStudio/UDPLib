@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import team.unstudio.udpl.api.area.event.PlayerEnterAreaEvent;
 import team.unstudio.udpl.api.area.event.PlayerLeaveAreaEvent;
 
-public class AreaListener implements Listener{
+public final class AreaListener implements Listener{
 	
 	private static final Map<Player, Area> playerArea = new HashMap<>();
 	
@@ -24,10 +24,10 @@ public class AreaListener implements Listener{
 		Location to = event.getTo();
 		Area oldArea = playerArea.get(player);
 		Area newArea = AreaManager.getAreaManager(to.getWorld()).getArea(to);
-		if(oldArea==null&&newArea!=null||!oldArea.equals(newArea)) {
+		if((oldArea==null&&newArea!=null)||!oldArea.equals(newArea)) {
 			if(oldArea!=null)Bukkit.getPluginManager().callEvent(new PlayerLeaveAreaEvent(oldArea,player));
 			playerArea.put(player, newArea);
-			if(newArea!=null)Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea, player));
+			if(newArea!=null)Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea,player));
 		}
 	}
 }
