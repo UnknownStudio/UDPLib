@@ -1,9 +1,9 @@
-name: UDPCore
-main: team.unstudio.udpc.core.UDPCore
+name: UDPLib
+main: team.unstudio.udpl.core.UDPLib
 version: 1.0.0
 authors: [Mouse]
-description: Unknown Domain Plugin Core
+description: Unknown Domain Plugin Lib
 softdepend: [ProtocolLib]
 commands:
   pm:
-  udpc:
+  test:
