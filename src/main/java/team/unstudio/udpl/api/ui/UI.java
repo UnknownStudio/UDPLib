@@ -8,13 +8,14 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
+import team.unstudio.udpl.core.UDPLib;
 
 /**
  * 界面的包装类
@@ -44,10 +45,10 @@ public class UI implements Listener,Cloneable{
 	 * @param player
 	 * @param plugin
 	 */
-	public void open(final HumanEntity player,final JavaPlugin plugin){
+	public void open(final HumanEntity player){
 		inventory.clear();
 		for(Slot b:slots) b.paint();
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
 		player.openInventory(inventory);
 	}
 	
@@ -58,13 +59,20 @@ public class UI implements Listener,Cloneable{
 	public void close(Player player){
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
 			player.closeInventory();
-			if(inventory.getViewers().size()<=1) unregisterAllListener();
+			if(inventory.getViewers().size()<=0)
+				HandlerList.unregisterAll(this);
 		}
 	}
 	
-	private void unregisterAllListener(){
-		InventoryClickEvent.getHandlerList().unregister(this);
-		InventoryCloseEvent.getHandlerList().unregister(this);
+	/**
+	 * 添加槽
+	 * @param slot
+	 * @return
+	 */
+	public UI addSlot(Slot slot){
+		slots.add(slot);
+		slot.setParent(this);
+		return this;
 	}
 	
 	/**
@@ -73,10 +81,19 @@ public class UI implements Listener,Cloneable{
 	 * @return
 	 */
 	public UI addSlot(Slot ...slot){
-		for(Slot s:slot){
-			slots.add(s);
-			s.setParent(this);
-		}
+		for(Slot s:slot)
+			addSlot(s);
+		return this;
+	}
+	
+	/**
+	 * 添加槽
+	 * @param slot
+	 * @return
+	 */
+	public UI addSlots(Slot slot,int[] slotIDs){
+		for(int slotID:slotIDs)
+			addSlot(slot.clone().setSlot(slotID));
 		return this;
 	}
 	
@@ -94,7 +111,7 @@ public class UI implements Listener,Cloneable{
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onClick(InventoryClickEvent event){
-		if(event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
+		if(event.getClickedInventory()!=null&&event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
 			for(Slot b:slots){
 				if(b.getSlot()==event.getRawSlot()){
 					b.onClick(event);
@@ -114,9 +131,8 @@ public class UI implements Listener,Cloneable{
 	
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onClose(InventoryCloseEvent event){
-		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1){
-			unregisterAllListener();
-		}
+		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1)
+			HandlerList.unregisterAll(this);
 	}
 	
 	@Override
