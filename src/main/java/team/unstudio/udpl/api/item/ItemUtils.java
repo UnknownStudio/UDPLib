@@ -24,9 +24,7 @@ public class ItemUtils {
 			Method save = citemstack.getDeclaredMethod("save",cmap);
 			save.setAccessible(true);
 			return save.invoke(asnmscopy.invoke(null, itemStack),nbt).toString();
-    	}catch(Exception e){
-    		e.printStackTrace();
-    	}
+    	}catch(Exception e){}
     	return "";
     }
 }
