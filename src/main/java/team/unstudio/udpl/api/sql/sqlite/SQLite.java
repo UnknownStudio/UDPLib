@@ -1,7 +1,6 @@
 package team.unstudio.udpl.api.sql.sqlite;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,14 +16,8 @@ public class SQLite implements SQL {
 	private final Connection connection;
 	private String table;
 
-	public SQLite(String file, String table) throws SQLException {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		this.table = table;
-		this.connection = DriverManager.getConnection("jdbc:sqlite:" + file);
+	public SQLite(Connection connection) throws SQLException {
+		this.connection = connection;
 	}
 
 	/**
@@ -50,7 +43,7 @@ public class SQLite implements SQL {
 	 * @return Boolean
 	 * @throws java.sql.SQLException
 	 */
-	public Boolean hasTable() throws SQLException {
+	public boolean hasTable() throws SQLException {
 		if (!this.connection.isClosed()) {
 			try {
 				PreparedStatement sql = this.connection.prepareStatement("SELECT * FROM " + this.table + ";");
@@ -85,7 +78,7 @@ public class SQLite implements SQL {
 	 * @return Boolean
 	 * @throws java.sql.SQLException
 	 */
-	public synchronized Boolean createTable(String table, Column[] slots) throws SQLException {
+	public synchronized boolean createTable(String table, Column[] slots) throws SQLException {
 		if (this.isConnected()) {
 			StringBuilder sb = new StringBuilder();
 
@@ -106,7 +99,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public Boolean isConnected() throws SQLException {
+	public boolean isConnected() throws SQLException {
 		return !this.connection.isClosed();
 	}
 
@@ -128,7 +121,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean execute(String statement) throws SQLException {
+	public synchronized boolean execute(String statement) throws SQLException {
 		if (this.isConnected()) {
 			PreparedStatement sql = this.connection.prepareStatement(statement);
 			return sql.execute();
@@ -148,7 +141,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean insert(HashMap<String, String> map) throws SQLException {
+	public synchronized boolean insert(HashMap<String, String> map) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				StringBuilder keys = new StringBuilder();
@@ -262,7 +255,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean isKeyExist(String key) throws SQLException {
+	public synchronized boolean isKeyExist(String key) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
 				int size = 0;
@@ -301,7 +294,7 @@ public class SQLite implements SQL {
 	}
 
 	@Override
-	public synchronized Boolean isKeyHasValue(String key, String value) throws SQLException {
+	public synchronized boolean isKeyHasValue(String key, String value) throws SQLException {
 		return this.getObjectsOfKey(key + "='" + value + "'", key) == null ? false
 				: this.getObjectsOfKey(key + "='" + value + "'", key).size() > 0;
 	}
