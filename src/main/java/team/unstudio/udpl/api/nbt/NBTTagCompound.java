@@ -83,7 +83,7 @@ public final class NBTTagCompound extends NBTBase {
 	public byte getByte(String path) {
 		try {
 
-			return ((NBTTagByte) this.map.get(path)).getValue();
+			return ((NBTNumber) this.map.get(path)).getByte();
 		} catch (Exception e) {
 
 		}
@@ -92,7 +92,7 @@ public final class NBTTagCompound extends NBTBase {
 
 	public short getShort(String path) {
 		try {
-			return ((NBTTagShort) this.map.get(path)).getValue();
+			return ((NBTNumber) this.map.get(path)).getShort();
 		} catch (Exception e) {
 
 		}
@@ -101,7 +101,7 @@ public final class NBTTagCompound extends NBTBase {
 
 	public int getInt(String path) {
 		try {
-			return ((NBTTagInt) this.map.get(path)).getValue();
+			return ((NBTNumber) this.map.get(path)).getInt();
 		} catch (Exception e) {
 
 		}
@@ -110,7 +110,7 @@ public final class NBTTagCompound extends NBTBase {
 
 	public long getLong(String path) {
 		try {
-			return ((NBTTagLong) this.map.get(path)).getValue();
+			return ((NBTNumber) this.map.get(path)).getLong();
 		} catch (Exception e) {
 
 		}
@@ -119,7 +119,7 @@ public final class NBTTagCompound extends NBTBase {
 
 	public float getFloat(String path) {
 		try {
-			return ((NBTTagFloat) this.map.get(path)).getValue();
+			return ((NBTNumber) this.map.get(path)).getFloat();
 		} catch (Exception e) {
 
 		}
@@ -128,7 +128,7 @@ public final class NBTTagCompound extends NBTBase {
 
 	public double getDouble(String path) {
 		try {
-			return ((NBTTagDouble) this.map.get(path)).getValue();
+			return ((NBTNumber) this.map.get(path)).getDouble();
 		} catch (Exception e) {
 
 		}
