@@ -49,7 +49,6 @@ public class ItemBuilder {
 		itemStack.setAmount(amount);
 		return this;
 	}
-
     /**
      * 设置物品名称
      * @param name 名称
@@ -67,6 +66,8 @@ public class ItemBuilder {
      * @param lore LORE 可以有多行 不定参数
      * @return 修改后的Builder
      */
+
+	
 	public ItemBuilder addLore(String ...lore){
 		ItemMeta meta = itemStack.getItemMeta();
 		ArrayList<String> lores = new ArrayList<>(meta.getLore());
@@ -106,6 +107,7 @@ public class ItemBuilder {
      * @param ench 附魔
      * @return 修改后的Builder
      */
+
 	public ItemBuilder removeEnchantment(Enchantment ench){
 		itemStack.removeEnchantment(ench);
 		return this;
