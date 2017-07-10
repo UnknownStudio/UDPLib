@@ -1,2 +1,2 @@
-# UDPCore
-Unknown Domain Spigot Plugin Core
+# UDPLib
+Unknown Domain Spigot Plugin Library
