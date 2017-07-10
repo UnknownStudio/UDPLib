@@ -8,7 +8,6 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -60,7 +59,7 @@ public class UI implements Listener,Cloneable{
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
 			player.closeInventory();
 			if(inventory.getViewers().size()<=0)
-				HandlerList.unregisterAll(this);
+				unregisterAllEvent();
 		}
 	}
 	
@@ -132,7 +131,7 @@ public class UI implements Listener,Cloneable{
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onClose(InventoryCloseEvent event){
 		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1)
-			HandlerList.unregisterAll(this);
+			unregisterAllEvent();
 	}
 	
 	@Override
@@ -166,5 +165,10 @@ public class UI implements Listener,Cloneable{
 
 	public void setAllowOperateInventory(boolean allowOperateInventory) {
 		this.allowOperateInventory = allowOperateInventory;
+	}
+	
+	protected void unregisterAllEvent(){
+		InventoryClickEvent.getHandlerList().unregister(this);
+		InventoryCloseEvent.getHandlerList().unregister(this);
 	}
 }
