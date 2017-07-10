@@ -79,8 +79,9 @@ public class UI implements Listener,Cloneable{
 	 * @param slot
 	 * @return
 	 */
-	public UI addSlot(Slot ...slot){
-		for(Slot s:slot)
+	public UI addSlot(Slot slot,Slot ...slots){
+		addSlot(slot);
+		for(Slot s:slots)
 			addSlot(s);
 		return this;
 	}
