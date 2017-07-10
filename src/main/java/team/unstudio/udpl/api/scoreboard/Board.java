@@ -124,7 +124,7 @@ public class Board {
 	 * setTitle 设置标题.
 	 *
 	 * 
-	 * @param 标题名称
+	 * @param title 标题名称
 	 */
 	public void setTitle(String title){
 		this.objective.setDisplayName(title);
@@ -132,6 +132,42 @@ public class Board {
 	/**
 	 * 
 	 * @param line 行数
+	 * @return org.bukkit.scoreboard.Score
+	 */
+	public Score getScore(String line){
+		return this.objective.getScore(line);
+	}
+	/**
+	 * 占用为1，没有被占用为-1
+
+	 * 
+	 * @return 长度为16的数组
+	 */
+	public int[] getIdle(){
+		int[] value = new int[16];
+		for(int i=0;i<16;i++){
+			if(map.get(i)!=null)
+				value[i] = 1;
+			else value[i] =-1;
+		}
+		return value;
+	}
+	@Override
+	public int hashCode(){
+		return map.hashCode()+objective.getDisplayName().hashCode();
+	}
+	@Override
+	public boolean equals(Object o){
+		if(o==null)throw new NullPointerException();
+		if(!(o instanceof Board))return false;
+		Board b = (Board) o;
+		if(!(objective.getDisplayName().equals(b.getTitle())))return false;
+		if(!(scoreboard.equals(b.scoreboard)))return false;
+		if(!(getText().equals(b.getText())))return false;
+		return true;
+	}
+}
+
 	 * @return org.bukkit.scoreboard.Score
 	 */
 	public Score getScore(String line){

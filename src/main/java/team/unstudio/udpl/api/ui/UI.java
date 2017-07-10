@@ -41,8 +41,7 @@ public class UI implements Listener,Cloneable{
 	
 	/**
 	 * 打开
-	 * @param player
-	 * @param plugin
+	 * @param player 玩家
 	 */
 	public void open(final HumanEntity player){
 		inventory.clear();
@@ -79,9 +78,8 @@ public class UI implements Listener,Cloneable{
 	 * @param slot
 	 * @return
 	 */
-	public UI addSlot(Slot slot,Slot ...slots){
-		addSlot(slot);
-		for(Slot s:slots)
+	public UI addSlot(Slot ...slot){
+		for(Slot s:slot)
 			addSlot(s);
 		return this;
 	}

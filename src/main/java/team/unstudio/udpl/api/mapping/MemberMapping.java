@@ -22,14 +22,14 @@ public final class MemberMapping {
 			if(line.isEmpty()||line.startsWith("#"))
 				continue;
 				
-			String[] args = line.split(" ",4);
+			String[] args = line.split(" ",3);
 			if(!obfToDeobf.containsKey(args[0]))
 				obfToDeobf.put(args[0], Maps.newHashMap());
-			obfToDeobf.get(args[0]).put(args[1]+" "+args[2], args[3]);
+			obfToDeobf.get(args[0]).put(args[1], args[2]);
 			
 			if(!deobfToObf.containsKey(args[0]))
 				deobfToObf.put(args[0], Maps.newHashMap());
-			deobfToObf.get(args[0]).put(args[3]+" "+args[2], args[1]);
+			deobfToObf.get(args[0]).put(args[2], args[1]);
 		}
 	}
 	
