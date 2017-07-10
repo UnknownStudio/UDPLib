@@ -13,28 +13,19 @@ public interface SQL {
 	public String getDatabaseName();
 
 	/**
-	 * 是否连接
-	 * <p>
-	 * 
-	 * @return Boolean
-	 * @throws SQLException
+	 * 是否已连接
 	 */
-	public Boolean isConnected() throws SQLException;
+	public boolean isConnected() throws SQLException;
 
 	/**
 	 * 断开连接
-	 * <p>
-	 * 
-	 * @throws SQLException
 	 */
 	public void disconnect() throws SQLException;
 
 	/**
 	 * 执行命令
-	 * <p>
 	 * 
-	 * @param statement
-	 *            命令
+	 * @param statement 命令
 	 * @return ResultSet
 	 * @throws java.sql.SQLException
 	 */
@@ -42,18 +33,15 @@ public interface SQL {
 
 	/**
 	 * 执行命令
-	 * <p>
 	 * 
-	 * @param statement
-	 *            命令
+	 * @param statement 命令
 	 * @return Boolean
 	 * @throws java.sql.SQLException
 	 */
-	public Boolean execute(String statement) throws SQLException;
+	public boolean execute(String statement) throws SQLException;
 
 	/**
 	 * 执行命令
-	 * <p>
 	 * 
 	 * @param statement
 	 *            命令
@@ -64,18 +52,16 @@ public interface SQL {
 
 	/**
 	 * 添加数据
-	 * <p>
 	 * 
 	 * @param map
 	 *            数据
 	 * @return Boolean
 	 * @throws SQLException
 	 */
-	public Boolean insert(HashMap<String, String> map) throws SQLException;
+	public boolean insert(HashMap<String, String> map) throws SQLException;
 
 	/**
 	 * 更新符合条件数据
-	 * <p>
 	 * 
 	 * @param condition
 	 *            条件
@@ -90,7 +76,6 @@ public interface SQL {
 
 	/**
 	 * 删除符合条件数据
-	 * <p>
 	 * 
 	 * @param key
 	 *            条件键
@@ -103,7 +88,6 @@ public interface SQL {
 
 	/**
 	 * 获取键中所有符合值
-	 * <p>
 	 * 
 	 * @param condition
 	 *            条件
@@ -116,7 +100,6 @@ public interface SQL {
 
 	/**
 	 * 获取键中所有符合值
-	 * <p>
 	 * 
 	 * @param condition
 	 *            条件
@@ -129,7 +112,6 @@ public interface SQL {
 
 	/**
 	 * 获取键中所有符合值
-	 * <p>
 	 * 
 	 * @param condition
 	 *            条件
@@ -142,7 +124,6 @@ public interface SQL {
 
 	/**
 	 * 获取键中所有符合值
-	 * <p>
 	 * 
 	 * @param condition
 	 *            条件
@@ -155,18 +136,16 @@ public interface SQL {
 
 	/**
 	 * 键是否存在
-	 * <p>
 	 * 
 	 * @param key
 	 *            键
 	 * @return Boolean
 	 * @throws java.sql.SQLException
 	 */
-	public Boolean isKeyExist(String key) throws SQLException;
+	public boolean isKeyExist(String key) throws SQLException;
 
 	/**
 	 * 获取现有键
-	 * <p>
 	 * 
 	 * @return List<String>
 	 * @throws SQLException
@@ -175,7 +154,6 @@ public interface SQL {
 
 	/**
 	 * 键是否拥有值
-	 * <p>
 	 * 
 	 * @param key
 	 *            键
@@ -184,11 +162,10 @@ public interface SQL {
 	 * @return Boolean
 	 * @throws SQLException
 	 */
-	public Boolean isKeyHasValue(String key, String value) throws SQLException;
+	public boolean isKeyHasValue(String key, String value) throws SQLException;
 
 	/**
 	 * 获取键信息
-	 * <p>
 	 * 
 	 * @param key
 	 *            键

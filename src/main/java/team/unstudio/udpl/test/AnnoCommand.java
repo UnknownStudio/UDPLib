@@ -1,7 +1,5 @@
 package team.unstudio.udpl.test;
 
-import net.minecraft.server.v1_11_R1.NBTTagCompound;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -48,21 +46,4 @@ public final class AnnoCommand {
 		target.getInventory().addItem(item);
 		return true;
 	}
-
-	@Command(value = "getnbt", senders = Player.class)
-    public void getNbt(CommandSender sender) {
-        Player player = (Player)sender;
-        NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setBoolean("Boolean", false);
-        tagCompound.setByte("Byte", (byte)3);
-        byte a[] = {(byte)1, (byte)2, (byte)5};
-        tagCompound.setByteArray("ByteArray", a);
-        tagCompound.setString("String", "测试");
-        tagCompound.setDouble("Double", 1.01);
-        tagCompound.setFloat("Float", (float) 2.01);
-        tagCompound.setInt("Int", 1);
-        tagCompound.setLong("Long", 11);
-        tagCompound.setShort("Short", (short) 13);
-        player.sendRawMessage(ChatColor.GREEN + tagCompound.toString());
-    }
 }
