@@ -2,6 +2,7 @@ package team.unstudio.udpl.api.command.anno;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -17,12 +18,12 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	private final String name;
 	private final List<CommandWrapper> wrappers = new ArrayList<>();
 	
-	private String noPermissionMessage = "";
-	private String noEnoughParameterMessage = "";
-	private String wrongSenderMessage = "";
-	private String errorParameterMessage = "";
-	private String unknownCommandMessage = "";
-	private String runCommandFailureMessage = "";
+	private String noPermissionMessage = "没有足够的权限";
+	private String noEnoughParameterMessage = "参数不足";
+	private String wrongSenderMessage = "错误的指令执行者";
+	private String errorParameterMessage = "参数错误";
+	private String unknownCommandMessage = "未知的指令";
+	private String runCommandFailureMessage = "指令执行失败";
 	
 	/**
 	 * 创建指令管理者
@@ -40,37 +41,37 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		List<CommandWrapper> tsubs = wrappers;
 		while(!tsubs.isEmpty()&&i<args.length){
 			for(CommandWrapper s:tsubs){
-				if(s.getNode().equalsIgnoreCase(args[i])){
-					i++;
-					tsubs = s.getChildren();
-					if(tsubs.isEmpty()){
-						String targs[] = new String[args.length-i];
-						for(int j=0;j<targs.length;j++)targs[j]=args[i+j];
-						switch (s.onCommand(sender, targs)) {
-						case ErrorParameter:
-							onErrorParameter(sender, command, label, args, s);
-							break;
-						case NoEnoughParameter:
-							onNoEnoughParameter(sender, command, label, args, s);
-							break;
-						case NoPermission:
-							onNoPermission(sender, command, label, args, s);
-							break;
-						case WrongSender:
-							onWrongSender(sender, command, label, args, s);
-							break;
-						case Failure:
-							onRunCommandFailure(sender, command, label, args, s);
-							break;
-						case Success:
-							break;
-						default:
-							break;
-						}
-						return true;
+				if(!s.getNode().equalsIgnoreCase(args[i]))
+					continue;
+				
+				i++;
+				tsubs = s.getChildren();
+				
+				if (tsubs.isEmpty()) {	
+					switch (s.onCommand(sender, Arrays.copyOfRange(args, i, args.length))) {
+					case ErrorParameter:
+						onErrorParameter(sender, command, label, args, s);
+						break;
+					case NoEnoughParameter:
+						onNoEnoughParameter(sender, command, label, args, s);
+						break;
+					case NoPermission:
+						onNoPermission(sender, command, label, args, s);
+						break;
+					case WrongSender:
+						onWrongSender(sender, command, label, args, s);
+						break;
+					case Failure:
+						onRunCommandFailure(sender, command, label, args, s);
+						break;
+					case Success:
+						break;
+					default:
+						break;
 					}
-					break;
+					return true;
 				}
+				break;
 			}
 		}
 		onUnknownCommand(sender, command, label, args);
@@ -84,9 +85,9 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 */
 	public AnnoCommandManager addCommand(Object object){
 		for(Method method:object.getClass().getDeclaredMethods()){
-			if(method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class)==null) continue;
-			
 			team.unstudio.udpl.api.command.anno.Command anno = method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class);
+			
+			if(anno==null) continue;
 			
 			CommandWrapper wrapper = getCommandWrapper(anno.value());
 			wrapper.setMethod(object, method);
@@ -237,9 +238,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 				}
 			}
 		}
-		if(!tsubs.isEmpty())for(CommandWrapper s:tsubs)if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))list.add(s.getNode());
+		if(!tsubs.isEmpty())
+			for(CommandWrapper s:tsubs)
+				if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))
+					list.add(s.getNode());
 		
-		if(list.isEmpty())for(Player player:Bukkit.getOnlinePlayers())if(player.getName().startsWith(args[0]))list.add(player.getName());
+		if(list.isEmpty())
+			for(Player player:Bukkit.getOnlinePlayers())
+				if(player.getName().startsWith(args[0]))
+					list.add(player.getName());
 		return list;
 	}
 }
