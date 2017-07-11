@@ -99,35 +99,8 @@ public abstract class CommandNode {
 		if (getParameterTypes().length > args.length) return CommandResult.NoEnoughParameter;
 
 		Object[] objs = new Object[args.length];
-		for (int i = 0; i < args.length; i++) {
-			try {
-				String s = args[i];
-				if (i < getParameterTypes().length) {
-					Class<?> clazz = getParameterTypes()[i];
-					if (clazz.equals(String.class))
-						objs[i] = s;
-					else if (clazz.equals(int.class) || clazz.equals(Integer.class))
-						objs[i] = Integer.parseInt(s);
-					else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
-						objs[i] = Boolean.parseBoolean(s);
-					else if (clazz.equals(float.class) || clazz.equals(Float.class))
-						objs[i] = Float.parseFloat(s);
-					else if (clazz.equals(double.class) || clazz.equals(Double.class))
-						objs[i] = Double.parseDouble(s);
-					else if (clazz.equals(long.class) || clazz.equals(Long.class))
-						objs[i] = Long.parseLong(s);
-					else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
-						objs[i] = Byte.parseByte(s);
-					else if (clazz.equals(short.class) || clazz.equals(Short.class))
-						objs[i] = Short.parseShort(s);
-					else
-						objs[i] = s;
-				} else
-					objs[i] = s;
-			} catch (Exception e) {
-				return CommandResult.ErrorParameter;
-			}
-		}
+		
+		if(!parseParameter(args,objs)) return CommandResult.ErrorParameter;
 		
 		if(!onCommand(sender, objs)) return CommandResult.Failure;
 		else return CommandResult.Success;
@@ -139,5 +112,37 @@ public abstract class CommandNode {
 		List<String> list = new ArrayList<>();
 		for(Player player:Bukkit.getOnlinePlayers())if(player.getName().startsWith(args[0]))list.add(player.getName());
 		return list;
+	}
+	private boolean parseParameter(String[] args,Object[] parameter) {
+		for (int i = 0; i < args.length; i++) {
+			try {
+				String s = args[i];
+				if (i < getParameterTypes().length) {
+					Class<?> clazz = getParameterTypes()[i];
+					if (clazz.equals(String.class))
+						parameter[i] = s;
+					else if (clazz.equals(int.class) || clazz.equals(Integer.class))
+						parameter[i] = Integer.parseInt(s);
+					else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
+						parameter[i] = Boolean.parseBoolean(s);
+					else if (clazz.equals(float.class) || clazz.equals(Float.class))
+						parameter[i] = Float.parseFloat(s);
+					else if (clazz.equals(double.class) || clazz.equals(Double.class))
+						parameter[i] = Double.parseDouble(s);
+					else if (clazz.equals(long.class) || clazz.equals(Long.class))
+						parameter[i] = Long.parseLong(s);
+					else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
+						parameter[i] = Byte.parseByte(s);
+					else if (clazz.equals(short.class) || clazz.equals(Short.class))
+						parameter[i] = Short.parseShort(s);
+					else
+						parameter[i] = s;
+				} else
+					parameter[i] = s;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
