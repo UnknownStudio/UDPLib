@@ -34,10 +34,10 @@ public class I18n {
 		if(file.exists())
 			cache = YamlConfiguration.loadConfiguration(file);
 		else
-			loadDefualt();
+			loadDefault();
 	}
 	
-	private void loadDefualt(){
+	private void loadDefault(){
 		File defaultFile = new File(path, "en_US.yml");
 		if(defaultFile.exists())
 			cache = YamlConfiguration.loadConfiguration(defaultFile);
