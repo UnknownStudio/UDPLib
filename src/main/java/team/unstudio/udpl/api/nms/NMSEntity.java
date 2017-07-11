@@ -1,14 +1,14 @@
 package team.unstudio.udpl.api.nms;
 
-import java.util.Map;
-
 import org.bukkit.entity.Entity;
+
+import team.unstudio.udpl.api.nbt.NBTTagCompound;
 
 public interface NMSEntity {
 
 	public Entity getEntity();
 	
-	public Map<String, Object> getNBT() throws Exception;
+	public NBTTagCompound getNBT() throws Exception;
 
-	public NMSEntity setNBT(Map<String, Object> map) throws Exception;
+	public NMSEntity setNBT(NBTTagCompound nbt) throws Exception;
 }

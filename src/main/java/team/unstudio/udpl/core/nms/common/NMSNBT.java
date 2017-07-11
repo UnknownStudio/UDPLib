@@ -23,7 +23,7 @@ public class NMSNBT implements team.unstudio.udpl.api.nms.NMSNBT{
 		field.setAccessible(true);
 		Map<String, Object> nmap = (Map<String, Object>) field.get(nbt);
 		for (String key : nmap.keySet()) {
-			map.put(key, toObject(nmap.get(key)));
+			map.put(key, toNBTBase(nmap.get(key)));
 		}
 		return map;
 	}
@@ -39,7 +39,7 @@ public class NMSNBT implements team.unstudio.udpl.api.nms.NMSNBT{
 		field.setAccessible(true);
 		List<Object> nlist = (List<Object>) field.get(nbt);
 		for (Object base : nlist) {
-			list.add(toObject(base));
+			list.add(toNBTBase(base));
 		}
 		return list;
 	}
@@ -153,7 +153,7 @@ public class NMSNBT implements team.unstudio.udpl.api.nms.NMSNBT{
 	}
 
 	@Override
-	public Object toObject(Object nbt) throws Exception {
+	public Object toNBTBase(Object nbt) throws Exception {
 		if (!ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("NBTBase").equals(nbt.getClass())) {
 			throw new RuntimeException("Type isn't NBTBase");
 		}
