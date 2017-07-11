@@ -46,4 +46,14 @@ public final class AnnoCommand {
 		target.getInventory().addItem(item);
 		return true;
 	}
+	
+	@Command(value = {},senders = Player.class)
+	public boolean tpa(Player sender,@Required Player target){
+		if(target==null||!target.isOnline())
+			return false;
+		
+		sender.teleport(target);
+		
+		return true;
+	}
 }

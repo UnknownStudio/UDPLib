@@ -95,13 +95,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 */
 	public AnnoCommandManager addCommand(Object object){
 		for(Method method:object.getClass().getDeclaredMethods()){
-			team.unstudio.udpl.api.command.anno.Command anno = method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class);
+			team.unstudio.udpl.api.command.anno.Command annoCommand = method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class);
 			
-			if(anno==null) 
+			if(annoCommand==null) 
 				continue;
 			
-			CommandWrapper wrapper = getCommandWrapper(anno.value());
-			wrapper.setMethod(object, method);
+			getCommandWrapper(annoCommand.value()).setMethod(object, method);
+
+			for(Alias annoAlias:method.getAnnotationsByType(Alias.class))
+				getCommandWrapper(annoAlias.value()).setMethod(object, method);
 		}
 		return this;
 	}
