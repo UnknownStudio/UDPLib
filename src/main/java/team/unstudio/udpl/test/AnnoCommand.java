@@ -6,6 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import team.unstudio.udpl.api.command.anno.Alias;
 import team.unstudio.udpl.api.command.anno.Command;
 import team.unstudio.udpl.api.command.anno.Optional;
 import team.unstudio.udpl.api.command.anno.Required;
@@ -48,6 +49,8 @@ public final class AnnoCommand {
 	}
 	
 	@Command(value = {},senders = Player.class)
+	@Alias({"tpa"})
+	@Alias({"teleport"})
 	public boolean tpa(Player sender,@Required Player target){
 		if(target==null||!target.isOnline())
 			return false;
