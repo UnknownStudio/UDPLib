@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -42,6 +43,13 @@ public class ItemBuilder {
 		return this;
 	}
 	
+	public ItemBuilder setLocalizedName(String name){
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.setLocalizedName(name);
+		itemStack.setItemMeta(meta);
+		return this;
+	}
+	
 	public ItemBuilder addLore(String ...lore){
 		ItemMeta meta = itemStack.getItemMeta();
 		ArrayList<String> lores = new ArrayList<>(meta.getLore());
@@ -70,7 +78,21 @@ public class ItemBuilder {
 		return this;
 	}
 	
-	public ItemStack getItemStack(){
-		return itemStack;
+	public ItemBuilder addFlag(ItemFlag... flags) {
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.addItemFlags(flags);
+		itemStack.setItemMeta(meta);
+		return this;
+	}
+	
+	public ItemBuilder setUnbreakable(boolean value){
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.setUnbreakable(value);
+		itemStack.setItemMeta(meta);
+		return this;
+	}
+	
+	public ItemStack build(){
+		return itemStack.clone();
 	}
 }
