@@ -17,6 +17,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	private final JavaPlugin plugin;
 	private final String name;
 	private final List<CommandWrapper> wrappers = new ArrayList<>();
+	private CommandWrapper defaultCommand;
 	
 	private String noPermissionMessage = "没有足够的权限";
 	private String noEnoughParameterMessage = "参数不足";
@@ -37,38 +38,23 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(args.length==0&&defaultCommand!=null){
+			handleCommand(defaultCommand, sender, command, label, args);
+			return true;
+		}
+		
 		int i=0;
-		List<CommandWrapper> tsubs = wrappers;
-		while(!tsubs.isEmpty()&&i<args.length){
-			for(CommandWrapper s:tsubs){
-				if(!s.getNode().equalsIgnoreCase(args[i]))
+		List<CommandWrapper> subWrappers = wrappers;
+		while(!subWrappers.isEmpty()&&i<args.length){
+			for(CommandWrapper wrapper:subWrappers){
+				if(!wrapper.getNode().equalsIgnoreCase(args[i]))
 					continue;
 				
 				i++;
-				tsubs = s.getChildren();
+				subWrappers = wrapper.getChildren();
 				
-				if (tsubs.isEmpty()) {	
-					switch (s.onCommand(sender, Arrays.copyOfRange(args, i, args.length))) {
-					case ErrorParameter:
-						onErrorParameter(sender, command, label, args, s);
-						break;
-					case NoEnoughParameter:
-						onNoEnoughParameter(sender, command, label, args, s);
-						break;
-					case NoPermission:
-						onNoPermission(sender, command, label, args, s);
-						break;
-					case WrongSender:
-						onWrongSender(sender, command, label, args, s);
-						break;
-					case Failure:
-						onRunCommandFailure(sender, command, label, args, s);
-						break;
-					case Success:
-						break;
-					default:
-						break;
-					}
+				if (subWrappers.isEmpty()) {
+					handleCommand(wrapper, sender, command, label ,Arrays.copyOfRange(args, i, args.length));
 					return true;
 				}
 				break;
@@ -76,6 +62,30 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		onUnknownCommand(sender, command, label, args);
 		return true;
+	}
+	
+	private void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
+		switch (wrapper.onCommand(sender, args)) {
+		case ErrorParameter:
+			onErrorParameter(sender, command, label, args, wrapper);
+			break;
+		case NoEnoughParameter:
+			onNoEnoughParameter(sender, command, label, args, wrapper);
+			break;
+		case NoPermission:
+			onNoPermission(sender, command, label, args, wrapper);
+			break;
+		case WrongSender:
+			onWrongSender(sender, command, label, args, wrapper);
+			break;
+		case Failure:
+			onRunCommandFailure(sender, command, label, args, wrapper);
+			break;
+		case Success:
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -87,7 +97,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		for(Method method:object.getClass().getDeclaredMethods()){
 			team.unstudio.udpl.api.command.anno.Command anno = method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class);
 			
-			if(anno==null) continue;
+			if(anno==null) 
+				continue;
 			
 			CommandWrapper wrapper = getCommandWrapper(anno.value());
 			wrapper.setMethod(object, method);
@@ -97,9 +108,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	public CommandWrapper getCommandWrapper(String args[]){
 		if(args.length==0){
-			for(CommandWrapper w:wrappers) if(w.getNode().equalsIgnoreCase("")) return w;
-			CommandWrapper wrapper = new CommandWrapper("");
-			wrappers.add(wrapper);
+			for(CommandWrapper w:wrappers) 
+				if(w.getNode()==null) 
+					return w;
+			CommandWrapper wrapper = new CommandWrapper(null);
+			defaultCommand = wrapper;
 			return wrapper;
 		}else{
 			CommandWrapper w = null;
@@ -110,10 +123,12 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 				w = new CommandWrapper(args[0]);
 				wrappers.add(w);
 			}
-			w: for(int i=1;i<args.length;i++){
-				for(CommandWrapper w1:w.getChildren()) if(w.getNode().equalsIgnoreCase(args[i])){
-					w=w1;
-					continue w;
+			w: for (int i = 1; i < args.length; i++) {
+				for (CommandWrapper w1 : w.getChildren()) {
+					if (w.getNode().equalsIgnoreCase(args[i])) {
+						w = w1;
+						continue w;
+					}
 				}
 				CommandWrapper w2 = new CommandWrapper(args[i]);
 				w.getChildren().add(w2);
