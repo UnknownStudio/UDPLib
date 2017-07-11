@@ -108,9 +108,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	public CommandWrapper getCommandWrapper(String args[]){
 		if(args.length==0){
-			for(CommandWrapper w:wrappers) 
-				if(w.getNode()==null) 
-					return w;
+			if(defaultCommand!=null) 
+				return defaultCommand;
 			CommandWrapper wrapper = new CommandWrapper(null);
 			defaultCommand = wrapper;
 			return wrapper;
