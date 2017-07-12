@@ -20,14 +20,18 @@ public final class AreaListener implements Listener{
 	
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onPlayerMove(PlayerMoveEvent event){
-		Player player =event.getPlayer();
+		Player player = event.getPlayer();
 		Location to = event.getTo();
 		Area oldArea = playerArea.get(player);
 		Area newArea = AreaManager.getAreaManager(to.getWorld()).getArea(to);
-		if((oldArea==null&&newArea!=null)||!oldArea.equals(newArea)) {
-			if(oldArea!=null)Bukkit.getPluginManager().callEvent(new PlayerLeaveAreaEvent(oldArea,player));
+		if(oldArea!=newArea) {
+			if(oldArea!=null)
+				Bukkit.getPluginManager().callEvent(new PlayerLeaveAreaEvent(oldArea,player));
+			
 			playerArea.put(player, newArea);
-			if(newArea!=null)Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea,player));
+			
+			if(newArea!=null)
+				Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea,player));
 		}
 	}
 }
