@@ -28,6 +28,14 @@ public final class ClassMapping {
 		}
 	}
 	
+	public boolean containObf(String obf){
+		return obfToDeobf.containsKey(obf);
+	}
+	
+	public boolean containDeobf(String deobf){
+		return deobfToObf.containsKey(deobf);
+	}
+	
 	public String getDeobf(String obf){
 		return obfToDeobf.get(obf);
 	}

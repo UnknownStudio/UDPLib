@@ -33,6 +33,20 @@ public final class MemberMapping {
 		}
 	}
 	
+	public boolean containObf(String className,String obf){
+		if(!obfToDeobf.containsKey(className))
+			return false;
+		
+		return obfToDeobf.get(className).containsKey(obf);
+	}
+	
+	public boolean containDeobf(String className,String deobf){
+		if(!deobfToObf.containsKey(className))
+			return false;
+		
+		return deobfToObf.get(className).containsKey(deobf);
+	}
+	
 	public String getDeobf(String className,String obf){
 		if(!obfToDeobf.containsKey(className))
 			return "";
