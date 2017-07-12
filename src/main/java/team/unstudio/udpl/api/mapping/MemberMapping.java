@@ -53,10 +53,18 @@ public final class MemberMapping {
 		return obfToDeobf.get(className).get(obf);
 	}
 	
+	public String getDeobf(String className,String obf,String def){
+		return containObf(className, obf)?getDeobf(className, obf):def;
+	}
+	
 	public String getObf(String className,String deobf){
 		if(!deobfToObf.containsKey(className))
 			return "";
 		return deobfToObf.get(className).get(deobf);
+	}
+	
+	public String getObf(String className,String deobf,String def){
+		return containDeobf(className, deobf)?getObf(className, deobf):def;
 	}
 
 }

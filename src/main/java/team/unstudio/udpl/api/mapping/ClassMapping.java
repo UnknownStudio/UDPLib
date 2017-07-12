@@ -40,7 +40,15 @@ public final class ClassMapping {
 		return obfToDeobf.get(obf);
 	}
 	
+	public String getDeobf(String obf,String def){
+		return obfToDeobf.containsKey(obf)?obfToDeobf.get(obf):def;
+	}
+	
 	public String getObf(String deobf){
 		return deobfToObf.get(deobf);
+	}
+	
+	public String getObf(String deobf,String def){
+		return deobfToObf.containsKey(deobf)?deobfToObf.get(deobf):def;
 	}
 }
