@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.sql.sqlite;
+package team.unstudio.udpl.api.database.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,16 +8,55 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import team.unstudio.udpl.api.sql.Column;
-import team.unstudio.udpl.api.sql.SQL;
+import team.unstudio.udpl.api.database.Column;
+import team.unstudio.udpl.api.database.SQL;
 
-public class SQLite implements SQL {
+/**
+ * MySql支持类 直接面向MySql的操作，以后更改为HashMap读写
+ */
+public class MySQL implements SQL {
 
-	private final Connection connection;
+	private String schema;
 	private String table;
+	private final Connection connection;
 
-	public SQLite(Connection connection) throws SQLException {
+	public MySQL(Connection connection){
 		this.connection = connection;
+	}
+
+	/**
+	 * 设置数据库
+	 * <p>
+	 * 
+	 * @param schema
+	 *            数据库
+	 * @throws java.sql.SQLException
+	 */
+	public void setSchema(String schema) throws SQLException {
+		if (!connection.isClosed()) {
+			this.schema = schema;
+		} else {
+			this.schema = null;
+		}
+	}
+
+	/**
+	 * 是否拥有schema
+	 * <p>
+	 * 
+	 * @return Boolean
+	 * @throws SQLException
+	 */
+	public boolean hasSchema() throws SQLException {
+		int i = 0;
+		PreparedStatement sql = this.connection.prepareStatement("SHOW Schemas Like '" + this.schema + "';");
+		ResultSet result = sql.executeQuery();
+
+		while (result.next()) {
+			i += 1;
+		}
+
+		return i > 0;
 	}
 
 	/**
@@ -46,7 +85,8 @@ public class SQLite implements SQL {
 	public boolean hasTable() throws SQLException {
 		if (!this.connection.isClosed()) {
 			try {
-				PreparedStatement sql = this.connection.prepareStatement("SELECT * FROM " + this.table + ";");
+				PreparedStatement sql = this.connection
+						.prepareStatement("SELECT * FROM " + this.schema + "." + this.table + ";");
 
 				return sql.execute();
 			} catch (SQLException ex) {
@@ -58,6 +98,16 @@ public class SQLite implements SQL {
 	}
 
 	/**
+	 * 获取数据库
+	 * <p>
+	 * 
+	 * @return String
+	 */
+	public String getSchema() {
+		return this.schema;
+	}
+
+	/**
 	 * 获取表格
 	 * <p>
 	 * 
@@ -65,6 +115,32 @@ public class SQLite implements SQL {
 	 */
 	public String getTable() {
 		return this.table;
+	}
+
+	@Override
+	public boolean isConnected() throws SQLException {
+		return !this.connection.isClosed();
+	}
+
+	@Override
+	public synchronized void disconnect() throws SQLException {
+		if (!this.connection.isClosed()) {
+			this.connection.close();
+		}
+	}
+
+	/**
+	 * 创建数据库
+	 * <p>
+	 * 
+	 * @param name
+	 *            数据库名称
+	 * @return Boolean
+	 * @throws SQLException
+	 */
+	public synchronized boolean createSchema(String name) throws SQLException {
+		PreparedStatement sql = this.connection.prepareStatement("create database " + name);
+		return sql.execute();
 	}
 
 	/**
@@ -80,34 +156,24 @@ public class SQLite implements SQL {
 	 */
 	public synchronized boolean createTable(String table, Column[] slots) throws SQLException {
 		if (this.isConnected()) {
-			StringBuilder sb = new StringBuilder();
+			if (this.schema != null) {
+				StringBuilder sb = new StringBuilder();
 
-			for (int i = 0; i < slots.length; i++) {
-				Column slot = slots[i];
-				sb.append(slot.toSQLCommand());
-				if (i < slots.length - 1) {
-					sb.append(", ");
+				for (int i = 0; i < slots.length; i++) {
+					Column slot = slots[i];
+					sb.append(slot.toSQLCommand());
+					if (i < slots.length - 1) {
+						sb.append(", ");
+					}
 				}
-			}
 
-			PreparedStatement sql = this.connection
-					.prepareStatement("CREATE TABLE IF NOT EXISTS " + this.table + " (" + sb.toString() + ");");
-			return sql.execute();
+				PreparedStatement sql = this.connection
+						.prepareStatement("CREATE TABLE " + this.schema + "." + table + "(" + sb.toString() + ");");
+				return sql.execute();
+			}
 		}
 
 		return false;
-	}
-
-	@Override
-	public boolean isConnected() throws SQLException {
-		return !this.connection.isClosed();
-	}
-
-	@Override
-	public synchronized void disconnect() throws SQLException {
-		if (!this.connection.isClosed()) {
-			this.connection.close();
-		}
 	}
 
 	@Override
@@ -177,9 +243,9 @@ public class SQLite implements SQL {
 	@Override
 	public synchronized int update(String condition, String key, String value) throws SQLException {
 		if (this.isConnected()) {
-			if (this.getTable() != null) {
-				PreparedStatement sql = this.connection.prepareStatement(
-						"Update " + this.table + " SET " + key + "='" + value + "' WHERE " + condition + ";");
+			if (this.getSchema() != null && this.getTable() != null) {
+				PreparedStatement sql = this.connection.prepareStatement("Update " + this.schema + "." + this.table
+						+ " SET " + key + "='" + value + "' WHERE " + condition + ";");
 				return sql.executeUpdate();
 			}
 		}
@@ -190,9 +256,9 @@ public class SQLite implements SQL {
 	@Override
 	public synchronized int delete(String key, String value) throws SQLException {
 		if (this.isConnected()) {
-			if (this.getTable() != null) {
-				PreparedStatement sql = this.connection
-						.prepareStatement("DELETE FROM " + this.table + " WHERE " + key + " ='" + value + "';");
+			if (this.getSchema() != null && this.getTable() != null) {
+				PreparedStatement sql = this.connection.prepareStatement(
+						"DELETE FROM " + this.schema + "." + this.table + " WHERE " + key + " ='" + value + "';");
 				return sql.executeUpdate();
 			}
 		}
@@ -307,6 +373,6 @@ public class SQLite implements SQL {
 
 	@Override
 	public String getDatabaseName() {
-		return "sqlite";
+		return "mysql";
 	}
 }

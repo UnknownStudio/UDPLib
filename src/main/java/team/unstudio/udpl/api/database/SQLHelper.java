@@ -1,9 +1,10 @@
-package team.unstudio.udpl.api.sql;
+package team.unstudio.udpl.api.database;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import team.unstudio.udpl.api.sql.mysql.MySQL;
-import team.unstudio.udpl.api.sql.sqlite.SQLite;
+
+import team.unstudio.udpl.api.database.mysql.MySQL;
+import team.unstudio.udpl.api.database.sqlite.SQLite;
 
 public interface SQLHelper {
 

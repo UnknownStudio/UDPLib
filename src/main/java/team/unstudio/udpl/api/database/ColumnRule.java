@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.sql;
+package team.unstudio.udpl.api.database;
 
 public enum ColumnRule {
 	/**
