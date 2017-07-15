@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.common;
+package team.unstudio.udpl.api.util;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;

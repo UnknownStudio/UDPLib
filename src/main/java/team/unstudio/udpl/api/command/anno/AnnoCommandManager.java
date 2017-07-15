@@ -245,15 +245,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 				if(s.getNode().equalsIgnoreCase(args[i])){
 					i++;
 					tsubs = s.getChildren();
-					if(tsubs.isEmpty()){
-						String targs[] = new String[args.length-i];
-						for(int j=0;j<targs.length;j++)targs[j]=args[j+i];
-						list.addAll(s.onTabComplete(args));
-					}
+					if(!tsubs.isEmpty())
+						continue;
+					
+					list.addAll(s.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
 					break;
 				}
 			}
 		}
+		
 		if(!tsubs.isEmpty())
 			for(CommandWrapper s:tsubs)
 				if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))
