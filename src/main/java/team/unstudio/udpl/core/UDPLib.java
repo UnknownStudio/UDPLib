@@ -10,10 +10,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpl.api.area.Area;
-import team.unstudio.udpl.api.area.AreaListener;
 import team.unstudio.udpl.api.area.AreaManager;
 import team.unstudio.udpl.api.command.tree.CommandNode;
 import team.unstudio.udpl.api.command.tree.TreeCommandManager;
+import team.unstudio.udpl.core.area.AreaListener;
 import team.unstudio.udpl.test.Test;
 
 public final class UDPLib extends JavaPlugin{

@@ -19,7 +19,7 @@ import team.unstudio.udpl.core.UDPLib;
 
 public final class AreaManager {
 	
-	private static final File AreaPath = new File(UDPLib.getInstance().getDataFolder(), "area");
+	private static final File AREA_PATH = new File(UDPLib.getInstance().getDataFolder(), "area");
 
 	private final World world;
 	private final List<Area> areas = new ArrayList<>();
@@ -30,11 +30,11 @@ public final class AreaManager {
 	}
 	
 	public void addArea(Area area){
-		if(!area.getPoint1().getWorld().equals(world)) throw new IllegalArgumentException("Different world");
+		if(!area.getMinLocation().getWorld().equals(world)) throw new IllegalArgumentException("Different world");
 		Bukkit.getPluginManager().callEvent(new AreaCreateEvent(area));
 		areas.add(area);
-		World world = area.getPoint1().getWorld();
-		Chunk chunk1 = new Chunk(area.getPoint1()), chunk2 = new Chunk(area.getPoint2());
+		World world = area.getMinLocation().getWorld();
+		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
 		for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
 			for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
 				getAreas(new Chunk(world, x, z)).add(area);
@@ -45,11 +45,11 @@ public final class AreaManager {
 	}
 	
 	public void removeArea(Area area){
-		if(!area.getPoint1().getWorld().equals(world)) return;
+		if(!area.getMinLocation().getWorld().equals(world)) return;
 		Bukkit.getPluginManager().callEvent(new AreaRemoveEvent(area));
 		areas.remove(area);
-		World world = area.getPoint1().getWorld();
-		Chunk chunk1 = new Chunk(area.getPoint1()), chunk2 = new Chunk(area.getPoint2());
+		World world = area.getMinLocation().getWorld();
+		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
 		for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
 			for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
 				getAreas(new Chunk(world, x, z)).remove(area);
@@ -76,10 +76,10 @@ public final class AreaManager {
 	
 	public List<Area> getAreas(Area area){
 		List<Area> areas = new ArrayList<>();
-		if(!area.getPoint1().getWorld().equals(world)) return areas;
+		if(!area.getMinLocation().getWorld().equals(world)) return areas;
 		
-		World world = area.getPoint1().getWorld();
-		Chunk chunk1 = new Chunk(area.getPoint1()), chunk2 = new Chunk(area.getPoint2());
+		World world = area.getMinLocation().getWorld();
+		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
 		for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
 			for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
 				for(Area a:getAreas(new Chunk(world, x, z)))
@@ -89,7 +89,7 @@ public final class AreaManager {
 	
 	public void save(){
 		try {
-			File configPath = new File(AreaPath, world.getName()+".yml");
+			File configPath = new File(AREA_PATH, world.getName()+".yml");
 			FileConfiguration config = Utils.loadConfiguration(configPath);
 			config.set(world.getName(), areas);
 			config.save(configPath);
@@ -104,11 +104,11 @@ public final class AreaManager {
 		chunks.clear();
 		
 		try {
-			FileConfiguration config = Utils.loadConfiguration(new File(AreaPath, world.getName()+".yml"));
+			FileConfiguration config = Utils.loadConfiguration(new File(AREA_PATH, world.getName()+".yml"));
 			for(Area area:(List<Area>) config.getList(world.getName(), new ArrayList<>())){
 				areas.add(area);
-				World world = area.getPoint1().getWorld();
-				Chunk chunk1 = new Chunk(area.getPoint1()), chunk2 = new Chunk(area.getPoint2());
+				World world = area.getMinLocation().getWorld();
+				Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
 				for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
 					for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
 						getAreas(new Chunk(world, x, z)).add(area);
@@ -121,7 +121,13 @@ public final class AreaManager {
 	private static final Map<World,AreaManager> managers = new HashMap<>();
 	
 	public static AreaManager getAreaManager(World world){
-		return managers.get(world);
+		if(managers.containsKey(world)){
+			return managers.get(world);
+		}else{
+			AreaManager manager = new AreaManager(world);
+			managers.put(world, manager);
+			return manager;
+		}
 	}
 	
 	public static AreaManager getAreaManager(String world){
@@ -137,7 +143,8 @@ public final class AreaManager {
 	}
 	
 	public static void saveAll(){
-		for(AreaManager a:managers.values()) a.save();
+		for(AreaManager a:managers.values()) 
+			a.save();
 	}
 	
 	public class Chunk{
@@ -164,11 +171,11 @@ public final class AreaManager {
 			
 			Chunk other = (Chunk) obj;
 			
-			if(!other.world.equals(world)) return false;
+			if(!world.equals(other.world)) return false;
 			
-			if(other.chunkX != chunkX) return false;
+			if(chunkX != other.chunkX) return false;
 			
-			if(other.chunkZ != chunkZ) return false;
+			if(chunkZ != other.chunkZ) return false;
 			
 			return true;
 		}

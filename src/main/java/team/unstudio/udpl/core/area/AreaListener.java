@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.area;
+package team.unstudio.udpl.core.area;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import team.unstudio.udpl.api.area.Area;
+import team.unstudio.udpl.api.area.AreaManager;
 import team.unstudio.udpl.api.area.event.PlayerEnterAreaEvent;
 import team.unstudio.udpl.api.area.event.PlayerLeaveAreaEvent;
 

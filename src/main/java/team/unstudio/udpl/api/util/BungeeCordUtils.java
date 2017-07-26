@@ -273,6 +273,7 @@ public final class BungeeCordUtils {
         @Override
         public Map<String, Object> serialize() {
             Map<String, Object> data = new HashMap();
+            data.put("==", getClass().getName());
             data.put("server", this.server);
             data.put("world", this.world);
             data.put("x", Double.valueOf(this.x));

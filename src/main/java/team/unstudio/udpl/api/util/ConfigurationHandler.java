@@ -19,16 +19,17 @@ public abstract class ConfigurationHandler{
 	public ConfigurationHandler(File file) {
 		this.file = file;
 		loadDefaults();
+		reload();
 	}
 	
 	private void loadDefaults(){
 		defaults.clear();
 		
-		for(Field f:getClass().getDeclaredFields()){
+		for(Field f:this.getClass().getDeclaredFields()){
 			f.setAccessible(true);
 			
-			ConfigItem anno;
-			if((anno=f.getAnnotation(ConfigItem.class))==null) continue;
+			ConfigItem anno=f.getAnnotation(ConfigItem.class);
+			if(anno==null) continue;
 			
 			try {
 				defaults.put(anno.value(),f.get(this));
@@ -48,11 +49,11 @@ public abstract class ConfigurationHandler{
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
-			for(Field f:getClass().getDeclaredFields()){
+			for(Field f:this.getClass().getDeclaredFields()){
 				f.setAccessible(true);
 				
-				ConfigItem anno;
-				if((anno=f.getAnnotation(ConfigItem.class))==null) continue;
+				ConfigItem anno = f.getAnnotation(ConfigItem.class);
+				if(anno==null) continue;
 				
 				try {
 					f.set(this,config.get(anno.value(), defaults.get(anno.value())));
@@ -61,6 +62,7 @@ public abstract class ConfigurationHandler{
 			
 			return true;
 		}catch(IOException e){
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -77,21 +79,24 @@ public abstract class ConfigurationHandler{
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
-			for(Field f:getClass().getDeclaredFields()){
+			for(Field f:this.getClass().getDeclaredFields()){
 				f.setAccessible(true);
 				
-				ConfigItem anno;
-				if((anno=f.getAnnotation(ConfigItem.class))==null) continue;
+				ConfigItem anno = f.getAnnotation(ConfigItem.class);
+				if(anno==null) continue;
 				
 				try {
 					config.set(anno.value(), f.get(this));
-				} catch (IllegalArgumentException | IllegalAccessException e) {}
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					config.set(anno.value(), defaults.get(anno.value()));
+				}
 			}
 			
 			config.save(file);
 			
 			return true;
 		}catch(IOException e){
+			e.printStackTrace();
 			return false;
 		}
 	}
