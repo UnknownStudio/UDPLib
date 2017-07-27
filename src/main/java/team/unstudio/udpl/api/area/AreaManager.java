@@ -134,6 +134,14 @@ public final class AreaManager {
 		return getAreaManager(Bukkit.getWorld(world));
 	}
 	
+	public static void addArea$(Area area){
+		getAreaManager(area.getWorld()).addArea(area);
+	}
+	
+	public static void removeArea$(Area area){
+		getAreaManager(area.getWorld()).removeArea(area);
+	}
+	
 	public static void loadAll(){
 		for(World world:Bukkit.getWorlds()){
 			AreaManager a = new AreaManager(world);

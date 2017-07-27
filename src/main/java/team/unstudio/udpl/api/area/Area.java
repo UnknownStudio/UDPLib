@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 public class Area implements ConfigurationSerializable{
@@ -27,6 +28,10 @@ public class Area implements ConfigurationSerializable{
 		if(z1>z2){t=z1;z1=z2;z2=t;}
 		this.minLocation = new Location(point1.getWorld(), x1, y1, z1);
 		this.maxLocation = new Location(point2.getWorld(), x2, y2, z2);
+	}
+	
+	public final World getWorld(){
+		return minLocation.getWorld();
 	}
 
 	public final Location getMinLocation() {
