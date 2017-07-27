@@ -12,6 +12,5 @@ public enum NBTBaseType {
 	LIST, 
 	LONG, 
 	SHORT, 
-	BOOLEAN, 
 	END;
 }

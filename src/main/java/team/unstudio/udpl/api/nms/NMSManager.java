@@ -12,9 +12,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class NMSManager {
 
-	private static final NMSNBT COMMON_NMSNBT = new team.unstudio.udpl.core.nms.common.NMSNBT();
 	private static final NMSNBT INSTANCE_NMSNBT = loadNMSNBT();
-	private static final NMSPacket COMMON_NMSPACKET = new team.unstudio.udpl.core.nms.common.NMSPacket();
 	private static final NMSPacket INSTANCE_NMSPACKET = loadNMSPacket();
 	
 	private static NMSNBT loadNMSNBT(){
@@ -22,7 +20,7 @@ public class NMSManager {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSNBT();
 		default:
-			return COMMON_NMSNBT;
+			return null;//TODO
 		}
 	}
 	
@@ -31,12 +29,8 @@ public class NMSManager {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSPacket();
 		default:
-			return COMMON_NMSPACKET;
+			return null;//TODO
 		}
-	}
-	
-	public static NMSNBT getNMSNBTCommon(){
-		return COMMON_NMSNBT;
 	}
 	
 	/**
@@ -45,14 +39,6 @@ public class NMSManager {
 	 */
 	public static NMSNBT getNMSNBT(){
 		return INSTANCE_NMSNBT;
-	}
-	
-	/**
-	 * 获取NBT的反射操作类
-	 * @return
-	 */
-	public static NMSPacket getNMSPacketCommon(){
-		return COMMON_NMSPACKET;
 	}
 	
 	/**
@@ -73,7 +59,7 @@ public class NMSManager {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSTileEntity(blockState);
 		default:
-			return new team.unstudio.udpl.core.nms.common.NMSTileEntity(blockState);
+			return null;
 		}
 	}
 	
@@ -87,7 +73,7 @@ public class NMSManager {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSItemStack();
 		default:
-			return new team.unstudio.udpl.core.nms.common.NMSItemStack();
+			return null;
 		}
 	}
 	
@@ -101,7 +87,7 @@ public class NMSManager {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSEntity(entity);
 		default:
-			return new team.unstudio.udpl.core.nms.common.NMSEntity(entity);
+			return null;
 		}
 	}
 	
@@ -115,7 +101,7 @@ public class NMSManager {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSPlayer(player);
 		default:
-			return new team.unstudio.udpl.core.nms.common.NMSPlayer(player);
+			return null;
 		}
 	}
 }

@@ -13,7 +13,14 @@ public final class NBTTagByteArray extends NBTBase {
 	}
 
 	public String toString() {
-		return this.value.toString();
+		StringBuilder builder = new StringBuilder("[");
+		for (int i = 0; i < value.length; ++i) 
+			builder.append(value[i]).append(',');
+		
+		if(builder.charAt(builder.length()-1)==',')
+			builder.deleteCharAt(builder.length()-1);
+		
+		return builder.append(']').toString();
 	}
 
 }

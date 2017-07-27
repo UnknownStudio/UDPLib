@@ -28,11 +28,27 @@ public final class ClassMapping {
 		}
 	}
 	
+	public boolean containObf(String obf){
+		return obfToDeobf.containsKey(obf);
+	}
+	
+	public boolean containDeobf(String deobf){
+		return deobfToObf.containsKey(deobf);
+	}
+	
 	public String getDeobf(String obf){
 		return obfToDeobf.get(obf);
 	}
 	
+	public String getDeobf(String obf,String def){
+		return obfToDeobf.containsKey(obf)?obfToDeobf.get(obf):def;
+	}
+	
 	public String getObf(String deobf){
 		return deobfToObf.get(deobf);
+	}
+	
+	public String getObf(String deobf,String def){
+		return deobfToObf.containsKey(deobf)?deobfToObf.get(deobf):def;
 	}
 }

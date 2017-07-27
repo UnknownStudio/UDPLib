@@ -71,11 +71,6 @@ public final class NBTTagCompound extends NBTBase {
 		return this;
 	}
 
-	public NBTTagCompound setBoolean(String path, boolean value) {
-		this.map.put(path, new NBTTagBoolean(value));
-		return this;
-	}
-
 	public NBTBase get(String path) {
 		return this.map.get(path);
 	}
@@ -182,14 +177,6 @@ public final class NBTTagCompound extends NBTBase {
 		} catch (Exception e) {
 		}
 		return new NBTTagList();
-	}
-
-	public boolean getBoolean(String path) {
-		try {
-			return ((NBTTagBoolean) this.map.get(path)).getValue();
-		} catch (Exception e) {
-		}
-		return false;
 	}
 
 	public NBTTagCompound remove(String path) {

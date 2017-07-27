@@ -1,7 +1,5 @@
 package team.unstudio.udpl.core.nms.v1_11_R1;
 
-import java.util.Map;
-
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
@@ -22,13 +20,13 @@ public class NMSEntity implements team.unstudio.udpl.api.nms.NMSEntity{
 	}
 
 	@Override
-	public Map<String, Object> getNBT() throws Exception {
+	public team.unstudio.udpl.api.nbt.NBTTagCompound getNBT() throws Exception {
 		return NMSManager.getNMSNBT().toMap(((CraftEntity)entity).getHandle().e(new NBTTagCompound()));
 	}
 
 	@Override
-	public team.unstudio.udpl.api.nms.NMSEntity setNBT(Map<String, Object> map) throws Exception {
-		((CraftEntity)entity).getHandle().f((NBTTagCompound)NMSManager.getNMSNBT().toNBT(map));
+	public team.unstudio.udpl.api.nms.NMSEntity setNBT(team.unstudio.udpl.api.nbt.NBTTagCompound nbt) throws Exception {
+		((CraftEntity)entity).getHandle().f((NBTTagCompound)NMSManager.getNMSNBT().toNBT(nbt));
 		return this;
 	}
 

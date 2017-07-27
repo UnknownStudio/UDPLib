@@ -1,14 +1,14 @@
 package team.unstudio.udpl.api.nms;
 
-import java.util.Map;
-
 import org.bukkit.block.BlockState;
+
+import team.unstudio.udpl.api.nbt.NBTTagCompound;
 
 public interface NMSTileEntity {
 
 	public BlockState getBlockState();
 	
-	public Map<String, Object> getNBT() throws Exception;
+	public NBTTagCompound getNBT() throws Exception;
 
-	public NMSTileEntity setNBT(Map<String, Object> map) throws Exception;
+	public NMSTileEntity setNBT(NBTTagCompound nbt) throws Exception;
 }

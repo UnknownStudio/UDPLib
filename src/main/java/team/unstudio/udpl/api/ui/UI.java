@@ -42,7 +42,6 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 打开
 	 * @param player
-	 * @param plugin
 	 */
 	public void open(final HumanEntity player){
 		inventory.clear();

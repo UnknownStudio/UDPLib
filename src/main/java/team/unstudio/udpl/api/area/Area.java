@@ -10,7 +10,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 public class Area implements ConfigurationSerializable{
 	
-	private final Location point1,point2;
+	private final Location minLocation,maxLocation;
 	
 	public Area(Map<String, Object> map) {
 		this((Location)map.get("point1"),(Location)map.get("point2"));
@@ -25,16 +25,16 @@ public class Area implements ConfigurationSerializable{
 		if(x1>x2){t=x1;x1=x2;x2=t;}
 		if(y1>y2){t=y1;y1=y2;y2=t;}
 		if(z1>z2){t=z1;z1=z2;z2=t;}
-		this.point1 = new Location(point1.getWorld(), x1, y1, z1);
-		this.point2 = new Location(point2.getWorld(), x2, y2, z2);
+		this.minLocation = new Location(point1.getWorld(), x1, y1, z1);
+		this.maxLocation = new Location(point2.getWorld(), x2, y2, z2);
 	}
 
-	public final Location getPoint1() {
-		return point1;
+	public final Location getMinLocation() {
+		return minLocation;
 	}
 
-	public final Location getPoint2() {
-		return point2;
+	public final Location getMaxLocation() {
+		return maxLocation;
 	}
 	
 	/**
@@ -42,22 +42,25 @@ public class Area implements ConfigurationSerializable{
 	 * @param location
 	 * @return
 	 */
-	public boolean contain(@Nonnull final Location location){
-		if(!point1.getWorld().equals(location.getWorld()))
+	public boolean contain(final Location location){
+		if(location==null)
 			return false;
 		
-		if(point1.getX()>location.getX())
-			return false;
-		if(point1.getY()>location.getY())
-			return false;
-		if(point1.getZ()>location.getZ())
+		if(!getMinLocation().getWorld().equals(location.getWorld()))
 			return false;
 		
-		if(point2.getX()<location.getX())
+		if(getMinLocation().getX()>location.getX())
 			return false;
-		if(point2.getY()<location.getY())
+		if(getMinLocation().getY()>location.getY())
 			return false;
-		if(point2.getZ()<location.getZ())
+		if(getMinLocation().getZ()>location.getZ())
+			return false;
+		
+		if(getMaxLocation().getX()<location.getX())
+			return false;
+		if(getMaxLocation().getY()<location.getY())
+			return false;
+		if(getMaxLocation().getZ()<location.getZ())
 			return false;
 		
 		return true;
@@ -68,22 +71,25 @@ public class Area implements ConfigurationSerializable{
 	 * @param area
 	 * @return
 	 */
-	public boolean contain(@Nonnull final Area area){
-		if(!point1.getWorld().equals(area.point1.getWorld()))
+	public boolean contain(final Area area){
+		if(area==null)
 			return false;
 		
-		if(point1.getX()>area.point1.getX())
-			return false;
-		if(point1.getY()>area.point1.getY())
-			return false;
-		if(point1.getZ()>area.point1.getZ())
+		if(!getMinLocation().getWorld().equals(area.getMinLocation().getWorld()))
 			return false;
 		
-		if(point2.getX()<area.point2.getX())
+		if(getMinLocation().getX()>area.getMinLocation().getX())
 			return false;
-		if(point2.getY()<area.point2.getY())
+		if(getMinLocation().getY()>area.getMinLocation().getY())
 			return false;
-		if(point2.getZ()<area.point2.getZ())
+		if(getMinLocation().getZ()>area.getMinLocation().getZ())
+			return false;
+		
+		if(getMaxLocation().getX()<area.getMaxLocation().getX())
+			return false;
+		if(getMaxLocation().getY()<area.getMaxLocation().getY())
+			return false;
+		if(getMaxLocation().getZ()<area.getMaxLocation().getZ())
 			return false;
 		
 		return true;
@@ -94,11 +100,20 @@ public class Area implements ConfigurationSerializable{
 	 * @param area
 	 * @return
 	 */
-	public boolean intersect(Area area){
-		if(contain(area.point1))
+	public boolean intersect(final Area area){
+		if(area==null)
+			return false;
+		
+		if(contain(area.getMinLocation()))
 			return true;
 		
-		if(contain(area.point2))
+		if(contain(area.getMaxLocation()))
+			return true;
+		
+		if(area.contain(getMinLocation()))
+			return true;
+		
+		if(area.contain(getMaxLocation()))
 			return true;
 		
 		return false;
@@ -108,8 +123,8 @@ public class Area implements ConfigurationSerializable{
 	public Map<String, Object> serialize() {
 		Map<String, Object> map = new HashMap<>();
 		map.put("==", getClass().getName());
-		map.put("point1", point1);
-		map.put("point2", point2);
+		map.put("point1", getMinLocation());
+		map.put("point2", getMaxLocation());
 		return map;
 	}
 	
@@ -129,15 +144,15 @@ public class Area implements ConfigurationSerializable{
 		
 		Area other = (Area) obj;
 		
-		if(!point1.equals(other.point1)) return false;
+		if(!getMinLocation().equals(other.getMinLocation())) return false;
 		
-		if(!point2.equals(other.point2)) return false;
+		if(!getMaxLocation().equals(other.getMaxLocation())) return false;
 		
 		return true;
 	}
 	
 	@Override
 	public int hashCode() {
-		return point1.hashCode()*37+point2.hashCode();
+		return getMinLocation().hashCode()*37+getMaxLocation().hashCode();
 	}
 }

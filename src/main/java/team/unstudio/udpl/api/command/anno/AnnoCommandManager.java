@@ -95,22 +95,23 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 */
 	public AnnoCommandManager addCommand(Object object){
 		for(Method method:object.getClass().getDeclaredMethods()){
-			team.unstudio.udpl.api.command.anno.Command anno = method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class);
+			team.unstudio.udpl.api.command.anno.Command annoCommand = method.getAnnotation(team.unstudio.udpl.api.command.anno.Command.class);
 			
-			if(anno==null) 
+			if(annoCommand==null) 
 				continue;
 			
-			CommandWrapper wrapper = getCommandWrapper(anno.value());
-			wrapper.setMethod(object, method);
+			getCommandWrapper(annoCommand.value()).setMethod(object, method);
+
+			for(Alias annoAlias:method.getAnnotationsByType(Alias.class))
+				getCommandWrapper(annoAlias.value()).setMethod(object, method);
 		}
 		return this;
 	}
 	
 	public CommandWrapper getCommandWrapper(String args[]){
 		if(args.length==0){
-			for(CommandWrapper w:wrappers) 
-				if(w.getNode()==null) 
-					return w;
+			if(defaultCommand!=null) 
+				return defaultCommand;
 			CommandWrapper wrapper = new CommandWrapper(null);
 			defaultCommand = wrapper;
 			return wrapper;
@@ -244,15 +245,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 				if(s.getNode().equalsIgnoreCase(args[i])){
 					i++;
 					tsubs = s.getChildren();
-					if(tsubs.isEmpty()){
-						String targs[] = new String[args.length-i];
-						for(int j=0;j<targs.length;j++)targs[j]=args[j+i];
-						list.addAll(s.onTabComplete(args));
-					}
+					if(!tsubs.isEmpty())
+						continue;
+					
+					list.addAll(s.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
 					break;
 				}
 			}
 		}
+		
 		if(!tsubs.isEmpty())
 			for(CommandWrapper s:tsubs)
 				if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))

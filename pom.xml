@@ -44,7 +44,7 @@
 			<artifactId>spigot</artifactId>
 			<version>1.11.2-R0.1-SNAPSHOT</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/spigot-1.11.2-R0.1-20170428.003230-1.jar</systemPath>
+			<systemPath>${project.basedir}/libs/spigot.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
