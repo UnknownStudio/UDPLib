@@ -16,6 +16,7 @@ public class Test {
 	private void testConfig(){
 		UDPLib.getInstance().saveResource("test.yml", false);
 		config = new TestConfiguration();
+		config.reload();
 		System.out.println(config.test);
 		config.test = "Loaded plugin.";
 		config.save();

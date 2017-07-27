@@ -24,16 +24,15 @@ public abstract class ConfigurationHandler{
 	public ConfigurationHandler(File file) {
 		this.file = file;
 		loadDefaults();
-		reload();
 	}
 	
 	private void loadDefaults(){
 		defaults.clear();
 		
-		for(Field f:this.getClass().getDeclaredFields()){
+		for(Field f:getClass().getDeclaredFields()){
 			f.setAccessible(true);
 			
-			ConfigItem anno=f.getAnnotation(ConfigItem.class);
+			ConfigItem anno= f.getDeclaredAnnotation(ConfigItem.class);
 			if(anno==null) continue;
 			
 			try {
@@ -56,14 +55,18 @@ public abstract class ConfigurationHandler{
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
-			for(Field f:this.getClass().getDeclaredFields()){
+			for(Field f:getClass().getDeclaredFields()){
 				f.setAccessible(true);
 				
-				ConfigItem anno = f.getAnnotation(ConfigItem.class);
+				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
 				if(anno==null) continue;
 				
 				try {
-					f.set(this,config.get(anno.value(), defaults.get(anno.value())));
+					Object object = config.get(anno.value());
+					if(object!=null)
+						f.set(this,object);
+					else
+						f.set(this,defaults.get(anno.value()));
 				} catch (IllegalArgumentException | IllegalAccessException e) {}
 			}
 			
@@ -86,10 +89,10 @@ public abstract class ConfigurationHandler{
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
-			for(Field f:this.getClass().getDeclaredFields()){
+			for(Field f:getClass().getDeclaredFields()){
 				f.setAccessible(true);
 				
-				ConfigItem anno = f.getAnnotation(ConfigItem.class);
+				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
 				if(anno==null) continue;
 				
 				try {
@@ -115,7 +118,7 @@ public abstract class ConfigurationHandler{
 	 */
 	@Retention(RUNTIME)
 	@Target(FIELD)
-	public @interface ConfigItem{
+	public static @interface ConfigItem{
 		String value();
 	}
 }
