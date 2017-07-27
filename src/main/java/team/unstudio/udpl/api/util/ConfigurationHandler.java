@@ -1,7 +1,12 @@
 package team.unstudio.udpl.api.util;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +48,11 @@ public abstract class ConfigurationHandler{
 	 */
 	public boolean reload(){
 		try{
-			if(!file.getParentFile().exists())file.getParentFile().mkdirs();
+			if(!file.getParentFile().exists())
+				file.getParentFile().mkdirs();
 			
-			if(!file.exists()) file.createNewFile();
+			if(!file.exists()) 
+				file.createNewFile();
 			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			
@@ -106,6 +113,8 @@ public abstract class ConfigurationHandler{
 	 * value为在配置文件中的key
 	 * 可以为注解的配置项设置一个默认值
 	 */
+	@Retention(RUNTIME)
+	@Target(FIELD)
 	public @interface ConfigItem{
 		String value();
 	}
