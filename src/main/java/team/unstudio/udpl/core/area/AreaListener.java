@@ -24,6 +24,8 @@ public final class AreaListener implements Listener{
 	public void onPlayerMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
 		Location to = event.getTo();
+		Location from = event.getFrom();
+		if(!isMove(from,to))return;
 		Area oldArea = playerArea.get(player);
 		Area newArea = AreaManager.getAreaManager(to.getWorld()).getArea(to);
 		if(oldArea!=newArea) {
@@ -35,5 +37,10 @@ public final class AreaListener implements Listener{
 			if(newArea!=null)
 				Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(newArea,player));
 		}
+	}
+	private boolean isMove(Location from,Location to) {
+		if(to.getX()==from.getX()&&to.getY()==from.getY()&&to.getZ()==from.getZ())
+			return false;
+		return true;
 	}
 }
