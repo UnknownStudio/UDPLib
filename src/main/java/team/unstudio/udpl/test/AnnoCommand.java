@@ -68,6 +68,6 @@ public final class AnnoCommand {
 	public void area(Player sender){
 		Area area = new CustomArea(new Location(Bukkit.getWorld("world"), 0, 0, 0), new Location(Bukkit.getWorld("world"), 100, 100, 100),sender);
 		if(AreaManager.getAreaManager(area.getWorld()).getAreas(area).size()==0)
-			AreaManager.addArea$(area);
+			AreaManager.addArea(area);
 	}
 }

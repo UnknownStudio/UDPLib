@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public final class Chunk {
-	public final World world;
-	public final int chunkX,chunkZ;
+	private final World world;
+	private final int chunkX,chunkZ;
 	
 	public Chunk(Location location){
 		world = location.getWorld();
@@ -17,6 +17,18 @@ public final class Chunk {
 		this.world = world;
 		this.chunkX = chunkX;
 		this.chunkZ = chunkZ;
+	}
+	
+	public World getWorld(){
+		return world;
+	}
+	
+	public int getChunkX(){
+		return chunkX;
+	}
+	
+	public int getChunkZ(){
+		return chunkZ;
 	}
 	
 	@Override
@@ -39,5 +51,10 @@ public final class Chunk {
 	@Override
 	public int hashCode() {
 		return chunkX*37+chunkZ;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("{world:%s,chunkx:%s,chunkz:%s}", getWorld().getName(),getChunkX(),getChunkZ());
 	}
 }
