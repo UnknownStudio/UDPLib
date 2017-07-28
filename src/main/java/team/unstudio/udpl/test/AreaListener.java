@@ -10,11 +10,11 @@ public class AreaListener implements Listener{
 
 	@EventHandler
 	public void onEnterArea(PlayerEnterAreaEvent event){
-		System.out.println(event.getPlayer().getName()+" | "+event.getArea().toString());
+		System.out.println("Enter area: "+event.getPlayer().getName()+" | "+event.getArea().toString());
 	}
 	
 	@EventHandler
 	public void onLeaveArea(PlayerLeaveAreaEvent event){
-		System.out.println(event.getPlayer().getName()+" | "+event.getArea().toString());
+		System.out.println("Leave area: "+event.getPlayer().getName()+" | "+event.getArea().toString());
 	}
 }

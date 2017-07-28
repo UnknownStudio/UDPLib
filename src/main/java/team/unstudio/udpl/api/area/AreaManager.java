@@ -59,6 +59,7 @@ public final class AreaManager {
 				getAreas(new Chunk(world, x, z)).remove(area);
 	}
 	
+	@Deprecated
 	public Area getArea(Location location){
 		if(!location.getWorld().equals(world)) 
 			return null;
