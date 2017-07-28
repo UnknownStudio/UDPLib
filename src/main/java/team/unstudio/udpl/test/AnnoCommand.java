@@ -1,11 +1,15 @@
 package team.unstudio.udpl.test;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import team.unstudio.udpl.api.area.Area;
+import team.unstudio.udpl.api.area.AreaManager;
 import team.unstudio.udpl.api.command.anno.Alias;
 import team.unstudio.udpl.api.command.anno.Command;
 import team.unstudio.udpl.api.command.anno.Optional;
@@ -58,5 +62,12 @@ public final class AnnoCommand {
 		sender.teleport(target);
 		
 		return true;
+	}
+	
+	@Command(value = "area",senders = Player.class)
+	public void area(Player sender){
+		Area area = new CustomArea(new Location(Bukkit.getWorld("world"), 0, 0, 0), new Location(Bukkit.getWorld("world"), 100, 100, 100),sender);
+		if(AreaManager.getAreaManager(area.getWorld()).getAreas(area).size()==0)
+			AreaManager.addArea$(area);
 	}
 }

@@ -34,6 +34,8 @@ public final class UDPLib extends JavaPlugin{
 	@Override
 	public void onLoad() {
 		ConfigurationSerialization.registerClass(Area.class);
+		
+		Test.INSTANCE.onLoad();
 	}
 	
 	@Override

@@ -66,7 +66,21 @@ public final class AreaManager {
 		for(Area area:getAreas(new Chunk(location))) 
 			if(area.contain(location)) 
 				return area;
+		
 		return null;
+	}
+	
+	public List<Area> getAreas(Location location){
+		List<Area> areas = new ArrayList<>();
+		
+		if(!location.getWorld().equals(world)) 
+			return areas;
+		
+		for(Area area:getAreas(new Chunk(location))) 
+			if(area.contain(location)) 
+				areas.add(area);
+		
+		return areas;
 	}
 	
 	public List<Area> getAreas(){
