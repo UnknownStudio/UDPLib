@@ -129,4 +129,42 @@ public final class WorldAreaManager {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 22;
+		int result = 1;
+		result = prime * result + ((areas == null) ? 0 : areas.hashCode());
+		result = prime * result + ((chunks == null) ? 0 : chunks.hashCode());
+		result = prime * result + ((world == null) ? 0 : world.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorldAreaManager other = (WorldAreaManager) obj;
+		if (areas == null) {
+			if (other.areas != null)
+				return false;
+		} else if (!areas.equals(other.areas))
+			return false;
+		if (chunks == null) {
+			if (other.chunks != null)
+				return false;
+		} else if (!chunks.equals(other.chunks))
+			return false;
+		if (world == null) {
+			if (other.world != null)
+				return false;
+		} else if (!world.equals(other.world))
+			return false;
+		return true;
+	}
+	
 }
