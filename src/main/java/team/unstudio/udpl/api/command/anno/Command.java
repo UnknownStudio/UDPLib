@@ -38,7 +38,7 @@ public @interface Command {
 	/**
 	 * 指令名
 	 */
-	String[] value();
+	String[] value() default {};
 	/**
 	 * 指令权限
 	 */
@@ -46,7 +46,7 @@ public @interface Command {
 	/**
 	 * 允许的指令发送者
 	 */
-	Class<? extends CommandSender>[] senders() default {};
+	Class<? extends CommandSender>[] senders() default {CommandSender.class};
 	/**
 	 * 指令用法
 	 */
