@@ -160,4 +160,9 @@ public class Area implements ConfigurationSerializable{
 	public int hashCode() {
 		return getMinLocation().hashCode()*37+getMaxLocation().hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString()+" "+getMinLocation().toString()+" "+getMaxLocation().toString();
+	}
 }

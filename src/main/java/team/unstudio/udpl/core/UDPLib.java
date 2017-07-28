@@ -1,7 +1,6 @@
 package team.unstudio.udpl.core;
 
 import java.io.File;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;

@@ -20,10 +20,10 @@ public abstract class ConfigurationHandler{
 
 	private final File file;
 	private final Map<String,Object> defaults = new HashMap<>();
+	private boolean cache = false;
 	
 	public ConfigurationHandler(File file) {
 		this.file = file;
-		loadDefaults();
 	}
 	
 	private void loadDefaults(){
@@ -46,6 +46,11 @@ public abstract class ConfigurationHandler{
 	 * @return
 	 */
 	public boolean reload(){
+		if(!cache){
+			loadDefaults();
+			cache=true;
+		}
+		
 		try{
 			if(!file.getParentFile().exists())
 				file.getParentFile().mkdirs();

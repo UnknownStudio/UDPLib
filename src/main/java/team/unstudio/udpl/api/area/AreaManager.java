@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import team.unstudio.udpl.api.area.event.AreaCreateEvent;
 import team.unstudio.udpl.api.area.event.AreaRemoveEvent;
+import team.unstudio.udpl.api.util.Chunk;
 import team.unstudio.udpl.api.util.Utils;
 import team.unstudio.udpl.core.UDPLib;
 
@@ -30,13 +31,15 @@ public final class AreaManager {
 	}
 	
 	public void addArea(Area area){
-		if(!area.getMinLocation().getWorld().equals(world)) throw new IllegalArgumentException("Different world");
+		if(!area.getMinLocation().getWorld().equals(world)) 
+			throw new IllegalArgumentException("Different world");
+		
 		Bukkit.getPluginManager().callEvent(new AreaCreateEvent(area));
 		areas.add(area);
-		World world = area.getMinLocation().getWorld();
+		World world = area.getWorld();
 		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
-		for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
-			for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
+		for(int x = chunk1.chunkX;x<=chunk2.chunkX;x++)
+			for(int z = chunk1.chunkZ;z<=chunk2.chunkZ;z++)
 				getAreas(new Chunk(world, x, z)).add(area);
 	}
 	
@@ -45,19 +48,24 @@ public final class AreaManager {
 	}
 	
 	public void removeArea(Area area){
-		if(!area.getMinLocation().getWorld().equals(world)) return;
+		if(!area.getMinLocation().getWorld().equals(world)) 
+			return;
 		Bukkit.getPluginManager().callEvent(new AreaRemoveEvent(area));
 		areas.remove(area);
-		World world = area.getMinLocation().getWorld();
+		World world = area.getWorld();
 		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
-		for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
-			for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
+		for(int x = chunk1.chunkX;x<=chunk2.chunkX;x++)
+			for(int z = chunk1.chunkZ;z<=chunk2.chunkZ;z++)
 				getAreas(new Chunk(world, x, z)).remove(area);
 	}
 	
 	public Area getArea(Location location){
-		if(!location.getWorld().equals(world)) return null;
-		for(Area area:getAreas(new Chunk(location))) if(area.contain(location)) return area;
+		if(!location.getWorld().equals(world)) 
+			return null;
+		
+		for(Area area:getAreas(new Chunk(location))) 
+			if(area.contain(location)) 
+				return area;
 		return null;
 	}
 	
@@ -76,12 +84,13 @@ public final class AreaManager {
 	
 	public List<Area> getAreas(Area area){
 		List<Area> areas = new ArrayList<>();
-		if(!area.getMinLocation().getWorld().equals(world)) return areas;
+		if(!area.getMinLocation().getWorld().equals(world)) 
+			return areas;
 		
-		World world = area.getMinLocation().getWorld();
+		World world = area.getWorld();
 		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
-		for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
-			for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
+		for(int x = chunk1.chunkX;x<=chunk2.chunkX;x++)
+			for(int z = chunk1.chunkZ;z<=chunk2.chunkZ;z++)
 				for(Area a:getAreas(new Chunk(world, x, z)))
 					if(area.intersect(a)) areas.add(a);
 		return areas;
@@ -107,10 +116,10 @@ public final class AreaManager {
 			FileConfiguration config = Utils.loadConfiguration(new File(AREA_PATH, world.getName()+".yml"));
 			for(Area area:(List<Area>) config.getList(world.getName(), new ArrayList<>())){
 				areas.add(area);
-				World world = area.getMinLocation().getWorld();
+				World world = area.getWorld();
 				Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
-				for(int x = chunk2.chunkX;x<=chunk1.chunkX;x++)
-					for(int z = chunk2.chunkZ;z<=chunk1.chunkZ;z++)
+				for(int x = chunk1.chunkX;x<=chunk2.chunkX;x++)
+					for(int z = chunk1.chunkZ;z<=chunk2.chunkZ;z++)
 						getAreas(new Chunk(world, x, z)).add(area);
 			}
 		} catch (IOException e) {
@@ -153,44 +162,5 @@ public final class AreaManager {
 	public static void saveAll(){
 		for(AreaManager a:managers.values()) 
 			a.save();
-	}
-	
-	public class Chunk{
-		public final World world;
-		public final int chunkX,chunkZ;
-		
-		public Chunk(Location location){
-			world = location.getWorld();
-			chunkX = (location.getBlockX()>=0?location.getBlockX()/16:location.getBlockX()-16/16);
-			chunkZ = (location.getBlockZ()>=0?location.getBlockZ()/16:location.getBlockZ()-16/16);
-		}
-		
-		public Chunk(World world,int chunkX,int chunkZ) {
-			this.world = world;
-			this.chunkX = chunkX;
-			this.chunkZ = chunkZ;
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if(obj==null) return false;
-			
-			if(!(obj instanceof Chunk)) return false;
-			
-			Chunk other = (Chunk) obj;
-			
-			if(!world.equals(other.world)) return false;
-			
-			if(chunkX != other.chunkX) return false;
-			
-			if(chunkZ != other.chunkZ) return false;
-			
-			return true;
-		}
-		
-		@Override
-		public int hashCode() {
-			return chunkX*31+chunkZ;
-		}
 	}
 }
