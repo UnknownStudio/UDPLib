@@ -35,12 +35,13 @@ public final class UDPLib extends JavaPlugin{
 	public void onLoad() {
 		ConfigurationSerialization.registerClass(Area.class);
 
-		Test.INSTANCE.onLoad();
 	}
 
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
+		if(CONFIG.enableTest)
+			Test.INSTANCE.onLoad();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
 
