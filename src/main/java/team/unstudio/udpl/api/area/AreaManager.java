@@ -16,7 +16,7 @@ public enum AreaManager {
 	
 	private static final Map<World,WorldAreaManager> managers = new HashMap<>();
 	
-	public static WorldAreaManager getAreaManager(World world){
+	public static WorldAreaManager getWorldAreaManager(World world){
 		if(managers.containsKey(world)){
 			return managers.get(world);
 		}else{
@@ -26,32 +26,32 @@ public enum AreaManager {
 		}
 	}
 	
-	public static WorldAreaManager getAreaManager(String world){
-		return getAreaManager(Bukkit.getWorld(world));
+	public static WorldAreaManager getWorldAreaManager(String world){
+		return getWorldAreaManager(Bukkit.getWorld(world));
 	}
 	
 	public static void addArea(Area area){
-		getAreaManager(area.getWorld()).addArea(area);
+		getWorldAreaManager(area.getWorld()).addArea(area);
 	}
 	
 	public static void removeArea(Area area){
-		getAreaManager(area.getWorld()).removeArea(area);
+		getWorldAreaManager(area.getWorld()).removeArea(area);
 	}
 	
 	public static boolean containArea(Area area){
-		return getAreaManager(area.getWorld()).containArea(area);
+		return getWorldAreaManager(area.getWorld()).containArea(area);
 	}
 	
 	public static List<Area> getAreas(Location location){
-		return getAreaManager(location.getWorld()).getAreas(location);
+		return getWorldAreaManager(location.getWorld()).getAreas(location);
 	}
 	
 	public static List<Area> getAreas(Chunk chunk){
-		return getAreaManager(chunk.getWorld()).getAreas(chunk);
+		return getWorldAreaManager(chunk.getWorld()).getAreas(chunk);
 	}
 	
 	public static List<Area> getAreas(Area area){
-		return getAreaManager(area.getWorld()).getAreas(area);
+		return getWorldAreaManager(area.getWorld()).getAreas(area);
 	}
 	
 	public static void loadAll(){

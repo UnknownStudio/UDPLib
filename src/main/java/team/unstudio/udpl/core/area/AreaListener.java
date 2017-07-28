@@ -61,7 +61,7 @@ public final class AreaListener implements Listener{
 	
 	private void updateArea(Player player,Location to){
 		List<Area> oldAreas = playerArea.containsKey(player)?playerArea.get(player):Lists.newArrayList();
-		List<Area> nowAreas = AreaManager.getAreaManager(to.getWorld()).getAreas(to);
+		List<Area> nowAreas = AreaManager.getWorldAreaManager(to.getWorld()).getAreas(to);
 		
 		for(Area area:oldAreas)
 			if(!nowAreas.contains(area))
