@@ -34,7 +34,7 @@ public class Utils {
     public static void readFile2List(File file, List<String> list, String code) throws Exception {
         BufferedReader fr;
         try {
-            String myCode = code!=null&&!"".equals(code) ? code : "UTF8";
+            String myCode = code!=null&&!"".equals(code) ? code : "UTF-8";
             InputStreamReader read = new InputStreamReader(new FileInputStream(
                     file), myCode);
 

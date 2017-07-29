@@ -1,12 +1,8 @@
 package team.unstudio.udpl.api.config;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
@@ -30,7 +26,6 @@ import java.net.URL;
  * @version 1.0 
  */
 public class EncodingDetect {
-	
 	/**
 	 * 得到文件的编码
 	 * @param file 文件
