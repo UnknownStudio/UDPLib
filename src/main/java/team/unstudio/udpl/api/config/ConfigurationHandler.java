@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.util;
+package team.unstudio.udpl.api.config;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

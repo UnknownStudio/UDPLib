@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.util;
+package team.unstudio.udpl.api.config;
 
 import java.io.BufferedReader;
 import java.io.File;

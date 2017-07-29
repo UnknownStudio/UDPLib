@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api.util;
+package team.unstudio.udpl.api.config;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -32,7 +32,6 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
         }
 
         try {
-
             config.load(file);
         } catch (FileNotFoundException var3) {
         } catch (IOException var4) {

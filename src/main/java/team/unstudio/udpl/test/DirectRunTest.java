@@ -1,7 +1,6 @@
 package team.unstudio.udpl.test;
 
-import team.unstudio.udpl.api.util.EncodingDetect;
-import team.unstudio.udpl.api.util.Utils;
+import team.unstudio.udpl.api.config.EncodingDetect;
 
 import java.io.File;
 import java.io.FileOutputStream;
