@@ -13,7 +13,7 @@ import java.util.logging.Level;
  * <a href="http://cpdetector.sourceforge.net/index.shtml"><i>cpDetector 官网</i></a>
  */
 public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
-    protected final static Charset defaultCharset = Charset.defaultCharset();
+    public final static Charset defaultCharset = Charset.defaultCharset();
 
     /**
      * 加载Yaml 同时自动识别文件编码
@@ -31,6 +31,8 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
             Bukkit.getLogger().log(Level.WARNING, "Cannot detect the encoding of file " + file.getPath(), e);
         }
 
+        if (config.charset == null) config.charset = defaultCharset;
+
         try {
             config.load(file);
         } catch (FileNotFoundException var3) {
@@ -41,10 +43,5 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
         }
 
         return config;
-    }
-
-    @Override
-    public Charset getCharset() {
-        return charset == null?defaultCharset:charset;
     }
 }
