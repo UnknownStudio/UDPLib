@@ -43,15 +43,11 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.11.2-R0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/spigot.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
 			<version>4.3.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/ProtocolLib.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<build>
