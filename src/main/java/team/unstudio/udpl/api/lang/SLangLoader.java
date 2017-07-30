@@ -16,6 +16,6 @@ public class SLangLoader {
      * @throws Exception
      */
     public SLang[] loadFromFile(String separator,File file) throws Exception {
-        return SLangSpliter.split(separator, Utils.readFile2Array(file));
+        return SLangSpliter.split(separator, Utils.readFile2Array(file, "utf-8"));
     }
 }

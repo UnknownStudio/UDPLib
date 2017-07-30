@@ -12,12 +12,25 @@ import java.nio.charset.Charset;
  */
 public class DirectRunTest {
     public static void main(String[] args) throws IOException {
+        guess("UTF-8");
+        guess("UTF-16");
+        guess("UTF-32");
+        guess("GB2312");
+        guess("GBK");
+        guess("GB18030");
+        guess("BIG5");
+        guess("ISO-8859-1");
+        guess("Unicode");
+        guess("CP1250");
+    }
+
+    public static void guess(String code) throws IOException {
         File file = new File("/Development/encoding_test.yml");
         file.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write("大家好！".getBytes(Charset.forName("UTF-8")));
+        fileOutputStream.write("TODO: 大家好！123/*-§".getBytes(Charset.forName(code)));
         fileOutputStream.close();
-        System.out.println(EncodingDetect.getJavaEncode(file));
-//        file.deleteOnExit();
+        System.out.println(code + "|" + EncodingDetect.getJavaEncode(file));
+        file.delete();
     }
 }
