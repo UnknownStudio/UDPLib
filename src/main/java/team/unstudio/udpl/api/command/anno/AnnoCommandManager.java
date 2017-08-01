@@ -44,11 +44,18 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		int i=0;
+		int index =0;
 		List<CommandWrapper> subWrappers = wrappers;
 		while(!subWrappers.isEmpty()&&i<args.length){
 			for(CommandWrapper wrapper:subWrappers){
-				if(!wrapper.getNode().equalsIgnoreCase(args[i]))
+				if(!wrapper.getNode().equalsIgnoreCase(args[i])) {
+					if(index>=args.length*subWrappers.size()) {
+						onUnknownCommand(sender, command, label, args);
+						return true;
+					}
+					index++;
 					continue;
+				}
 				
 				i++;
 				subWrappers = wrapper.getChildren();
