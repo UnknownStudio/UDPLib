@@ -2,7 +2,7 @@ package team.unstudio.udpl.core;
 
 import java.io.File;
 
-import team.unstudio.udpl.api.util.ConfigurationHandler;
+import team.unstudio.udpl.api.config.ConfigurationHandler;
 
 public final class UDPLConfiguration extends ConfigurationHandler{
 	

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by trychen on 17/7/11.
  */
-public class Lang {
+public class SLang {
     /**
      * 语言
      */
@@ -16,13 +16,13 @@ public class Lang {
     /**
      * 数据
      */
-    public final Map<String, String> map = new HashMap<>();
+    protected final Map<String, String> map = new HashMap<>();
 
     /**
-     * 通过语言初始化一个 Lang
+     * 通过语言初始化一个 SLang
      * @param locale
      */
-    public Lang(Locale locale) {
+    public SLang(Locale locale) {
         this.locale = locale;
     }
 

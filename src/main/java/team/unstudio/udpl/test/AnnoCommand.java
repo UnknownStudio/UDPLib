@@ -52,7 +52,7 @@ public final class AnnoCommand {
 		return true;
 	}
 	
-	@Command(value = {},senders = Player.class)
+	@Command(senders = Player.class)
 	@Alias({"tpa"})
 	@Alias({"teleport"})
 	public boolean tpa(Player sender,@Required Player target){
