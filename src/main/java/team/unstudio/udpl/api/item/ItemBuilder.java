@@ -68,6 +68,18 @@ public class ItemBuilder {
 		return this;
 	}
 	
+	public ItemBuilder removeLore(String regex){
+		ItemMeta meta = itemStack.getItemMeta();
+		ArrayList<String> lores = new ArrayList<>(meta.getLore());
+		for(String lore : lores) {
+			if(lore.matches(regex))
+				lores.remove(lore);
+		}
+		meta.setLore(lores);
+		itemStack.setItemMeta(meta);
+		return this;
+	}
+	
 	public ItemBuilder addEnchantment(Enchantment ench,int level){
 		itemStack.addUnsafeEnchantment(ench, level);
 		return this;
