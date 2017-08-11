@@ -1,8 +1,8 @@
 package team.unstudio.udpl.api.item;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -52,48 +52,41 @@ public class ItemBuilder {
 	}
 
 	public ItemBuilder addLore(String ...lore){
-		ItemMeta meta = itemStack.getItemMeta();
 		List<String> lores =  getLore(itemStack);
 		Collections.addAll(lores, lore);
 		setMeta(lores);
-		itemStack.setItemMeta(meta);
 		return this;
 	}
 
 	public ItemBuilder removeLore(int index){
-		ItemMeta meta = itemStack.getItemMeta();
 		List<String> lores =  getLore(itemStack);
 		lores.remove(index);
 		setMeta(lores);
-		itemStack.setItemMeta(meta);
 		return this;
 	}
 
 	public ItemBuilder removeLore(String regex){
-		ItemMeta meta = itemStack.getItemMeta();
 		List<String> lores =  getLore(itemStack);
-		for(String lore : lores) {
-			if(lore.matches(regex))
-				lores.remove(lore);
+		for(String s : lores) {
+			if(s.matches(regex)) 
+				lores.remove(s);
 		}
 		setMeta(lores);
-		itemStack.setItemMeta(meta);
 		return this;
 	}
 
 	private List<String> getLore(ItemStack item){
 		ItemMeta meta = item.getItemMeta();
-		List<String> lore = null;
-		if(meta.getLore()==null)
-			lore = new ArrayList<String>();
-		else lore = meta.getLore();
+		CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<String>();
+		if(meta.getLore()!=null&&!meta.getLore().isEmpty())
+			lore.addAll(meta.getLore());
 		return lore;
 	}
-	
+
 	private void setMeta(List<String> lore) {
-		if(lore.isEmpty())return;
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setLore(lore);
+		itemStack.setItemMeta(meta);
 	}
 
 	public ItemBuilder addEnchantment(Enchantment ench,int level){
