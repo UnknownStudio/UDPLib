@@ -52,7 +52,9 @@ public class ItemBuilder {
 	
 	public ItemBuilder addLore(String ...lore){
 		ItemMeta meta = itemStack.getItemMeta();
-		ArrayList<String> lores = new ArrayList<>(meta.getLore());
+		ArrayList<String> lores = new ArrayList<>();;
+		if(meta.getLore()!=null)
+			lores.addAll(meta.getLore());
 		Collections.addAll(lores, lore);
 		meta.setLore(lores);
 		itemStack.setItemMeta(meta);
