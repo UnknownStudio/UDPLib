@@ -40,12 +40,6 @@ jobs:
       - run: mvn integration-test
       
       - run: mvn clean install package
-      
-      - run: 
-          command: 
-            mkdir -p /jar
-            cp /target/*.jar /jar
-          when: on_success
           
       - store_artifacts:
-          path: /jar
+          path: /target
