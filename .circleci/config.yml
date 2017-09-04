@@ -39,5 +39,11 @@ jobs:
       
       - run: mvn clean install package
           
+      - run: 
+          command: 
+            mkdir -p ~/repo/jar
+            cp ~repo/target/*.jar ~/repo/jar
+          when: on_success
+          
       - store_artifacts:
-          path: /home/circleci/repo/target
+          path: ~/repo/jar
