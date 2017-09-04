@@ -5,3 +5,4 @@
 !src/
 !pom.xml
 !LICENSE
+!.circleci/
