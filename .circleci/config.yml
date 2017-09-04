@@ -42,7 +42,7 @@ jobs:
       - run: 
           command: 
             mkdir -p ~/repo/jar
-            cp ~repo/target/*.jar ~/repo/jar
+            cp ~repo/target/UDPLib.jar ~/repo/jar/UDPLib.jar
           when: on_success
           
       - store_artifacts:
