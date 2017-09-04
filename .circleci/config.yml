@@ -36,9 +36,6 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-        
-      # run tests!
-      - run: mvn integration-test
       
-      - run: nvm clean install package
+      - run: mvn clean install package
 
