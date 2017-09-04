@@ -37,9 +37,7 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
       
-      - run: mvn integration-test
-      
       - run: mvn clean install package
           
       - store_artifacts:
-          path: /target
+          path: /home/circleci/repo/target
