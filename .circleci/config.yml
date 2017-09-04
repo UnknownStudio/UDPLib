@@ -40,7 +40,7 @@ jobs:
       - run: mvn clean install package
         
       - run: 
-          command: mkdir /home/repo/jar     
+          command: mkdir /home/circleci/repo/jar     
           when: on_success
           
       - run: 
