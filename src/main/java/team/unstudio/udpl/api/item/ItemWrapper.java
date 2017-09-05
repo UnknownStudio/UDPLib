@@ -10,62 +10,74 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ItemBuilder {
+public class ItemWrapper {
 
 	private final ItemStack itemStack;
 
-	public ItemBuilder(){
+	public ItemWrapper(){
 		this(new ItemStack(Material.AIR));
 	}
+	
+	public ItemWrapper(Material type){
+		this(new ItemStack(type));
+	}
+	
+	public ItemWrapper(Material type,int amount){
+		this(new ItemStack(type, amount));
+	}
+	
+	public ItemWrapper(Material type,int amount,short damage){
+		this(new ItemStack(type, amount, damage));
+	}
 
-	public ItemBuilder(ItemStack itemStack) {
+	public ItemWrapper(ItemStack itemStack) {
 		this.itemStack = itemStack;
 	}
 
-	public ItemBuilder setType(Material type){
+	public ItemWrapper setType(Material type){
 		itemStack.setType(type);
 		return this;
 	}
 
-	public ItemBuilder setDurability(short durability){
+	public ItemWrapper setDurability(short durability){
 		itemStack.setDurability(durability);
 		return this;
 	}
 
-	public ItemBuilder setAmount(int amount){
+	public ItemWrapper setAmount(int amount){
 		itemStack.setAmount(amount);
 		return this;
 	}
 
-	public ItemBuilder setDisplayName(String name){
+	public ItemWrapper setDisplayName(String name){
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setDisplayName(name);
 		itemStack.setItemMeta(meta);
 		return this;
 	}
 
-	public ItemBuilder setLocalizedName(String name){
+	public ItemWrapper setLocalizedName(String name){
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setLocalizedName(name);
 		itemStack.setItemMeta(meta);
 		return this;
 	}
 
-	public ItemBuilder addLore(String ...lore){
+	public ItemWrapper addLore(String ...lore){
 		List<String> lores =  getLore(itemStack);
 		Collections.addAll(lores, lore);
 		setMeta(lores);
 		return this;
 	}
 
-	public ItemBuilder removeLore(int index){
+	public ItemWrapper removeLore(int index){
 		List<String> lores =  getLore(itemStack);
 		lores.remove(index);
 		setMeta(lores);
 		return this;
 	}
 
-	public ItemBuilder removeLore(String regex){
+	public ItemWrapper removeLore(String regex){
 		List<String> lores =  getLore(itemStack);
 		for(String s : lores) {
 			if(s.matches(regex)) 
@@ -89,31 +101,31 @@ public class ItemBuilder {
 		itemStack.setItemMeta(meta);
 	}
 
-	public ItemBuilder addEnchantment(Enchantment ench,int level){
+	public ItemWrapper addEnchantment(Enchantment ench,int level){
 		itemStack.addUnsafeEnchantment(ench, level);
 		return this;
 	}
 
-	public ItemBuilder removeEnchantment(Enchantment ench){
+	public ItemWrapper removeEnchantment(Enchantment ench){
 		itemStack.removeEnchantment(ench);
 		return this;
 	}
 
-	public ItemBuilder addFlag(ItemFlag... flags) {
+	public ItemWrapper addFlag(ItemFlag... flags) {
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.addItemFlags(flags);
 		itemStack.setItemMeta(meta);
 		return this;
 	}
 
-	public ItemBuilder setUnbreakable(boolean value){
+	public ItemWrapper setUnbreakable(boolean value){
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setUnbreakable(value);
 		itemStack.setItemMeta(meta);
 		return this;
 	}
 
-	public ItemStack build(){
+	public ItemStack get(){
 		return itemStack.clone();
 	}
 }
