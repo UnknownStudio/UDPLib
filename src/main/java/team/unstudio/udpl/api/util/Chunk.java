@@ -9,8 +9,8 @@ public final class Chunk {
 	
 	public Chunk(Location location){
 		world = location.getWorld();
-		chunkX = (location.getBlockX()>=0?location.getBlockX()/16:location.getBlockX()-16/16);
-		chunkZ = (location.getBlockZ()>=0?location.getBlockZ()/16:location.getBlockZ()-16/16);
+		chunkX = location.getBlockX()>>4;
+		chunkZ = location.getBlockZ()>>4;
 	}
 	
 	public Chunk(World world,int chunkX,int chunkZ) {
@@ -50,7 +50,7 @@ public final class Chunk {
 	
 	@Override
 	public int hashCode() {
-		return chunkX*37+chunkZ;
+		return world.hashCode()*37*37+chunkX*37+chunkZ;
 	}
 	
 	@Override
