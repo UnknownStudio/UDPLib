@@ -40,12 +40,12 @@ jobs:
       - run: mvn clean install package
         
       - run: 
-          command: mkdir ~repo/jar     
+          command: mkdir /home/circleci/repo/jar     
           when: on_success
           
       - run: 
-          command: mv -f ~repo/target/UDPLib.jar ~/repo/jar/UDPLib.jar
+          command: mv -f /home/circleci/repo/target/UDPLib.jar /home/circleci/repo/jar/UDPLib.jar
           when: on_success
           
       - store_artifacts:
-          path: ~/repo/jar
+          path: /home/circleci/repo/jar
