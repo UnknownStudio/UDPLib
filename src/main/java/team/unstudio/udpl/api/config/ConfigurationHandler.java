@@ -51,14 +51,8 @@ public abstract class ConfigurationHandler{
 			cache=true;
 		}
 		
-		try{
-			if(!file.getParentFile().exists())
-				file.getParentFile().mkdirs();
-			
-			if(!file.exists()) 
-				file.createNewFile();
-			
-			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+		try{		
+			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 			
 			for(Field f:getClass().getDeclaredFields()){
 				f.setAccessible(true);
@@ -88,11 +82,7 @@ public abstract class ConfigurationHandler{
 	 */
 	public boolean save(){
 		try{
-			if(!file.getParentFile().exists())file.getParentFile().mkdirs();
-			
-			if(!file.exists()) file.createNewFile();
-			
-			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 			
 			for(Field f:getClass().getDeclaredFields()){
 				f.setAccessible(true);

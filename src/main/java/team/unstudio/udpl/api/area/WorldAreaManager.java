@@ -15,8 +15,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import team.unstudio.udpl.api.area.event.AreaCreateEvent;
 import team.unstudio.udpl.api.area.event.AreaRemoveEvent;
+import team.unstudio.udpl.api.config.ConfigurationHelper;
 import team.unstudio.udpl.api.util.Chunk;
-import team.unstudio.udpl.api.util.Utils;
 import team.unstudio.udpl.core.UDPLib;
 
 public final class WorldAreaManager {
@@ -102,7 +102,7 @@ public final class WorldAreaManager {
 	public void save(){
 		try {
 			File configPath = new File(AREA_PATH, world.getName()+".yml");
-			FileConfiguration config = Utils.loadConfiguration(configPath);
+			FileConfiguration config = ConfigurationHelper.loadConfiguration(configPath);
 			config.set(world.getName(), areas);
 			config.save(configPath);
 		} catch (IOException e) {
@@ -116,7 +116,7 @@ public final class WorldAreaManager {
 		chunks.clear();
 		
 		try {
-			FileConfiguration config = Utils.loadConfiguration(new File(AREA_PATH, world.getName()+".yml"));
+			FileConfiguration config = ConfigurationHelper.loadConfiguration(new File(AREA_PATH, world.getName()+".yml"));
 			for(Area area:(List<Area>) config.getList(world.getName(), new ArrayList<>())){
 				areas.add(area);
 				World world = area.getWorld();
