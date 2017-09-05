@@ -70,7 +70,7 @@ public abstract class Slot implements Cloneable{
 	 * 获取父UI
 	 * @return
 	 */
-	public UI getParent() {
+	public final UI getParent() {
 		return parent;
 	}
 
@@ -78,7 +78,7 @@ public abstract class Slot implements Cloneable{
 	 * 设置父UI
 	 * @param parent
 	 */
-	public void setParent(UI parent) {
+	public final void setParent(UI parent) {
 		this.parent = parent;
 		if(parent!=null)parent.getInventory().setItem(slot, itemStack);
 	}
@@ -112,7 +112,7 @@ public abstract class Slot implements Cloneable{
 	}
 
 	/**
-	 * 设置操作
+	 * 设置是否可以操作
 	 * @param allowOperate
 	 */
 	public Slot setAllowOperate(boolean allowOperate) {

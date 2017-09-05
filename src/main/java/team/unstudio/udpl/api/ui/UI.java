@@ -32,16 +32,14 @@ public class UI implements Listener,Cloneable{
 	}
 
 	/**
-	 * 获取背包
-	 * @return
+	 * 获取界面
 	 */
-	public Inventory getInventory() {
+	public final Inventory getInventory() {
 		return inventory;
 	}
 	
 	/**
 	 * 打开
-	 * @param player
 	 */
 	public void open(final HumanEntity player){
 		inventory.clear();
@@ -52,7 +50,6 @@ public class UI implements Listener,Cloneable{
 	
 	/**
 	 * 关闭
-	 * @param player
 	 */
 	public void close(Player player){
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
@@ -64,8 +61,6 @@ public class UI implements Listener,Cloneable{
 	
 	/**
 	 * 添加槽
-	 * @param slot
-	 * @return
 	 */
 	public UI addSlot(Slot slot){
 		slots.add(slot);
@@ -75,8 +70,6 @@ public class UI implements Listener,Cloneable{
 	
 	/**
 	 * 添加槽
-	 * @param slot
-	 * @return
 	 */
 	public UI addSlot(Slot slot,Slot ...slots){
 		addSlot(slot);
@@ -87,8 +80,6 @@ public class UI implements Listener,Cloneable{
 	
 	/**
 	 * 添加槽
-	 * @param slot
-	 * @return
 	 */
 	public UI addSlots(Slot slot,int[] slotIDs){
 		for(int slotID:slotIDs)
@@ -98,8 +89,6 @@ public class UI implements Listener,Cloneable{
 	
 	/**
 	 * 删除槽
-	 * @param slot
-	 * @return
 	 */
 	public boolean removeSlot(Slot slot){
 		if(slot==null) return false;
@@ -151,23 +140,35 @@ public class UI implements Listener,Cloneable{
 		return ui;
 	}
 
+	/**
+	 * 是否允许玩家操作背包
+	 */
 	public boolean isAllowOperateBackpack() {
 		return allowOperateBackpack;
 	}
 
+	/**
+	 * 设置是否允许玩家操作背包
+	 */
 	public void setAllowOperateBackpack(boolean allowOperateBackpack) {
 		this.allowOperateBackpack = allowOperateBackpack;
 	}
 
+	/**
+	 * 是否允许玩家操作界面
+	 */
 	public boolean isAllowOperateInventory() {
 		return allowOperateInventory;
 	}
 
+	/**
+	 * 设置是否允许玩家操作界面
+	 */
 	public void setAllowOperateInventory(boolean allowOperateInventory) {
 		this.allowOperateInventory = allowOperateInventory;
 	}
 	
-	protected void unregisterAllEvent(){
+	private void unregisterAllEvent(){
 		InventoryClickEvent.getHandlerList().unregister(this);
 		InventoryCloseEvent.getHandlerList().unregister(this);
 	}
