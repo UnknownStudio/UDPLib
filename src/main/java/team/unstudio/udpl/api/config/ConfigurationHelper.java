@@ -17,10 +17,11 @@ public enum ConfigurationHelper {
      * @throws IOException
      */
     public static YamlConfiguration loadConfiguration(File file) throws IOException {
-        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+        if (!file.getAbsoluteFile().getParentFile().exists()) 
+        	file.getAbsoluteFile().getParentFile().mkdirs();
 
-        if (!file.exists()) file.createNewFile();
-
+        if (!file.exists()) 
+        	file.createNewFile();
         return YamlConfiguration.loadConfiguration(file);
     }
 }

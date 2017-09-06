@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +31,10 @@ public abstract class ConfigurationHandler{
 		defaults.clear();
 		
 		for(Field f:getClass().getDeclaredFields()){
+			int modifiers = f.getModifiers();
+			if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
+				continue;
+			
 			f.setAccessible(true);
 			
 			ConfigItem anno= f.getDeclaredAnnotation(ConfigItem.class);
@@ -55,6 +60,10 @@ public abstract class ConfigurationHandler{
 			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 			
 			for(Field f:getClass().getDeclaredFields()){
+				int modifiers = f.getModifiers();
+				if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
+					continue;
+				
 				f.setAccessible(true);
 				
 				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
@@ -85,6 +94,10 @@ public abstract class ConfigurationHandler{
 			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 			
 			for(Field f:getClass().getDeclaredFields()){
+				int modifiers = f.getModifiers();
+				if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
+					continue;
+				
 				f.setAccessible(true);
 				
 				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
