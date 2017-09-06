@@ -31,11 +31,15 @@ public final class ConfigurationSerializationHelper{
 			config.set(key, obj);
 		else if(obj instanceof org.bukkit.configuration.serialization.ConfigurationSerializable)
 			config.set(key, obj);
-		else if(hasSerializer(obj.getClass()))
-			getSerializer(obj.getClass()).serializeObject(config, obj);
-		else if(obj instanceof ConfigurationExternalizable)
-			((ConfigurationExternalizable) obj).serialize(config.createSection(key));
-		else if(obj instanceof ConfigurationSerializable)
+		else if(hasSerializer(obj.getClass())){
+			ConfigurationSection section = config.createSection(key);
+			getSerializer(obj.getClass()).serializeObject(section, obj);
+			section.set(CLASS_NAME_KEY, obj.getClass().getName());
+		}else if(obj instanceof ConfigurationExternalizable){
+			ConfigurationSection section = config.createSection(key);
+			((ConfigurationExternalizable) obj).serialize(section);
+			section.set(CLASS_NAME_KEY, obj.getClass().getName());
+		}else if(obj instanceof ConfigurationSerializable)
 			serialize(config.createSection(key),(ConfigurationSerializable) obj);
 		else 
 			throw new SerializationException(obj.getClass().getName()+" can't serialize.");
