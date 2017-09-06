@@ -115,18 +115,17 @@ public final class WorldAreaManager {
 		areas.clear();
 		chunks.clear();
 		
-		try {
-			FileConfiguration config = ConfigurationHelper.loadConfiguration(new File(AREA_PATH, world.getName()+".yml"));
-			for(Area area:(List<Area>) config.getList(world.getName(), new ArrayList<>())){
-				areas.add(area);
-				World world = area.getWorld();
-				Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
-				for(int x = chunk1.getChunkX();x<=chunk2.getChunkX();x++)
-					for(int z = chunk1.getChunkZ();z<=chunk2.getChunkZ();z++)
-						getAreas(new Chunk(world, x, z)).add(area);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		FileConfiguration config = ConfigurationHelper.loadConfiguration(new File(AREA_PATH, world.getName() + ".yml"));
+		if(config == null)
+			return;
+		
+		for (Area area : (List<Area>) config.getList(world.getName(), new ArrayList<>())) {
+			areas.add(area);
+			World world = area.getWorld();
+			Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
+			for (int x = chunk1.getChunkX(); x <= chunk2.getChunkX(); x++)
+				for (int z = chunk1.getChunkZ(); z <= chunk2.getChunkZ(); z++)
+					getAreas(new Chunk(world, x, z)).add(area);
 		}
 	}
 

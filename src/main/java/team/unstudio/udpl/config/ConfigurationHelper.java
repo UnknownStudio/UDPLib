@@ -16,12 +16,14 @@ public enum ConfigurationHelper {
      * @return
      * @throws IOException
      */
-    public static YamlConfiguration loadConfiguration(File file) throws IOException {
+    public static YamlConfiguration loadConfiguration(File file){
         if (!file.getAbsoluteFile().getParentFile().exists()) 
         	file.getAbsoluteFile().getParentFile().mkdirs();
 
-        if (!file.exists()) 
-        	file.createNewFile();
+        if (!file.exists())
+			try {
+				file.createNewFile();
+			} catch (IOException e) {}
         
         return AutoCharsetYamlConfiguration.loadConfiguration(file);
     }

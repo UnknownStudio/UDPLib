@@ -57,34 +57,33 @@ public abstract class ConfigurationHandler{
 			loadDefaults();
 			cache=true;
 		}
-		
-		try{		
-			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 			
-			for(Field f:getClass().getDeclaredFields()){
-				int modifiers = f.getModifiers();
-				if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
-					continue;
-				
-				f.setAccessible(true);
-				
-				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
-				if(anno==null) continue;
-				
-				try {
-					Object object = ConfigurationSerializationHelper.deserialize(config, anno.value());
-					if(object!=null)
-						f.set(this,object);
-					else
-						f.set(this,defaults.get(anno.value()));
-				} catch (IllegalArgumentException | IllegalAccessException e) {}
-			}
-			
-			return true;
-		}catch(IOException e){
-			e.printStackTrace();
+		YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
+		if(config == null)
 			return false;
+
+		for (Field f : getClass().getDeclaredFields()) {
+			int modifiers = f.getModifiers();
+			if (Modifier.isFinal(modifiers) || Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers))
+				continue;
+
+			f.setAccessible(true);
+
+			ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
+			if (anno == null)
+				continue;
+
+			try {
+				Object object = ConfigurationSerializationHelper.deserialize(config, anno.value());
+				if (object != null)
+					f.set(this, object);
+				else
+					f.set(this, defaults.get(anno.value()));
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+			}
 		}
+
+		return true;
 	}
 	
 	/**
