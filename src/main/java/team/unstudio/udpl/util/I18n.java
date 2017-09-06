@@ -1,18 +1,28 @@
 package team.unstudio.udpl.util;
 
 import java.io.File;
+import java.util.Locale;
 
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import team.unstudio.udpl.config.ConfigurationHelper;
 
 public class I18n {
 	
+	public static final Locale LOCAL_LOCALE = Locale.getDefault();
+	public static final Locale DEFAULT_LOCALE = Locale.US;
+	
 	private final File path;
-	private String language = "en_US";
+	private Locale locale = LOCAL_LOCALE;
 	private Configuration cache = null;
 	
 	public I18n(File path) {
-		if(path==null||!path.exists()) throw new IllegalArgumentException("The path is empty.");
+		if(path==null)
+			throw new IllegalArgumentException("Path can't Null.");
+		if(!path.exists())
+			throw new IllegalArgumentException("Path isn't exist.");
+		if(!path.isDirectory())
+			throw new IllegalArgumentException("Path isn't directory.");
+		
 		this.path = path;
 	}
 
@@ -20,35 +30,44 @@ public class I18n {
 		return path;
 	}
 	
-	public String getSecretLanguage(){
-		return language;
+	public Locale getSecretLanguage(){
+		return locale;
+	}
+	
+	public String getSecretLanguageTag(){
+		return locale.toLanguageTag();
 	}
 	
 	public void setSecretLanguage(String language) {
-		this.language = language;
+		locale = Locale.forLanguageTag(language); 
+		reload();
+	}
+	
+	public void setSecretLanguage(Locale language) {
+		locale = language; 
 		reload();
 	}
 	
 	private void reload(){
-		File file = new File(path, language+".yml");
+		File file = new File(path, getSecretLanguageTag()+".yml");
 		if(file.exists())
-			cache = YamlConfiguration.loadConfiguration(file);
+			cache = ConfigurationHelper.loadConfiguration(file);
 		else
 			loadDefault();
 	}
 	
 	private void loadDefault(){
-		File defaultFile = new File(path, "en_US.yml");
+		File defaultFile = new File(path, DEFAULT_LOCALE.toLanguageTag()+".yml");
 		if(defaultFile.exists())
-			cache = YamlConfiguration.loadConfiguration(defaultFile);
+			cache = ConfigurationHelper.loadConfiguration(defaultFile);
 		else
 			cache = null;
 	}
 	
 	public String format(String key, Object... args){
-		if(cache==null)
+		if(cache == null)
 			return String.format(key, args);
 		else
-			return String.format(cache.getString(key,key), args);
+			return String.format(cache.getString(key, key), args);
 	}
 }
