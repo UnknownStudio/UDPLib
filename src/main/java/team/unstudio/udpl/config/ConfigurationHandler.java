@@ -14,6 +14,8 @@ import java.util.Map;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import team.unstudio.udpl.config.serialization.ConfigurationSerializationHelper;
+
 /**
  * 配置文件处理器
  */
@@ -70,7 +72,7 @@ public abstract class ConfigurationHandler{
 				if(anno==null) continue;
 				
 				try {
-					Object object = config.get(anno.value());
+					Object object = ConfigurationSerializationHelper.deserialize(config, anno.value());
 					if(object!=null)
 						f.set(this,object);
 					else
@@ -104,9 +106,9 @@ public abstract class ConfigurationHandler{
 				if(anno==null) continue;
 				
 				try {
-					config.set(anno.value(), f.get(this));
+					ConfigurationSerializationHelper.serialize(config, anno.value(), f.get(this));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					config.set(anno.value(), defaults.get(anno.value()));
+					ConfigurationSerializationHelper.serialize(config, anno.value(), defaults.get(anno.value()));
 				}
 			}
 			
