@@ -22,6 +22,7 @@ public enum ConfigurationHelper {
 
         if (!file.exists()) 
         	file.createNewFile();
-        return YamlConfiguration.loadConfiguration(file);
+        
+        return AutoCharsetYamlConfiguration.loadConfiguration(file);
     }
 }
