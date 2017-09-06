@@ -3,8 +3,8 @@ package team.unstudio.udpl.test;
 import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import team.unstudio.udpl.api.config.ConfigurationHelper;
-import team.unstudio.udpl.api.config.serialization.ConfigurationSerializationHelper;
+import team.unstudio.udpl.config.ConfigurationHelper;
+import team.unstudio.udpl.config.serialization.ConfigurationSerializationHelper;
 
 public class ConfigurationTest {
 	

@@ -3,13 +3,13 @@ package team.unstudio.udpl.core.nms.v1_11_R1;
 import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import team.unstudio.udpl.api.nbt.NBTTagCompound;
-import team.unstudio.udpl.api.nms.NMSManager;
+import team.unstudio.udpl.nbt.NBTTagCompound;
+import team.unstudio.udpl.nms.NMSManager;
 
-public class NMSItemStack implements team.unstudio.udpl.api.nms.NMSItemStack{
+public class NMSItemStack implements team.unstudio.udpl.nms.NMSItemStack{
 
 	@Override
-	public team.unstudio.udpl.api.nbt.NBTTagCompound getTag(ItemStack itemStack) throws Exception {
+	public team.unstudio.udpl.nbt.NBTTagCompound getTag(ItemStack itemStack) throws Exception {
 		return NMSManager.getNMSNBT().toMap(CraftItemStack.asNMSCopy(itemStack).getTag());
 	}
 

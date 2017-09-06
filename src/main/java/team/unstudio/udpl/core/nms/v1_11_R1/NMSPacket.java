@@ -11,7 +11,7 @@ import net.minecraft.server.v1_11_R1.PacketPlayOutBlockChange;
 import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
 
-public class NMSPacket implements team.unstudio.udpl.api.nms.NMSPacket{
+public class NMSPacket implements team.unstudio.udpl.nms.NMSPacket{
 
 	public Object createPacketPlayOutBlockChange(Location loc, int material, byte data){
 		return new PacketPlayOutBlockChange(((CraftWorld) loc.getWorld()).getHandle(),new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));

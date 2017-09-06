@@ -17,10 +17,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.google.common.collect.Lists;
 
-import team.unstudio.udpl.api.area.Area;
-import team.unstudio.udpl.api.area.AreaManager;
-import team.unstudio.udpl.api.area.event.PlayerEnterAreaEvent;
-import team.unstudio.udpl.api.area.event.PlayerLeaveAreaEvent;
+import team.unstudio.udpl.area.Area;
+import team.unstudio.udpl.area.AreaManager;
+import team.unstudio.udpl.area.event.PlayerEnterAreaEvent;
+import team.unstudio.udpl.area.event.PlayerLeaveAreaEvent;
 
 public final class AreaListener implements Listener{
 	

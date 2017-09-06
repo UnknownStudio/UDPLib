@@ -1,6 +1,6 @@
 package team.unstudio.udpl.core.nms.asm;
 
-import team.unstudio.udpl.api.util.asm.*;
+import team.unstudio.udpl.util.asm.*;
 
 public class NMSNBTGenerator implements Opcodes {
 

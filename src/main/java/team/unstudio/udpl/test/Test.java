@@ -3,7 +3,7 @@ package team.unstudio.udpl.test;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
-import team.unstudio.udpl.api.command.anno.AnnoCommandManager;
+import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
 
 public class Test {
