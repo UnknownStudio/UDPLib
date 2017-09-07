@@ -11,10 +11,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import team.unstudio.udpl.command.CommandHelper;
+
+/**
+ * @author Administrator
+ *
+ */
+/**
+ * @author Administrator
+ *
+ */
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	private final JavaPlugin plugin;
@@ -35,13 +46,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	/**
 	 * 创建指令管理者
 	 * @param name 指令名
-	 * @param plugin 插件
 	 */
 	public AnnoCommandManager(@Nonnull String name){
 		this(name,(JavaPlugin) Bukkit.getPluginCommand(name).getPlugin());
 	}
 
-	
 	/**
 	 * 创建指令管理者
 	 * @param name 指令名
@@ -50,7 +59,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	public AnnoCommandManager(@Nonnull String name,JavaPlugin plugin){
 		this.name = name;
 		this.plugin = plugin;
-		registerCommand();
 	}
 
 	@Override
@@ -247,8 +255,19 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 注册指令
 	 */
 	public AnnoCommandManager registerCommand(){
-		plugin.getCommand(name).setExecutor(this);
-		plugin.getCommand(name).setTabCompleter(this);
+		PluginCommand command = plugin.getCommand(name);
+		command.setExecutor(this);
+		command.setTabCompleter(this);
+		return this;
+	}
+	
+	/**
+	 * 不安全的注册指令
+	 */
+	public AnnoCommandManager unsafeRegisterCommand(){
+		PluginCommand command = CommandHelper.unsafeRegisterCommand(name, plugin);
+		command.setExecutor(this);
+		command.setTabCompleter(this);
 		return this;
 	}
 
