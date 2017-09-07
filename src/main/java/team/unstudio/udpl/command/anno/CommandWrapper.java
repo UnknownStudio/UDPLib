@@ -20,46 +20,30 @@ public class CommandWrapper {
 	private final List<CommandWrapper> children = new ArrayList<>();
 	
 	private Object obj;
-	private Command anno;
+	private String[] permissions;
+	private Class<? extends CommandSender>[] senders;
+	private String usage;
+	private String description;
+	private boolean allowOp;
+	
 	private Method method;
 	private Method tabcomplete;
+	
 	private Class<?>[] requireds;
 	private Class<?>[] optionals;
-	private String[] optionalDefaults;
+	private Object[] optionalDefaults;
 
 	public CommandWrapper(String node) {
 		this.node = node;
 	}
 	
 	public CommandResult onCommand(CommandSender sender,String[] args){
-		//检查Sender
-		if(anno.senders() != null && anno.senders().length != 0){
-			boolean flag = true;
-			for (Class<? extends CommandSender> s : anno.senders()) {
-				if (s.isAssignableFrom(sender.getClass())) {
-					flag = false;
-					break;
-				}
-			}
-			if (flag) return CommandResult.WrongSender;
-		}
+		if (!checkSender(sender)) 
+			return CommandResult.WrongSender;
 
-		//检查权限
-		if (!(anno.allowOp()&&sender.isOp()) &&
-				anno.permissions() != null && anno.permissions().length != 0) {
-			boolean flag = true;
-			for (String permission : anno.permissions()) {
-				if (sender.hasPermission(permission)) {
-					flag = false;
-					break;
-				}
-			}
-
-			if (flag)
-				return CommandResult.NoPermission;
-		}
+		if (!checkPermission(sender))
+			return CommandResult.NoPermission;
 			
-
 		//检查参数数量
 		if (requireds.length > args.length) 
 			return CommandResult.NoEnoughParameter;
@@ -76,7 +60,7 @@ public class CommandWrapper {
 					else
 						objs[i+1] = transformParameter(optionals[i-requireds.length], args[i]);
 				else
-					objs[i+1] = transformParameter(optionals[i-args.length], optionalDefaults[i-args.length]);
+					objs[i+1] = optionalDefaults[i-args.length];
 			}
 		} catch (Exception e) {
 			return CommandResult.ErrorParameter;
@@ -94,6 +78,31 @@ public class CommandWrapper {
 			e.printStackTrace();
 			return CommandResult.Failure;
 		}
+	}
+	
+	private boolean checkSender(CommandSender sender){
+		if(getSenders() == null)
+			return false;
+		
+		for (Class<? extends CommandSender> s : getSenders())
+			if (s.isAssignableFrom(sender.getClass()))
+				return true;
+		
+		return false;
+	}
+	
+	private boolean checkPermission(CommandSender sender){
+		if (isAllowOp()&&sender.isOp())
+			return true;
+		
+		if(getPermissions() == null)
+			return true;
+		
+		for (String permission : getPermissions()) 
+			if (sender.hasPermission(permission)) 
+				return true;
+
+		return false;
 	}
 	
 	protected Object transformParameter(Class<?> clazz,String value){
@@ -154,8 +163,24 @@ public class CommandWrapper {
 		return obj;
 	}
 	
-	public Command getAnno() {
-		return anno;
+	public String[] getPermissions() {
+		return permissions;
+	}
+
+	public Class<? extends CommandSender>[] getSenders() {
+		return senders;
+	}
+
+	public String getUsage() {
+		return usage;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public boolean isAllowOp() {
+		return allowOp;
 	}
 	
 	public Method getMethod() {
@@ -166,12 +191,17 @@ public class CommandWrapper {
 		this.obj = obj;
 		this.method = method;
 		method.setAccessible(true);
-		anno = method.getAnnotation(Command.class);
+		Command anno = method.getAnnotation(Command.class);
+		permissions = anno.permissions();
+		senders = anno.senders();
+		usage = anno.usage();
+		description = anno.description();
+		allowOp = anno.allowOp();
 		
 		//参数载入
 		List<Class<?>> requireds = new ArrayList<>();
 		List<Class<?>> optionals = new ArrayList<>();
-		List<String> optionalDefaults = new ArrayList<>();
+		List<Object> optionalDefaults = new ArrayList<>();
 		Parameter[] parameters = method.getParameters();
 		for(int i=0;i<parameters.length;i++){
 			Required annoRequired = parameters[i].getAnnotation(Required.class);
@@ -183,18 +213,19 @@ public class CommandWrapper {
 			Optional annoOptional = parameters[i].getAnnotation(Optional.class);
 			if(annoOptional!=null){
 				optionals.add(parameters[i].getType());
-				optionalDefaults.add(annoOptional.value());
+				optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
 				continue;
 			}
 		}
 		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
 		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
-		this.optionalDefaults = optionalDefaults.toArray(new String[optionalDefaults.size()]);
+		this.optionalDefaults = optionalDefaults.toArray(new String[0]);
 		
 		//自动补全载入
 		for(Method m:obj.getClass().getDeclaredMethods()){
 			TabComplete tab;
-			if((tab=m.getAnnotation(TabComplete.class))==null)continue;
+			if((tab=m.getAnnotation(TabComplete.class))==null)
+				continue;
 			
 			if(tab.value().equals(anno.value())){
 				m.setAccessible(true);

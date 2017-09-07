@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
+	
 	private final JavaPlugin plugin;
 	private final String name;
 	private final List<CommandWrapper> wrappers = new ArrayList<>();
@@ -26,14 +29,28 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	private String unknownCommandMessage = "未知的指令";
 	private String runCommandFailureMessage = "指令执行失败";
 	
+	private String usage;
+	private String description;
+	
 	/**
 	 * 创建指令管理者
-	 * @param name 指令
+	 * @param name 指令名
 	 * @param plugin 插件
 	 */
-	public AnnoCommandManager(String name,JavaPlugin plugin){
+	public AnnoCommandManager(@Nonnull String name){
+		this(name,(JavaPlugin) Bukkit.getPluginCommand(name).getPlugin());
+	}
+
+	
+	/**
+	 * 创建指令管理者
+	 * @param name 指令名
+	 * @param plugin 插件
+	 */
+	public AnnoCommandManager(@Nonnull String name,JavaPlugin plugin){
 		this.name = name;
 		this.plugin = plugin;
+		registerCommand();
 	}
 
 	@Override
@@ -89,8 +106,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			onRunCommandFailure(sender, command, label, args, wrapper);
 			break;
 		case Success:
-			break;
-		default:
 			break;
 		}
 	}
@@ -241,6 +256,22 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return name;
 	}
 	
+	public String getUsage() {
+		return usage;
+	}
+
+	public void setUsage(String usage) {
+		this.usage = usage;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> list = new ArrayList<>();
