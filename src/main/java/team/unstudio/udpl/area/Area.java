@@ -12,9 +12,11 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 public class Area implements ConfigurationSerializable{
 	
 	private final Location minLocation,maxLocation;
+	private AreaDataContainer data;
 	
 	public Area(Map<String, Object> map) {
 		this((Location)map.get("point1"),(Location)map.get("point2"));
+		data = (AreaDataContainer) map.get("data");
 	}
 	
 	public Area(@Nonnull Location point1,@Nonnull Location point2) {
@@ -40,6 +42,12 @@ public class Area implements ConfigurationSerializable{
 
 	public final Location getMaxLocation() {
 		return maxLocation;
+	}
+	
+	public final AreaDataContainer getData() {
+		if(data == null)
+			data = new AreaDataContainer();
+		return data;
 	}
 	
 	/**
@@ -130,15 +138,8 @@ public class Area implements ConfigurationSerializable{
 		map.put("==", getClass().getName());
 		map.put("point1", getMinLocation());
 		map.put("point2", getMaxLocation());
+		map.put("data", data);
 		return map;
-	}
-	
-	public static Area deserialize(Map<String, Object> map){
-		return new Area(map);
-	}
-	
-	public static Area valueOf(Map<String, Object> map){
-		return new Area(map);
 	}
 	
 	@Override
