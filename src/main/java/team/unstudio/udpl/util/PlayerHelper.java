@@ -2,7 +2,7 @@ package team.unstudio.udpl.util;
 
 import org.bukkit.entity.Player;
 
-public class PlayerHelper {
+public final class PlayerHelper {
 	/**
 	 * 设置总经验
 	 */
