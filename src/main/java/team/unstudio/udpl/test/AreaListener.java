@@ -3,8 +3,8 @@ package team.unstudio.udpl.test;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import team.unstudio.udpl.api.area.event.PlayerEnterAreaEvent;
-import team.unstudio.udpl.api.area.event.PlayerLeaveAreaEvent;
+import team.unstudio.udpl.area.event.PlayerEnterAreaEvent;
+import team.unstudio.udpl.area.event.PlayerLeaveAreaEvent;
 
 public class AreaListener implements Listener{
 

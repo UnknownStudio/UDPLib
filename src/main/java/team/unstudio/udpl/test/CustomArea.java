@@ -6,7 +6,8 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import team.unstudio.udpl.api.area.Area;
+
+import team.unstudio.udpl.area.Area;
 
 public class CustomArea extends Area{
 	

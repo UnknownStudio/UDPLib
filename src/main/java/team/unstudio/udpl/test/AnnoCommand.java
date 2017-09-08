@@ -8,14 +8,14 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import team.unstudio.udpl.api.area.Area;
-import team.unstudio.udpl.api.area.AreaManager;
-import team.unstudio.udpl.api.command.anno.Alias;
-import team.unstudio.udpl.api.command.anno.Command;
-import team.unstudio.udpl.api.command.anno.Optional;
-import team.unstudio.udpl.api.command.anno.Required;
-import team.unstudio.udpl.api.ui.UI;
-import team.unstudio.udpl.api.ui.UIFactory;
+import team.unstudio.udpl.area.Area;
+import team.unstudio.udpl.area.AreaManager;
+import team.unstudio.udpl.command.anno.Alias;
+import team.unstudio.udpl.command.anno.Command;
+import team.unstudio.udpl.command.anno.Optional;
+import team.unstudio.udpl.command.anno.Required;
+import team.unstudio.udpl.ui.UI;
+import team.unstudio.udpl.ui.UIFactory;
 
 public final class AnnoCommand {
 
@@ -67,7 +67,7 @@ public final class AnnoCommand {
 	@Command(value = "area",senders = Player.class)
 	public void area(Player sender){
 		Area area = new CustomArea(new Location(Bukkit.getWorld("world"), 0, 0, 0), new Location(Bukkit.getWorld("world"), 100, 100, 100),sender);
-		if(AreaManager.getAreaManager(area.getWorld()).getAreas(area).size()==0)
+		if(AreaManager.getWorldAreaManager(area.getWorld()).getAreas(area).size()==0)
 			AreaManager.addArea(area);
 	}
 }

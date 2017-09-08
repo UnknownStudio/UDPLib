@@ -8,10 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import team.unstudio.udpl.api.area.Area;
-import team.unstudio.udpl.api.area.AreaManager;
-import team.unstudio.udpl.api.command.tree.CommandNode;
-import team.unstudio.udpl.api.command.tree.TreeCommandManager;
+import team.unstudio.udpl.area.Area;
+import team.unstudio.udpl.area.AreaDataContainer;
+import team.unstudio.udpl.area.AreaManager;
+import team.unstudio.udpl.command.tree.CommandNode;
+import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.core.area.AreaListener;
 import team.unstudio.udpl.test.Test;
 
@@ -19,7 +20,7 @@ public final class UDPLib extends JavaPlugin{
 
 	public static final String NAME = "UDPLib";
 	public static final String VERSION = "1.0.0";
-	//TODO:BossBar,Scoreboard,Hologram,Tab
+	//TODO:BossBar,Hologram,Tab
 
 	private static final File PLUGIN_PATH = new File("plugins");
 
@@ -33,8 +34,8 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onLoad() {
+		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
-
 	}
 
 	@Override

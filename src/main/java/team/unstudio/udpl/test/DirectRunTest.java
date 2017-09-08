@@ -1,11 +1,11 @@
 package team.unstudio.udpl.test;
 
-import team.unstudio.udpl.api.config.EncodingDetect;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+
+import team.unstudio.udpl.config.EncodingDetect;
 
 /**
  * Created by trychen on 17/7/29.
