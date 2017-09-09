@@ -13,4 +13,8 @@ public @interface Optional {
 	 * 当无参数输入时的默认值
 	 */
 	String value() default "";
+	
+	String usage() default "";
+	
+	String[] complete() default {};
 }

@@ -9,5 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target({PARAMETER,TYPE_PARAMETER})
 public @interface Required {
-
+	String usage() default "";
+	
+	String[] complete() default {};
 }

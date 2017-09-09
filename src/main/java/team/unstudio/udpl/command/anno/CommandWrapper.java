@@ -3,6 +3,7 @@ package team.unstudio.udpl.command.anno;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,10 +14,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import team.unstudio.udpl.command.CommandResult;
+import team.unstudio.udpl.util.ServerHelper;
 
 public class CommandWrapper {
 	
 	private final String node;
+	private final AnnoCommandManager manager;
 	private final List<CommandWrapper> children = new ArrayList<>();
 	
 	private Object obj;
@@ -25,51 +28,59 @@ public class CommandWrapper {
 	private String usage;
 	private String description;
 	private boolean allowOp;
+	private boolean hasStringArray;
 	
 	private Method method;
 	private Method tabcomplete;
 	
 	private Class<?>[] requireds;
 	private Class<?>[] optionals;
+	private String[][] requiredCompletes;
+	private String[][] optionalCompletes;
 	private Object[] optionalDefaults;
 
-	public CommandWrapper(String node) {
-		this.node = node;
+	public CommandWrapper(String node,AnnoCommandManager manager) {
+		this.node = node.toLowerCase();
+		this.manager = manager;
 	}
 	
-	public CommandResult onCommand(CommandSender sender,String[] args){
-		if (!checkSender(sender)) 
+	public CommandResult onCommand(CommandSender sender, String[] args) {
+		if (!checkSender(sender))
 			return CommandResult.WrongSender;
 
 		if (!checkPermission(sender))
 			return CommandResult.NoPermission;
-			
-		//检查参数数量
-		if (requireds.length > args.length) 
+
+		// 检查参数数量
+		if (requireds.length > args.length)
 			return CommandResult.NoEnoughParameter;
 
-		//转换参数
+		// 转换参数
 		Object[] objs = new Object[method.getParameterTypes().length];
 		objs[0] = sender;
-		
+
 		try {
-			for (int i = 0,parameterLength = method.getParameterTypes().length-1; i < parameterLength; i++) {
-				if(i<args.length)
-					if(i<requireds.length)
-						objs[i+1] = transformParameter(requireds[i], args[i]);
+			for (int i = 0, parameterLength = method.getParameterTypes().length
+					- (hasStringArray ? 2 : 1); i < parameterLength; i++) {
+				if (i < args.length)
+					if (i < requireds.length)
+						objs[i + 1] = transformParameter(requireds[i], args[i]);
 					else
-						objs[i+1] = transformParameter(optionals[i-requireds.length], args[i]);
+						objs[i + 1] = transformParameter(optionals[i - requireds.length], args[i]);
 				else
-					objs[i+1] = optionalDefaults[i-args.length];
+					objs[i + 1] = optionalDefaults[i - args.length];
 			}
 		} catch (Exception e) {
 			return CommandResult.ErrorParameter;
 		}
-		
-		//执行指令
+
+		if (hasStringArray && requireds.length + optionals.length < args.length)
+			objs[objs.length - 1] = Arrays.copyOfRange(args, requireds.length + optionals.length, args.length);
+
+		// 执行指令
 		try {
-			if(method.getReturnType().equals(boolean.class))
-				return (boolean)method.invoke(obj, objs)?CommandResult.Success:CommandResult.Failure;
+			if (method.getReturnType().equals(boolean.class))
+				return (boolean) method.invoke(obj, objs) ? CommandResult.Success : CommandResult.Failure;
 			else {
 				method.invoke(obj, objs);
 				return CommandResult.Success;
@@ -80,7 +91,7 @@ public class CommandWrapper {
 		}
 	}
 	
-	private boolean checkSender(CommandSender sender){
+	public boolean checkSender(CommandSender sender){
 		if(getSenders() == null)
 			return false;
 		
@@ -91,7 +102,7 @@ public class CommandWrapper {
 		return false;
 	}
 	
-	private boolean checkPermission(CommandSender sender){
+	public boolean checkPermission(CommandSender sender){
 		if (isAllowOp()&&sender.isOp())
 			return true;
 		
@@ -105,8 +116,9 @@ public class CommandWrapper {
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	protected Object transformParameter(Class<?> clazz,String value){
-		if(value.isEmpty())
+		if(value == null || value.isEmpty())
 			return null;
 		else if (clazz.equals(String.class))
 			return value;
@@ -125,7 +137,7 @@ public class CommandWrapper {
 		else if (clazz.equals(short.class) || clazz.equals(Short.class))
 			return Short.parseShort(value);
 		else if (clazz.equals(Player.class))
-			return Bukkit.getPlayer(value);
+			return Bukkit.getPlayerExact(value);
 		else if (clazz.equals(OfflinePlayer.class))
 			return Bukkit.getOfflinePlayer(value);
 		else if (clazz.equals(Material.class))
@@ -137,11 +149,11 @@ public class CommandWrapper {
 	@SuppressWarnings("unchecked")
 	public List<String> onTabComplete(String[] args){
 		if(method==null){
-			List<String> list = new ArrayList<>();
-			for(Player player:Bukkit.getOnlinePlayers())
-				if(player.getName().startsWith(args[0]))
-					list.add(player.getName());
-			return list;
+			if(args.length<=requireds.length)
+				return Arrays.asList(requiredCompletes[args.length-1]);
+			else if(args.length<=optionals.length)
+				return Arrays.asList(optionalCompletes[args.length-requireds.length-1]);
+			return Collections.EMPTY_LIST;
 		}else{
 			try {
 				return (List<String>) tabcomplete.invoke(obj, args);
@@ -198,40 +210,57 @@ public class CommandWrapper {
 		description = anno.description();
 		allowOp = anno.allowOp();
 		
+		Class<?>[] parameterTypes = method.getParameterTypes();
+		hasStringArray = parameterTypes[parameterTypes.length-1].equals(String[].class);
+		
 		//参数载入
 		List<Class<?>> requireds = new ArrayList<>();
 		List<Class<?>> optionals = new ArrayList<>();
+		List<String[]> requiredCompletes = new ArrayList<>();
+		List<String[]> optionalCompletes = new ArrayList<>();
 		List<Object> optionalDefaults = new ArrayList<>();
 		Parameter[] parameters = method.getParameters();
 		for(int i=0;i<parameters.length;i++){
-			Required annoRequired = parameters[i].getAnnotation(Required.class);
-			if(annoRequired!=null){
-				requireds.add(parameters[i].getType());
-				continue;
+			{
+				Required annoRequired = parameters[i].getAnnotation(Required.class);
+				if(annoRequired!=null){
+					requireds.add(parameters[i].getType());
+					requiredCompletes.add(annoRequired.complete());
+					continue;
+				}
 			}
 			
-			Optional annoOptional = parameters[i].getAnnotation(Optional.class);
-			if(annoOptional!=null){
-				optionals.add(parameters[i].getType());
-				optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
-				continue;
+			{
+				Optional annoOptional = parameters[i].getAnnotation(Optional.class);
+				if(annoOptional!=null){
+					optionals.add(parameters[i].getType());
+					optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
+					optionalCompletes.add(annoOptional.complete());
+					continue;
+				}
 			}
 		}
 		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
 		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
+		this.requiredCompletes = requiredCompletes.toArray(new String[requiredCompletes.size()][]);
+		this.optionalCompletes = optionalCompletes.toArray(new String[optionalCompletes.size()][]);
 		this.optionalDefaults = optionalDefaults.toArray(new String[0]);
 		
 		//自动补全载入
 		for(Method m:obj.getClass().getDeclaredMethods()){
-			TabComplete tab;
-			if((tab=m.getAnnotation(TabComplete.class))==null)
+			TabComplete tab = m.getAnnotation(TabComplete.class);
+			if(tab == null)
 				continue;
 			
-			if(tab.value().equals(anno.value())){
+			if(Arrays.equals(tab.value(), anno.value())){
 				m.setAccessible(true);
 				tabcomplete = m;
 				break;
 			}
 		}
+	}
+
+	public AnnoCommandManager getCommandManager() {
+		return manager;
 	}
 }
