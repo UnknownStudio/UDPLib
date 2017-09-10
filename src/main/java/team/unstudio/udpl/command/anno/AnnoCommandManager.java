@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,16 +22,16 @@ import team.unstudio.udpl.util.ServerHelper;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
+	private static final String noPermissionMessage = ChatColor.RED+"没有足够的权限:"+ChatColor.YELLOW+" %1$s .";
+	private static final String noEnoughParameterMessage = ChatColor.RED+"参数不足";
+	private static final String wrongSenderMessage = ChatColor.RED+"错误的指令发送者";
+	private static final String errorParameterMessage = ChatColor.RED+"参数错误";
+	private static final String unknownCommandMessage = ChatColor.RED+"未知的指令, 输入 /%1$s help 获取帮助.";
+	private static final String runCommandFailureMessage = ChatColor.RED+"指令执行失败, 请在在控制台查看更多的错误信息.";
+	
 	private final JavaPlugin plugin;
 	private final String name;
-	private final CommandWrapper defaultCommand;
-	
-	private String noPermissionMessage = "没有足够的权限";
-	private String noEnoughParameterMessage = "参数不足";
-	private String wrongSenderMessage = "错误的指令发送者";
-	private String errorParameterMessage = "参数错误";
-	private String unknownCommandMessage = "未知的指令";
-	private String runCommandFailureMessage = "指令执行失败";
+	private final CommandWrapper defaultHandler;
 	
 	private String usage;
 	private String description;
@@ -51,20 +52,90 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	public AnnoCommandManager(@Nonnull String name,JavaPlugin plugin){
 		this.name = name;
 		this.plugin = plugin;
-		this.defaultCommand = new CommandWrapper(name,this);
+		this.defaultHandler = new CommandWrapper(name,this,null);
+	}
+	
+	public JavaPlugin getPlugin() {
+		return plugin;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getUsage() {
+		return usage;
 	}
 
+	public AnnoCommandManager setUsage(String usage) {
+		this.usage = usage;
+		return this;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public AnnoCommandManager setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	public void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		sender.sendMessage(String.format(noPermissionMessage,handler.getPermission()));
+	}
+	
+	public void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		sender.sendMessage(noEnoughParameterMessage);
+	}
+	
+	public void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		sender.sendMessage(wrongSenderMessage);
+	}
+	
+	public void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler, int[] errorParameterIndexs){
+		sender.sendMessage(errorParameterMessage);
+	}
+	
+	public void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
+		sender.sendMessage(String.format(unknownCommandMessage,label));
+	}
+	
+	public void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		sender.sendMessage(runCommandFailureMessage);
+	}
+	
+	/**
+	 * 注册指令
+	 */
+	public AnnoCommandManager registerCommand(){
+		PluginCommand command = plugin.getCommand(name);
+		command.setExecutor(this);
+		command.setTabCompleter(this);
+		return this;
+	}
+	
+	/**
+	 * 不安全的注册指令
+	 */
+	public AnnoCommandManager unsafeRegisterCommand(){
+		PluginCommand command = CommandHelper.unsafeRegisterCommand(name, plugin);
+		command.setExecutor(this);
+		command.setTabCompleter(this);
+		return this;
+	}
+	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length==0){
-			handleCommand(defaultCommand, sender, command, label, args);
+			handleCommand(defaultHandler, sender, command, label, args);
 			return true;
 		}
 		
 		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		
 		int index=0;
-		List<CommandWrapper> children = defaultCommand.getChildren();
+		List<CommandWrapper> children = defaultHandler.getChildren();
 		while(!children.isEmpty()&&index<toLowerCaseArgs.length)
 			for(CommandWrapper wrapper:children){
 				if(!wrapper.getNode().equals(toLowerCaseArgs[index])) 
@@ -85,9 +156,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 	
 	private void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
-		switch (wrapper.onCommand(sender, args)) {
+		switch (wrapper.onCommand(sender,command,label,args)) {
 		case ErrorParameter:
-			onErrorParameter(sender, command, label, args, wrapper);
 			break;
 		case NoEnoughParameter:
 			onNoEnoughParameter(sender, command, label, args, wrapper);
@@ -116,10 +186,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			if(annoCommand==null) 
 				continue;
 			
-			getCommandWrapper(annoCommand.value()).setMethod(object, method);
+			createCommandWrapper(annoCommand.value()).setMethod(object, method);
 
 			for(Alias annoAlias:method.getAnnotationsByType(Alias.class))
-				getCommandWrapper(annoAlias.value()).setMethod(object, method);
+				createCommandWrapper(annoAlias.value()).setMethod(object, method);
 		}
 		return this;
 	}
@@ -129,22 +199,41 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 	
-	public CommandWrapper getCommandWrapper(String args[]){
+	public final CommandWrapper getCommandWrapper(String args[]){
 		if(args.length==0)
-			return defaultCommand;
+			return defaultHandler;
+		
+		args = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
+		
+		CommandWrapper command = defaultHandler;
+		label : for(String arg : args){
+			for(CommandWrapper child:command.getChildren()){
+				if(child.getNode().equals(arg)){
+					command = child;
+					continue label;
+				}
+			}
+			break;
+		}
+		return command;
+	}
+	
+	public final CommandWrapper createCommandWrapper(String args[]){
+		if(args.length==0)
+			return defaultHandler;
 		
 		args = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		
 		CommandWrapper parent = null;
-		for (CommandWrapper command : defaultCommand.getChildren())
+		for (CommandWrapper command : defaultHandler.getChildren())
 			if (command.getNode().equals(args[0])) {
 				parent = command;
 				break;
 			}
 
 		if (parent == null) {
-			parent = new CommandWrapper(args[0], this);
-			defaultCommand.getChildren().add(parent);
+			parent = new CommandWrapper(args[0], this, defaultHandler);
+			defaultHandler.getChildren().add(parent);
 		}
 
 		label: for (int i = 1; i < args.length; i++) {
@@ -155,141 +244,19 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 				}
 			}
 			
-			CommandWrapper command = new CommandWrapper(args[i], this);
+			CommandWrapper command = new CommandWrapper(args[i], this, parent);
 			parent.getChildren().add(command);
 			parent = command;
 		}
 		return parent;
 	}
 
-	public String getNoPermissionMessage() {
-		return noPermissionMessage;
-	}
-
-	public AnnoCommandManager setNoPermissionMessage(String def) {
-		this.noPermissionMessage = def;
-		return this;
-	}
-
-	public String getNoEnoughParameterMessage() {
-		return noEnoughParameterMessage;
-	}
-
-	public AnnoCommandManager setNoEnoughParameterMessage(String def) {
-		this.noEnoughParameterMessage = def;
-		return this;
-	}
-
-	public String getWrongSenderMessage() {
-		return wrongSenderMessage;
-	}
-
-	public AnnoCommandManager setWrongSenderMessage(String def) {
-		this.wrongSenderMessage = def;
-		return this;
-	}
-	
-	public String getErrorParameterMessage() {
-		return errorParameterMessage;
-	}
-
-	public AnnoCommandManager setErrorParameterMessage(String def) {
-		this.errorParameterMessage = def;
-		return this;
-	}
-
-	public void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(noPermissionMessage);
-	}
-	
-	public void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(noEnoughParameterMessage);
-	}
-	
-	public void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(wrongSenderMessage);
-	}
-	
-	public void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(errorParameterMessage);
-	}
-	
-	public void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
-		sender.sendMessage(unknownCommandMessage);
-	}
-	
-	public void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(runCommandFailureMessage);
-	}
-	
-	public String getUnknownCommandMessage() {
-		return unknownCommandMessage;
-	}
-
-	public AnnoCommandManager setUnknownCommandMessage(String def) {
-		this.unknownCommandMessage = def;
-		return this;
-	}
-
-	public String getRunCommandFailureMessage() {
-		return runCommandFailureMessage;
-	}
-
-	public AnnoCommandManager setRunCommandFailureMessage(String def) {
-		this.runCommandFailureMessage = def;
-		return this;
-	}
-
-	public JavaPlugin getPlugin() {
-		return plugin;
-	}
-	
-	/**
-	 * 注册指令
-	 */
-	public AnnoCommandManager registerCommand(){
-		PluginCommand command = plugin.getCommand(name);
-		command.setExecutor(this);
-		command.setTabCompleter(this);
-		return this;
-	}
-	
-	/**
-	 * 不安全的注册指令
-	 */
-	public AnnoCommandManager unsafeRegisterCommand(){
-		PluginCommand command = CommandHelper.unsafeRegisterCommand(name, plugin);
-		command.setExecutor(this);
-		command.setTabCompleter(this);
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public String getUsage() {
-		return usage;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		List<String> list = new ArrayList<>();
 		
-		List<CommandWrapper> children = defaultCommand.getChildren();
+		List<CommandWrapper> children = defaultHandler.getChildren();
 		int i , size = toLowerCaseArgs.length-1;
 		label : for(i = 0 ; !children.isEmpty() && i < size ; i++){
 			for(CommandWrapper commandWrapper:children){
@@ -305,9 +272,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			}
 		}
 		
-		for (CommandWrapper commandWrapper : children)
-			if (commandWrapper.getNode().startsWith(toLowerCaseArgs[size]))
-				list.add(commandWrapper.getNode());
+		{
+			String prefix = toLowerCaseArgs[size];
+			children.stream().map(commandWrapper->commandWrapper.getNode()).filter(node->node.startsWith(prefix)).forEach(list::add);
+		}
 		
 		if(list.isEmpty()){
 			String prefix = args[size];

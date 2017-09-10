@@ -42,7 +42,7 @@ public @interface Command {
 	/**
 	 * 指令权限
 	 */
-	String[] permissions() default {};
+	String permission() default "";
 	/**
 	 * 允许的指令发送者
 	 */
