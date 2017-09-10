@@ -1,12 +1,10 @@
 package team.unstudio.udpl.config;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.logging.Level;
 
 /**
  * 本类使用了 cpDetector，以达到自动识别文件编码的
@@ -20,28 +18,27 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
      *
      * @param file
      * @return
+     * @throws InvalidConfigurationException 
+     * @throws IOException 
+     * @throws FileNotFoundException 
      */
-    public static AutoCharsetYamlConfiguration loadConfiguration(File file) {
+    public static AutoCharsetYamlConfiguration loadConfiguration(File file){
         Validate.notNull(file, "File cannot be null");
         AutoCharsetYamlConfiguration config = new AutoCharsetYamlConfiguration();
 
+        try{
+        	config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
+        }catch(Exception e){}
+
+        if (config.charset == null) 
+        	config.charset = defaultCharset;
+
         try {
-            config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
-        } catch (Throwable e){
-            Bukkit.getLogger().log(Level.WARNING, "Cannot detect the encoding of file " + file.getPath(), e);
-        }
-
-        if (config.charset == null) config.charset = defaultCharset;
-
-        try {
-            config.load(file);
-        } catch (FileNotFoundException var3) {
-        } catch (IOException var4) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, var4);
-        } catch (InvalidConfigurationException var5) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, var5);
-        }
-
-        return config;
+			config.load(file);
+			return config;
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 }

@@ -25,6 +25,6 @@ public enum ConfigurationHelper {
 				file.createNewFile();
 			} catch (IOException e) {}
         
-        return AutoCharsetYamlConfiguration.loadConfiguration(file);
+		return AutoCharsetYamlConfiguration.loadConfiguration(file);
     }
 }

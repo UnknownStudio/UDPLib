@@ -6,7 +6,7 @@ import com.google.common.reflect.TypeToken;
 
 public interface ConfigurationSerializer<T> {
 	default public Class<?> getType(){
-		return new TypeToken<T>(){}.getRawType();
+		return new TypeToken<T>(getClass()){}.getRawType();
 	}
 	
 	@SuppressWarnings("unchecked")
