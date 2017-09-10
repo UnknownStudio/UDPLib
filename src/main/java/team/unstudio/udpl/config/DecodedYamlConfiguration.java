@@ -7,6 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.*;
 import java.nio.charset.Charset;
 
+import javax.annotation.Nullable;
+
 /**
  * 可以指定编码的 YamlConfiguration， 如不指定编码，默认为UTF-8
  */
@@ -24,6 +26,7 @@ public class DecodedYamlConfiguration extends YamlConfiguration {
         this.charset = charset;
     }
 
+    @Nullable
     public static DecodedYamlConfiguration loadConfiguration(File file){
         Validate.notNull(file, "File cannot be null");
         DecodedYamlConfiguration config = new DecodedYamlConfiguration();

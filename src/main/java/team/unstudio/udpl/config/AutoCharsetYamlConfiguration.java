@@ -6,6 +6,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 
+import javax.annotation.Nullable;
+
 /**
  * 本类使用了 cpDetector，以达到自动识别文件编码的
  * <a href="http://cpdetector.sourceforge.net/index.shtml"><i>cpDetector 官网</i></a>
@@ -15,13 +17,8 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
 
     /**
      * 加载Yaml 同时自动识别文件编码
-     *
-     * @param file
-     * @return
-     * @throws InvalidConfigurationException 
-     * @throws IOException 
-     * @throws FileNotFoundException 
      */
+    @Nullable
     public static AutoCharsetYamlConfiguration loadConfiguration(File file){
         Validate.notNull(file, "File cannot be null");
         AutoCharsetYamlConfiguration config = new AutoCharsetYamlConfiguration();
