@@ -25,9 +25,9 @@ public class ConfigurationTest {
 		config.save(file);
 		
 		config = ConfigurationHelper.loadConfiguration(file);
-		System.out.println(((SerializableName)ConfigurationSerializationHelper.deserialize(config,"SerializableName")).name);
-		System.out.println(((ExternalizableName)ConfigurationSerializationHelper.deserialize(config,"ExternalizableName")).name);
-		System.out.println(((SerializerName)ConfigurationSerializationHelper.deserialize(config,"SerializerName")).name);
+		System.out.println(((SerializableName)ConfigurationSerializationHelper.deserialize(config,"SerializableName").get()).name);
+		System.out.println(((ExternalizableName)ConfigurationSerializationHelper.deserialize(config,"ExternalizableName").get()).name);
+		System.out.println(((SerializerName)ConfigurationSerializationHelper.deserialize(config,"SerializerName").get()).name);
 	}
 	
 	public static class SerializableName implements ConfigurationSerializable{
