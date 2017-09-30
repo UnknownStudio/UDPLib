@@ -15,6 +15,7 @@ import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.core.area.AreaListener;
 import team.unstudio.udpl.test.Test;
+import team.unstudio.udpl.util.BungeeCordUtils;
 
 public final class UDPLib extends JavaPlugin{
 
@@ -36,6 +37,7 @@ public final class UDPLib extends JavaPlugin{
 	public void onLoad() {
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
+		ConfigurationSerialization.registerClass(BungeeCordUtils.ServerLocation.class);
 	}
 
 	@Override

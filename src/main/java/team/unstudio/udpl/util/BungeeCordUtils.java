@@ -105,7 +105,7 @@ public final class BungeeCordUtils {
     /**
      * 全局坐标，因为 server, world 都不安全，所以使用时需要确保可用性
      */
-    static class ServerLocation implements ConfigurationSerializable {
+    public static class ServerLocation implements ConfigurationSerializable {
         private String server;
         private String world;
         private double x;
