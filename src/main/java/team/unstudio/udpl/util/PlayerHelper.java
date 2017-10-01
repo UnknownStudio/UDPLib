@@ -1,8 +1,31 @@
 package team.unstudio.udpl.util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.bukkit.entity.Player;
 
-public final class PlayerHelper {
+import team.unstudio.udpl.nms.ReflectionUtils;
+import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
+
+public enum PlayerHelper {
+	
+	;
+	
+	public static final String DEFAULT_LANGUAGE = "en_US";
+	public static String getLanguage(Player player){
+		try {
+			Method getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
+			Field locale = ReflectionUtils.getField(PackageType.MINECRAFT_SERVER.getClass("EntityPlayer"), true, "locale");
+			return (String) locale.get(getHandle.invoke(player));
+		} catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return DEFAULT_LANGUAGE;
+	}
+	
+	//exp helper
 	/**
 	 * 设置总经验
 	 */
