@@ -12,6 +12,9 @@ public final class UDPLConfiguration extends ConfigurationHandler{
 	@ConfigItem("enableTest")
 	public boolean enableTest = false;
 	
+	@ConfigItem("debug")
+	public boolean debug = false;
+	
 	public UDPLConfiguration(File file) {
 		super(file);
 	}

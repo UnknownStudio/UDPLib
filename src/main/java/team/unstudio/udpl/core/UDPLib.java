@@ -109,4 +109,8 @@ public final class UDPLib extends JavaPlugin{
 	public static UDPLib getInstance(){
 		return INSTANCE;
 	}
+	
+	public static boolean isDebug(){
+		return getUDPLConfig().debug;
+	}
 }
