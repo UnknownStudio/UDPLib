@@ -164,6 +164,6 @@ public class Area implements ConfigurationSerializable{
 	
 	@Override
 	public String toString() {
-		return "MAXLocation:"+getMinLocation().toString()+"--MINLocation:"+getMaxLocation().toString();
+		return "Area: {MaxLocation: "+getMinLocation().toString()+", MinLocation: "+getMaxLocation().toString()+", Data: "+data.toString()+" }";
 	}
 }
