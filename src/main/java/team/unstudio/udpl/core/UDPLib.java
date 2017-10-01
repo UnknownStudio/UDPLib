@@ -15,7 +15,6 @@ import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.core.area.AreaListener;
 import team.unstudio.udpl.test.Test;
-import team.unstudio.udpl.util.BungeeCordUtils;
 
 public final class UDPLib extends JavaPlugin{
 
