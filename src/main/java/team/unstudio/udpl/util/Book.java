@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
+import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.item.ItemHelper;
 import team.unstudio.udpl.nms.ReflectionUtils;
 import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
@@ -20,6 +21,7 @@ public enum Book {
 	
 	;
 
+	private static final boolean debug = UDPLib.isDebug();
 	private static boolean initialised = false;
 	private static Method getHandle;
 	private static Method openBook;
@@ -32,7 +34,8 @@ public enum Book {
 					PackageType.MINECRAFT_SERVER.getClass("EnumHand"));
 			initialised = true;
 		} catch (ReflectiveOperationException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 			initialised = false;
 		}
 	}
@@ -54,7 +57,8 @@ public enum Book {
 			openBook.invoke(entityplayer, ItemHelper.getNMSItemStack(book), enumArray[0]);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
 			initialised = false;
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 
 		player.getInventory().setItemInMainHand(held);
@@ -76,7 +80,8 @@ public enum Book {
 				listPages.add(ChatSerializer_a.invoke(ChatSerializer, page));
 			return true;
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
-			e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 			return false;
 		}
 	}
@@ -96,7 +101,8 @@ public enum Book {
 			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
 			return Optional.of(listPages.stream().map(Object::toString).toArray(String[]::new));
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
+			if (debug)
+				e.printStackTrace();
 		}
 		return Optional.empty();
 	}

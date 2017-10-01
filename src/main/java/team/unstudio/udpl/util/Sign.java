@@ -8,6 +8,9 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
+
+import team.unstudio.udpl.core.UDPLib;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,6 +20,8 @@ import org.bukkit.entity.Player;
  * Created by trychen on 17/7/11.
  */
 public class Sign {
+	private static final boolean debug = UDPLib.isDebug();
+	
     protected static String version = Bukkit.getServer().getBukkitVersion().substring(0, 3);
     private static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
     private static PacketType BLOCK_CHANGE = PacketType.Play.Server.BLOCK_CHANGE;
@@ -45,7 +50,8 @@ public class Sign {
                 manager.sendServerPacket(player, e);
                 return true;
             } catch (Exception var11) {
-                var11.printStackTrace();
+            	if(debug)
+            		var11.printStackTrace();
             }
         } else if (version.startsWith("1.8.")) {
             try {
@@ -62,7 +68,8 @@ public class Sign {
                 manager.sendServerPacket(player, e);
                 return true;
             } catch (Exception var12) {
-                var12.printStackTrace();
+            	if(debug)
+            		var12.printStackTrace();
             }
         }else {
             try {
@@ -84,7 +91,8 @@ public class Sign {
                 manager.sendServerPacket(player, e);
                 return true;
             } catch (Exception var12) {
-                var12.printStackTrace();
+            	if(debug)
+            		var12.printStackTrace();
             }
         }
         return false;

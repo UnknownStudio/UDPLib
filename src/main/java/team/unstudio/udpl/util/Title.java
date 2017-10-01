@@ -9,12 +9,16 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
+
+import team.unstudio.udpl.core.UDPLib;
+
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 public enum Title {
 	
 	;
 	
+	private static final boolean debug = UDPLib.isDebug();
 	private static final ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
 	
 	public static boolean title(Player player, String title){
@@ -25,7 +29,8 @@ public enum Title {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return true;
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 		return false;
 	}
@@ -38,7 +43,8 @@ public enum Title {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return true;
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 		return false;
 	}
@@ -51,7 +57,8 @@ public enum Title {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return true;
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 		return false;
 	}
@@ -63,7 +70,8 @@ public enum Title {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return true;
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 		return false;
 	}
@@ -75,7 +83,8 @@ public enum Title {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return true;
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 		return false;
 	}

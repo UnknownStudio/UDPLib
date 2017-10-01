@@ -6,12 +6,15 @@ import java.lang.reflect.Method;
 
 import org.bukkit.entity.Player;
 
+import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.ReflectionUtils;
 import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 
 public enum PlayerHelper {
 	
 	;
+	
+	private static final boolean debug = UDPLib.isDebug();
 	
 	public static final String DEFAULT_LANGUAGE = "en_US";
 	public static String getLanguage(Player player){
@@ -20,7 +23,8 @@ public enum PlayerHelper {
 			Field locale = ReflectionUtils.getField(PackageType.MINECRAFT_SERVER.getClass("EntityPlayer"), true, "locale");
 			return (String) locale.get(getHandle.invoke(player));
 		} catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+			if(debug)
+				e.printStackTrace();
 		}
 		return DEFAULT_LANGUAGE;
 	}

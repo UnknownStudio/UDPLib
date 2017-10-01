@@ -5,6 +5,9 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+
+import team.unstudio.udpl.core.UDPLib;
+
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +16,7 @@ public enum ActionBar {
 	
 	;
 	
+	private static final boolean debug = UDPLib.isDebug();
     private static ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
 
@@ -25,7 +29,8 @@ public enum ActionBar {
             protocolManager.sendServerPacket(player, container);
             return true;
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+           if(debug) 
+        	   e.printStackTrace();
         }
         return false;
     }
