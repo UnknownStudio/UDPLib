@@ -3,6 +3,7 @@ package team.unstudio.udpl.item;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.nms.ReflectionUtils;
+import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 
 import java.lang.reflect.Method;
 
@@ -10,6 +11,17 @@ public enum ItemHelper {
 
 	;
 	
+	public static Object getNMSItemStack(ItemStack item) {
+		try {
+			Method asNMSCopy = ReflectionUtils.getMethod(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"),
+					"asNMSCopy", ItemStack.class);
+			return asNMSCopy.invoke(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"), item);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	   
     /**
      * 转换为JSON格式
      * @param itemStack 物品
