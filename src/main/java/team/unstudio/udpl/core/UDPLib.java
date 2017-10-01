@@ -45,8 +45,10 @@ public final class UDPLib extends JavaPlugin{
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
+		
 		if(CONFIG.enableTest)
 			Test.INSTANCE.onLoad();
+		
 		new TreeCommandManager("pm", this).addNode(new CommandNode() {
 			@Override
 			public boolean onCommand(CommandSender sender, Object[] args) {

@@ -1,8 +1,6 @@
 package team.unstudio.udpl.test;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
-
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
 
@@ -13,7 +11,6 @@ public class Test {
 	public static TestConfiguration config;
 	
 	public void onLoad(){
-		ConfigurationSerialization.registerClass(CustomArea.class);
 	}
 	
 	public void onEnable(){
