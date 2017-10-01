@@ -23,7 +23,7 @@ public class Sign {
     private static PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
     private static PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
 
-    public static void open(Player player, String[] lines){
+    public static boolean open(Player player, String[] lines){
         Location loc = player.getLocation();
         int x = loc.getBlockX();
         int y = 0;
@@ -43,6 +43,7 @@ public class Sign {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
+                return true;
             } catch (Exception var11) {
                 var11.printStackTrace();
             }
@@ -59,6 +60,7 @@ public class Sign {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
+                return true;
             } catch (Exception var12) {
                 var12.printStackTrace();
             }
@@ -80,9 +82,11 @@ public class Sign {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
+                return true;
             } catch (Exception var12) {
                 var12.printStackTrace();
             }
         }
+        return false;
     }
 }
