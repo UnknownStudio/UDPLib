@@ -3,6 +3,7 @@ package team.unstudio.udpl.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 import org.bukkit.entity.Player;
 
@@ -10,7 +11,7 @@ import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.ReflectionUtils;
 import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 
-public enum PlayerHelper {
+public enum PlayerUtils {
 	
 	;
 	
@@ -27,6 +28,9 @@ public enum PlayerHelper {
 				e.printStackTrace();
 		}
 		return DEFAULT_LANGUAGE;
+	}
+	public static Locale getLanguageLocale(Player player){
+		return Locale.forLanguageTag(getLanguage(player));
 	}
 	
 	//exp helper
