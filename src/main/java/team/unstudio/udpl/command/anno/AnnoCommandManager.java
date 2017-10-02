@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import javax.annotation.Nonnull;
 
@@ -17,17 +18,19 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.collect.Lists;
+
 import team.unstudio.udpl.command.CommandHelper;
 import team.unstudio.udpl.util.ServerHelper;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	private static final String noPermissionMessage = ChatColor.RED+"没有足够的权限:"+ChatColor.YELLOW+" %1$s .";
-	private static final String noEnoughParameterMessage = ChatColor.RED+"参数不足";
-	private static final String wrongSenderMessage = ChatColor.RED+"错误的指令发送者";
-	private static final String errorParameterMessage = ChatColor.RED+"参数错误";
+	private static final String noEnoughParameterMessage = ChatColor.RED+"参数不足! 正确的使用方法: %1$s";
+	private static final String wrongSenderMessage = ChatColor.RED+"该指令不能由该指令发送者发送!";
+	private static final String errorParameterMessage = ChatColor.RED+"参数错误! 正确的使用方法: %1$s";
 	private static final String unknownCommandMessage = ChatColor.RED+"未知的指令, 输入 /%1$s help 获取帮助.";
-	private static final String runCommandFailureMessage = ChatColor.RED+"指令执行失败, 请在在控制台查看更多的错误信息.";
+	private static final String runCommandFailureMessage = ChatColor.RED+"指令执行失败, 请在控制台查看更多的错误信息.";
 	
 	private final JavaPlugin plugin;
 	private final String name;
@@ -86,7 +89,48 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 	
 	public void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(noEnoughParameterMessage);
+		StringBuilder builder = new StringBuilder(ChatColor.WHITE+"/");
+		
+		{
+			Stack<String> subCommandStack = new Stack<>();
+			CommandWrapper wrapper = handler;
+			do{
+				subCommandStack.push(wrapper.getNode());
+				wrapper = wrapper.getParent();
+			}while(wrapper == null);
+			
+			while(!subCommandStack.isEmpty()){
+				builder.append(subCommandStack.pop());
+				builder.append(" ");
+			}
+		}
+		
+		{
+			String[] requiredUsages = handler.getRequiredUsages();
+			for (int i = 0, size = args.length; i < size; i++) {
+				builder.append("<");
+				builder.append(requiredUsages[i]);
+				builder.append("> ");
+			}
+			builder.append(ChatColor.RED);
+			for (int i = args.length, size = requiredUsages.length; i < size; i++) {
+				builder.append("<");
+				builder.append(requiredUsages[i]);
+				builder.append("> ");
+			}
+		}
+		
+		{
+			builder.append(ChatColor.WHITE);
+			String[] optionalUsages = handler.getOptionalUsages();
+			for (int i = 0, size = optionalUsages.length; i < size; i++) {
+				builder.append("[");
+				builder.append(optionalUsages[i]);
+				builder.append("] ");
+			}
+		}
+		
+		sender.sendMessage(String.format(noEnoughParameterMessage,builder.toString()));
 	}
 	
 	public void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
@@ -94,7 +138,53 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 	
 	public void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler, int[] errorParameterIndexs){
-		sender.sendMessage(errorParameterMessage);
+		StringBuilder builder = new StringBuilder(ChatColor.WHITE+"/");
+		
+		{
+			Stack<String> subCommandStack = new Stack<>();
+			CommandWrapper wrapper = handler;
+			do{
+				subCommandStack.push(wrapper.getNode());
+				wrapper = wrapper.getParent();
+			}while(wrapper == null);
+			
+			while(!subCommandStack.isEmpty()){
+				builder.append(subCommandStack.pop());
+				builder.append(" ");
+			}
+		}
+		
+		List<Integer> errorParameterIndexsList = Lists.newArrayList();
+		for(int i:errorParameterIndexs)
+			errorParameterIndexsList.add(i);
+		
+		{
+			String[] requiredUsages = handler.getRequiredUsages();
+			for (int i = 0, size = requiredUsages.length; i < size; i++) {
+				if(errorParameterIndexsList.contains(i))
+					builder.append(ChatColor.RED);
+				else
+					builder.append(ChatColor.WHITE);
+				builder.append("<");
+				builder.append(requiredUsages[i]);
+				builder.append("> ");
+			}
+		}
+		
+		{
+			String[] optionalUsages = handler.getOptionalUsages();
+			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredUsages().length; i < size; i++) {
+				if(errorParameterIndexsList.contains(requiredLength+i))
+					builder.append(ChatColor.RED);
+				else
+					builder.append(ChatColor.WHITE);
+				builder.append("[");
+				builder.append(optionalUsages[i]);
+				builder.append("] ");
+			}
+		}
+		
+		sender.sendMessage(String.format(errorParameterMessage,builder.toString()));
 	}
 	
 	public void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
