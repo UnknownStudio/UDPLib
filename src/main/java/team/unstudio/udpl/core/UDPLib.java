@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.area.AreaManager;
+import team.unstudio.udpl.bungeecord.ServerLocation;
 import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.core.area.AreaListener;
@@ -36,7 +37,7 @@ public final class UDPLib extends JavaPlugin{
 	public void onLoad() {
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
-		ConfigurationSerialization.registerClass(BungeeCordUtils.ServerLocation.class);
+		ConfigurationSerialization.registerClass(ServerLocation.class);
 	}
 
 	@Override
