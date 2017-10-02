@@ -7,7 +7,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
+import com.google.common.collect.Maps;
+
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -188,7 +189,7 @@ public class ServerLocation implements ConfigurationSerializable {
      */
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> data = new HashMap();
+        Map<String, Object> data = Maps.newHashMap();
         data.put("==", getClass().getName());
         data.put("server", this.server);
         data.put("world", this.world);

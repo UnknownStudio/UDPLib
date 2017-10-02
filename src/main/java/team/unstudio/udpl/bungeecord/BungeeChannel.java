@@ -5,7 +5,6 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.Messenger;
@@ -239,6 +238,7 @@ public class BungeeChannel {
             Queue<CompletableFuture<?>> callbacks = callbackMap.get(subchannel);
 
             if (callbacks == null) {
+            	String forwardSubchannel = input.readUTF();
                 short dataLength = input.readShort();
                 byte[] data = new byte[dataLength];
                 input.readFully(data);
@@ -248,9 +248,9 @@ public class BungeeChannel {
 
                 if (forwardListeners == null) return;
                 synchronized (forwardListeners) {
-                    ForwardConsumer listener = forwardListeners.get(subchannel);
+                	ForwardConsumer listener = forwardListeners.get(forwardSubchannel);
                     if (listener != null) {
-                        listener.accept(subchannel, player, data);
+                        listener.accept(forwardSubchannel, player, data);
                     }
                 }
 
@@ -538,6 +538,8 @@ public class BungeeChannel {
             player.teleport(serverLocation.toLocation());
             return;
         }
+        
+        connect(player, serverLocation.getServer());
 
         forward(serverLocation.getServer(), "Teleport", data -> {
             data.writeUTF(player.getName());
@@ -552,5 +554,11 @@ public class BungeeChannel {
         ByteArrayDataInput dataInput = ByteStreams.newDataInput(data);
         String playerName = dataInput.readUTF();
         ServerLocation serverLocation = ServerLocation.deserialize(dataInput.readUTF());
+        
+        Player targetPlayer = Bukkit.getPlayer(playerName);
+        if(targetPlayer==null||!targetPlayer.isOnline())
+        	return;
+        
+        targetPlayer.teleport(serverLocation.toLocation());
     }
 }
