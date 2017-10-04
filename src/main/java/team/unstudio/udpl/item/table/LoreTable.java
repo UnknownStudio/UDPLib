@@ -16,10 +16,10 @@ public interface LoreTable {
 	public int getHead(ItemStack item);
 	/**
 	 * length of table in lore,
-	 * if table does not exist return -1.
+	 * if table does not exist return 0.
 	 * 
 	 * @param item
-	 * @return length of table in lore or -1
+	 * @return length of table in lore or 0
 	 */
 	public int getLength(ItemStack item);
 }

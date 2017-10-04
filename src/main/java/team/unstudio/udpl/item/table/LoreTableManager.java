@@ -16,6 +16,7 @@ public class LoreTableManager {
 		ItemWrapper wrapper = new ItemWrapper(item);
 		for(LoreTable t : table) {
 			int head = t.getHead(item);
+			if(head==-1)continue;
 			int length = t.getLength(item);
 			for(int i = head;i<length;i++) {
 				wrapper.removeLore(i);
@@ -28,6 +29,7 @@ public class LoreTableManager {
 		ItemWrapper wrapper = new ItemWrapper(item);
 		for(LoreTable t : table) {
 			int head = t.getHead(item);
+			if(head==-1)continue;
 			int length = t.getLength(item);
 			for(int i = head;i<length;i++) {
 				wrapper.removeLore(i);
