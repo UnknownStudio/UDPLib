@@ -1,5 +1,6 @@
 package team.unstudio.udpl.item;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -69,6 +70,21 @@ public class ItemWrapper {
 		setMeta(lores);
 		return this;
 	}
+	
+	public ItemWrapper addLore(int index,String ...lore){
+		List<String> lores =  getLore(itemStack);
+		lores.addAll(index, getList(lore));
+		setMeta(lores);
+		return this;
+	}
+	
+	private List<String> getList(String[] lore){
+		ArrayList<String> list = new ArrayList<>();
+		for(String s : lore) {
+			list.add(s);
+		}
+		return list;
+	}
 
 	public ItemWrapper removeLore(int index){
 		List<String> lores =  getLore(itemStack);
@@ -88,9 +104,10 @@ public class ItemWrapper {
 	}
 
 	private List<String> getLore(ItemStack item){
-		ItemMeta meta = item.getItemMeta();
 		CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<String>();
-		if(meta.getLore()!=null&&!meta.getLore().isEmpty())
+		if(!item.hasItemMeta())return lore;
+		ItemMeta meta = item.getItemMeta();
+		if(meta.hasLore()&&!meta.getLore().isEmpty())
 			lore.addAll(meta.getLore());
 		return lore;
 	}
