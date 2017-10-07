@@ -4,18 +4,24 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 
-public enum MappingHelper {
+public final class MappingHelper {
 	
-	;
+	public static final MappingHelper INSTANCE = new MappingHelper();
 	
 	static{
+		INSTANCE.loadMapping();
+	}
+	
+	public MappingHelper(){}
+	
+	private ClassMapping classMapping;
+	private MemberMapping memberMapping;
+	
+	public void loadMapping(){
 		loadMapping(Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().indexOf("-")));
 	}
 	
-	private static ClassMapping classMapping;
-	private static MemberMapping memberMapping;
-	
-	public static void loadMapping(String version){
+	public void loadMapping(String version){
 		try {
 			classMapping = new ClassMapping(MappingHelper.class.getResourceAsStream("/mappings/"+version+"/cl.csrg"));
 		} catch (IOException e) {
@@ -30,11 +36,11 @@ public enum MappingHelper {
 		}
 	}
 
-	public static ClassMapping getClassMapping() {
+	public ClassMapping getClassMapping() {
 		return classMapping;
 	}
 
-	public static MemberMapping getMemberMapping() {
+	public MemberMapping getMemberMapping() {
 		return memberMapping;
 	}
 	

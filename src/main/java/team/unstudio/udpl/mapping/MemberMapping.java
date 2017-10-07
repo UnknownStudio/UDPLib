@@ -22,14 +22,24 @@ public final class MemberMapping {
 			if(line.isEmpty()||line.startsWith("#"))
 				continue;
 				
-			String[] args = line.split(" ",4);
-			if(!obfToDeobf.containsKey(args[0]))
-				obfToDeobf.put(args[0], Maps.newHashMap());
-			obfToDeobf.get(args[0]).put(args[1]+" "+args[2], args[3]);
-			
-			if(!deobfToObf.containsKey(args[0]))
-				deobfToObf.put(args[0], Maps.newHashMap());
-			deobfToObf.get(args[0]).put(args[3]+" "+args[2], args[1]);
+			String[] args = line.split(" ");
+			if(args.length == 4){ //Method
+				if(!obfToDeobf.containsKey(args[0]))
+					obfToDeobf.put(args[0], Maps.newHashMap());
+				obfToDeobf.get(args[0]).put(args[1]+args[2], args[3]);
+				
+				if(!deobfToObf.containsKey(args[0]))
+					deobfToObf.put(args[0], Maps.newHashMap());
+				deobfToObf.get(args[0]).put(args[3]+args[2], args[1]);
+			}else if(args.length == 3){ //Field
+				if(!obfToDeobf.containsKey(args[0]))
+					obfToDeobf.put(args[0], Maps.newHashMap());
+				obfToDeobf.get(args[0]).put(args[1], args[2]);
+				
+				if(!deobfToObf.containsKey(args[0]))
+					deobfToObf.put(args[0], Maps.newHashMap());
+				deobfToObf.get(args[0]).put(args[2], args[1]);
+			}
 		}
 	}
 	
