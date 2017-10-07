@@ -14,9 +14,9 @@ import team.unstudio.udpl.core.UDPLib;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
-public enum Title {
+public final class Title {
 	
-	;
+	private Title(){}
 	
 	private static final boolean debug = UDPLib.isDebug();
 	private static final ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();

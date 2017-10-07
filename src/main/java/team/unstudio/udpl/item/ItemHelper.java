@@ -9,9 +9,9 @@ import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public enum ItemHelper {
+public final class ItemHelper {
 
-	;
+	private ItemHelper() {}
 	
 	private static final boolean debug = UDPLib.isDebug();
 	

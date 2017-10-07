@@ -4,8 +4,10 @@ import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 
-public interface ServerHelper {
+public final class ServerHelper {
 
+	private ServerHelper(){}
+	
 	public static String[] getOnlinePlayerNames(){
 		return Bukkit.getOnlinePlayers().stream().map(player->player.getName()).toArray(String[]::new);
 	}

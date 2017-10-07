@@ -13,10 +13,12 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 
 import team.unstudio.udpl.core.UDPLib;
 
-public interface BlockUtils {
+public final class BlockUtils {
 	
-	boolean debug = UDPLib.isDebug();
-	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+	private BlockUtils() {}
+	
+	private static final boolean debug = UDPLib.isDebug();
+	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 	
 	/**
 	 * 0–9 are the displayable destroy stages and each other number means that there is no animation on this coordinate.</br>

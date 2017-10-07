@@ -12,13 +12,12 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
-public enum ActionBar {
+public final class ActionBar {
 	
-	;
+	private ActionBar() {}
 	
 	private static final boolean debug = UDPLib.isDebug();
-    private static ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-
+    private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
     public static boolean send(Player player, String text){
         PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.CHAT);

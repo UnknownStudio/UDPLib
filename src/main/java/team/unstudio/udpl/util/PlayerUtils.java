@@ -11,9 +11,9 @@ import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.ReflectionUtils;
 import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 
-public enum PlayerUtils {
+public final class PlayerUtils {
 	
-	;
+	private PlayerUtils(){}
 	
 	private static final boolean debug = UDPLib.isDebug();
 	
