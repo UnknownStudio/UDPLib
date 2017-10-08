@@ -15,6 +15,7 @@ import team.unstudio.udpl.bungeecord.ServerLocation;
 import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.core.area.AreaListener;
+import team.unstudio.udpl.mapping.MappingHelper;
 import team.unstudio.udpl.test.Test;
 
 public final class UDPLib extends JavaPlugin{
@@ -38,6 +39,8 @@ public final class UDPLib extends JavaPlugin{
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
 		ConfigurationSerialization.registerClass(ServerLocation.class);
+		
+		MappingHelper.loadMapping();
 	}
 
 	@Override
@@ -45,6 +48,7 @@ public final class UDPLib extends JavaPlugin{
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
+		setDebug(CONFIG.debug);
 		
 		if(CONFIG.enableTest)
 			Test.INSTANCE.onLoad();
@@ -100,10 +104,6 @@ public final class UDPLib extends JavaPlugin{
 			player.closeInventory();
 	}
 
-	public static void debug(String arg){
-		if(DEBUG)INSTANCE.getLogger().info(arg);
-	}
-
 	public static UDPLConfiguration getUDPLConfig(){
 		return CONFIG;
 	}
@@ -113,6 +113,10 @@ public final class UDPLib extends JavaPlugin{
 	}
 	
 	public static boolean isDebug(){
-		return getUDPLConfig().debug;
+		return DEBUG;
+	}
+	
+	public static void setDebug(boolean debug){
+		DEBUG = debug;
 	}
 }
