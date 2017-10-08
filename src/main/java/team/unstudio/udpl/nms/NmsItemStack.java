@@ -6,9 +6,15 @@ import team.unstudio.udpl.nbt.NBTTagCompound;
 
 public interface NmsItemStack {
 	
-	public NBTTagCompound getTag(ItemStack itemStack) throws Exception;
-
-	public ItemStack setTag(ItemStack itemStack,NBTTagCompound nbt) throws Exception;
+	public ItemStack getItemStack();
 	
-	public boolean hasTag(ItemStack itemStack) throws Exception;
+	public NBTTagCompound getTag();
+
+	public void setTag(NBTTagCompound nbt);
+	
+	public boolean hasTag();
+	
+	public void load(NBTTagCompound nbt);
+	
+	public NBTTagCompound save();
 }

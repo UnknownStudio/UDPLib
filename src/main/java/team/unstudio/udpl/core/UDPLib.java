@@ -16,6 +16,7 @@ import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.core.area.AreaListener;
 import team.unstudio.udpl.mapping.MappingHelper;
+import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.test.Test;
 
 public final class UDPLib extends JavaPlugin{
@@ -41,6 +42,7 @@ public final class UDPLib extends JavaPlugin{
 		ConfigurationSerialization.registerClass(ServerLocation.class);
 		
 		MappingHelper.loadMapping();
+		NmsHelper.loadNmsHelper();
 	}
 
 	@Override

@@ -3,11 +3,11 @@ package team.unstudio.udpl.nbt;
 public interface NBTUtils {
 	
 	public static NBTTagCompound loadNBTTagCompoundFromJson(String json){
-		return null;
+		return null; //TODO:
 	}
 	
 	public static NBTTagList loadNBTTagListFromJson(String json){
-		return null;
+		return null; //TODO:
 	}
 	
 	/**
