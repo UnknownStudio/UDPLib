@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -16,6 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import team.unstudio.udpl.command.CommandResult;
 
@@ -23,7 +25,7 @@ public class CommandWrapper {
 	
 	private final String node;
 	private final AnnoCommandManager manager;
-	private final List<CommandWrapper> children = new ArrayList<>();
+	private final Map<String,CommandWrapper> children = Maps.newHashMap();
 	private final CommandWrapper parent;
 	
 	private Object obj;
@@ -57,7 +59,7 @@ public class CommandWrapper {
 		return node;
 	}
 
-	public List<CommandWrapper> getChildren() {
+	public Map<String, CommandWrapper> getChildren() {
 		return children;
 	}
 	
@@ -107,6 +109,9 @@ public class CommandWrapper {
 	}
 	
 	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
+		if (obj == null)
+			return CommandResult.Failure;
+		
 		if (!checkSender(sender))
 			return CommandResult.WrongSender;
 
@@ -170,7 +175,7 @@ public class CommandWrapper {
 		}
 	}
 	
-	public boolean checkSender(CommandSender sender){
+	private boolean checkSender(CommandSender sender){
 		if(getSenders() == null)
 			return false;
 		
@@ -181,7 +186,7 @@ public class CommandWrapper {
 		return false;
 	}
 	
-	public boolean checkPermission(CommandSender sender){
+	private boolean checkPermission(CommandSender sender){
 		if (isAllowOp()&&sender.isOp())
 			return true;
 		
@@ -193,35 +198,9 @@ public class CommandWrapper {
 
 		return false;
 	}
-	
-	@SuppressWarnings("deprecation")
-	protected Object transformParameter(Class<?> clazz,String value){
-		if(value == null || value.isEmpty())
-			return null;
-		else if (clazz.equals(String.class))
-			return value;
-		else if (clazz.equals(int.class) || clazz.equals(Integer.class))
-			return Integer.parseInt(value);
-		else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
-			return Boolean.parseBoolean(value);
-		else if (clazz.equals(float.class) || clazz.equals(Float.class))
-			return Float.parseFloat(value);
-		else if (clazz.equals(double.class) || clazz.equals(Double.class))
-			return Double.parseDouble(value);
-		else if (clazz.equals(long.class) || clazz.equals(Long.class))
-			return Long.parseLong(value);
-		else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
-			return Byte.parseByte(value);
-		else if (clazz.equals(short.class) || clazz.equals(Short.class))
-			return Short.parseShort(value);
-		else if (clazz.equals(Player.class))
-			return Bukkit.getPlayerExact(value);
-		else if (clazz.equals(OfflinePlayer.class))
-			return Bukkit.getOfflinePlayer(value);
-		else if (clazz.equals(Material.class))
-			return Material.valueOf(value);
-		else
-			return null;
+
+	private Object transformParameter(Class<?> clazz,String value){
+		return getCommandManager().transformParameter(clazz, value);
 	}
 	
 	@SuppressWarnings("unchecked")
