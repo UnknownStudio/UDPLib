@@ -16,7 +16,8 @@ public class Area implements ConfigurationSerializable{
 	
 	public Area(Map<String, Object> map) {
 		this((Location)map.get("point1"),(Location)map.get("point2"));
-		data = (AreaDataContainer) map.get("data");
+		if(map.containsKey("data"))
+			data = (AreaDataContainer) map.get("data");
 	}
 	
 	public Area(@Nonnull Location point1,@Nonnull Location point2) {
@@ -138,7 +139,8 @@ public class Area implements ConfigurationSerializable{
 		map.put("==", getClass().getName());
 		map.put("point1", getMinLocation());
 		map.put("point2", getMaxLocation());
-		map.put("data", data);
+		if(data != null)
+			map.put("data", data);
 		return map;
 	}
 	
