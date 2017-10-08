@@ -1,4 +1,3 @@
-
 package team.unstudio.udpl.area;
 
 import java.io.File;
@@ -10,33 +9,29 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import team.unstudio.udpl.area.event.AreaCreateEvent;
-import team.unstudio.udpl.area.event.AreaRemoveEvent;
 import team.unstudio.udpl.config.ConfigurationHelper;
-import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.Chunk;
 
 public final class WorldAreaManager {
-	private static final File AREA_PATH = new File(UDPLib.getInstance().getDataFolder(), "area");
 
+	private final File worldFile;
 	private final World world;
 	private final List<Area> areas = new ArrayList<>();
 	private final Map<Chunk,List<Area>> chunks = new HashMap<>();
 	
-	public WorldAreaManager(@Nonnull World world) {
+	public WorldAreaManager(@Nonnull World world,@Nonnull File path) {
 		this.world = world;
+		this.worldFile = new File(path, world.getName()+".yml");
 	}
 	
 	public void addArea(Area area){
 		if(!area.getMinLocation().getWorld().equals(world)) 
 			throw new IllegalArgumentException("Different world");
-		
-		Bukkit.getPluginManager().callEvent(new AreaCreateEvent(area));
+
 		areas.add(area);
 		World world = area.getWorld();
 		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
@@ -52,13 +47,24 @@ public final class WorldAreaManager {
 	public void removeArea(Area area){
 		if(!area.getMinLocation().getWorld().equals(world)) 
 			return;
-		Bukkit.getPluginManager().callEvent(new AreaRemoveEvent(area));
+
 		areas.remove(area);
 		World world = area.getWorld();
 		Chunk chunk1 = new Chunk(area.getMinLocation()), chunk2 = new Chunk(area.getMaxLocation());
 		for(int x = chunk1.getChunkX();x<=chunk2.getChunkX();x++)
 			for(int z = chunk1.getChunkZ();z<=chunk2.getChunkZ();z++)
 				getAreas(new Chunk(world, x, z)).remove(area);
+	}
+	
+	public boolean hasArea(Location location){	
+		if(!location.getWorld().equals(world)) 
+			return false;
+		
+		for(Area area:getAreas(new Chunk(location))) 
+			if(area.contain(location)) 
+				return true;
+		
+		return false;
 	}
 	
 	public List<Area> getAreas(Location location){
@@ -107,10 +113,9 @@ public final class WorldAreaManager {
 
 	public void save(){
 		try {
-			File configPath = new File(AREA_PATH, world.getName()+".yml");
-			FileConfiguration config = ConfigurationHelper.loadConfiguration(configPath);
+			FileConfiguration config = ConfigurationHelper.loadConfiguration(worldFile);
 			config.set(world.getName(), areas);
-			config.save(configPath);
+			config.save(worldFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -121,7 +126,7 @@ public final class WorldAreaManager {
 		areas.clear();
 		chunks.clear();
 		
-		FileConfiguration config = ConfigurationHelper.loadConfiguration(new File(AREA_PATH, world.getName() + ".yml"));
+		FileConfiguration config = ConfigurationHelper.loadConfiguration(worldFile);
 		if(config == null)
 			return;
 		

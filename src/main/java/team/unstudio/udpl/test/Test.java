@@ -1,6 +1,5 @@
 package team.unstudio.udpl.test;
 
-import org.bukkit.Bukkit;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
 
@@ -15,7 +14,6 @@ public class Test {
 	
 	public void onEnable(){
 		testConfig();
-		testArea();
 		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new AnnoCommand()).registerCommand();
 	}
 	
@@ -29,13 +27,5 @@ public class Test {
 		config.save();
 		config.reload();
 		UDPLib.getInstance().getLogger().info(config.test);
-	}
-	
-	private void testArea(){
-		if(!UDPLib.getUDPLConfig().enableAreaAPI)
-			return;
-		
-		UDPLib.getInstance().getLogger().info("-----Test Area-----");
-		Bukkit.getServer().getPluginManager().registerEvents(new AreaListener(), UDPLib.getInstance());
 	}
 }

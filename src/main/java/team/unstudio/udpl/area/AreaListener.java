@@ -1,9 +1,7 @@
-package team.unstudio.udpl.core.area;
+package team.unstudio.udpl.area;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,15 +14,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.google.common.collect.Lists;
-
-import team.unstudio.udpl.area.Area;
-import team.unstudio.udpl.area.AreaManager;
-import team.unstudio.udpl.area.event.PlayerEnterAreaEvent;
-import team.unstudio.udpl.area.event.PlayerLeaveAreaEvent;
+import com.google.common.collect.Maps;
 
 public final class AreaListener implements Listener{
 	
-	private static final Map<Player, List<Area>> playerArea = new HashMap<>();
+	private final AreaManager areaManager;
+	private final Map<Player, List<Area>> playerArea = Maps.newHashMap();
+	
+	public AreaListener(AreaManager areaManager) {
+		this.areaManager = areaManager;
+	}
 	
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onPlayerMove(PlayerMoveEvent event){
@@ -61,34 +60,26 @@ public final class AreaListener implements Listener{
 	
 	private void updateArea(Player player,Location to){
 		List<Area> oldAreas = playerArea.containsKey(player)?playerArea.get(player):Lists.newArrayList();
-		List<Area> nowAreas = AreaManager.getWorldAreaManager(to.getWorld()).getAreas(to);
+		List<Area> nowAreas = areaManager.getWorldAreaManager(to.getWorld()).getAreas(to);
 		
 		for(Area area:oldAreas)
 			if(!nowAreas.contains(area))
-				callPlayerLeaveAreaEvent(player, area);
+				areaManager.callPlayerLeaveArea(player, area);
 		
 		for(Area area:nowAreas)
 			if(!oldAreas.contains(area))
-				callPlayerEnterAreaEvent(player, area);
+				areaManager.callPlayerEnterArea(player, area);
 		
 		playerArea.put(player, nowAreas);
 	}
 	
-	private void callPlayerLeaveAreaEvent(Player player,Area area){
-		if(area==null)
-			return;
-		Bukkit.getPluginManager().callEvent(new PlayerLeaveAreaEvent(area,player));
-	}
-	
-	private void callPlayerEnterAreaEvent(Player player,Area area){
-		if(area==null)
-			return;
-		Bukkit.getPluginManager().callEvent(new PlayerEnterAreaEvent(area,player));
-	}
-	
 	private boolean isMove(Location from,Location to) {
-		if(to.getX()==from.getX()&&to.getY()==from.getY()&&to.getZ()==from.getZ())
-			return false;
-		return true;
+		if(to.getX()!=from.getX())
+			return true;
+		if(to.getY()!=from.getY())
+			return true;
+		if(to.getZ()!=from.getZ())
+			return true;
+		return false;
 	}
 }
