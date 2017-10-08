@@ -13,7 +13,7 @@ import net.minecraft.server.v1_11_R1.NBTTagLong;
 import net.minecraft.server.v1_11_R1.NBTTagShort;
 import net.minecraft.server.v1_11_R1.NBTTagString;
 
-public class NMSNBT implements team.unstudio.udpl.nms.NMSNBT{
+public class NMSNBT implements team.unstudio.udpl.nms.NmsNBT{
 	
 	@Override
 	public team.unstudio.udpl.nbt.NBTTagCompound toMap(Object nbt) throws Exception{

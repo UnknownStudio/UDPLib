@@ -16,7 +16,7 @@ import team.unstudio.udpl.nbt.NBTTagString;
 /**
  * NBT的转换接口
  */
-public interface NMSNBT {
+public interface NmsNBT {
 	
 	/**
 	 * 转换为Map

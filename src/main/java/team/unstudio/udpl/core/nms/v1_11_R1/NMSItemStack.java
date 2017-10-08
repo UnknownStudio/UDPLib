@@ -4,19 +4,19 @@ import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.nbt.NBTTagCompound;
-import team.unstudio.udpl.nms.NMSManager;
+import team.unstudio.udpl.nms.NmsManager;
 
-public class NMSItemStack implements team.unstudio.udpl.nms.NMSItemStack{
+public class NMSItemStack implements team.unstudio.udpl.nms.NmsItemStack{
 
 	@Override
 	public team.unstudio.udpl.nbt.NBTTagCompound getTag(ItemStack itemStack) throws Exception {
-		return NMSManager.getNMSNBT().toMap(CraftItemStack.asNMSCopy(itemStack).getTag());
+		return NmsManager.getNBT().toMap(CraftItemStack.asNMSCopy(itemStack).getTag());
 	}
 
 	@Override
 	public ItemStack setTag(ItemStack itemStack,NBTTagCompound map) throws Exception {
 		net.minecraft.server.v1_11_R1.ItemStack nitem = CraftItemStack.asNMSCopy(itemStack);
-		nitem.setTag((net.minecraft.server.v1_11_R1.NBTTagCompound)NMSManager.getNMSNBT().toNBT(map));
+		nitem.setTag((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsManager.getNBT().toNBT(map));
 		return CraftItemStack.asBukkitCopy(nitem);
 	}
 	

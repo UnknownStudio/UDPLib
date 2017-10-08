@@ -4,9 +4,9 @@ import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
-import team.unstudio.udpl.nms.NMSManager;
+import team.unstudio.udpl.nms.NmsManager;
 
-public class NMSEntity implements team.unstudio.udpl.nms.NMSEntity{
+public class NMSEntity implements team.unstudio.udpl.nms.NmsEntity{
 	
 	private final Entity entity;
 	
@@ -21,12 +21,12 @@ public class NMSEntity implements team.unstudio.udpl.nms.NMSEntity{
 
 	@Override
 	public team.unstudio.udpl.nbt.NBTTagCompound getNBT() throws Exception {
-		return NMSManager.getNMSNBT().toMap(((CraftEntity)entity).getHandle().e(new NBTTagCompound()));
+		return NmsManager.getNBT().toMap(((CraftEntity)entity).getHandle().e(new NBTTagCompound()));
 	}
 
 	@Override
-	public team.unstudio.udpl.nms.NMSEntity setNBT(team.unstudio.udpl.nbt.NBTTagCompound nbt) throws Exception {
-		((CraftEntity)entity).getHandle().f((NBTTagCompound)NMSManager.getNMSNBT().toNBT(nbt));
+	public team.unstudio.udpl.nms.NmsEntity setNBT(team.unstudio.udpl.nbt.NBTTagCompound nbt) throws Exception {
+		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsManager.getNBT().toNBT(nbt));
 		return this;
 	}
 

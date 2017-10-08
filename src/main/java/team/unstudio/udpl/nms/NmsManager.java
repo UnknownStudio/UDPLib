@@ -6,16 +6,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * NMS的工厂类
- * @author AAA
- *
+ * NMS的管理类
  */
-public class NMSManager {
+public class NmsManager {
 
-	private static final NMSNBT INSTANCE_NMSNBT = loadNMSNBT();
-	private static final NMSPacket INSTANCE_NMSPACKET = loadNMSPacket();
+	private static final NmsNBT INSTANCE_NMSNBT = loadNMSNBT();
+	private static final NmsPacket INSTANCE_NMSPACKET = loadNMSPacket();
 	
-	private static NMSNBT loadNMSNBT(){
+	private static NmsNBT loadNMSNBT(){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSNBT();
@@ -24,7 +22,7 @@ public class NMSManager {
 		}
 	}
 	
-	private static NMSPacket loadNMSPacket(){
+	private static NmsPacket loadNMSPacket(){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSPacket();
@@ -37,7 +35,7 @@ public class NMSManager {
 	 * 获取NBT的操作类
 	 * @return
 	 */
-	public static NMSNBT getNMSNBT(){
+	public static NmsNBT getNBT(){
 		return INSTANCE_NMSNBT;
 	}
 	
@@ -45,7 +43,7 @@ public class NMSManager {
 	 * 获取通信包的操作类
 	 * @return
 	 */
-	public static NMSPacket getNMSPacket(){
+	public static NmsPacket getNMSPacket(){
 		return INSTANCE_NMSPACKET;
 	}
 	
@@ -54,7 +52,7 @@ public class NMSManager {
 	 * @param blockState
 	 * @return
 	 */
-	public static NMSTileEntity createNMSTileEntity(BlockState blockState){
+	public static NmsTileEntity createNMSTileEntity(BlockState blockState){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSTileEntity(blockState);
@@ -68,7 +66,7 @@ public class NMSManager {
 	 * @param itemstack
 	 * @return
 	 */
-	public static NMSItemStack getNMSItemStack(ItemStack itemstack){
+	public static NmsItemStack getNMSItemStack(ItemStack itemstack){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSItemStack();
@@ -82,7 +80,7 @@ public class NMSManager {
 	 * @param entity
 	 * @return
 	 */
-	public static NMSEntity createNMSEntity(Entity entity){
+	public static NmsEntity createNMSEntity(Entity entity){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSEntity(entity);
@@ -96,7 +94,7 @@ public class NMSManager {
 	 * @param player
 	 * @return
 	 */
-	public static NMSPlayer createNMSPlayer(Player player){
+	public static NmsPlayer createNMSPlayer(Player player){
 		switch (ReflectionUtils.PackageType.getServerVersion()) {
 		case "v1_11_R1":
 			return new team.unstudio.udpl.core.nms.v1_11_R1.NMSPlayer(player);

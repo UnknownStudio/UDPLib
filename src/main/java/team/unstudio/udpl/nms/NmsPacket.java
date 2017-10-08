@@ -1,6 +1,6 @@
 package team.unstudio.udpl.nms;
 
-public interface NMSPacket {
+public interface NmsPacket {
 
 	/**
 	 * 创建一个PacketPlayOutChat

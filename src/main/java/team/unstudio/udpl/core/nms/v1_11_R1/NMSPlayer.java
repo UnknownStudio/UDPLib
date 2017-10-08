@@ -12,7 +12,7 @@ import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_11_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
 
-public class NMSPlayer extends NMSEntity implements team.unstudio.udpl.nms.NMSPlayer{
+public class NMSPlayer extends NMSEntity implements team.unstudio.udpl.nms.NmsPlayer{
 	
 	private final Player player;
 

@@ -4,7 +4,7 @@ import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.nbt.NBTTagCompound;
 
-public interface NMSItemStack {
+public interface NmsItemStack {
 	
 	public NBTTagCompound getTag(ItemStack itemStack) throws Exception;
 
