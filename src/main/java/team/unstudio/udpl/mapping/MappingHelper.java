@@ -32,11 +32,25 @@ public final class MappingHelper {
 		return memberMapping;
 	}
 	
+	public static String getMemberDeobf(String className,String obf,String def){
+		if(memberMapping == null) 
+			return def;
+		
+		return memberMapping.getDeobf(className,obf,def);
+	}
+	
 	public static String getMemberDeobf(String className,String obf){
 		if(memberMapping == null) 
 			return "";
 		
 		return memberMapping.getDeobf(className,obf);
+	}
+	
+	public static String getMemberObf(String className,String deobf,String def){
+		if(memberMapping == null) 
+			return def;
+		
+		return memberMapping.getObf(className,deobf,def);
 	}
 	
 	public static String getMemberObf(String className,String deobf){
