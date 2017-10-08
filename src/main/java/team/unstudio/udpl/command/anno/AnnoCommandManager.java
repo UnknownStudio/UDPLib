@@ -28,6 +28,7 @@ import team.unstudio.udpl.util.ServerHelper;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
+	private static final String unknownCommandMessage = ChatColor.RED+"未知的指令，输入 /%1$s help 查看帮助.";
 	private static final String noPermissionMessage = ChatColor.RED+"没有足够的权限:"+ChatColor.YELLOW+" %1$s .";
 	private static final String noEnoughParameterMessage = ChatColor.RED+"参数不足! 正确的使用方法: %1$s";
 	private static final String wrongSenderMessage = ChatColor.RED+"该指令不能由该指令发送者发送!";
@@ -84,6 +85,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	public AnnoCommandManager setDescription(String description) {
 		this.description = description;
 		return this;
+	}
+	
+	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		sender.sendMessage(String.format(unknownCommandMessage,label));
 	}
 
 	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
@@ -267,8 +272,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return true;
 	}
 	
-	private void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
+	protected void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
 		switch (wrapper.onCommand(sender,command,label,args)) {
+		case UnknownCommand:
+			onUnknownCommand(sender, command, label, args, wrapper);
+			break;
 		case ErrorParameter:
 			break;
 		case NoEnoughParameter:

@@ -10,12 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -110,7 +105,7 @@ public class CommandWrapper {
 	
 	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
 		if (obj == null)
-			return CommandResult.Failure;
+			return CommandResult.UnknownCommand;
 		
 		if (!checkSender(sender))
 			return CommandResult.WrongSender;
