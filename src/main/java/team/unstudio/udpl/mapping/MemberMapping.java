@@ -2,6 +2,7 @@ package team.unstudio.udpl.mapping;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -18,7 +19,11 @@ public final class MemberMapping {
 	}
 	
 	private void load(InputStream inputStream) throws IOException{
-		for(String line:IOUtils.readLines(inputStream)){
+		load(IOUtils.readLines(inputStream));
+	}
+	
+	private void load(List<String> list){
+		for(String line:list){
 			if(line.isEmpty()||line.startsWith("#"))
 				continue;
 				
