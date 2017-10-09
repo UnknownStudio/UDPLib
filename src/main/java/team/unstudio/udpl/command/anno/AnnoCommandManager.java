@@ -24,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.google.common.collect.Lists;
 
 import team.unstudio.udpl.command.CommandHelper;
-import team.unstudio.udpl.util.ServerHelper;
+import team.unstudio.udpl.util.ServerUtils;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
@@ -374,7 +374,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		
 		if(list.isEmpty()){ //Players
 			String prefix = args[size];
-			Collections.addAll(list, ServerHelper.getOnlinePlayerNamesWithFilter(name->name.startsWith(prefix)));
+			Collections.addAll(list, ServerUtils.getOnlinePlayerNamesWithFilter(name->name.startsWith(prefix)));
 		}
 		
 		return list;
