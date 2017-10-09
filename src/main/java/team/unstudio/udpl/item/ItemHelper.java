@@ -13,7 +13,7 @@ public final class ItemHelper {
 
 	private ItemHelper() {}
 	
-	private static final boolean debug = UDPLib.isDebug();
+	private static final boolean DEBUG = UDPLib.isDebug();
 	
 	public static Object getNMSItemStack(ItemStack item) {
 		try {
@@ -22,7 +22,7 @@ public final class ItemHelper {
 			return asNMSCopy.invoke(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"), item);
 		} catch (NoSuchMethodException | ClassNotFoundException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
-			if (debug)
+			if (DEBUG)
 				e.printStackTrace();
 		}
 		return null;
@@ -45,7 +45,7 @@ public final class ItemHelper {
 			save.setAccessible(true);
 			return save.invoke(asnmscopy.invoke(null, itemStack), nbt).toString();
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
-			if(debug)
+			if(DEBUG)
 				e.printStackTrace();
 		}
 		return "";

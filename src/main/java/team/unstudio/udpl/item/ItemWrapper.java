@@ -35,7 +35,7 @@ public class ItemWrapper {
 	}
 
 	public ItemWrapper(ItemStack itemStack) {
-		this.itemStack = itemStack;
+		this.itemStack = itemStack.clone();
 	}
 	
 	public Material getType(){
@@ -65,9 +65,17 @@ public class ItemWrapper {
 		return this;
 	}
 	
+	public boolean hasItemMeta(){
+		return itemStack.hasItemMeta();
+	}
+	
 	public String getDisplayName(){
 		ItemMeta meta = itemStack.getItemMeta();
 		return meta.hasDisplayName()?meta.getDisplayName():"";
+	}
+	
+	public boolean hasDisplayName(){
+		return itemStack.getItemMeta().hasDisplayName();
 	}
 
 	public ItemWrapper setDisplayName(String name){
@@ -80,6 +88,10 @@ public class ItemWrapper {
 	public String getLocalizedName(){
 		ItemMeta meta = itemStack.getItemMeta();
 		return meta.hasLocalizedName()?meta.getLocalizedName():"";
+	}
+	
+	public boolean hasLocalizedName(){
+		return itemStack.getItemMeta().hasLocalizedName();
 	}
 
 	public ItemWrapper setLocalizedName(String name){
@@ -95,6 +107,10 @@ public class ItemWrapper {
 			return meta.getLore();
 		else
 			return Lists.newArrayList();
+	}
+	
+	public boolean hasLore(){
+		return itemStack.getItemMeta().hasLore();
 	}
 	
 	public ItemWrapper setLore(String... lore){
