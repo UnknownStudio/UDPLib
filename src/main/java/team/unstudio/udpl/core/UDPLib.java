@@ -53,6 +53,20 @@ public final class UDPLib extends JavaPlugin{
 		if(CONFIG.enableTest)
 			Test.INSTANCE.onLoad();
 		
+		loadPluginManager();
+		
+		if(CONFIG.enableTest)
+			Test.INSTANCE.onEnable();
+	}
+
+	@Override
+	public void onDisable() {
+		//防止玩家有未关闭的界面造成刷物品
+		for(Player player:Bukkit.getOnlinePlayers())
+			player.closeInventory();
+	}
+	
+	private void loadPluginManager(){
 		new TreeCommandManager("pm", this).addNode(new CommandNode() {
 			@Override
 			public boolean onCommand(CommandSender sender, Object[] args) {
@@ -84,16 +98,6 @@ public final class UDPLib extends JavaPlugin{
 				return true;
 			}
 		}.setNode("plugins").setPermission("udpc.pm.plugins")).registerCommand();
-
-		if(CONFIG.enableTest)
-			Test.INSTANCE.onEnable();
-	}
-
-	@Override
-	public void onDisable() {
-		//防止玩家有未关闭的界面造成刷物品
-		for(Player player:Bukkit.getOnlinePlayers())
-			player.closeInventory();
 	}
 
 	public static UDPLConfiguration getUDPLConfig(){
