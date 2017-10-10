@@ -15,7 +15,7 @@ public interface CommandHelper {
 	@Nullable
 	public static PluginCommand unsafeRegisterCommand(String name,Plugin plugin){
 		try {
-			Method getCommandMap = Bukkit.getServer().getClass().getMethod("getCommandMap");
+			Method getCommandMap = Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap");
 			SimpleCommandMap commandMap = (SimpleCommandMap) getCommandMap.invoke(Bukkit.getServer());
 			PluginCommand command = PluginCommand.class.getConstructor(String.class,Plugin.class).newInstance(name,plugin);
 			commandMap.register(plugin.getName(), command);
