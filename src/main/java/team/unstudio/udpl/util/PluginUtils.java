@@ -16,6 +16,10 @@ public final class PluginUtils {
 		if(url == null)
 			return;
 		File path = new File(url.getPath());
+		if(path.isFile()){
+			plugin.saveResource(resourcePath, replace);
+			return;
+		}
 		File outPath = new File(plugin.getDataFolder(),resourcePath);
 		if(!outPath.exists())
 			outPath.mkdirs();
