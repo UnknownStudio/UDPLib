@@ -13,7 +13,7 @@ import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.ui.UI;
 import team.unstudio.udpl.ui.UIFactory;
 
-public final class AnnoCommand {
+public final class TestCommand {
 
 	UI ui;
 	Player player;

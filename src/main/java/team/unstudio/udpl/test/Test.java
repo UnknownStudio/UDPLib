@@ -14,7 +14,7 @@ public class Test {
 	
 	public void onEnable(){
 		testConfig();
-		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new AnnoCommand()).registerCommand();
+		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new TestCommand()).unsafeRegisterCommand();
 	}
 	
 	private void testConfig(){
