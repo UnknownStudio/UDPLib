@@ -44,7 +44,7 @@ public class AreaManager {
 	private long autoBackupPeriod = 6*60*60*20;
 	private BukkitRunnable autoBackupTask;
 	
-	private final AtomicBoolean isSavingOrBackuping = new AtomicBoolean(false);
+	protected final AtomicBoolean isSavingOrBackuping = new AtomicBoolean(false);
 	
 	public AreaManager(@Nonnull JavaPlugin plugin) {
 		this(plugin,new File(plugin.getDataFolder(),"area"));
@@ -254,10 +254,11 @@ public class AreaManager {
 
 		@Override
 		public void run() {
-			if(!isSavingOrBackuping.compareAndSet(false, true))
+			while(!isSavingOrBackuping.compareAndSet(false, true)){
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {}
+			}
 			backupAll();
 			isSavingOrBackuping.set(false);
 		}
