@@ -21,7 +21,7 @@ public final class BookUtils {
 	
 	private BookUtils(){}
 
-	private static final boolean debug = UDPLib.isDebug();
+	private static final boolean DEBUG = UDPLib.isDebug();
 	private static boolean initialised = false;
 	private static Method getHandle;
 	private static Method openBook;
@@ -34,7 +34,7 @@ public final class BookUtils {
 					PackageType.MINECRAFT_SERVER.getClass("EnumHand"));
 			initialised = true;
 		} catch (ReflectiveOperationException e) {
-			if(debug)
+			if(DEBUG)
 				e.printStackTrace();
 			initialised = false;
 		}
@@ -44,9 +44,9 @@ public final class BookUtils {
 		return initialised;
 	}
 	
-	public static boolean open(Player player, ItemStack book){
+	public static Result open(Player player, ItemStack book){
 		if (!isInitialised()) 
-			return false;
+			return Result.failure("Uninitialized book api.");
 		ItemStack held = player.getInventory().getItemInMainHand();
 		player.getInventory().setItemInMainHand(book);
 		
@@ -55,22 +55,21 @@ public final class BookUtils {
 			Class<?> enumHand = PackageType.MINECRAFT_SERVER.getClass("EnumHand");
 			Object[] enumArray = enumHand.getEnumConstants();
 			openBook.invoke(entityplayer, ItemHelper.getNMSItemStack(book), enumArray[0]);
+			player.getInventory().setItemInMainHand(held);
+			return Result.success();
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
 			initialised = false;
-			if(debug)
-				e.printStackTrace();
+			player.getInventory().setItemInMainHand(held);
+			return Result.failure(e);
 		}
-
-		player.getInventory().setItemInMainHand(held);
-		return initialised;
 	}
 	
-	public static boolean setPages(BookMeta book, BaseComponent... pages){
+	public static Result setPages(BookMeta book, BaseComponent... pages){
 		return setPages(book, Arrays.stream(pages).map(ComponentSerializer::toString).toArray(String[]::new));
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static boolean setPages(BookMeta book, String... pages){
+	public static Result setPages(BookMeta book, String... pages){
 		try {
 			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
 			Object ChatSerializer = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("IChatBaseComponent$ChatSerializer").newInstance();
@@ -78,11 +77,9 @@ public final class BookUtils {
 						.getClass("IChatBaseComponent$ChatSerializer"), "a", String.class);
 			for (String page : pages)
 				listPages.add(ChatSerializer_a.invoke(ChatSerializer, page));
-			return true;
+			return Result.success();
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
-			if (debug)
-				e.printStackTrace();
-			return false;
+			return Result.failure(e);
 		}
 	}
 	
@@ -101,7 +98,7 @@ public final class BookUtils {
 			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
 			return Optional.of(listPages.stream().map(Object::toString).toArray(String[]::new));
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-			if (debug)
+			if (DEBUG)
 				e.printStackTrace();
 		}
 		return Optional.empty();

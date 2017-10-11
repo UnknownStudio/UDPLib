@@ -9,8 +9,6 @@ import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
 
-import team.unstudio.udpl.core.UDPLib;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +18,6 @@ import org.bukkit.entity.Player;
  * Created by trychen on 17/7/11.
  */
 public class SignUtils {
-	private static final boolean debug = UDPLib.isDebug();
 	
     protected static String version = Bukkit.getServer().getBukkitVersion().substring(0, 3);
     private static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
@@ -28,7 +25,7 @@ public class SignUtils {
     private static PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
     private static PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
 
-    public static boolean open(Player player, String[] lines){
+    public static Result open(Player player, String[] lines){
         Location loc = player.getLocation();
         int x = loc.getBlockX();
         int y = 0;
@@ -48,10 +45,9 @@ public class SignUtils {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
-                return true;
+                return Result.success();
             } catch (Exception var11) {
-            	if(debug)
-            		var11.printStackTrace();
+            	return Result.failure(var11);
             }
         } else if (version.startsWith("1.8.")) {
             try {
@@ -66,10 +62,9 @@ public class SignUtils {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
-                return true;
+                return Result.success();
             } catch (Exception var12) {
-            	if(debug)
-            		var12.printStackTrace();
+            	return Result.failure(var12);
             }
         }else {
             try {
@@ -89,12 +84,10 @@ public class SignUtils {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
-                return true;
+                return Result.success();
             } catch (Exception var12) {
-            	if(debug)
-            		var12.printStackTrace();
+            	return Result.failure(var12);
             }
         }
-        return false;
     }
 }

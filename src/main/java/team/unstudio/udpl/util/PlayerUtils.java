@@ -29,6 +29,7 @@ public final class PlayerUtils {
 		}
 		return DEFAULT_LANGUAGE;
 	}
+	
 	public static Locale getLanguageLocale(Player player){
 		return Locale.forLanguageTag(getLanguage(player));
 	}
