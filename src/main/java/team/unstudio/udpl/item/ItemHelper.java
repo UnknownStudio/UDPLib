@@ -8,6 +8,9 @@ import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 public final class ItemHelper {
 
@@ -15,17 +18,17 @@ public final class ItemHelper {
 	
 	private static final boolean DEBUG = UDPLib.isDebug();
 	
-	public static Object getNMSItemStack(ItemStack item) {
+	public static Optional<Object> getNMSItemStack(ItemStack item) {
 		try {
 			Method asNMSCopy = ReflectionUtils.getMethod(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"),
 					"asNMSCopy", ItemStack.class);
-			return asNMSCopy.invoke(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"), item);
+			return Optional.ofNullable(asNMSCopy.invoke(null, item));
 		} catch (NoSuchMethodException | ClassNotFoundException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			if (DEBUG)
 				e.printStackTrace();
 		}
-		return null;
+		return Optional.empty();
 	}
 	   
     /**
@@ -33,6 +36,7 @@ public final class ItemHelper {
      * @param itemStack 物品
      * @return 
      */
+	@Nonnull
     public static String toJson(ItemStack itemStack){
 		try {
 			Class<?> ccitemstack = ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack");
