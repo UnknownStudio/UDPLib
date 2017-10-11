@@ -21,7 +21,7 @@ public class AsmNmsManager {
 	private Constructor<NmsItemStack> nmsItemStackConstructor;
 
 	public AsmNmsManager() {
-		classLoader = new DynamicClassLoader();
+		classLoader = new DynamicClassLoader(AsmNmsManager.class.getClassLoader());
 		loadNBT();
 		loadItemStack();
 	}
