@@ -18,6 +18,19 @@ public final class Title {
 	
 	private static final ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
 	
+	public static Result title(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut){
+		Result result = setTimeAndDisplay(player, fadeIn, stay, fadeOut);
+		if(result.isFailure())
+			return result;
+		result = title(player, title);
+		if(result.isFailure())
+			return result;
+		result = subTitle(player, subTitle);
+		if(result.isFailure())
+			return result;
+		return Result.success();
+	}
+	
 	public static Result title(Player player, String title){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.TITLE);
