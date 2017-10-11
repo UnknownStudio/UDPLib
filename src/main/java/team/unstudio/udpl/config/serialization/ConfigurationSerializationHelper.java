@@ -1,12 +1,15 @@
 package team.unstudio.udpl.config.serialization;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -73,40 +76,32 @@ public final class ConfigurationSerializationHelper{
 				
 				serialize(config, key, field.get(obj));
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
+				throw new SerializationException(obj.getClass().getName()+" can't serialize.",e);
 			}
 		}
 	}
 	
-	public static Object deserialize(ConfigurationSection config,String key,Object def){
-		Object result = deserialize(config, key);
-		return result == null ? def : result;
-	}
-	
-	public static Object deserialize(ConfigurationSection config,String key){
+	public static Optional<Object> deserialize(ConfigurationSection config,String key){
 		if(!config.isConfigurationSection(key))
-			return config.get(key);
+			return Optional.ofNullable(config.get(key));
 		else if(config.contains(key+".=="))
-			return config.get(key);
+			return Optional.ofNullable(config.get(key));
 		else
-			return deserialize(config.getConfigurationSection(key));
+			return Optional.ofNullable(deserialize(config.getConfigurationSection(key)));
 	}
 	
-	public static Object deserialize(ConfigurationSection config,Object def){
-		Object result = deserialize(config);
-		return result == null ? def : result;
-	}
-	
-	public static Object deserialize(ConfigurationSection config){
+	public static Optional<Object> deserialize(ConfigurationSection config){
 		try {
 			if(!config.contains(CLASS_NAME_KEY))
-				return null;
+				return Optional.empty();
 			
 			Class<?> clazz = Class.forName(config.getString(CLASS_NAME_KEY));
 			if(hasSerializer(clazz))
-				return getSerializer(clazz).deserialize(config);
+				return Optional.ofNullable(getSerializer(clazz).deserialize(config));
 			
-			Object obj = clazz.newInstance();
+			Constructor<?> constructor = clazz.getConstructor();
+			constructor.setAccessible(true);
+			Object obj = constructor.newInstance();
 			if(obj instanceof ConfigurationExternalizable)
 				((ConfigurationExternalizable) obj).deserialize(config);
 			else if(obj instanceof ConfigurationSerializable){
@@ -137,9 +132,9 @@ public final class ConfigurationSerializationHelper{
 					}
 				}
 			}
-			return obj;
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {}
-		return null;
+			return Optional.ofNullable(obj);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {}
+		return Optional.empty();
 	}
 	
 	private static Set<Class<?>> BASIC_TYPE_SET;

@@ -40,10 +40,12 @@ public abstract class ConfigurationHandler{
 			f.setAccessible(true);
 			
 			ConfigItem anno= f.getDeclaredAnnotation(ConfigItem.class);
-			if(anno==null) continue;
+			if(anno==null) 
+				continue;
 			
+			String key = anno.value().isEmpty()?f.getName():anno.value();
 			try {
-				defaults.put(anno.value(),f.get(this));
+				defaults.put(key,f.get(this));
 			} catch (IllegalArgumentException | IllegalAccessException e) {}
 		}
 	}
@@ -73,12 +75,13 @@ public abstract class ConfigurationHandler{
 			if (anno == null)
 				continue;
 
+			String key = anno.value().isEmpty()?f.getName():anno.value();
 			try {
-				Object object = ConfigurationSerializationHelper.deserialize(config, anno.value());
+				Object object = ConfigurationSerializationHelper.deserialize(config, key);
 				if (object != null)
 					f.set(this, object);
 				else
-					f.set(this, defaults.get(anno.value()));
+					f.set(this, defaults.get(key));
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 			}
 		}
@@ -102,12 +105,14 @@ public abstract class ConfigurationHandler{
 				f.setAccessible(true);
 				
 				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
-				if(anno==null) continue;
+				if(anno==null) 
+					continue;
 				
+				String key = anno.value().isEmpty()?f.getName():anno.value();
 				try {
-					ConfigurationSerializationHelper.serialize(config, anno.value(), f.get(this));
+					ConfigurationSerializationHelper.serialize(config, key, f.get(this));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					ConfigurationSerializationHelper.serialize(config, anno.value(), defaults.get(anno.value()));
+					ConfigurationSerializationHelper.serialize(config, key, defaults.get(anno.value()));
 				}
 			}
 			

@@ -10,17 +10,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.area.AreaDataContainer;
-import team.unstudio.udpl.area.AreaManager;
+import team.unstudio.udpl.bungeecord.ServerLocation;
 import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
-import team.unstudio.udpl.core.area.AreaListener;
-import team.unstudio.udpl.test.Test;
+import team.unstudio.udpl.mapping.MappingHelper;
+import team.unstudio.udpl.nms.NmsHelper;
+import team.unstudio.udpl.test.TestLoader;
 
 public final class UDPLib extends JavaPlugin{
 
 	public static final String NAME = "UDPLib";
 	public static final String VERSION = "1.0.0";
-	//TODO:BossBar,Hologram,Tab
 
 	private static final File PLUGIN_PATH = new File("plugins");
 
@@ -36,6 +36,10 @@ public final class UDPLib extends JavaPlugin{
 	public void onLoad() {
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
+		ConfigurationSerialization.registerClass(ServerLocation.class);
+		
+		MappingHelper.loadMapping();
+		NmsHelper.loadNmsHelper();
 	}
 
 	@Override
@@ -43,8 +47,25 @@ public final class UDPLib extends JavaPlugin{
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
+		setDebug(CONFIG.debug);
+		
 		if(CONFIG.enableTest)
-			Test.INSTANCE.onLoad();
+			TestLoader.INSTANCE.onLoad();
+		
+		loadPluginManager();
+		
+		if(CONFIG.enableTest)
+			TestLoader.INSTANCE.onEnable();
+	}
+
+	@Override
+	public void onDisable() {
+		//防止玩家有未关闭的界面造成刷物品
+		for(Player player:Bukkit.getOnlinePlayers())
+			player.closeInventory();
+	}
+	
+	private void loadPluginManager(){
 		new TreeCommandManager("pm", this).addNode(new CommandNode() {
 			@Override
 			public boolean onCommand(CommandSender sender, Object[] args) {
@@ -76,28 +97,6 @@ public final class UDPLib extends JavaPlugin{
 				return true;
 			}
 		}.setNode("plugins").setPermission("udpc.pm.plugins")).registerCommand();
-
-		if(CONFIG.enableAreaAPI){
-			getServer().getPluginManager().registerEvents(new AreaListener(), this);
-			AreaManager.loadAll();
-		}
-
-		if(CONFIG.enableTest)
-			Test.INSTANCE.onEnable();
-	}
-
-	@Override
-	public void onDisable() {
-		if(CONFIG.enableAreaAPI)
-			AreaManager.saveAll();
-
-		//防止玩家有未关闭的界面造成刷物品
-		for(Player player:Bukkit.getOnlinePlayers())
-			player.closeInventory();
-	}
-
-	public static void debug(String arg){
-		if(DEBUG)INSTANCE.getLogger().info(arg);
 	}
 
 	public static UDPLConfiguration getUDPLConfig(){
@@ -106,5 +105,13 @@ public final class UDPLib extends JavaPlugin{
 
 	public static UDPLib getInstance(){
 		return INSTANCE;
+	}
+	
+	public static boolean isDebug(){
+		return DEBUG;
+	}
+	
+	public static void setDebug(boolean debug){
+		DEBUG = debug;
 	}
 }

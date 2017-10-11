@@ -3,6 +3,8 @@ package team.unstudio.udpl.config;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public enum ConfigurationHelper {
@@ -11,11 +13,8 @@ public enum ConfigurationHelper {
 	
     /**
      * 载入配置文件
-     *
-     * @param file
-     * @return
-     * @throws IOException
      */
+	@Nullable
     public static YamlConfiguration loadConfiguration(File file){
         if (!file.getAbsoluteFile().getParentFile().exists()) 
         	file.getAbsoluteFile().getParentFile().mkdirs();
@@ -25,6 +24,6 @@ public enum ConfigurationHelper {
 				file.createNewFile();
 			} catch (IOException e) {}
         
-        return AutoCharsetYamlConfiguration.loadConfiguration(file);
+		return AutoCharsetYamlConfiguration.loadConfiguration(file);
     }
 }

@@ -1,1 +1,2 @@
-enableAreaAPI: false
+enableTest: false
+debug: false

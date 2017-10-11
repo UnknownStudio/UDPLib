@@ -1,14 +1,18 @@
 package team.unstudio.udpl.item;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import com.google.common.collect.Lists;
 
 public class ItemWrapper {
 
@@ -31,22 +35,47 @@ public class ItemWrapper {
 	}
 
 	public ItemWrapper(ItemStack itemStack) {
-		this.itemStack = itemStack;
+		this.itemStack = itemStack.clone();
+	}
+	
+	public Material getType(){
+		return itemStack.getType();
 	}
 
 	public ItemWrapper setType(Material type){
 		itemStack.setType(type);
 		return this;
 	}
+	
+	public short getDurability(){
+		return itemStack.getDurability();
+	}
 
 	public ItemWrapper setDurability(short durability){
 		itemStack.setDurability(durability);
 		return this;
 	}
+	
+	public int getAmount(){
+		return itemStack.getAmount();
+	}
 
 	public ItemWrapper setAmount(int amount){
 		itemStack.setAmount(amount);
 		return this;
+	}
+	
+	public boolean hasItemMeta(){
+		return itemStack.hasItemMeta();
+	}
+	
+	public String getDisplayName(){
+		ItemMeta meta = itemStack.getItemMeta();
+		return meta.hasDisplayName()?meta.getDisplayName():"";
+	}
+	
+	public boolean hasDisplayName(){
+		return itemStack.getItemMeta().hasDisplayName();
 	}
 
 	public ItemWrapper setDisplayName(String name){
@@ -55,6 +84,15 @@ public class ItemWrapper {
 		itemStack.setItemMeta(meta);
 		return this;
 	}
+	
+	public String getLocalizedName(){
+		ItemMeta meta = itemStack.getItemMeta();
+		return meta.hasLocalizedName()?meta.getLocalizedName():"";
+	}
+	
+	public boolean hasLocalizedName(){
+		return itemStack.getItemMeta().hasLocalizedName();
+	}
 
 	public ItemWrapper setLocalizedName(String name){
 		ItemMeta meta = itemStack.getItemMeta();
@@ -62,46 +100,78 @@ public class ItemWrapper {
 		itemStack.setItemMeta(meta);
 		return this;
 	}
+	
+	public List<String> getLore(){
+		ItemMeta meta = itemStack.getItemMeta();
+		if(meta.hasLore())
+			return meta.getLore();
+		else
+			return Lists.newArrayList();
+	}
+	
+	public boolean hasLore(){
+		return itemStack.getItemMeta().hasLore();
+	}
+	
+	public ItemWrapper setLore(String... lore){
+		setLore(Arrays.asList(lore));
+		return this;
+	}
+	
+	public ItemWrapper setLore(List<String> lore){
+		itemStack.getItemMeta().setLore(lore);
+		return this;
+	}
 
-	public ItemWrapper addLore(String ...lore){
-		List<String> lores =  getLore(itemStack);
+	public ItemWrapper addLore(String... lore){
+		List<String> lores = getLore();
 		Collections.addAll(lores, lore);
-		setMeta(lores);
+		setLore(lores);
+		return this;
+	}
+	
+	public ItemWrapper addLore(int index, String... lore){
+		List<String> lores = getLore();
+		lores.addAll(index, Arrays.asList(lore));
+		setLore(lores);
 		return this;
 	}
 
 	public ItemWrapper removeLore(int index){
-		List<String> lores =  getLore(itemStack);
+		List<String> lores = getLore();
 		lores.remove(index);
-		setMeta(lores);
+		setLore(lores);
 		return this;
 	}
 
 	public ItemWrapper removeLore(String regex){
-		List<String> lores =  getLore(itemStack);
+		List<String> lores = getLore();
 		for(String s : lores) {
 			if(s.matches(regex)) 
 				lores.remove(s);
 		}
-		setMeta(lores);
+		setLore(lores);
 		return this;
 	}
-
-	private List<String> getLore(ItemStack item){
-		ItemMeta meta = item.getItemMeta();
-		CopyOnWriteArrayList<String> lore = new CopyOnWriteArrayList<String>();
-		if(meta.getLore()!=null&&!meta.getLore().isEmpty())
-			lore.addAll(meta.getLore());
-		return lore;
+	
+	public Map<Enchantment, Integer> getEnchantments(){
+		return itemStack.getEnchantments();
 	}
-
-	private void setMeta(List<String> lore) {
-		ItemMeta meta = itemStack.getItemMeta();
-		meta.setLore(lore);
-		itemStack.setItemMeta(meta);
+	
+	public boolean hasEnchantment(Enchantment ench){
+		return itemStack.containsEnchantment(ench);
+	}
+	
+	public int getEnchantmentLevel(Enchantment ench){
+		return itemStack.getEnchantmentLevel(ench);
 	}
 
 	public ItemWrapper addEnchantment(Enchantment ench,int level){
+		itemStack.addEnchantment(ench, level);
+		return this;
+	}
+	
+	public ItemWrapper addUnsafeEnchantment(Enchantment ench,int level){
 		itemStack.addUnsafeEnchantment(ench, level);
 		return this;
 	}
@@ -110,12 +180,31 @@ public class ItemWrapper {
 		itemStack.removeEnchantment(ench);
 		return this;
 	}
+	
+	public Set<ItemFlag> getItemFlags(){
+		return itemStack.getItemMeta().getItemFlags();
+	}
+	
+	public boolean hasItemFlag(ItemFlag flag){
+		return itemStack.getItemMeta().hasItemFlag(flag);
+	}
 
-	public ItemWrapper addFlag(ItemFlag... flags) {
+	public ItemWrapper addItemFlags(ItemFlag... flags) {
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.addItemFlags(flags);
 		itemStack.setItemMeta(meta);
 		return this;
+	}
+	
+	public ItemWrapper removeItemFlags(ItemFlag... flags) {
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.removeItemFlags(flags);
+		itemStack.setItemMeta(meta);
+		return this;
+	}
+	
+	public boolean isUnbreakable(){
+		return itemStack.getItemMeta().isUnbreakable();
 	}
 
 	public ItemWrapper setUnbreakable(boolean value){

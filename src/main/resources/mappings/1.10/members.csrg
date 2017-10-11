@@ -1,0 +1,3215 @@
+# (c) 2016 SpigotMC Pty. Ltd.
+AttributeInstance a ()LIAttribute; getAttribute
+AttributeInstance a (D)V setValue
+AttributeInstance e ()D getValue
+AttributeMapServer b ()Ljava/util/Set; getAttributes
+AxisAlignedBB b (DDD)LAxisAlignedBB; grow
+AxisAlignedBB h (D)LAxisAlignedBB; shrink
+BaseBlockPosition e ZERO
+BaseBlockPosition f (DDD)D distanceSquared
+BaseBlockPosition p ()I getX
+BaseBlockPosition q ()I getY
+BaseBlockPosition r ()I getZ
+BiomeBase a (ILBiomeBase;)LBiomeBase; getBiome
+BiomeBase a (LEnumCreatureType;)Ljava/util/List; getMobs
+BiomeBase b (I)LBiomeBase; getBiome
+BiomeBase k ()F getHumidity
+BiomeBase n ()F getTemperature
+BiomeBase q REGISTRY_ID
+BiomeBase$EnumTemperature a OCEAN
+BiomeBase$EnumTemperature b COLD
+BiomeBase$EnumTemperature c MEDIUM
+BiomeBase$EnumTemperature d WARM
+BiomeBigHills$Type a NORMAL
+BiomeBigHills$Type b EXTRA_TREES
+BiomeBigHills$Type c MUTATED
+BiomeForest$Type a NORMAL
+BiomeForest$Type b FLOWER
+BiomeForest$Type c BIRCH
+BiomeForest$Type d ROOFED
+BiomeTaiga$Type a NORMAL
+BiomeTaiga$Type b MEGA
+BiomeTaiga$Type c MEGA_SPRUCE
+Block A blockStateList
+Block a (I)LIBlockData; fromLegacyData
+Block a (ILjava/util/Random;)I getDropCount
+Block a (LBlock;)I getId
+Block a (LIBlockData;LEntityHuman;LWorld;LBlockPosition;)F getDamage
+Block a (LIBlockData;Ljava/util/Random;I)LItem; getDropType
+Block a (LItem;)LBlock; asBlock
+Block a (LWorld;LBlockPosition;)Z canPlace
+Block a (LWorld;LBlockPosition;LEntity;)V stepOn
+Block a (LWorld;LBlockPosition;LEntity;F)V fallOn
+Block a (LWorld;LBlockPosition;LEntityHuman;)V attack
+Block a (LWorld;LBlockPosition;LEnumDirection;FFFILEntityLiving;)LIBlockData; getPlacedState
+Block a (LWorld;LBlockPosition;LEnumDirection;LItemStack;)Z canPlace
+Block a (LWorld;LBlockPosition;LExplosion;)V wasExploded
+Block a (LWorld;LBlockPosition;LIBlockData;FI)V dropNaturally
+Block a (LWorld;LBlockPosition;LIBlockData;LEntityHuman;LEnumHand;LItemStack;LEnumDirection;FFF)Z interact
+Block a (LWorld;LBlockPosition;LIBlockData;LEntityLiving;LItemStack;)V postPlace
+Block b ()LBlockStateList; getStateList
+Block b (I)LBlock; getById
+Block b (LIBlockData;LIBlockAccess;LBlockPosition;)LIBlockData; updateState
+Block b (LWorld;LBlockPosition;I)V dropExperience
+Block b (LWorld;LBlockPosition;LEnumDirection;)Z canPlace
+Block b (LWorld;LBlockPosition;LIBlockData;)V remove
+Block b (Ljava/lang/String;)LBlock; getByName
+Block b creativeTab
+Block c ()Ljava/lang/String; getName
+Block c (I)LIBlockData; getByCombinedId
+Block c (LWorld;LBlockPosition;LIBlockData;)V onPlace
+Block c blockData
+Block d (LIBlockData;)I getDropData
+Block d (LWorld;LBlockPosition;LIBlockData;)V postBreak
+Block d name
+Block e (LIBlockData;)I toLegacyData
+Block g (LIBlockData;)Z isPowerSource
+Block h REGISTRY
+Block i REGISTRY_ID
+Block j (LIBlockData;)I getCombinedId
+Block l ()Z isTicking
+Block m ()Z isTileEntity
+Block q strength
+Block r durability
+Block t (LIBlockData;)Z isOccluding
+Block u ()LIBlockData; getBlockData
+Block u isTileEntity
+Block v (LIBlockData;)Z isComplexRedstone
+Block v stepSound
+Block x material
+Block z frictionFactor
+BlockAnvil a FACING
+BlockAnvil b DAMAGE
+BlockBanner a FACING
+BlockBanner b ROTATION
+BlockBed a PART
+BlockBed b OCCUPIED
+BlockBed$EnumBedPart a HEAD
+BlockBed$EnumBedPart b FOOT
+BlockBrewingStand a HAS_BOTTLE
+BlockButtonAbstract a POWERED
+BlockCactus a AGE
+BlockCake a BITES
+BlockCarpet a COLOR
+BlockCauldron a LEVEL
+BlockChest a FACING
+BlockChest$Type a BASIC
+BlockChest$Type b TRAP
+BlockChorusFlower a AGE
+BlockCloth a COLOR
+BlockCobbleWall a UP
+BlockCobbleWall b NORTH
+BlockCobbleWall c EAST
+BlockCobbleWall d SOUTH
+BlockCobbleWall e WEST
+BlockCobbleWall f VARIANT
+BlockCobbleWall$EnumCobbleVariant a NORMAL
+BlockCobbleWall$EnumCobbleVariant b MOSSY
+BlockCocoa a AGE
+BlockCrops a (LWorld;LBlockPosition;LIBlockData;FI)V dropNaturally
+BlockCrops c AGE
+BlockCrops e (I)LIBlockData; setAge
+BlockDaylightDetector a POWER
+BlockDiodeAbstract B (LIBlockData;)Z isDiode
+BlockDirectional H FACING
+BlockDirt a VARIANT
+BlockDirt b SNOWY
+BlockDirt$EnumDirtVariant a DIRT
+BlockDirt$EnumDirtVariant b COARSE_DIRT
+BlockDirt$EnumDirtVariant c PODZOL
+BlockDispenser a FACING
+BlockDispenser b TRIGGERED
+BlockDispenser c (LWorld;LBlockPosition;)V dispense
+BlockDispenser c REGISTRY
+BlockDoor a (LWorld;LBlockPosition;Z)V setDoor
+BlockDoor a FACING
+BlockDoor b OPEN
+BlockDoor c HINGE
+BlockDoor d POWERED
+BlockDoor e HALF
+BlockDoor$EnumDoorHalf a UPPER
+BlockDoor$EnumDoorHalf b LOWER
+BlockDoor$EnumDoorHinge a LEFT
+BlockDoor$EnumDoorHinge b RIGHT
+BlockDoubleStepAbstract d SEAMLESS
+BlockDoubleStepAbstract e VARIANT
+BlockDoubleStepAbstract$EnumStoneSlabVariant a STONE
+BlockDoubleStepAbstract$EnumStoneSlabVariant b SAND
+BlockDoubleStepAbstract$EnumStoneSlabVariant c WOOD
+BlockDoubleStepAbstract$EnumStoneSlabVariant d COBBLESTONE
+BlockDoubleStepAbstract$EnumStoneSlabVariant e BRICK
+BlockDoubleStepAbstract$EnumStoneSlabVariant f SMOOTHBRICK
+BlockDoubleStepAbstract$EnumStoneSlabVariant g NETHERBRICK
+BlockDoubleStepAbstract$EnumStoneSlabVariant h QUARTZ
+BlockDoubleStoneStepAbstract d SEAMLESS
+BlockDoubleStoneStepAbstract e VARIANT
+BlockDoubleStoneStepAbstract$EnumStoneSlab2Variant a RED_SANDSTONE
+BlockEnderChest a FACING
+BlockEnderPortalFrame a FACING
+BlockEnderPortalFrame b EYE
+BlockFacingHorizontal D FACING
+BlockFalling f instaFall
+BlockFence a NORTH
+BlockFence b EAST
+BlockFence c SOUTH
+BlockFence d WEST
+BlockFenceGate a OPEN
+BlockFenceGate b POWERED
+BlockFenceGate c IN_WALL
+BlockFire a AGE
+BlockFire b NORTH
+BlockFire c EAST
+BlockFire d SOUTH
+BlockFire e WEST
+BlockFire f UPPER
+BlockFire g flameChances
+BlockFloorSign b ROTATION
+BlockFlowerPot a LEGACY_DATA
+BlockFlowerPot b CONTENTS
+BlockFlowerPot$EnumFlowerPotContents a EMPTY
+BlockFlowerPot$EnumFlowerPotContents b POPPY
+BlockFlowerPot$EnumFlowerPotContents c BLUE_ORCHID
+BlockFlowerPot$EnumFlowerPotContents d ALLIUM
+BlockFlowerPot$EnumFlowerPotContents e HOUSTONIA
+BlockFlowerPot$EnumFlowerPotContents f RED_TULIP
+BlockFlowerPot$EnumFlowerPotContents g ORANGE_TULIP
+BlockFlowerPot$EnumFlowerPotContents h WHITE_TULIP
+BlockFlowerPot$EnumFlowerPotContents i PINK_TULIP
+BlockFlowerPot$EnumFlowerPotContents j OXEYE_DAISY
+BlockFlowerPot$EnumFlowerPotContents k DANDELION
+BlockFlowerPot$EnumFlowerPotContents l OAK_SAPLING
+BlockFlowerPot$EnumFlowerPotContents m SPRUCE_SAPLING
+BlockFlowerPot$EnumFlowerPotContents n BIRCH_SAPLING
+BlockFlowerPot$EnumFlowerPotContents o JUNGLE_SAPLING
+BlockFlowerPot$EnumFlowerPotContents p ACACIA_SAPLING
+BlockFlowerPot$EnumFlowerPotContents q DARK_OAK_SAPLING
+BlockFlowerPot$EnumFlowerPotContents r MUSHROOM_RED
+BlockFlowerPot$EnumFlowerPotContents s MUSHROOM_BROWN
+BlockFlowerPot$EnumFlowerPotContents t DEAD_BUSH
+BlockFlowerPot$EnumFlowerPotContents u FERN
+BlockFlowerPot$EnumFlowerPotContents v CACTUS
+BlockFlowers a TYPE
+BlockFlowers$EnumFlowerType a YELLOW
+BlockFlowers$EnumFlowerType b RED
+BlockFlowers$EnumFlowerVarient a DANDELION
+BlockFlowers$EnumFlowerVarient b POPPY
+BlockFlowers$EnumFlowerVarient c BLUE_ORCHID
+BlockFlowers$EnumFlowerVarient d ALLIUM
+BlockFlowers$EnumFlowerVarient e HOUSTONIA
+BlockFlowers$EnumFlowerVarient f RED_TULIP
+BlockFlowers$EnumFlowerVarient g ORANGE_TULIP
+BlockFlowers$EnumFlowerVarient h WHITE_TULIP
+BlockFlowers$EnumFlowerVarient i PINK_TULIP
+BlockFlowers$EnumFlowerVarient j OXEYE_DAISY
+BlockFlowing a (LWorld;LBlockPosition;LIBlockData;I)V flow
+BlockFluids b (LWorld;LBlockPosition;)V fizz
+BlockFluids b LEVEL
+BlockFluids c (LWorld;LBlockPosition;LIBlockData;)V onPlace
+BlockFurnace a FACING
+BlockGrass a SNOWY
+BlockHopper a FACING
+BlockHopper b ENABLED
+BlockHugeMushroom a VARIANT
+BlockHugeMushroom$EnumHugeMushroomVariant a NORTH_WEST
+BlockHugeMushroom$EnumHugeMushroomVariant b NORTH
+BlockHugeMushroom$EnumHugeMushroomVariant c NORTH_EAST
+BlockHugeMushroom$EnumHugeMushroomVariant d WEST
+BlockHugeMushroom$EnumHugeMushroomVariant e CENTER
+BlockHugeMushroom$EnumHugeMushroomVariant f EAST
+BlockHugeMushroom$EnumHugeMushroomVariant g SOUTH_WEST
+BlockHugeMushroom$EnumHugeMushroomVariant h SOUTH
+BlockHugeMushroom$EnumHugeMushroomVariant i SOUTH_EAST
+BlockHugeMushroom$EnumHugeMushroomVariant j STEM
+BlockHugeMushroom$EnumHugeMushroomVariant k ALL_INSIDE
+BlockHugeMushroom$EnumHugeMushroomVariant l ALL_OUTSIDE
+BlockHugeMushroom$EnumHugeMushroomVariant m ALL_STEM
+BlockJukeBox a HAS_RECORD
+BlockJukeBox e (LWorld;LBlockPosition;LIBlockData;)V dropRecord
+BlockJukeBox$TileEntityRecordPlayer a ()LItemStack; getRecord
+BlockJukeBox$TileEntityRecordPlayer a (LItemStack;)V setRecord
+BlockJukeBox$TileEntityRecordPlayer a record
+BlockLadder a FACING
+BlockLeaves a DECAYABLE
+BlockLeaves b CHECK_DECAY
+BlockLeaves1 e VARIANT
+BlockLeaves2 e VARIANT
+BlockLever a FACING
+BlockLever b POWERED
+BlockLever$EnumLeverPosition a DOWN_X
+BlockLever$EnumLeverPosition b EAST
+BlockLever$EnumLeverPosition c WEST
+BlockLever$EnumLeverPosition d SOUTH
+BlockLever$EnumLeverPosition e NORTH
+BlockLever$EnumLeverPosition f UP_Z
+BlockLever$EnumLeverPosition g UP_X
+BlockLever$EnumLeverPosition h DOWN_Z
+BlockLog1 b VARIANT
+BlockLog2 b VARIANT
+BlockLogAbstract a AXIS
+BlockLogAbstract$EnumLogRotation a X
+BlockLogAbstract$EnumLogRotation b Y
+BlockLogAbstract$EnumLogRotation c Z
+BlockLogAbstract$EnumLogRotation d NONE
+BlockLongGrass a TYPE
+BlockLongGrass$EnumTallGrassType a DEAD_BUSH
+BlockLongGrass$EnumTallGrassType b GRASS
+BlockLongGrass$EnumTallGrassType c FERN
+BlockMinecartDetector c SHAPE
+BlockMinecartDetector d POWERED
+BlockMinecartTrack c SHAPE
+BlockMinecartTrackAbstract$EnumTrackPosition a NORTH_SOUTH
+BlockMinecartTrackAbstract$EnumTrackPosition b EAST_WEST
+BlockMinecartTrackAbstract$EnumTrackPosition c ASCENDING_EAST
+BlockMinecartTrackAbstract$EnumTrackPosition d ASCENDING_WEST
+BlockMinecartTrackAbstract$EnumTrackPosition e ASCENDING_NORTH
+BlockMinecartTrackAbstract$EnumTrackPosition f ASCENDING_SOUTH
+BlockMinecartTrackAbstract$EnumTrackPosition g SOUTH_EAST
+BlockMinecartTrackAbstract$EnumTrackPosition h SOUTH_WEST
+BlockMinecartTrackAbstract$EnumTrackPosition i NORTH_WEST
+BlockMinecartTrackAbstract$EnumTrackPosition j NORTH_EAST
+BlockMonsterEggs a VARIANT
+BlockMonsterEggs$EnumMonsterEggVarient a STONE
+BlockMonsterEggs$EnumMonsterEggVarient b COBBLESTONE
+BlockMonsterEggs$EnumMonsterEggVarient c STONEBRICK
+BlockMonsterEggs$EnumMonsterEggVarient d MOSSY_STONEBRICK
+BlockMonsterEggs$EnumMonsterEggVarient e CRACKED_STONEBRICK
+BlockMonsterEggs$EnumMonsterEggVarient f CHISELED_STONEBRICK
+BlockMycel a SNOWY
+BlockNetherWart a AGE
+BlockPiston B sticky
+BlockPiston a EXTENDED
+BlockPistonExtension a TYPE
+BlockPistonExtension b SHORT
+BlockPistonExtension$EnumPistonType a DEFAULT
+BlockPistonExtension$EnumPistonType b STICKY
+BlockPistonMoving a FACING
+BlockPistonMoving b TYPE
+BlockPlant a (LWorld;LBlockPosition;)Z canPlace
+BlockPortal a AXIS
+BlockPortal$Shape e ()V createPortal
+BlockPortal$Shape f position
+BlockPortal$Shape g height
+BlockPortal$Shape h width
+BlockPosition a ()LBlockPosition; up
+BlockPosition a (J)LBlockPosition; fromLong
+BlockPosition a (LEnumDirection;)LBlockPosition; shift
+BlockPosition a (LEnumDirection;I)LBlockPosition; shift
+BlockPosition a ZERO
+BlockPosition b ()LBlockPosition; down
+BlockPosition b (I)LBlockPosition; up
+BlockPosition c ()LBlockPosition; north
+BlockPosition c (I)LBlockPosition; down
+BlockPosition d ()LBlockPosition; south
+BlockPosition d (I)LBlockPosition; north
+BlockPosition e ()LBlockPosition; west
+BlockPosition e (I)LBlockPosition; south
+BlockPosition f ()LBlockPosition; east
+BlockPosition f (I)LBlockPosition; west
+BlockPosition g ()J asLong
+BlockPosition g (I)LBlockPosition; east
+BlockPoweredRail c SHAPE
+BlockPoweredRail d POWERED
+BlockPressurePlateAbstract i (LIBlockData;)I getPower
+BlockPressurePlateBinary d POWERED
+BlockPressurePlateBinary$EnumMobType a EVERYTHING
+BlockPressurePlateBinary$EnumMobType b MOBS
+BlockPressurePlateWeighted d POWER
+BlockPressurePlateWeighted e weight
+BlockPrismarine a VARIANT
+BlockPrismarine$EnumPrismarineVariant a ROUGH
+BlockPrismarine$EnumPrismarineVariant b BRICKS
+BlockPrismarine$EnumPrismarineVariant c DARK
+BlockPumpkin a snowGolemPart
+BlockPumpkin b snowGolem
+BlockPumpkin c ironGolemPart
+BlockPumpkin d ironGolem
+BlockPumpkin e ()LShapeDetector; getDetectorSnowGolemPart
+BlockPumpkin g ()LShapeDetector; getDetectorSnowGolem
+BlockPumpkin h ()LShapeDetector; getDetectorIronGolemPart
+BlockPumpkin i ()LShapeDetector; getDetectorIronGolem
+BlockPurpurSlab$Type a DEFAULT
+BlockQuartz a VARIANT
+BlockQuartz$EnumQuartzVariant a DEFAULT
+BlockQuartz$EnumQuartzVariant b CHISELED
+BlockQuartz$EnumQuartzVariant c LINES_Y
+BlockQuartz$EnumQuartzVariant d LINES_X
+BlockQuartz$EnumQuartzVariant e LINES_Z
+BlockRedSandstone a TYPE
+BlockRedSandstone$EnumRedSandstoneVariant a DEFAULT
+BlockRedSandstone$EnumRedSandstoneVariant b CHISELED
+BlockRedSandstone$EnumRedSandstoneVariant c SMOOTH
+BlockRedstoneComparator a POWERED
+BlockRedstoneComparator b MODE
+BlockRedstoneComparator$EnumComparatorMode a COMPARE
+BlockRedstoneComparator$EnumComparatorMode b SUBTRACT
+BlockRedstoneOre b (LWorld;LBlockPosition;)V interact
+BlockRedstoneOre c (LWorld;LBlockPosition;)V playEffect
+BlockRedstoneTorch B isOn
+BlockRedstoneWire a (LWorld;LBlockPosition;I)I getPower
+BlockRedstoneWire a NORTH
+BlockRedstoneWire b EAST
+BlockRedstoneWire c SOUTH
+BlockRedstoneWire d WEST
+BlockRedstoneWire e POWER
+BlockRedstoneWire$EnumRedstoneWireConnection a UP
+BlockRedstoneWire$EnumRedstoneWireConnection b SIDE
+BlockRedstoneWire$EnumRedstoneWireConnection c NONE
+BlockReed a AGE
+BlockRepeater a LOCKED
+BlockRepeater b DELAY
+BlockRotatable c AXIS
+BlockSand a VARIANT
+BlockSand$EnumSandVariant a SAND
+BlockSand$EnumSandVariant b RED_SAND
+BlockSandStone a TYPE
+BlockSandStone$EnumSandstoneVariant a DEFAULT
+BlockSandStone$EnumSandstoneVariant b CHISELED
+BlockSandStone$EnumSandstoneVariant c SMOOTH
+BlockSapling a TYPE
+BlockSapling c (LWorld;LBlockPosition;LIBlockData;Ljava/util/Random;)V grow
+BlockSapling c STAGE
+BlockSkull a FACING
+BlockSkull b NODROP
+BlockSmoothBrick a VARIANT
+BlockSmoothBrick$EnumStonebrickType a DEFAULT
+BlockSmoothBrick$EnumStonebrickType b MOSSY
+BlockSmoothBrick$EnumStonebrickType c CRACKED
+BlockSmoothBrick$EnumStonebrickType d CHISELED
+BlockSnow a LAYERS
+BlockSoil a MOISTURE
+BlockSponge a WET
+BlockStainedGlass a COLOR
+BlockStainedGlassPane a COLOR
+BlockStairs a FACING
+BlockStairs b HALF
+BlockStairs c SHAPE
+BlockStairs$EnumHalf a TOP
+BlockStairs$EnumHalf b BOTTOM
+BlockStairs$EnumStairShape a STRAIGHT
+BlockStairs$EnumStairShape b INNER_LEFT
+BlockStairs$EnumStairShape c INNER_RIGHT
+BlockStairs$EnumStairShape d OUTER_LEFT
+BlockStairs$EnumStairShape e OUTER_RIGHT
+BlockStateBoolean a (Ljava/lang/String;)LBlockStateBoolean; of
+BlockStateDirection a (Ljava/lang/String;)LBlockStateDirection; of
+BlockStateDirection a (Ljava/lang/String;Lcom/google/common/base/Predicate;)LBlockStateDirection; of
+BlockStateEnum a (Ljava/lang/String;Ljava/lang/Class;)LBlockStateEnum; of
+BlockStateEnum a (Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Enum;)LBlockStateEnum; of
+BlockStateInteger a (Ljava/lang/String;II)LBlockStateInteger; of
+BlockStateList b ()LIBlockData; getBlockData
+BlockStateList c ()LBlock; getBlock
+BlockStem a AGE
+BlockStem c FACING
+BlockStem e blockFruit
+BlockStepAbstract a HALF
+BlockStepAbstract$EnumSlabHalf a TOP
+BlockStepAbstract$EnumSlabHalf b BOTTOM
+BlockStone a VARIANT
+BlockStone$EnumStoneVariant a STONE
+BlockStone$EnumStoneVariant b GRANITE
+BlockStone$EnumStoneVariant c GRANITE_SMOOTH
+BlockStone$EnumStoneVariant d DIORITE
+BlockStone$EnumStoneVariant e DIORITE_SMOOTH
+BlockStone$EnumStoneVariant f ANDESITE
+BlockStone$EnumStoneVariant g ANDESITE_SMOOTH
+BlockTNT a EXPLODE
+BlockTallPlant a VARIANT
+BlockTallPlant c HALF
+BlockTallPlant$EnumTallFlowerVariants a SUNFLOWER
+BlockTallPlant$EnumTallFlowerVariants b SYRINGA
+BlockTallPlant$EnumTallFlowerVariants c GRASS
+BlockTallPlant$EnumTallFlowerVariants d FERN
+BlockTallPlant$EnumTallFlowerVariants e ROSE
+BlockTallPlant$EnumTallFlowerVariants f PAEONIA
+BlockTallPlant$EnumTallPlantHalf a UPPER
+BlockTallPlant$EnumTallPlantHalf b LOWER
+BlockThin b NORTH
+BlockThin c EAST
+BlockThin d SOUTH
+BlockThin e WEST
+BlockTorch a FACING
+BlockTorch c (LWorld;LBlockPosition;LIBlockData;)V onPlace
+BlockTrapdoor a FACING
+BlockTrapdoor b OPEN
+BlockTrapdoor c HALF
+BlockTrapdoor$EnumTrapdoorHalf a TOP
+BlockTrapdoor$EnumTrapdoorHalf b BOTTOM
+BlockTripwire a POWERED
+BlockTripwire b ATTACHED
+BlockTripwire c DISARMED
+BlockTripwire d NORTH
+BlockTripwire e EAST
+BlockTripwire f SOUTH
+BlockTripwire g WEST
+BlockTripwireHook a FACING
+BlockTripwireHook b POWERED
+BlockTripwireHook c ATTACHED
+BlockVine a (LEnumDirection;)LBlockStateBoolean; getDirection
+BlockVine a UP
+BlockVine b NORTH
+BlockVine c EAST
+BlockVine d SOUTH
+BlockVine e WEST
+BlockWallSign b FACING
+BlockWood a VARIANT
+BlockWood$EnumLogVariant a OAK
+BlockWood$EnumLogVariant b SPRUCE
+BlockWood$EnumLogVariant c BIRCH
+BlockWood$EnumLogVariant d JUNGLE
+BlockWood$EnumLogVariant e ACACIA
+BlockWood$EnumLogVariant f DARK_OAK
+BlockWoodenStep d VARIANT
+Blocks A SANDSTONE
+Blocks B NOTEBLOCK
+Blocks C BED
+Blocks D GOLDEN_RAIL
+Blocks E DETECTOR_RAIL
+Blocks F STICKY_PISTON
+Blocks G WEB
+Blocks H TALLGRASS
+Blocks I DEADBUSH
+Blocks J PISTON
+Blocks K PISTON_HEAD
+Blocks L WOOL
+Blocks M PISTON_EXTENSION
+Blocks N YELLOW_FLOWER
+Blocks O RED_FLOWER
+Blocks P BROWN_MUSHROOM
+Blocks Q RED_MUSHROOM
+Blocks R GOLD_BLOCK
+Blocks S IRON_BLOCK
+Blocks T DOUBLE_STONE_SLAB
+Blocks U STONE_SLAB
+Blocks V BRICK_BLOCK
+Blocks W TNT
+Blocks X BOOKSHELF
+Blocks Y MOSSY_COBBLESTONE
+Blocks Z OBSIDIAN
+Blocks a (Ljava/lang/String;)LBlock; get
+Blocks a AIR
+Blocks aA IRON_DOOR
+Blocks aB WOODEN_PRESSURE_PLATE
+Blocks aC REDSTONE_ORE
+Blocks aD LIT_REDSTONE_ORE
+Blocks aE UNLIT_REDSTONE_TORCH
+Blocks aF REDSTONE_TORCH
+Blocks aG STONE_BUTTON
+Blocks aH SNOW_LAYER
+Blocks aI ICE
+Blocks aJ SNOW
+Blocks aK CACTUS
+Blocks aL CLAY
+Blocks aM REEDS
+Blocks aN JUKEBOX
+Blocks aO FENCE
+Blocks aP SPRUCE_FENCE
+Blocks aQ BIRCH_FENCE
+Blocks aR JUNGLE_FENCE
+Blocks aS DARK_OAK_FENCE
+Blocks aT ACACIA_FENCE
+Blocks aU PUMPKIN
+Blocks aV NETHERRACK
+Blocks aW SOUL_SAND
+Blocks aX GLOWSTONE
+Blocks aY PORTAL
+Blocks aZ LIT_PUMPKIN
+Blocks aa TORCH
+Blocks ab FIRE
+Blocks ac MOB_SPAWNER
+Blocks ad OAK_STAIRS
+Blocks ae CHEST
+Blocks af REDSTONE_WIRE
+Blocks ag DIAMOND_ORE
+Blocks ah DIAMOND_BLOCK
+Blocks ai CRAFTING_TABLE
+Blocks aj WHEAT
+Blocks ak FARMLAND
+Blocks al FURNACE
+Blocks am LIT_FURNACE
+Blocks an STANDING_SIGN
+Blocks ao WOODEN_DOOR
+Blocks ap SPRUCE_DOOR
+Blocks aq BIRCH_DOOR
+Blocks ar JUNGLE_DOOR
+Blocks as ACACIA_DOOR
+Blocks at DARK_OAK_DOOR
+Blocks au LADDER
+Blocks av RAIL
+Blocks aw STONE_STAIRS
+Blocks ax WALL_SIGN
+Blocks ay LEVER
+Blocks az STONE_PRESSURE_PLATE
+Blocks b STONE
+Blocks bA NETHER_BRICK_STAIRS
+Blocks bB NETHER_WART
+Blocks bC ENCHANTING_TABLE
+Blocks bD BREWING_STAND
+Blocks bE cauldron
+Blocks bF END_PORTAL
+Blocks bG END_PORTAL_FRAME
+Blocks bH END_STONE
+Blocks bI DRAGON_EGG
+Blocks bJ REDSTONE_LAMP
+Blocks bK LIT_REDSTONE_LAMP
+Blocks bL DOUBLE_WOODEN_SLAB
+Blocks bM WOODEN_SLAB
+Blocks bN COCOA
+Blocks bO SANDSTONE_STAIRS
+Blocks bP EMERALD_ORE
+Blocks bQ ENDER_CHEST
+Blocks bR TRIPWIRE_HOOK
+Blocks bS TRIPWIRE
+Blocks bT EMERALD_BLOCK
+Blocks bU SPRUCE_STAIRS
+Blocks bV BIRCH_STAIRS
+Blocks bW JUNGLE_STAIRS
+Blocks bX COMMAND_BLOCK
+Blocks bY BEACON
+Blocks bZ COBBLESTONE_WALL
+Blocks ba CAKE
+Blocks bb UNPOWERED_REPEATER
+Blocks bc POWERED_REPEATER
+Blocks bd TRAPDOOR
+Blocks be MONSTER_EGG
+Blocks bf STONEBRICK
+Blocks bg BROWN_MUSHROOM_BLOCK
+Blocks bh RED_MUSHROOM_BLOCK
+Blocks bi IRON_BARS
+Blocks bj GLASS_PANE
+Blocks bk MELON_BLOCK
+Blocks bl PUMPKIN_STEM
+Blocks bm MELON_STEM
+Blocks bn VINE
+Blocks bo FENCE_GATE
+Blocks bp SPRUCE_FENCE_GATE
+Blocks bq BIRCH_FENCE_GATE
+Blocks br JUNGLE_FENCE_GATE
+Blocks bs DARK_OAK_FENCE_GATE
+Blocks bt ACACIA_FENCE_GATE
+Blocks bu BRICK_STAIRS
+Blocks bv STONE_BRICK_STAIRS
+Blocks bw MYCELIUM
+Blocks bx WATERLILY
+Blocks by NETHER_BRICK
+Blocks bz NETHER_BRICK_FENCE
+Blocks c GRASS
+Blocks cA COAL_BLOCK
+Blocks cB PACKED_ICE
+Blocks cC ACACIA_STAIRS
+Blocks cD DARK_OAK_STAIRS
+Blocks cE SLIME
+Blocks cF DOUBLE_PLANT
+Blocks cG STAINED_GLASS
+Blocks cH STAINED_GLASS_PANE
+Blocks cI PRISMARINE
+Blocks cJ SEA_LANTERN
+Blocks cK STANDING_BANNER
+Blocks cL WALL_BANNER
+Blocks cM RED_SANDSTONE
+Blocks cN RED_SANDSTONE_STAIRS
+Blocks cO DOUBLE_STONE_SLAB2
+Blocks cP STONE_SLAB2
+Blocks cQ END_ROD
+Blocks cR CHORUS_PLANT
+Blocks cS CHORUS_FLOWER
+Blocks cT PURPUR_BLOCK
+Blocks cU PURPUR_PILLAR
+Blocks cV PURPUR_STAIRS
+Blocks cW PURPUR_DOUBLE_SLAB
+Blocks cX PURPUR_SLAB
+Blocks cY END_BRICKS
+Blocks cZ BEETROOT
+Blocks ca FLOWER_POT
+Blocks cb CARROTS
+Blocks cc POTATOES
+Blocks cd WOODEN_BUTTON
+Blocks ce SKULL
+Blocks cf ANVIL
+Blocks cg TRAPPED_CHEST
+Blocks ch LIGHT_WEIGHTED_PRESSURE_PLATE
+Blocks ci HEAVY_WEIGHTED_PRESSURE_PLATE
+Blocks cj UNPOWERED_COMPARATOR
+Blocks ck POWERED_COMPARATOR
+Blocks cl DAYLIGHT_DETECTOR
+Blocks cm DAYLIGHT_DETECTOR_INVERTED
+Blocks cn REDSTONE_BLOCK
+Blocks co QUARTZ_ORE
+Blocks cp HOPPER
+Blocks cq QUARTZ_BLOCK
+Blocks cr QUARTZ_STAIRS
+Blocks cs ACTIVATOR_RAIL
+Blocks ct DROPPER
+Blocks cu STAINED_HARDENED_CLAY
+Blocks cv BARRIER
+Blocks cw IRON_TRAPDOOR
+Blocks cx HAY_BLOCK
+Blocks cy CARPET
+Blocks cz HARDENED_CLAY
+Blocks d DIRT
+Blocks da GRASS_PATH
+Blocks db END_GATEWAY
+Blocks de FROSTED_ICE
+Blocks dk STRUCTURE_BLOCK
+Blocks e COBBLESTONE
+Blocks f PLANKS
+Blocks g SAPLING
+Blocks h BEDROCK
+Blocks i FLOWING_WATER
+Blocks j WATER
+Blocks k FLOWING_LAVA
+Blocks l LAVA
+Blocks m SAND
+Blocks n GRAVEL
+Blocks o GOLD_ORE
+Blocks p IRON_ORE
+Blocks q COAL_ORE
+Blocks r LOG
+Blocks s LOG2
+Blocks t LEAVES
+Blocks u LEAVES2
+Blocks v SPONGE
+Blocks w GLASS
+Blocks x LAPIS_ORE
+Blocks y LAPIS_BLOCK
+Blocks z DISPENSER
+BossBattle a title
+BossBattle c color
+BossBattle d style
+BossBattle f ()F getProgress
+BossBattle$BarColor a PINK
+BossBattle$BarColor b BLUE
+BossBattle$BarColor c RED
+BossBattle$BarColor d GREEN
+BossBattle$BarColor e YELLOW
+BossBattle$BarColor f PURPLE
+BossBattle$BarColor g WHITE
+BossBattle$BarStyle a PROGRESS
+BossBattle$BarStyle b NOTCHED_6
+BossBattle$BarStyle c NOTCHED_10
+BossBattle$BarStyle d NOTCHED_12
+BossBattle$BarStyle e NOTCHED_20
+BossBattleServer a (F)V setProgress
+BossBattleServer a (LEntityPlayer;)V addPlayer
+BossBattleServer a (LPacketPlayOutBoss$Action;)V sendUpdate
+BossBattleServer a (Z)LBossBattle; setDarkenSky
+BossBattleServer b (LEntityPlayer;)V removePlayer
+BossBattleServer b (Z)LBossBattle; setPlayMusic
+BossBattleServer c ()Ljava/util/Collection; getPlayers
+BossBattleServer c (Z)LBossBattle; setCreateFog
+BossBattleServer d (Z)V setVisible
+BossBattleServer j visible
+CancelledPacketHandleException a INSTANCE
+ChatClickable$EnumClickAction a OPEN_URL
+ChatClickable$EnumClickAction b OPEN_FILE
+ChatClickable$EnumClickAction c RUN_COMMAND
+ChatClickable$EnumClickAction d SUGGEST_COMMAND
+ChatClickable$EnumClickAction e CHANGE_PAGE
+ChatComponentUtils a (LICommandListener;LIChatBaseComponent;LEntity;)LIChatBaseComponent; filterForDisplay
+ChatHoverable$EnumHoverAction a SHOW_TEXT
+ChatHoverable$EnumHoverAction b SHOW_ACHIEVEMENT
+ChatHoverable$EnumHoverAction c SHOW_ITEM
+ChatHoverable$EnumHoverAction d SHOW_ENTITY
+ChatModifier a ()LEnumChatFormat; getColor
+ChatModifier a (LChatClickable;)LChatModifier; setChatClickable
+ChatModifier a (LChatHoverable;)LChatModifier; setChatHoverable
+ChatModifier a (LChatModifier;)LChatModifier; setChatModifier
+ChatModifier a (LEnumChatFormat;)LChatModifier; setColor
+ChatModifier a (Ljava/lang/Boolean;)LChatModifier; setBold
+ChatModifier a (Ljava/lang/String;)LChatModifier; setInsertion
+ChatModifier b ()Z isBold
+ChatModifier b (Ljava/lang/Boolean;)LChatModifier; setItalic
+ChatModifier c ()Z isItalic
+ChatModifier c (Ljava/lang/Boolean;)LChatModifier; setStrikethrough
+ChatModifier d ()Z isStrikethrough
+ChatModifier d (Ljava/lang/Boolean;)LChatModifier; setUnderline
+ChatModifier e ()Z isUnderlined
+ChatModifier e (Ljava/lang/Boolean;)LChatModifier; setRandom
+ChatModifier f ()Z isRandom
+ChatModifier m ()LChatModifier; clone
+Chunk a (LBlockPosition;)LIBlockData; getBlockData
+Chunk a (LBlockPosition;LWorldChunkManager;)LBiomeBase; getBiome
+Chunk a (LEnumSkyBlock;LBlockPosition;)I getBrightness
+Chunk a (LIChunkProvider;LChunkGenerator;)V loadNearby
+Chunk b ()V initLighting
+Chunk b (J)V setLastSaved
+Chunk b locX
+Chunk c ()V addEntities
+Chunk c locZ
+Chunk d ()V removeEntities
+Chunk f ()Z isEmpty
+Chunk f sections
+Chunk h ()[LChunkSection; getSections
+Chunk i ()Z isReady
+Chunk k world
+Chunk l ()[B getBiomeIndex
+Chunk l heightMap
+Chunk n tileEntities
+Chunk o entitySlices
+Chunk p done
+Chunk q ()LWorld; getWorld
+Chunk q lit
+Chunk s ()Ljava/util/Map; getTileEntities
+Chunk t ()[LEntitySlice; getEntitySlices
+Chunk u ()Z isDone
+Chunk u lastSaved
+Chunk$EnumTileEntityState a IMMEDIATE
+Chunk$EnumTileEntityState b QUEUED
+Chunk$EnumTileEntityState c CHECK
+ChunkCoordIntPair a x
+ChunkCoordIntPair b z
+ChunkGenerator a (II)LChunk; getOrCreateChunk
+ChunkGenerator a (LEnumCreatureType;LBlockPosition;)Ljava/util/List; getMobsFor
+ChunkGenerator a (LWorld;Ljava/lang/String;LBlockPosition;)LBlockPosition; findNearestMapFeature
+ChunkGenerator b (II)V recreateStructures
+ChunkGenerator b (LChunk;II)V recreateStructures
+ChunkProviderServer a (LChunk;)V unload
+ChunkProviderServer b (II)LChunk; getOrLoadChunkAt
+ChunkProviderServer b (LChunk;)V saveChunkNOP
+ChunkProviderServer b unloadQueue
+ChunkProviderServer c (LChunk;)V saveChunk
+ChunkProviderServer c chunkGenerator
+ChunkProviderServer d (II)Z isLoaded
+ChunkProviderServer d chunkLoader
+ChunkProviderServer e (II)LChunk; loadChunk
+ChunkProviderServer e chunks
+ChunkProviderServer f world
+ChunkSection a (III)LIBlockData; getType
+ChunkSection a (IIILIBlockData;)V setType
+ChunkSection a yPos
+ChunkSection b ()Z shouldTick
+ChunkSection b nonEmptyBlockCount
+ChunkSection c tickingBlockCount
+ChunkSection d ()I getYPosition
+ChunkSection d blockIds
+ChunkSection e ()V recalcBlockCounts
+ChunkSection e emittedLight
+ChunkSection f skyLight
+ChunkSection g ()LDataPaletteBlock; getBlocks
+ChunkSection h ()LNibbleArray; getEmittedLightArray
+ChunkSection i ()LNibbleArray; getSkyLightArray
+CombatTracker a (LDamageSource;FF)V trackDamage
+CombatTracker b ()LIChatBaseComponent; getDeathMessage
+CommandAbstract b ([Ljava/lang/String;I)Z isListStart
+CommandBlockListenerAbstract a (Ljava/lang/String;)V setCommand
+CommandBlockListenerAbstract b (Ljava/lang/String;)V setName
+CommandBlockListenerAbstract m ()Ljava/lang/String; getCommand
+CommandException a ()[Ljava/lang/Object; getArgs
+CommandGamemode b (LICommandListener;)Ljava/lang/String; getUsage
+CommandGamemode c ()Ljava/lang/String; getCommand
+CommandObjectiveExecutor$EnumCommandResult a SUCCESS_COUNT
+CommandObjectiveExecutor$EnumCommandResult b AFFECTED_BLOCKS
+CommandObjectiveExecutor$EnumCommandResult c AFFECTED_ENTITIES
+CommandObjectiveExecutor$EnumCommandResult d AFFECTED_ITEMS
+CommandObjectiveExecutor$EnumCommandResult e QUERY_RESULT
+Container a (I)LSlot; getSlot
+Container a (ILItemStack;)V setItem
+Container a (LICrafting;)V addSlotListener
+Container a (LIInventory;I)LSlot; getSlot
+Container d windowId
+Container e listeners
+Container f dragType
+ContainerBeacon a beacon
+ContainerBrewingStand a brewingStand
+ContainerChest a container
+ContainerDispenser a items
+ContainerEnchantTable a enchantSlots
+ContainerEnchantTable g costs
+ContainerEnchantTable j world
+ContainerEnchantTable k position
+ContainerFurnace a furnace
+ContainerHopper a hopper
+ContainerMerchant a merchant
+ContainerPlayer a craftInventory
+ContainerPlayer f resultInventory
+ContainerPlayer i owner
+ContainerWorkbench a craftInventory
+ContainerWorkbench f resultInventory
+ControllerMove$Operation a WAIT
+ControllerMove$Operation b MOVE_TO
+ControllerMove$Operation c STRAFE
+Convertable a (Ljava/lang/String;LIProgressUpdate;)Z convert
+Convertable b (Ljava/lang/String;)Z isConvertable
+CraftingManager a ()LCraftingManager; getInstance
+CraftingManager a (LInventoryCrafting;LWorld;)LItemStack; craft
+CraftingManager a (LItemStack;[Ljava/lang/Object;)LShapedRecipes; registerShapedRecipe
+CraftingManager b ()Ljava/util/List; getRecipes
+CraftingManager b (LItemStack;[Ljava/lang/Object;)V registerShapelessRecipe
+CraftingManager b recipes
+DamageSource a (LEntity;LEntity;)LDamageSource; projectile
+DamageSource a (LEntityArrow;LEntity;)LDamageSource; arrow
+DamageSource a (LEntityFireball;LEntity;)LDamageSource; fireball
+DamageSource a (LEntityHuman;)LDamageSource; playerAttack
+DamageSource a (LEntityLiving;)LDamageSource; mobAttack
+DamageSource a (LExplosion;)LDamageSource; explosion
+DamageSource a FIRE
+DamageSource b LIGHTNING
+DamageSource c ()Z isExplosion
+DamageSource c (LEntityLiving;)LIChatBaseComponent; getLocalizedDeathMessage
+DamageSource c BURN
+DamageSource d LAVA
+DamageSource e ()Z ignoresArmor
+DamageSource e HOT_FLOOR
+DamageSource f ()F getExhaustionCost
+DamageSource f STUCK
+DamageSource g ()Z ignoresInvulnerability
+DamageSource g DROWN
+DamageSource h ()Z isStarvation
+DamageSource h STARVE
+DamageSource i CACTUS
+DamageSource j ()LEntity; getEntity
+DamageSource j FALL
+DamageSource k ()LDamageSource; setIgnoreArmor
+DamageSource k FLY_INTO_WALL
+DamageSource l OUT_OF_WORLD
+DamageSource m GENERIC
+DamageSource n ()LDamageSource; setExplosion
+DamageSource n MAGIC
+DamageSource o WITHER
+DamageSource p ANVIL
+DamageSource q FALLING_BLOCK
+DamageSource r DRAGON_BREATH
+DamageSource s ()Z isMagic
+DamageSource s translationIndex
+DamageSource t ()LDamageSource; setMagic
+DataConverterTypes a LEVEL
+DataConverterTypes b PLAYER
+DataConverterTypes c CHUNK
+DataConverterTypes d BLOCK_ENTITY
+DataConverterTypes e ENTITY
+DataConverterTypes f ITEM_INSTANCE
+DataConverterTypes g OPTIONS
+DataPaletteBlock a (IIILIBlockData;)V setBlock
+DataPaletteBlock a ([BLNibbleArray;)LNibbleArray; exportData
+DataPaletteBlock b (ILIBlockData;)V setBlockIndex
+DataWatcher a (LDataWatcherObject;)Ljava/lang/Object; get
+DataWatcher a (LDataWatcherObject;Ljava/lang/Object;)V register
+DataWatcher b (LDataWatcherObject;)V markDirty
+DataWatcher b (LDataWatcherObject;Ljava/lang/Object;)V set
+DataWatcher c (LDataWatcherObject;Ljava/lang/Object;)V registerObject
+DedicatedPlayerList b ()LDedicatedServer; getServer
+DedicatedServer a (Ljava/lang/String;LICommandListener;)V issueCommand
+DedicatedServer k LOGGER
+DedicatedServer m serverCommandQueue
+DedicatedServer o remoteControlCommandListener
+DedicatedServer q propertyManager
+DedicatedServer s generateStructures
+DimensionManager a ()I getDimensionID
+DimensionManager a OVERWORLD
+DimensionManager b NETHER
+DimensionManager c THE_END
+DispenseBehaviorProjectile b ()F getPower
+DragonControllerManager a (LDragonControllerPhase;)V setControllerPhase
+DragonControllerManager b enderDragon
+DragonControllerManager c dragonControllers
+DragonControllerManager d currentDragonController
+DragonControllerPhase a (I)LDragonControllerPhase; getById
+Enchantment a (LItemStack;)Z canEnchant
+Enchantment b ()I getMaxLevel
+Enchantment b (LEnchantment;)I getId
+Enchantment b enchantments
+Enchantment c itemTarget
+Enchantment d ()I getStartLevel
+Enchantment$Rarity a COMMON
+Enchantment$Rarity b UNCOMMON
+Enchantment$Rarity c RARE
+Enchantment$Rarity d VERY_RARE
+EnchantmentManager a (LEnchantment;LItemStack;)I getEnchantmentLevel
+EnchantmentManager b (LEntityLiving;)I getFireAspectEnchantmentLevel
+EnchantmentManager c (LEntityLiving;)I getOxygenEnchantmentLevel
+EnchantmentManager e (LEntityLiving;)I getDigSpeedEnchantmentLevel
+EnchantmentProtection$DamageType a ALL
+EnchantmentProtection$DamageType b FIRE
+EnchantmentProtection$DamageType c FALL
+EnchantmentProtection$DamageType d EXPLOSION
+EnchantmentProtection$DamageType e PROJECTILE
+EnchantmentSlotType a (LItem;)Z canEnchant
+EnchantmentSlotType a ALL
+EnchantmentSlotType b ARMOR
+EnchantmentSlotType c ARMOR_FEET
+EnchantmentSlotType d ARMOR_LEGS
+EnchantmentSlotType e ARMOR_CHEST
+EnchantmentSlotType f ARMOR_HEAD
+EnchantmentSlotType g WEAPON
+EnchantmentSlotType h DIGGER
+EnchantmentSlotType i FISHING_ROD
+EnchantmentSlotType j BREAKABLE
+EnchantmentSlotType k BOW
+Enchantments a PROTECTION_ENVIRONMENTAL
+Enchantments b PROTECTION_FIRE
+Enchantments c PROTECTION_FALL
+Enchantments d PROTECTION_EXPLOSIONS
+Enchantments e PROTECTION_PROJECTILE
+Enchantments f OXYGEN
+Enchantments g WATER_WORKER
+Enchantments h THORNS
+Enchantments i DEPTH_STRIDER
+Enchantments k DAMAGE_ALL
+Enchantments l DAMAGE_UNDEAD
+Enchantments m DAMAGE_ARTHROPODS
+Enchantments n KNOCKBACK
+Enchantments o FIRE_ASPECT
+Enchantments p LOOT_BONUS_MOBS
+Enchantments q DIG_SPEED
+Enchantments r SILK_TOUCH
+Enchantments s DURABILITY
+Enchantments t LOOT_BONUS_BLOCKS
+Enchantments u ARROW_DAMAGE
+Enchantments v ARROW_KNOCKBACK
+Enchantments w ARROW_FIRE
+Enchantments x ARROW_INFINITE
+Enchantments y LUCK
+Enchantments z LURE
+Entity A positionChanged
+Entity D velocityChanged
+Entity F dead
+Entity G width
+Entity H length
+Entity L fallDistance
+Entity O ()I getId
+Entity Q noclip
+Entity R ()LDataWatcher; getDataWatcher
+Entity S random
+Entity T ()V die
+Entity T ticksLived
+Entity U maxFireTicks
+Entity V inWater
+Entity W ()V burnFromLava
+Entity W noDamageTicks
+Entity X ()V extinguish
+Entity X justCreated
+Entity Y fireProof
+Entity Z ()V recalcPosition
+Entity Z datawatcher
+Entity a (DDD)V enderTeleportTo
+Entity a (DDDFF)V setLocation
+Entity a (FF)V setSize
+Entity a (LBlockPosition;FF)V setPositionRotation
+Entity a (LCrashReportSystemDetails;)V appendEntityCrashDetails
+Entity a (LDamageSource;F)Z damageEntity
+Entity a (LEntityLightning;)V onLightningStrike
+Entity a (LEnumItemSlot;LItemStack;)V setEquipment
+Entity a (LWorld;)V spawnIn
+Entity aE invulnerable
+Entity aH ()Ljava/lang/Iterable; getArmorItems
+Entity aJ ()Z isBurning
+Entity aK ()Z isPassenger
+Entity aL ()Z isVehicle
+Entity aM ()Z isSneaking
+Entity aN ()Z isSprinting
+Entity aP ()Z isInvisible
+Entity aR ()I getAirTicks
+Entity aU ()F getHeadRotation
+Entity ac ()V checkBlockCollisions
+Entity ad ()Z isSilent
+Entity ae ()Z isNoGravity
+Entity af ()Z playStepSound
+Entity ah ()Z isFireProof
+Entity aj ()Z isInWater
+Entity aj impulse
+Entity ak portalCooldown
+Entity an dimension
+Entity aq ()Z isInteractable
+Entity ar ()Z isCollidable
+Entity ar uniqueID
+Entity at glowing
+Entity au ()Z isAlive
+Entity av ()Z inBlock
+Entity av boundingBox
+Entity ay fireTicks
+Entity b (DDD)V setPosition
+Entity b (DDDFF)V setPositionRotation
+Entity b (FF)V setYawPitch
+Entity b (IZ)V setFlag
+Entity b (LDamageSource;)Z isInvulnerable
+Entity ba ()LVec3D; getPortalOffset
+Entity bb ()LEnumDirection; getPortalDirection
+Entity bc ()Z isIgnoreBlockTrigger
+Entity be ()Ljava/util/UUID; getUniqueID
+Entity bi ()Ljava/lang/String; getCustomName
+Entity bj ()Z getCustomNameVisible
+Entity bl ()LEnumDirection; getDirection
+Entity bo ()LAxisAlignedBB; getBoundingBox
+Entity bq ()F getHeadHeight
+Entity bz ()LEntity; getVehicle
+Entity c (Ljava/lang/String;)V setCustomName
+Entity c (Z)V setSilent
+Entity d (DDD)V move
+Entity d (Z)V setNoGravity
+Entity e (Z)V setSneaking
+Entity f (Z)V setSprinting
+Entity f entityCount
+Entity g id
+Entity h (Z)V setInvisible
+Entity h passengers
+Entity h_ ()Ljava/lang/String; getName
+Entity i (I)V setOnFire
+Entity i (LEntity;)V collide
+Entity i (Z)V setInvulnerable
+Entity i_ ()LIChatBaseComponent; getScoreboardDisplayName
+Entity j (I)V burn
+Entity j (Z)V setCustomNameVisible
+Entity k (I)Z getFlag
+Entity k attachedToPlayer
+Entity l (I)V setAirTicks
+Entity l world
+Entity m (LEntity;)Z startRiding
+Entity m lastX
+Entity n lastY
+Entity n_ ()Z hasCustomName
+Entity o lastZ
+Entity p ()V stopRiding
+Entity p locX
+Entity q locY
+Entity r locZ
+Entity s motX
+Entity t motY
+Entity u motZ
+Entity v yaw
+Entity w pitch
+Entity x lastYaw
+Entity y lastPitch
+Entity z onGround
+Entity z_ ()Z getSendCommandFeedback
+EntityAgeable a (I)V setAge
+EntityAgeable a (IZ)V setAge
+EntityAgeable a (LEntityAgeable;)LEntityAgeable; createChild
+EntityAgeable b_ (I)V setAgeRaw
+EntityAgeable l ()I getAge
+EntityAnimal K ()Z isTypeNotPersistent
+EntityAnimal a (LDamageSource;F)Z damageEntity
+EntityAnimal a (LEntityAnimal;)Z mate
+EntityAnimal b (LEntityHuman;)I getExpValue
+EntityAnimal dj ()LEntityHuman; getBreedCause
+EntityAnimal dk ()Z isInLove
+EntityAnimal dl ()V resetLove
+EntityAreaEffectCloud a (F)V setRadius
+EntityAreaEffectCloud a (I)V setColor
+EntityAreaEffectCloud a (LEntityLiving;)V setSource
+EntityAreaEffectCloud a (LEnumParticle;)V setParticle
+EntityAreaEffectCloud aA radiusOnUse
+EntityAreaEffectCloud aB radiusPerTick
+EntityAreaEffectCloud aw waitTime
+EntityAreaEffectCloud ax reapplicationDelay
+EntityAreaEffectCloud ay hasColor
+EntityAreaEffectCloud az durationOnUse
+EntityAreaEffectCloud b (F)V setRadiusOnUse
+EntityAreaEffectCloud c (F)V setRadiusPerTick
+EntityAreaEffectCloud e (I)V setDuration
+EntityAreaEffectCloud g (I)V setWaitTime
+EntityAreaEffectCloud g potionRegistry
+EntityAreaEffectCloud h effects
+EntityAreaEffectCloud j ()F getRadius
+EntityAreaEffectCloud k ()I getColor
+EntityAreaEffectCloud l ()LEnumParticle; getParticle
+EntityAreaEffectCloud r ()I getDuration
+EntityArmorStand a (LVector3f;)V setHeadPose
+EntityArmorStand b (LVector3f;)V setBodyPose
+EntityArmorStand bD headPose
+EntityArmorStand bE bodyPose
+EntityArmorStand bF leftArmPose
+EntityArmorStand bG rightArmPose
+EntityArmorStand bH leftLegPose
+EntityArmorStand bI rightLegPose
+EntityArmorStand c (LVector3f;)V setLeftArmPose
+EntityArmorStand d (LVector3f;)V setRightArmPose
+EntityArmorStand e (LVector3f;)V setLeftLegPose
+EntityArmorStand f (LVector3f;)V setRightLegPose
+EntityArmorStand m (Z)V setSmall
+EntityArmorStand n (Z)V setArms
+EntityArmorStand o ()Z isSmall
+EntityArmorStand o (Z)V setBasePlate
+EntityArmorStand p (Z)V setMarker
+EntityArmorStand r ()Z hasArms
+EntityArmorStand s ()Z hasBasePlate
+EntityArmorStand t ()Z isMarker
+EntityArrow a (I)V setKnockbackStrength
+EntityArrow a (Z)V setCritical
+EntityArrow a inGround
+EntityArrow aA damage
+EntityArrow aB knockbackStrength
+EntityArrow c fromPlayer
+EntityArrow d shake
+EntityArrow e shooter
+EntityArrow l ()Z isCritical
+EntityArrow$PickupStatus a DISALLOWED
+EntityArrow$PickupStatus b ALLOWED
+EntityArrow$PickupStatus c CREATIVE_ONLY
+EntityBat a (Z)V setAsleep
+EntityBat o ()Z isAsleep
+EntityBoat a (F)V setDamage
+EntityBoat a (LEntityBoat$EnumBoatType;)V setType
+EntityBoat r ()LEntityBoat$EnumBoatType; getType
+EntityBoat$EnumBoatType a OAK
+EntityBoat$EnumBoatType b SPRUCE
+EntityBoat$EnumBoatType c BIRCH
+EntityBoat$EnumBoatType d JUNGLE
+EntityBoat$EnumBoatType e ACACIA
+EntityBoat$EnumBoatType f DARK_OAK
+EntityBoat$EnumStatus a IN_WATER
+EntityBoat$EnumStatus b UNDER_WATER
+EntityBoat$EnumStatus c UNDER_FLOWING_WATER
+EntityBoat$EnumStatus d ON_LAND
+EntityBoat$EnumStatus e IN_AIR
+EntityChicken de ()Z isChickenJockey
+EntityComplexPart a owner
+EntityCow a (LEntityAgeable;)LEntityAgeable; createChild
+EntityCreeper bA explosionRadius
+EntityCreeper by fuseTicks
+EntityCreeper bz maxFuseTicks
+EntityCreeper dg ()Z isIgnited
+EntityCreeper di ()Z canCauseHeadDrop
+EntityCreeper dj ()V setCausedHeadDrop
+EntityCreeper o ()Z isPowered
+EntityDamageSource c (LEntityLiving;)LIChatBaseComponent; getLocalizedDeathMessage
+EntityDamageSource j ()LEntity; getEntity
+EntityDamageSourceIndirect u owner
+EntityEnderCrystal a (LBlockPosition;)V setBeamTarget
+EntityEnderCrystal a (Z)V setShowingBottom
+EntityEnderCrystal j ()LBlockPosition; getBeamTarget
+EntityEnderCrystal k ()Z isShowingBottom
+EntityEnderDragon a PHASE
+EntityEnderDragon bI currentEnderCrystal
+EntityEnderDragon bv children
+EntityEnderDragon cY ()LDragonControllerManager; getDragonControllerManager
+EntityEnderDragon e (LDamageSource;F)Z dealDamage
+EntityEnderman a (LIBlockData;)V setCarried
+EntityEnderman dg ()LIBlockData; getCarried
+EntityEnderman$PathfinderGoalEndermanPickupBlock a enderman
+EntityExperienceOrb a (I)I getOrbValue
+EntityExperienceOrb e value
+EntityExperienceOrb f targetPlayer
+EntityExperienceOrb g targetTime
+EntityFallingBlock a ticksLived
+EntityFallingBlock au fallHurtAmount
+EntityFallingBlock b dropItem
+EntityFallingBlock c tileEntityData
+EntityFallingBlock e block
+EntityFallingBlock g hurtEntities
+EntityFallingBlock h fallHurtMax
+EntityFallingBlock l ()LIBlockData; getBlock
+EntityFireball a (LDamageSource;F)Z damageEntity
+EntityFireball a shooter
+EntityFireball b dirX
+EntityFireball c dirY
+EntityFireball d dirZ
+EntityFireworks a FIREWORK_ITEM
+EntityFireworks b ticksFlown
+EntityFireworks c expectedLifespan
+EntityFishingHook a owner
+EntityFishingHook b hooked
+EntityFishingHook f isInGround
+EntityGhast cY ()I getPower
+EntityGhast$PathfinderGoalGhastAttackTarget b ghast
+EntityGuardian a (Z)V setElder
+EntityGuardian bE goalRandomStroll
+EntityGuardian dg ()Z isElder
+EntityHanging a (LDamageSource;F)Z damageEntity
+EntityHanging a (LEnumDirection;)V setDirection
+EntityHanging a blockPosition
+EntityHanging b direction
+EntityHanging j ()V updateBoundingBox
+EntityHanging k ()Z survives
+EntityHanging l ()I getWidth
+EntityHanging n ()I getHeight
+EntityHanging q ()LBlockPosition; getBlockPosition
+EntityHorse a (LEnumHorseType;)V setType
+EntityHorse b (Ljava/util/UUID;)V setOwnerUUID
+EntityHorse bC jumpPower
+EntityHorse bE attributeJumpStrength
+EntityHorse bT inventoryChest
+EntityHorse bV canSlide
+EntityHorse dB ()I getMaxDomestication
+EntityHorse dK ()V dropChest
+EntityHorse dO ()V loadChest
+EntityHorse dV ()V setStanding
+EntityHorse de ()LEnumHorseType; getType
+EntityHorse df ()I getVariant
+EntityHorse dh ()Z isTamed
+EntityHorse dm ()Ljava/util/UUID; getOwnerUUID
+EntityHorse do ()Z do_
+EntityHorse dp ()Z hasChest
+EntityHorse du ()Z hasReproduced
+EntityHorse dv ()I getTemper
+EntityHorse dy ()D getJumpStrength
+EntityHorse g (I)V setVariant
+EntityHorse m (I)V setTemper
+EntityHorse p (Z)V setTame
+EntityHorse s (Z)V setHasChest
+EntityHuman a (F)V applyExhaustion
+EntityHuman a (I)V levelDown
+EntityHuman a (LBlockPosition;Z)V setRespawnPosition
+EntityHuman a (LEntityHuman;Z)V copyTo
+EntityHuman a (LIInventory;)V openContainer
+EntityHuman a (LIMerchant;)V openTrade
+EntityHuman a (LITileEntityContainer;)V openTileEntity
+EntityHuman a (LItemStack;Z)LEntityItem; drop
+EntityHuman a (LTileEntitySign;)V openSign
+EntityHuman a (LWorld;LBlockPosition;Z)LBlockPosition; getBed
+EntityHuman b (I)V enchantDone
+EntityHuman b (LIBlockData;)Z hasBlock
+EntityHuman bH sleeping
+EntityHuman bI bedPosition
+EntityHuman bL abilities
+EntityHuman bM expLevel
+EntityHuman bN expTotal
+EntityHuman bO exp
+EntityHuman bR hookedFish
+EntityHuman bt inventory
+EntityHuman bu defaultContainer
+EntityHuman bv activeContainer
+EntityHuman bw foodData
+EntityHuman c enderChest
+EntityHuman cK ()I getScore
+EntityHuman cP ()Lcom/mojang/authlib/GameProfile; getProfile
+EntityHuman cR ()Z isDeeplySleeping
+EntityHuman cT ()LBlockPosition; getBed
+EntityHuman cU ()Z isRespawnForced
+EntityHuman cW ()I getExpToLevel
+EntityHuman cX ()LFoodMetaData; getFoodData
+EntityHuman d sleepTicks
+EntityHuman da ()LInventoryEnderChest; getEnderChest
+EntityHuman db ()LScoreboard; getScoreboard
+EntityHuman f (LEntity;)V attack
+EntityHuman g (I)V setScore
+EntityHuman l (DDD)V checkMovement
+EntityHuman m (I)V addScore
+EntityHuman n (I)V giveExp
+EntityHuman q ()V closeInventory
+EntityHuman w ()V updateAbilities
+EntityHuman y ()Z isSpectator
+EntityHuman$EnumBedResult a OK
+EntityHuman$EnumBedResult b NOT_POSSIBLE_HERE
+EntityHuman$EnumBedResult c NOT_POSSIBLE_NOW
+EntityHuman$EnumBedResult d TOO_FAR_AWAY
+EntityHuman$EnumBedResult e OTHER_PROBLEM
+EntityHuman$EnumBedResult f NOT_SAFE
+EntityHuman$EnumChatVisibility a FULL
+EntityHuman$EnumChatVisibility b SYSTEM
+EntityHuman$EnumChatVisibility c HIDDEN
+EntityInsentient E ()V doSpawnEffect
+EntityInsentient I ()LItem; getLoot
+EntityInsentient K ()Z isTypeNotPersistent
+EntityInsentient a (LDifficultyDamageScaler;LGroupDataEntity;)LGroupDataEntity; prepare
+EntityInsentient a (ZZ)V unleash
+EntityInsentient b (LEntity;Z)V setLeashHolder
+EntityInsentient b (LEntityHuman;)I getExpValue
+EntityInsentient b (ZI)V dropDeathLoot
+EntityInsentient b lookController
+EntityInsentient bA persistent
+EntityInsentient bF leashHolder
+EntityInsentient br goalSelector
+EntityInsentient bs targetSelector
+EntityInsentient bt dropChanceHand
+EntityInsentient bu dropChanceArmor
+EntityInsentient bv goalTarget
+EntityInsentient bz canPickUpLoot
+EntityInsentient c (LEntityLiving;)V setGoalTarget
+EntityInsentient cL ()Z canSpawn
+EntityInsentient cS ()Z isPersistent
+EntityInsentient cU ()Z isLeashed
+EntityInsentient cV ()LEntity; getLeashHolder
+EntityInsentient cW ()Z hasAI
+EntityInsentient f moveController
+EntityInsentient h navigation
+EntityInsentient n (Z)V setAI
+EntityInsentient t ()LControllerLook; getControllerLook
+EntityInsentient u ()LControllerMove; getControllerMove
+EntityInsentient w ()LControllerJump; getControllerJump
+EntityInsentient x ()LNavigationAbstract; getNavigation
+EntityInsentient y ()LEntitySenses; getEntitySenses
+EntityInsentient z ()LEntityLiving; getGoalTarget
+EntityInsentient$EnumEntityPositionType a ON_GROUND
+EntityInsentient$EnumEntityPositionType b IN_AIR
+EntityInsentient$EnumEntityPositionType c IN_WATER
+EntityIronGolem dg ()Z isPlayerCreated
+EntityIronGolem p (Z)V setPlayerCreated
+EntityItem a (LItemStack;)V setItemStack
+EntityItem d age
+EntityItem e pickupDelay
+EntityItem k ()LItemStack; getItemStack
+EntityItemFrame a (I)V setRotation
+EntityItemFrame a (IZ)V setRotation
+EntityItemFrame a (LItemStack;)V setItem
+EntityItemFrame a (LItemStack;Z)V setItem
+EntityItemFrame r ()LItemStack; getItem
+EntityItemFrame s ()I getRotation
+EntityLargeFireball e yield
+EntityLightning b lifeTicks
+EntityLiving D (LEntity;)Z hasLineOfSight
+EntityLiving a (LDamageSource;)V die
+EntityLiving a (LDamageSource;F)Z damageEntity
+EntityLiving a (LEntity;I)V receive
+EntityLiving a (LEnumItemSlot;)LItemStack; getEquipment
+EntityLiving a (LEnumItemSlot;LItemStack;)V setSlot
+EntityLiving a (LIAttribute;)LAttributeInstance; getAttributeInstance
+EntityLiving a (LMobEffectList;)Z hasEffect
+EntityLiving a (ZI)V dropEquipment
+EntityLiving aC deathTicks
+EntityLiving aJ maxNoDamageTicks
+EntityLiving aT killer
+EntityLiving aU lastDamageByPlayerTime
+EntityLiving aW ticksFarFromPlayer
+EntityLiving az hurtTicks
+EntityLiving b (F)V heal
+EntityLiving b (LDamageSource;F)F applyArmorModifier
+EntityLiving b (LEntityHuman;)I getExpValue
+EntityLiving b (LMobEffectList;)LMobEffect; getEffect
+EntityLiving b (ZI)V dropDeathLoot
+EntityLiving bD ()V initAttributes
+EntityLiving bG ()Z isDropExperience
+EntityLiving bH ()Z alwaysGivesExp
+EntityLiving bI ()Ljava/util/Random; getRandom
+EntityLiving bJ ()LEntityLiving; getLastDamager
+EntityLiving bO ()V tickPotionEffects
+EntityLiving bQ ()V removeAllEffects
+EntityLiving bR ()Ljava/util/Collection; getEffects
+EntityLiving bT ()F getHealth
+EntityLiving bX ()I getArmorStrength
+EntityLiving bY ()LCombatTracker; getCombatTracker
+EntityLiving bd lastDamage
+EntityLiving bs combatTracker
+EntityLiving bt effects
+EntityLiving bw updateEffects
+EntityLiving bx lastDamager
+EntityLiving by hurtTimestamp
+EntityLiving c (F)V setHealth
+EntityLiving c (LDamageSource;F)F applyMagicModifier
+EntityLiving c (LMobEffect;)V addEffect
+EntityLiving c HEALTH
+EntityLiving cD ()V clearActiveItem
+EntityLiving cF ()Z isBlocking
+EntityLiving ca ()F getMaxHealth
+EntityLiving cd ()LAttributeMapBase; getAttributeMap
+EntityLiving ce ()LEnumMonsterType; getMonsterType
+EntityLiving cf ()LItemStack; getItemInMainHand
+EntityLiving cg ()LItemStack; getItemInOffHand
+EntityLiving cq ()Z isSleeping
+EntityLiving cr ()V doTick
+EntityLiving cu ()F getAbsorptionHearts
+EntityLiving cw ()LEnumMainHand; getMainHand
+EntityLiving d (LDamageSource;F)V damageEntity0
+EntityLiving d (LMobEffectList;)V removeEffect
+EntityLiving j ()V enterCombat
+EntityLiving j (F)V damageArmor
+EntityLiving k ()V exitCombat
+EntityLiving l_ ()Z isBaby
+EntityLiving n (F)V setAbsorptionHearts
+EntityMinecartAbstract a (F)V setDamage
+EntityMinecartAbstract a (LIBlockData;)V setDisplayBlock
+EntityMinecartAbstract f (I)V setDisplayBlockOffset
+EntityMinecartAbstract s ()F getDamage
+EntityMinecartAbstract t ()I getType
+EntityMinecartAbstract w ()LIBlockData; getDisplayBlock
+EntityMinecartAbstract y ()I getDisplayBlockOffset
+EntityMinecartAbstract$EnumMinecartType a RIDEABLE
+EntityMinecartAbstract$EnumMinecartType b CHEST
+EntityMinecartAbstract$EnumMinecartType c FURNACE
+EntityMinecartAbstract$EnumMinecartType d TNT
+EntityMinecartAbstract$EnumMinecartType e SPAWNER
+EntityMinecartAbstract$EnumMinecartType f HOPPER
+EntityMinecartAbstract$EnumMinecartType g COMMAND_BLOCK
+EntityMinecartCommandBlock j ()LCommandBlockListenerAbstract; getCommandBlock
+EntityMinecartContainer a items
+EntityMinecartHopper C ()Z isEnabled
+EntityMinecartHopper g (I)V setCooldown
+EntityMinecartHopper l (Z)V setEnabled
+EntityMonster a (LDamageSource;F)Z damageEntity
+EntityOcelot dm ()I getCatType
+EntityOcelot g (I)V setCatType
+EntityOwnable b ()Ljava/util/UUID; getOwnerUUID
+EntityOwnable p_ ()LEntity; getOwner
+EntityPainting c art
+EntityPainting$EnumArt a KEBAB
+EntityPainting$EnumArt b AZTEC
+EntityPainting$EnumArt c ALBAN
+EntityPainting$EnumArt d AZTEC_2
+EntityPainting$EnumArt e BOMB
+EntityPainting$EnumArt f PLANT
+EntityPainting$EnumArt g WASTELAND
+EntityPainting$EnumArt h POOL
+EntityPainting$EnumArt i COURBET
+EntityPainting$EnumArt j SEA
+EntityPainting$EnumArt k SUNSET
+EntityPainting$EnumArt l CREEBET
+EntityPainting$EnumArt m WANDERER
+EntityPainting$EnumArt n GRAHAM
+EntityPainting$EnumArt o MATCH
+EntityPainting$EnumArt p BUST
+EntityPainting$EnumArt q STAGE
+EntityPainting$EnumArt r VOID
+EntityPainting$EnumArt s SKULL_AND_ROSES
+EntityPainting$EnumArt t WITHER
+EntityPainting$EnumArt u FIGHTERS
+EntityPainting$EnumArt v POINTER
+EntityPainting$EnumArt w PIGSCENE
+EntityPainting$EnumArt x BURNING_SKULL
+EntityPainting$EnumArt y SKELETON
+EntityPainting$EnumArt z DONKEY_KONG
+EntityPig de ()Z hasSaddle
+EntityPig p (Z)V setSaddle
+EntityPigZombie bx angerLevel
+EntityPigZombie by soundDelay
+EntityPigZombie bz hurtBy
+EntityPlayer C ()LEntityHuman$EnumChatVisibility; getChatFlags
+EntityPlayer D ()V resetIdleTimer
+EntityPlayer E ()LServerStatisticManager; getStatisticManager
+EntityPlayer G ()LEntity; getSpecatorTarget
+EntityPlayer J ()LIChatBaseComponent; getPlayerListName
+EntityPlayer a (LContainer;)V updateInventory
+EntityPlayer a (LEntityHorse;LIInventory;)V openHorseInventory
+EntityPlayer a (Ljava/lang/String;Ljava/lang/String;)V setResourcePack
+EntityPlayer a playerConnection
+EntityPlayer b server
+EntityPlayer bT locale
+EntityPlayer bU removeQueue
+EntityPlayer c playerInteractManager
+EntityPlayer cc lastHealthSent
+EntityPlayer cf lastSentExp
+EntityPlayer cg invulnerableTicks
+EntityPlayer cl worldChangeInvuln
+EntityPlayer cm containerCounter
+EntityPlayer di ()Z canPvP
+EntityPlayer dj ()V nextContainerCounter
+EntityPlayer e (LEntity;)V setSpectatorTarget
+EntityPlayer g ping
+EntityPlayer h viewingCredits
+EntityPlayer j_ ()V syncInventory
+EntityPlayer r ()V broadcastCarriedItem
+EntityPlayer u ()V triggerHealthUpdate
+EntityPotion a (LItemStack;)V setItem
+EntityPotion l ()LItemStack; getItem
+EntityPotion n ()Z isLingering
+EntityProjectile a inGround
+EntityProjectile au shooterName
+EntityProjectile b shake
+EntityProjectile d blockX
+EntityProjectile e blockY
+EntityProjectile f blockZ
+EntityProjectile g inBlockId
+EntityProjectile h shooter
+EntityProjectile k ()LEntityLiving; getShooter
+EntityRabbit dg ()I getRabbitType
+EntityRabbit do ()V do_
+EntityRabbit g (I)V setRabbitType
+EntitySheep b (LEnumColor;)V setColor
+EntitySheep by container
+EntitySheep de ()LEnumColor; getColor
+EntitySheep df ()Z isSheared
+EntitySheep p (Z)V setSheared
+EntityShulkerBullet a shooter
+EntityShulkerBullet b target
+EntitySilverfish$PathfinderGoalSilverfishHideInBlock a silverfish
+EntitySilverfish$PathfinderGoalSilverfishWakeOthers a silverfish
+EntitySkeleton a (LEnumSkeletonType;)V setSkeletonType
+EntitySkeleton df ()LEnumSkeletonType; getSkeletonType
+EntitySlime I ()LItem; getLoot
+EntitySlime a (I)V setSize
+EntitySlime df ()I getSize
+EntitySnowman a (Z)V setDerp
+EntitySnowman o ()Z isDerp
+EntitySpectralArrow f duration
+EntitySpider a (LDifficultyDamageScaler;LGroupDataEntity;)LGroupDataEntity; prepare
+EntitySpider bq ()F getHeadHeight
+EntityTNTPrimed a (I)V setFuseTicks
+EntityTNTPrimed a FUSE_TICKS
+EntityTNTPrimed b source
+EntityTNTPrimed j ()LEntityLiving; getSource
+EntityTNTPrimed l ()I getFuseTicks
+EntityTNTPrimed n ()V explode
+EntityTameableAnimal b (Ljava/util/UUID;)V setOwnerUUID
+EntityTameableAnimal bz goalSit
+EntityTameableAnimal de ()Z isTamed
+EntityTameableAnimal dg ()Z isSitting
+EntityTameableAnimal dh ()LEntityLiving; getOwner
+EntityTameableAnimal di ()LPathfinderGoalSit; getGoalSit
+EntityTameableAnimal q (Z)V setTamed
+EntityTameableAnimal r (Z)V setSitting
+EntityTippedArrow g potionRegistry
+EntityTippedArrow h effects
+EntityTracker a ()V updatePlayers
+EntityTracker a (LEntity;)V track
+EntityTracker a (LEntity;II)V addEntity
+EntityTracker a (LEntity;IIZ)V addEntity
+EntityTracker b (LEntity;)V untrackEntity
+EntityTracker b (LEntity;LPacket;)V sendPacketToEntity
+EntityTracker b (LEntityPlayer;)V untrackPlayer
+EntityTracker b world
+EntityTracker d trackedEntities
+EntityTrackerEntry a (LPacket;)V broadcast
+EntityTrackerEntry a (Ljava/util/List;)V track
+EntityTrackerEntry b (LEntityPlayer;)V updatePlayer
+EntityTrackerEntry b (LPacket;)V broadcastIncludingSelf
+EntityTrackerEntry b (Ljava/util/List;)V scanPlayers
+EntityTrackerEntry d (LEntityPlayer;)V clear
+EntityTrackerEntry d tracker
+EntityTrackerEntry h xLoc
+EntityTrackerEntry i yLoc
+EntityTrackerEntry j zLoc
+EntityTrackerEntry k yRot
+EntityTrackerEntry l xRot
+EntityTrackerEntry m headYaw
+EntityTrackerEntry t isMoving
+EntityTrackerEntry z trackedPlayers
+EntityTypes a (Ljava/lang/Class;)Ljava/lang/String; getName
+EntityTypes a (Ljava/lang/String;LWorld;)LEntity; createEntityByName
+EntityTypes a eggInfo
+EntityTypes$MonsterEggInfo d killEntityStatistic
+EntityTypes$MonsterEggInfo e killedByEntityStatistic
+EntityVillager bC tradingPlayer
+EntityVillager bD trades
+EntityVillager bH riches
+EntityVillager bN inventory
+EntityVillager bx village
+EntityVillager bz profession
+EntityVillager de ()I getProfession
+EntityVillager do ()V do_
+EntityVillager g (I)V setProfession
+EntityWitherSkull a (Z)V setCharged
+EntityWitherSkull n ()Z isCharged
+EntityWolf a (LEnumColor;)V setCollarColor
+EntityWolf bB DATA_HEALTH
+EntityWolf do ()Z isAngry
+EntityWolf dp ()LEnumColor; getCollarColor
+EntityWolf s (Z)V setAngry
+EntityZombie a (LDamageSource;F)Z damageEntity
+EntityZombie a (LDifficultyDamageScaler;LGroupDataEntity;)LGroupDataEntity; prepare
+EntityZombie a (LEnumZombieType;)V setVillagerType
+EntityZombie di ()LEnumZombieType; getVillagerType
+EntityZombie dj ()Z isVillager
+EntityZombie dl ()Z isConverting
+EntityZombie dn ()I getConversionTime
+EntityZombie q (Z)V setBaby
+EnumAnimation a NONE
+EnumAnimation b EAT
+EnumAnimation c DRINK
+EnumAnimation d BLOCK
+EnumAnimation e BOW
+EnumBlockMirror a NONE
+EnumBlockMirror b LEFT_RIGHT
+EnumBlockMirror c FRONT_BACK
+EnumBlockRotation a NONE
+EnumBlockRotation b CLOCKWISE_90
+EnumBlockRotation c CLOCKWISE_180
+EnumBlockRotation d COUNTERCLOCKWISE_90
+EnumChatFormat a BLACK
+EnumChatFormat b DARK_BLUE
+EnumChatFormat c ()Z isFormat
+EnumChatFormat c DARK_GREEN
+EnumChatFormat d DARK_AQUA
+EnumChatFormat e DARK_RED
+EnumChatFormat f DARK_PURPLE
+EnumChatFormat g GOLD
+EnumChatFormat h GRAY
+EnumChatFormat i DARK_GRAY
+EnumChatFormat j BLUE
+EnumChatFormat k GREEN
+EnumChatFormat l AQUA
+EnumChatFormat m RED
+EnumChatFormat n LIGHT_PURPLE
+EnumChatFormat o YELLOW
+EnumChatFormat p WHITE
+EnumChatFormat q OBFUSCATED
+EnumChatFormat r BOLD
+EnumChatFormat s STRIKETHROUGH
+EnumChatFormat t UNDERLINE
+EnumChatFormat u ITALIC
+EnumChatFormat v RESET
+EnumColor a ()I getColorIndex
+EnumColor a (I)LEnumColor; fromInvColorIndex
+EnumColor a WHITE
+EnumColor b ()I getInvColorIndex
+EnumColor b (I)LEnumColor; fromColorIndex
+EnumColor b ORANGE
+EnumColor c MAGENTA
+EnumColor d LIGHT_BLUE
+EnumColor e YELLOW
+EnumColor f LIME
+EnumColor g PINK
+EnumColor h GRAY
+EnumColor i SILVER
+EnumColor j CYAN
+EnumColor k PURPLE
+EnumColor l BLUE
+EnumColor m BROWN
+EnumColor n GREEN
+EnumColor o RED
+EnumColor p BLACK
+EnumCreatureType a MONSTER
+EnumCreatureType b CREATURE
+EnumCreatureType c AMBIENT
+EnumCreatureType d WATER_CREATURE
+EnumDifficulty a (I)LEnumDifficulty; getById
+EnumDifficulty a PEACEFUL
+EnumDifficulty b EASY
+EnumDifficulty c NORMAL
+EnumDifficulty d HARD
+EnumDirection a (D)LEnumDirection; fromAngle
+EnumDirection a (I)LEnumDirection; fromType1
+EnumDirection a DOWN
+EnumDirection b ()I get2DRotationValue
+EnumDirection b (I)LEnumDirection; fromType2
+EnumDirection b UP
+EnumDirection c NORTH
+EnumDirection d ()LEnumDirection; opposite
+EnumDirection d SOUTH
+EnumDirection e WEST
+EnumDirection f EAST
+EnumDirection g ()I getAdjacentX
+EnumDirection h ()I getAdjacentY
+EnumDirection i ()I getAdjacentZ
+EnumDirection$EnumAxis a X
+EnumDirection$EnumAxis b Y
+EnumDirection$EnumAxis c Z
+EnumDirection$EnumAxisDirection a POSITIVE
+EnumDirection$EnumAxisDirection b NEGATIVE
+EnumDirection$EnumDirectionLimit a HORIZONTAL
+EnumDirection$EnumDirectionLimit b VERTICAL
+EnumDragonRespawn a START
+EnumDragonRespawn b PREPARING_TO_SUMMON_PILLARS
+EnumDragonRespawn c SUMMONING_PILLARS
+EnumDragonRespawn d SUMMONING_DRAGON
+EnumDragonRespawn e END
+EnumGamemode a ()I getId
+EnumGamemode a (I)LEnumGamemode; getById
+EnumGamemode a NOT_SET
+EnumGamemode b SURVIVAL
+EnumGamemode c CREATIVE
+EnumGamemode d ()Z isCreative
+EnumGamemode d ADVENTURE
+EnumGamemode e SPECTATOR
+EnumHand a MAIN_HAND
+EnumHand b OFF_HAND
+EnumHorseArmor a NONE
+EnumHorseArmor b IRON
+EnumHorseArmor c GOLD
+EnumHorseArmor d DIAMOND
+EnumHorseType a HORSE
+EnumHorseType b DONKEY
+EnumHorseType c MULE
+EnumHorseType d ZOMBIE
+EnumHorseType e SKELETON
+EnumInteractionResult a SUCCESS
+EnumInteractionResult b PASS
+EnumInteractionResult c FAIL
+EnumItemRarity a COMMON
+EnumItemRarity b UNCOMMON
+EnumItemRarity c RARE
+EnumItemRarity d EPIC
+EnumItemSlot a MAINHAND
+EnumItemSlot b OFFHAND
+EnumItemSlot c FEET
+EnumItemSlot d LEGS
+EnumItemSlot e CHEST
+EnumItemSlot f HEAD
+EnumItemSlot$Function a HAND
+EnumItemSlot$Function b ARMOR
+EnumMainHand a LEFT
+EnumMainHand b RIGHT
+EnumMonsterType a UNDEFINED
+EnumMonsterType b UNDEAD
+EnumMonsterType c ARTHROPOD
+EnumParticle A FLAME
+EnumParticle B LAVA
+EnumParticle C FOOTSTEP
+EnumParticle D CLOUD
+EnumParticle E REDSTONE
+EnumParticle F SNOWBALL
+EnumParticle G SNOW_SHOVEL
+EnumParticle H SLIME
+EnumParticle I HEART
+EnumParticle J BARRIER
+EnumParticle K ITEM_CRACK
+EnumParticle L BLOCK_CRACK
+EnumParticle M BLOCK_DUST
+EnumParticle N WATER_DROP
+EnumParticle O ITEM_TAKE
+EnumParticle P MOB_APPEARANCE
+EnumParticle Q DRAGON_BREATH
+EnumParticle R END_ROD
+EnumParticle S DAMAGE_INDICATOR
+EnumParticle T SWEEP_ATTACK
+EnumParticle U FALLING_DUST
+EnumParticle a EXPLOSION_NORMAL
+EnumParticle b EXPLOSION_LARGE
+EnumParticle c EXPLOSION_HUGE
+EnumParticle d FIREWORKS_SPARK
+EnumParticle e WATER_BUBBLE
+EnumParticle f WATER_SPLASH
+EnumParticle g WATER_WAKE
+EnumParticle h SUSPENDED
+EnumParticle i SUSPENDED_DEPTH
+EnumParticle j CRIT
+EnumParticle k CRIT_MAGIC
+EnumParticle l SMOKE_NORMAL
+EnumParticle m SMOKE_LARGE
+EnumParticle n SPELL
+EnumParticle o SPELL_INSTANT
+EnumParticle p SPELL_MOB
+EnumParticle q SPELL_MOB_AMBIENT
+EnumParticle r SPELL_WITCH
+EnumParticle s DRIP_WATER
+EnumParticle t DRIP_LAVA
+EnumParticle u VILLAGER_ANGRY
+EnumParticle v VILLAGER_HAPPY
+EnumParticle w TOWN_AURA
+EnumParticle x NOTE
+EnumParticle y PORTAL
+EnumParticle z ENCHANTMENT_TABLE
+EnumPistonReaction a NORMAL
+EnumPistonReaction b DESTROY
+EnumPistonReaction c BLOCK
+EnumPistonReaction d IGNORE
+EnumProtocol a HANDSHAKING
+EnumProtocol b PLAY
+EnumProtocol c STATUS
+EnumProtocol d LOGIN
+EnumProtocolDirection a SERVERBOUND
+EnumProtocolDirection b CLIENTBOUND
+EnumRenderType a INVISIBLE
+EnumRenderType b LIQUID
+EnumRenderType c ENTITYBLOCK_ANIMATED
+EnumRenderType d MODEL
+EnumSkeletonType a NORMAL
+EnumSkeletonType b WITHER
+EnumSkeletonType c STRAY
+EnumSkyBlock a SKY
+EnumSkyBlock b BLOCK
+EnumWorldBorderState a GROWING
+EnumWorldBorderState b SHRINKING
+EnumWorldBorderState c STATIONARY
+EnumZombieType a NORMAL
+EnumZombieType b VILLAGER_FARMER
+EnumZombieType c VILLAGER_LIBRARIAN
+EnumZombieType d VILLAGER_PRIEST
+EnumZombieType e VILLAGER_SMITH
+EnumZombieType f VILLAGER_BUTCHER
+EnumZombieType g HUSK
+ExpirableListEntry c ()Ljava/util/Date; getExpires
+ExpirableListEntry d ()Ljava/lang/String; getReason
+Explosion c ()LEntityLiving; getSource
+Explosion d ()V clearBlocks
+Explosion d world
+Explosion e ()Ljava/util/List; getBlocks
+Explosion e posX
+Explosion f posY
+Explosion g posZ
+Explosion h source
+Explosion i size
+Explosion j blocks
+FoodMetaData a ()I getFoodLevel
+FoodMetaData a (IF)V eat
+FoodMetaData a foodLevel
+FoodMetaData b saturationLevel
+FoodMetaData c exhaustionLevel
+FoodMetaData d foodTickTimer
+FoodMetaData e ()F getSaturationLevel
+GameProfileBanList a (Lcom/mojang/authlib/GameProfile;)Z isBanned
+GameProfileSerializer a (LNBTTagCompound;)Lcom/mojang/authlib/GameProfile; deserialize
+GameProfileSerializer a (LNBTTagCompound;Lcom/mojang/authlib/GameProfile;)LNBTTagCompound; serialize
+GameRules a (Ljava/lang/String;)Ljava/lang/String; get
+GameRules a (Ljava/lang/String;Ljava/lang/String;)V set
+GameRules b ()[Ljava/lang/String; getGameRules
+GameRules b (Ljava/lang/String;)Z getBoolean
+GameRules e (Ljava/lang/String;)Z contains
+GameRules$EnumGameRuleType a ANY_VALUE
+GameRules$EnumGameRuleType b BOOLEAN_VALUE
+GameRules$EnumGameRuleType c NUMERICAL_VALUE
+GenLayerSpecial$EnumGenLayerSpecial a COOL_WARM
+GenLayerSpecial$EnumGenLayerSpecial b HEAT_ICE
+GenLayerSpecial$EnumGenLayerSpecial c SPECIAL
+GenericAttributes a maxHealth
+GenericAttributes b FOLLOW_RANGE
+GenericAttributes d MOVEMENT_SPEED
+GenericAttributes e ATTACK_DAMAGE
+IAsyncTaskHandler a (Ljava/lang/Runnable;)Lcom/google/common/util/concurrent/ListenableFuture; postToMainThread
+IAsyncTaskHandler aE ()Z isMainThread
+IAttribute a ()Ljava/lang/String; getName
+IBlockAccess a (LBlockPosition;LEnumDirection;)I getBlockPower
+IBlockAccess d (LBlockPosition;)Z isEmpty
+IBlockAccess o (LBlockPosition;)LIBlockData; getType
+IBlockAccess r (LBlockPosition;)LTileEntity; getTileEntity
+IBlockData a (LIBlockState;Ljava/lang/Comparable;)LIBlockData; set
+IBlockData c (LIBlockState;)Ljava/lang/Comparable; get
+IBlockData t ()LBlock; getBlock
+IBlockPhysics a (LWorld;LBlockPosition;LBlock;)V doPhysics
+IBlockProperties a ()LMaterial; getMaterial
+IChatBaseComponent a (LChatModifier;)LIChatBaseComponent; setChatModifier
+IChatBaseComponent a (LIChatBaseComponent;)LIChatBaseComponent; addSibling
+IChatBaseComponent b ()LChatModifier; getChatModifier
+IChatBaseComponent c ()Ljava/lang/String; toPlainText
+IChatBaseComponent e ()Ljava/lang/String; getText
+IChunkProvider a (II)LChunk; getLoadedChunkAt
+IChunkProvider c (II)LChunk; getChunkAt
+IChunkProvider d ()Z unloadChunks
+IChunkProvider f ()Ljava/lang/String; getName
+ICommand a (Lnet/minecraft/server/MinecraftServer;LICommandListener;)Z canUse
+ICommand a (Lnet/minecraft/server/MinecraftServer;LICommandListener;[Ljava/lang/String;)V execute
+ICommand a (Lnet/minecraft/server/MinecraftServer;LICommandListener;[Ljava/lang/String;LBlockPosition;)Ljava/util/List; tabComplete
+ICommand b (LICommandListener;)Ljava/lang/String; getUsage
+ICommand b ([Ljava/lang/String;I)Z isListStart
+ICommand c ()Ljava/lang/String; getCommand
+ICommandHandler b ()Ljava/util/Map; getCommands
+ICommandListener a (LIChatBaseComponent;)V sendMessage
+ICommandListener c ()LBlockPosition; getChunkCoordinates
+ICommandListener e ()LWorld; getWorld
+ICommandListener h_ ()Ljava/lang/String; getName
+ICommandListener i_ ()LIChatBaseComponent; getScoreboardDisplayName
+ICommandListener z_ ()Z getSendCommandFeedback
+ICrafting a (LContainer;II)V setContainerData
+ICrafting a (LContainer;LIInventory;)V setContainerData
+IDataManager a (LWorldData;)V saveWorldData
+IDataManager a (LWorldData;LNBTTagCompound;)V saveWorldData
+IDataManager a (LWorldProvider;)LIChunkLoader; createChunkLoader
+IDataManager a (Ljava/lang/String;)Ljava/io/File; getDataFile
+IDataManager b ()Ljava/io/File; getDirectory
+IDataManager c ()V checkSession
+IDataManager d ()LWorldData; getWorldData
+IDataManager e ()LIPlayerFileData; getPlayerFileData
+IDispenseBehavior a NONE
+IDragonController i ()LDragonControllerPhase; getControllerPhase
+IHopper D ()LWorld; getWorld
+IInventory a (I)LItemStack; getItem
+IInventory a (II)LItemStack; splitStack
+IInventory a (ILItemStack;)V setItem
+IInventory b (I)LItemStack; splitWithoutUpdate
+IInventory b (II)V setProperty
+IInventory b (LEntityHuman;)V startOpen
+IInventory c (LEntityHuman;)V closeContainer
+IInventory c_ (I)I getProperty
+IInventory u_ ()I getSize
+IInventory v_ ()V update
+IInventory w_ ()I getMaxStackSize
+IMerchant a_ (LEntityHuman;)V setTradingPlayer
+IMerchant b_ (LEntityHuman;)LMerchantRecipeList; getOffers
+IMerchant i_ ()LIChatBaseComponent; getScoreboardDisplayName
+IMerchant t_ ()LEntityHuman; getTrader
+IMinecraftServer G ()Ljava/lang/String; getVersion
+IMinecraftServer J ()[Ljava/lang/String; getPlayers
+IMinecraftServer L ()Z isDebugging
+IMinecraftServer a_ (Ljava/lang/String;)Ljava/lang/String; executeRemoteCommand
+IMinecraftServer e (Ljava/lang/String;)V info
+IMinecraftServer f (Ljava/lang/String;)V warning
+IMinecraftServer g_ ()Ljava/lang/String; getPlugins
+IMojangStatistics Z ()Z getSnooperEnabled
+INamable m ()Ljava/lang/String; getName
+INamableTileEntity h_ ()Ljava/lang/String; getName
+INamableTileEntity i_ ()LIChatBaseComponent; getScoreboardDisplayName
+INamableTileEntity n_ ()Z hasCustomName
+IPlayerFileData a (LEntityHuman;)V save
+IPlayerFileData b (LEntityHuman;)LNBTTagCompound; load
+IPlayerFileData f ()[Ljava/lang/String; getSeenPlayers
+IPosition a ()D getX
+IPosition b ()D getY
+IPosition c ()D getZ
+IProjectile c (DDDFF)V shoot
+IRecipe a (LInventoryCrafting;)LItemStack; craftItem
+IScoreboardCriteria a ()Ljava/lang/String; getName
+IScoreboardCriteria a criteria
+IScoreboardCriteria b ()Z isReadOnly
+IScoreboardCriteria$EnumScoreboardHealthDisplay a INTEGER
+IScoreboardCriteria$EnumScoreboardHealthDisplay b HEARTS
+ISource h ()LWorld; getWorld
+ISourceBlock d ()LBlockPosition; getBlockPosition
+ISourceBlock g ()LTileEntity; getTileEntity
+ITileEntityContainer a (LPlayerInventory;LEntityHuman;)LContainer; createContainer
+ITileEntityContainer k ()Ljava/lang/String; getContainerName
+IWorldInventory a (ILItemStack;LEnumDirection;)Z canPlaceItemThroughFace
+IWorldInventory a (LEnumDirection;)[I getSlotsForFace
+IWorldInventory b (ILItemStack;LEnumDirection;)Z canTakeItemThroughFace
+IntHashMap a (I)Ljava/lang/Object; get
+InventoryClickType a PICKUP
+InventoryClickType b QUICK_MOVE
+InventoryClickType c SWAP
+InventoryClickType d CLONE
+InventoryClickType e THROW
+InventoryClickType f QUICK_CRAFT
+InventoryClickType g PICKUP_ALL
+InventoryCraftResult a items
+InventoryCrafting a items
+InventoryLargeChest b left
+InventoryLargeChest c right
+InventoryMerchant a merchant
+InventoryMerchant b itemsInSlots
+InventoryMerchant c player
+InventoryMerchant d recipe
+InventoryMerchant e selectedIndex
+InventoryMerchant i ()LMerchantRecipe; getRecipe
+InventorySubcontainer c items
+InventorySubcontainer v_ ()V update
+InventorySubcontainer w_ ()I getMaxStackSize
+InventoryUtils a (LWorld;DDDLIInventory;)V dropInventory
+InventoryUtils a (LWorld;DDDLItemStack;)V dropItem
+InventoryUtils a (LWorld;LBlockPosition;LIInventory;)V dropInventory
+InventoryUtils a (LWorld;LEntity;LIInventory;)V dropEntity
+IpBanList a (Ljava/net/SocketAddress;)Z isBanned
+IpBanList b (Ljava/net/SocketAddress;)LIpBanEntry; get
+Item a ()Ljava/lang/String; getName
+Item a (I)I filterData
+Item a (LBlock;)LItem; getItemOf
+Item a (LIBlockData;)Z canDestroySpecialBlock
+Item a (LItem;)I getId
+Item a (LItemStack;LIBlockData;)F getDestroySpeed
+Item c (I)LItem; getById
+Item e (I)LItem; setMaxDurability
+Item g REGISTRY
+Item j ()I getMaxStackSize
+Item k maxStackSize
+Item l ()I getMaxDurability
+Item m ()Z usesDurability
+Item o durability
+Item p craftingResult
+Item q name
+Item$EnumToolMaterial a WOOD
+Item$EnumToolMaterial b STONE
+Item$EnumToolMaterial c IRON
+Item$EnumToolMaterial d DIAMOND
+Item$EnumToolMaterial e GOLD
+ItemArmor$EnumArmorMaterial a LEATHER
+ItemArmor$EnumArmorMaterial b CHAIN
+ItemArmor$EnumArmorMaterial c IRON
+ItemArmor$EnumArmorMaterial d GOLD
+ItemArmor$EnumArmorMaterial e DIAMOND
+ItemFish$EnumFish a COD
+ItemFish$EnumFish b SALMON
+ItemFish$EnumFish c CLOWNFISH
+ItemFish$EnumFish d PUFFERFISH
+ItemFood h (LItemStack;)I getNutrition
+ItemFood i (LItemStack;)F getSaturationModifier
+ItemMultiTexture a (I)I filterData
+ItemStack A ()I getRepairCost
+ItemStack a (I)LItemStack; cloneAndSubtract
+ItemStack a (ILEntityLiving;)V damage
+ItemStack a (ILjava/util/Random;)Z isDamaged
+ItemStack a (LEnchantment;I)V addEnchantment
+ItemStack a (LEntityHuman;LWorld;LBlockPosition;LEnumHand;LEnumDirection;FFF)LEnumInteractionResult; placeItem
+ItemStack a (LItem;)V setItem
+ItemStack a (LItemStack;)Z doMaterialsMatch
+ItemStack a (LItemStack;LItemStack;)Z equals
+ItemStack a (LNBTTagCompound;)LItemStack; createStack
+ItemStack b ()LItem; getItem
+ItemStack b (I)V setData
+ItemStack b (LItemStack;LItemStack;)Z matches
+ItemStack b (LNBTTagCompound;)LNBTTagCompound; save
+ItemStack b count
+ItemStack c ()I getMaxStackSize
+ItemStack c (I)V setRepairCost
+ItemStack d ()Z isStackable
+ItemStack d (LNBTTagCompound;)V setTag
+ItemStack d item
+ItemStack e tag
+ItemStack f ()Z usesData
+ItemStack f damage
+ItemStack i ()I getData
+ItemStack k ()LItemStack; cloneItemStack
+ItemStack n ()Z hasTag
+ItemStack o ()LNBTTagCompound; getTag
+ItemStack p ()LNBTTagList; getEnchantments
+ItemStack q ()Ljava/lang/String; getName
+ItemStack s ()Z hasName
+ItemStack w ()Z hasEnchantments
+ItemWorldMap a (LItemStack;LWorld;)LWorldMap; getSavedMap
+Items A STICK
+Items B BOWL
+Items C MUSHROOM_STEW
+Items D GOLDEN_SWORD
+Items E GOLDEN_SHOVEL
+Items F GOLDEN_PICKAXE
+Items G GOLDEN_AXE
+Items H STRING
+Items I FEATHER
+Items J GUNPOWDER
+Items K WOODEN_HOE
+Items L STONE_HOE
+Items M IRON_HOE
+Items N DIAMOND_HOE
+Items O GOLDEN_HOE
+Items P WHEAT_SEEDS
+Items Q WHEAT
+Items R BREAD
+Items S LEATHER_HELMET
+Items T LEATHER_CHESTPLATE
+Items U LEATHER_LEGGINGS
+Items V LEATHER_BOOTS
+Items W CHAINMAIL_HELMET
+Items X CHAINMAIL_CHESTPLATE
+Items Y CHAINMAIL_LEGGINGS
+Items Z CHAINMAIL_BOOTS
+Items a (Ljava/lang/String;)LItem; get
+Items a IRON_SHOVEL
+Items aA LAVA_BUCKET
+Items aB MINECART
+Items aC SADDLE
+Items aD IRON_DOOR
+Items aE REDSTONE
+Items aF SNOWBALL
+Items aM LEATHER
+Items aN MILK_BUCKET
+Items aO BRICK
+Items aP CLAY_BALL
+Items aQ REEDS
+Items aR PAPER
+Items aS BOOK
+Items aT SLIME
+Items aU CHEST_MINECART
+Items aV FURNACE_MINECART
+Items aW EGG
+Items aX COMPASS
+Items aY FISHING_ROD
+Items aZ CLOCK
+Items aa IRON_HELMET
+Items ab IRON_CHESTPLATE
+Items ac IRON_LEGGINGS
+Items ad IRON_BOOTS
+Items ae DIAMOND_HELMET
+Items af DIAMOND_CHESTPLATE
+Items ag DIAMOND_LEGGINGS
+Items ah DIAMOND_BOOTS
+Items ai GOLDEN_HELMET
+Items aj GOLDEN_CHESTPLATE
+Items ak GOLDEN_LEGGINGS
+Items al GOLDEN_BOOTS
+Items am FLINT
+Items an PORKCHOP
+Items ao COOKED_PORKCHOP
+Items ap PAINTING
+Items aq GOLDEN_APPLE
+Items ar SIGN
+Items as WOODEN_DOOR
+Items at SPRUCE_DOOR
+Items au BIRCH_DOOR
+Items av JUNGLE_DOOR
+Items aw ACACIA_DOOR
+Items ax DARK_OAK_DOOR
+Items ay BUCKET
+Items az WATER_BUCKET
+Items b IRON_PICKAXE
+Items bA ROTTEN_FLESH
+Items bB ENDER_PEARL
+Items bC BLAZE_ROD
+Items bD GHAST_TEAR
+Items bE GOLD_NUGGET
+Items bF NETHER_WART
+Items bG POTION
+Items bH SPLASH_POTION
+Items bI LINGERING_POTION
+Items bJ GLASS_BOTTLE
+Items bK DRAGON_BREATH
+Items bL SPIDER_EYE
+Items bM FERMENTED_SPIDER_EYE
+Items bN BLAZE_POWDER
+Items bO MAGMA_CREAM
+Items bP BREWING_STAND
+Items bQ CAULDRON
+Items bR ENDER_EYE
+Items bS SPECKLED_MELON
+Items bT SPAWN_EGG
+Items bU EXPERIENCE_BOTTLE
+Items bV FIRE_CHARGE
+Items bW WRITABLE_BOOK
+Items bX WRITTEN_BOOK
+Items bY EMERALD
+Items bZ ITEM_FRAME
+Items ba GLOWSTONE_DUST
+Items bb FISH
+Items bc COOKED_FISH
+Items bd DYE
+Items be BONE
+Items bf SUGAR
+Items bg CAKE
+Items bh BED
+Items bi REPEATER
+Items bj COOKIE
+Items bk FILLED_MAP
+Items bl SHEARS
+Items bm MELON
+Items bn PUMPKIN_SEEDS
+Items bo MELON_SEEDS
+Items bp BEEF
+Items bq COOKED_BEEF
+Items br CHICKEN
+Items bs COOKED_CHICKEN
+Items bt MUTTON
+Items bu COOKED_MUTTON
+Items bv RABBIT
+Items bw COOKED_RABBIT
+Items bx RABBIT_STEW
+Items by RABBIT_FOOT
+Items bz RABBIT_HIDE
+Items c IRON_AXE
+Items cA RECORD_13
+Items cB RECORD_CAT
+Items cC RECORD_BLOCKS
+Items cD RECORD_CHIRP
+Items cE RECORD_FAR
+Items cF RECORD_MALL
+Items cG RECORD_MELLOHI
+Items cH RECORD_STAL
+Items cI RECORD_STRAD
+Items cJ RECORD_WARD
+Items cK RECORD_11
+Items cL RECORD_WAIT
+Items cM PRISMARINE_SHARD
+Items cN PRISMARINE_CRYSTALS
+Items cO BANNER
+Items cQ SHIELD
+Items cS CHORUS_FRUIT
+Items cT CHORUS_FRUIT_POPPED
+Items cU BEETROOT_SEEDS
+Items cV BEETROOT
+Items cW BEETROOT_SOUP
+Items ca FLOWER_POT
+Items cb CARROT
+Items cc POTATO
+Items cd BAKED_POTATO
+Items ce POISONOUS_POTATO
+Items cf MAP
+Items cg GOLDEN_CARROT
+Items ch SKULL
+Items ci CARROT_ON_A_STICK
+Items cj NETHER_STAR
+Items ck PUMPKIN_PIE
+Items cl FIREWORKS
+Items cm FIREWORK_CHARGE
+Items cn ENCHANTED_BOOK
+Items co COMPARATOR
+Items cp NETHERBRICK
+Items cq QUARTZ
+Items cr TNT_MINECART
+Items cs HOPPER_MINECART
+Items ct ARMOR_STAND
+Items cu IRON_HORSE_ARMOR
+Items cv GOLDEN_HORSE_ARMOR
+Items cw DIAMOND_HORSE_ARMOR
+Items cx LEAD
+Items cy NAME_TAG
+Items cz COMMAND_BLOCK_MINECART
+Items d FLINT_AND_STEEL
+Items e APPLE
+Items f BOW
+Items g ARROW
+Items h SPECTRAL_ARROW
+Items i TIPPED_ARROW
+Items j COAL
+Items k DIAMOND
+Items l IRON_INGOT
+Items m GOLD_INGOT
+Items n IRON_SWORD
+Items o WOODEN_SWORD
+Items p WOODEN_SHOVEL
+Items q WOODEN_PICKAXE
+Items r WOODEN_AXE
+Items s STONE_SWORD
+Items t STONE_SHOVEL
+Items u STONE_PICKAXE
+Items v STONE_AXE
+Items w DIAMOND_SWORD
+Items x DIAMOND_SHOVEL
+Items y DIAMOND_PICKAXE
+Items z DIAMOND_AXE
+JsonList a ()[Ljava/lang/String; getEntries
+JsonList a (LJsonListEntry;)V add
+JsonList b ()Z isEnabled
+JsonList b (Ljava/lang/Object;)LJsonListEntry; get
+JsonList c (Ljava/lang/Object;)V remove
+JsonList d ()Z isEmpty
+JsonList f ()V save
+JsonList g ()V load
+JsonListEntry e ()Z hasExpired
+JsonListEntry f ()Ljava/lang/Object; getKey
+LazyInitVar b ()Ljava/lang/Object; init
+LocaleI18n a (Ljava/lang/String;)Ljava/lang/String; get
+LoginListener a (Ljava/lang/String;)V disconnect
+LoginListener a networkManager
+LoginListener d random
+LoginListener f server
+LoginListener k loginKey
+LoginListener$EnumProtocolState a HELLO
+LoginListener$EnumProtocolState b KEY
+LoginListener$EnumProtocolState c AUTHENTICATING
+LoginListener$EnumProtocolState d READY_TO_ACCEPT
+LoginListener$EnumProtocolState e DELAY_ACCEPT
+LoginListener$EnumProtocolState f ACCEPTED
+LootTableInfo$EntityTarget a THIS
+LootTableInfo$EntityTarget b KILLER
+LootTableInfo$EntityTarget c KILLER_PLAYER
+MapIcon a ()B getType
+MapIcon a type
+MapIcon b ()B getX
+MapIcon b x
+MapIcon c ()B getY
+MapIcon c y
+MapIcon d ()B getRotation
+MapIcon d rotation
+Material A CACTUS
+Material B CLAY
+Material C PUMPKIN
+Material D DRAGON_EGG
+Material E PORTAL
+Material F CAKE
+Material G WEB
+Material H PISTON
+Material I BANNER
+Material K canBurn
+Material a ()Z isBuildable
+Material a AIR
+Material b ()Z blocksLight
+Material b GRASS
+Material c ()Z isSolid
+Material c EARTH
+Material d ()Z isLiquid
+Material d WOOD
+Material e STONE
+Material f ORE
+Material g HEAVY
+Material h ()Z isBurnable
+Material h WATER
+Material i LAVA
+Material j ()Z isReplaceable
+Material j LEAVES
+Material k PLANT
+Material l ()Z isAlwaysDestroyable
+Material l REPLACEABLE_PLANT
+Material m ()LEnumPistonReaction; getPushReaction
+Material m SPONGE
+Material n CLOTH
+Material o FIRE
+Material p SAND
+Material q ORIENTABLE
+Material r WOOL
+Material s SHATTERABLE
+Material t BUILDABLE_GLASS
+Material u TNT
+Material v CORAL
+Material w ICE
+Material x SNOW_LAYER
+Material y PACKED_ICE
+Material z SNOW_BLOCK
+MathHelper a (D)F sqrt
+MathHelper a (F)F sin
+MathHelper a (III)I clamp
+MathHelper a (Ljava/util/Random;II)I nextInt
+MathHelper b (F)F cos
+MathHelper c (D)I floor
+MerchantRecipe a ()LItemStack; getBuyItem1
+MerchantRecipe a buyingItem1
+MerchantRecipe b ()LItemStack; getBuyItem2
+MerchantRecipe b buyingItem2
+MerchantRecipe c ()Z hasSecondItem
+MerchantRecipe c sellingItem
+MerchantRecipe d ()LItemStack; getBuyItem3
+MerchantRecipe d uses
+MerchantRecipe e maxUses
+MerchantRecipe f rewardExp
+MinecraftEncryption a (ILjava/lang/String;Ljava/security/Key;)Ljavax/crypto/Cipher; a
+MinecraftEncryption a (ILjava/security/Key;)Ljavax/crypto/Cipher; a
+MinecraftEncryption a (Ljava/lang/String;Ljava/security/PublicKey;Ljavax/crypto/SecretKey;)[B a
+MinecraftEncryption a (Ljava/security/PrivateKey;[B)Ljavax/crypto/SecretKey; a
+MobEffect a ()LMobEffectList; getMobEffect
+MobEffect a (LEntityLiving;)Z tick
+MobEffect b ()I getDuration
+MobEffect c ()I getAmplifier
+MobEffect c duration
+MobEffect d ()Z isAmbient
+MobEffect d amplification
+MobEffect e ()Z isShowParticles
+MobEffect e splash
+MobEffect f ambient
+MobEffectList a (I)LMobEffectList; fromId
+MobEffectList a (LEntity;LEntity;LEntityLiving;ID)V applyInstantEffect
+MobEffectList a (LEntityLiving;I)V tick
+MobEffectList a (LMobEffectList;)I getId
+MobEffectList b ()Z isInstant
+MobEffectList b (Ljava/lang/String;)LMobEffectList; getByName
+MobEffectList b REGISTRY
+MobEffectList g ()I getColor
+MobEffectList g durationModifier
+MobEffects a FASTER_MOVEMENT
+MobEffects b SLOWER_MOVEMENT
+MobEffects c FASTER_DIG
+MobEffects d SLOWER_DIG
+MobEffects e INCREASE_DAMAGE
+MobEffects f HEAL
+MobEffects g HARM
+MobEffects h JUMP
+MobEffects i CONFUSION
+MobEffects j REGENERATION
+MobEffects k RESISTANCE
+MobEffects l FIRE_RESISTANCE
+MobEffects m WATER_BREATHING
+MobEffects n INVISIBILITY
+MobEffects o BLINDNESS
+MobEffects p NIGHT_VISION
+MobEffects q HUNGER
+MobEffects r WEAKNESS
+MobEffects s POISON
+MobEffects t WITHER
+MobEffects u HEALTH_BOOST
+MobEffects v ABSORBTION
+MobEffects w SATURATION
+MobEffects x GLOWING
+MobEffects y LEVITATION
+MobSpawnerAbstract a (Ljava/lang/String;)V setMobName
+MobSpawnerAbstract a spawnDelay
+MobSpawnerAbstract b mobs
+MobSpawnerAbstract c spawnData
+MobSpawnerAbstract f minSpawnDelay
+MobSpawnerAbstract g ()Ljava/lang/String; getMobName
+MobSpawnerAbstract g maxSpawnDelay
+MobSpawnerAbstract h spawnCount
+MobSpawnerAbstract j maxNearbyEntities
+MobSpawnerAbstract k requiredPlayerRange
+MobSpawnerAbstract l spawnRange
+MojangsonParser a (Ljava/lang/String;)LNBTTagCompound; parse
+MovingObjectPosition a type
+MovingObjectPosition b direction
+MovingObjectPosition c pos
+MovingObjectPosition d entity
+MovingObjectPosition$EnumMovingObjectType a MISS
+MovingObjectPosition$EnumMovingObjectType b BLOCK
+MovingObjectPosition$EnumMovingObjectType c ENTITY
+NBTBase a ()B getTypeId
+NBTBase a (B)LNBTBase; createTag
+NBTBase a (Ljava/io/DataInput;ILNBTReadLimiter;)V load
+NBTBase a (Ljava/io/DataOutput;)V write
+NBTBase b ()LNBTBase; clone
+NBTBase b_ ()Z isEmpty
+NBTTagByte b data
+NBTTagByteArray b data
+NBTTagCompound a (Ljava/lang/String;B)V setByte
+NBTTagCompound a (Ljava/lang/String;D)V setDouble
+NBTTagCompound a (Ljava/lang/String;F)V setFloat
+NBTTagCompound a (Ljava/lang/String;I)V setInt
+NBTTagCompound a (Ljava/lang/String;J)V setLong
+NBTTagCompound a (Ljava/lang/String;LNBTBase;)V set
+NBTTagCompound a (Ljava/lang/String;Ljava/lang/String;)V setString
+NBTTagCompound a (Ljava/lang/String;S)V setShort
+NBTTagCompound a (Ljava/lang/String;Z)V setBoolean
+NBTTagCompound a (Ljava/lang/String;[B)V setByteArray
+NBTTagCompound a (Ljava/lang/String;[I)V setIntArray
+NBTTagCompound b (Ljava/lang/String;I)Z hasKeyOfType
+NBTTagCompound b map
+NBTTagCompound c (Ljava/lang/String;)LNBTBase; get
+NBTTagCompound c (Ljava/lang/String;I)LNBTTagList; getList
+NBTTagCompound e (Ljava/lang/String;)Z hasKey
+NBTTagCompound f (Ljava/lang/String;)B getByte
+NBTTagCompound g (Ljava/lang/String;)S getShort
+NBTTagCompound h (Ljava/lang/String;)I getInt
+NBTTagCompound i (Ljava/lang/String;)J getLong
+NBTTagCompound j (Ljava/lang/String;)F getFloat
+NBTTagCompound k (Ljava/lang/String;)D getDouble
+NBTTagCompound l (Ljava/lang/String;)Ljava/lang/String; getString
+NBTTagCompound m (Ljava/lang/String;)[B getByteArray
+NBTTagCompound n (Ljava/lang/String;)[I getIntArray
+NBTTagCompound o (Ljava/lang/String;)LNBTTagCompound; getCompound
+NBTTagCompound p (Ljava/lang/String;)Z getBoolean
+NBTTagCompound q (Ljava/lang/String;)V remove
+NBTTagDouble b data
+NBTTagFloat b data
+NBTTagInt b data
+NBTTagIntArray b data
+NBTTagList a (I)LNBTBase; remove
+NBTTagList a (LNBTBase;)V add
+NBTTagList b (I)LNBTTagCompound; get
+NBTTagList c ()I size
+NBTTagList c list
+NBTTagList d type
+NBTTagList g (I)Ljava/lang/String; getString
+NBTTagLong b data
+NBTTagShort b data
+NBTTagString b data
+NetworkManager a (I)V setCompressionLevel
+NetworkManager a (LEnumProtocol;)V setProtocol
+NetworkManager a (LIChatBaseComponent;)V close
+NetworkManager a (LPacket;)V sendPacket
+NetworkManager a (LPacket;Lio/netty/util/concurrent/GenericFutureListener;[Lio/netty/util/concurrent/GenericFutureListener;)V sendPacket
+NetworkManager a (LPacketListener;)V setPacketListener
+NetworkManager b ()Ljava/net/SocketAddress; getSocketAddress
+NetworkManager c ()Z isLocal
+NetworkManager g ()Z isConnected
+NetworkManager k ()V stopReading
+NetworkManager k channel
+NetworkManager l ()V handleDisconnection
+NibbleArray a ()[B asBytes
+PacketHandshakingInSetProtocol b hostname
+PacketHandshakingInSetProtocol c port
+PacketLoginInEncryptionBegin a (Ljava/security/PrivateKey;)Ljavax/crypto/SecretKey; a
+PacketPlayInAbilities b ()Z isFlying
+PacketPlayInBlockDig$EnumPlayerDigType a START_DESTROY_BLOCK
+PacketPlayInBlockDig$EnumPlayerDigType b ABORT_DESTROY_BLOCK
+PacketPlayInBlockDig$EnumPlayerDigType c STOP_DESTROY_BLOCK
+PacketPlayInBlockDig$EnumPlayerDigType d DROP_ALL_ITEMS
+PacketPlayInBlockDig$EnumPlayerDigType e DROP_ITEM
+PacketPlayInBlockDig$EnumPlayerDigType f RELEASE_USE_ITEM
+PacketPlayInBlockDig$EnumPlayerDigType g SWAP_HELD_ITEMS
+PacketPlayInClientCommand$EnumClientCommand a PERFORM_RESPAWN
+PacketPlayInClientCommand$EnumClientCommand b REQUEST_STATS
+PacketPlayInClientCommand$EnumClientCommand c OPEN_INVENTORY_ACHIEVEMENT
+PacketPlayInCloseWindow a id
+PacketPlayInEntityAction b animation
+PacketPlayInEntityAction$EnumPlayerAction a START_SNEAKING
+PacketPlayInEntityAction$EnumPlayerAction b STOP_SNEAKING
+PacketPlayInEntityAction$EnumPlayerAction c STOP_SLEEPING
+PacketPlayInEntityAction$EnumPlayerAction d START_SPRINTING
+PacketPlayInEntityAction$EnumPlayerAction e STOP_SPRINTING
+PacketPlayInEntityAction$EnumPlayerAction f START_RIDING_JUMP
+PacketPlayInEntityAction$EnumPlayerAction g STOP_RIDING_JUMP
+PacketPlayInEntityAction$EnumPlayerAction h OPEN_INVENTORY
+PacketPlayInEntityAction$EnumPlayerAction i START_FALL_FLYING
+PacketPlayInFlying a x
+PacketPlayInFlying b y
+PacketPlayInFlying c z
+PacketPlayInFlying d yaw
+PacketPlayInFlying e pitch
+PacketPlayInFlying g hasPos
+PacketPlayInFlying h hasLook
+PacketPlayInHeldItemSlot a itemInHandIndex
+PacketPlayInResourcePackStatus a status
+PacketPlayInResourcePackStatus$EnumResourcePackStatus a SUCCESSFULLY_LOADED
+PacketPlayInResourcePackStatus$EnumResourcePackStatus b DECLINED
+PacketPlayInResourcePackStatus$EnumResourcePackStatus c FAILED_DOWNLOAD
+PacketPlayInResourcePackStatus$EnumResourcePackStatus d ACCEPTED
+PacketPlayInSetCreativeSlot a slot
+PacketPlayInSetCreativeSlot b ()LItemStack; getItemStack
+PacketPlayInSettings f ()LEnumMainHand; getMainHand
+PacketPlayInUseEntity b action
+PacketPlayInUseEntity$EnumEntityUseAction a INTERACT
+PacketPlayInUseEntity$EnumEntityUseAction b ATTACK
+PacketPlayInUseEntity$EnumEntityUseAction c INTERACT_AT
+PacketPlayInVehicleMove a ()D getX
+PacketPlayInVehicleMove b ()D getY
+PacketPlayInVehicleMove c ()D getZ
+PacketPlayInVehicleMove d ()F getYaw
+PacketPlayInVehicleMove e ()F getPitch
+PacketPlayInWindowClick b slot
+PacketPlayInWindowClick c button
+PacketPlayInWindowClick e item
+PacketPlayInWindowClick f shift
+PacketPlayOutBlockChange b block
+PacketPlayOutBoss$Action a ADD
+PacketPlayOutBoss$Action b REMOVE
+PacketPlayOutBoss$Action c UPDATE_PCT
+PacketPlayOutBoss$Action d UPDATE_NAME
+PacketPlayOutBoss$Action e UPDATE_STYLE
+PacketPlayOutBoss$Action f UPDATE_PROPERTIES
+PacketPlayOutCombatEvent$EnumCombatEventType a ENTER_COMBAT
+PacketPlayOutCombatEvent$EnumCombatEventType b END_COMBAT
+PacketPlayOutCombatEvent$EnumCombatEventType c ENTITY_DIED
+PacketPlayOutPlayerInfo$EnumPlayerInfoAction a ADD_PLAYER
+PacketPlayOutPlayerInfo$EnumPlayerInfoAction b UPDATE_GAME_MODE
+PacketPlayOutPlayerInfo$EnumPlayerInfoAction c UPDATE_LATENCY
+PacketPlayOutPlayerInfo$EnumPlayerInfoAction d UPDATE_DISPLAY_NAME
+PacketPlayOutPlayerInfo$EnumPlayerInfoAction e REMOVE_PLAYER
+PacketPlayOutPosition$EnumPlayerTeleportFlags a X
+PacketPlayOutPosition$EnumPlayerTeleportFlags b Y
+PacketPlayOutPosition$EnumPlayerTeleportFlags c Z
+PacketPlayOutPosition$EnumPlayerTeleportFlags d Y_ROT
+PacketPlayOutPosition$EnumPlayerTeleportFlags e X_ROT
+PacketPlayOutScoreboardScore$EnumScoreboardAction a CHANGE
+PacketPlayOutScoreboardScore$EnumScoreboardAction b REMOVE
+PacketPlayOutSpawnPosition a position
+PacketPlayOutTitle$EnumTitleAction a TITLE
+PacketPlayOutTitle$EnumTitleAction b SUBTITLE
+PacketPlayOutTitle$EnumTitleAction c TIMES
+PacketPlayOutTitle$EnumTitleAction d CLEAR
+PacketPlayOutTitle$EnumTitleAction e RESET
+PacketPlayOutWorldBorder$EnumWorldBorderAction a SET_SIZE
+PacketPlayOutWorldBorder$EnumWorldBorderAction b LERP_SIZE
+PacketPlayOutWorldBorder$EnumWorldBorderAction c SET_CENTER
+PacketPlayOutWorldBorder$EnumWorldBorderAction d INITIALIZE
+PacketPlayOutWorldBorder$EnumWorldBorderAction e SET_WARNING_TIME
+PacketPlayOutWorldBorder$EnumWorldBorderAction f SET_WARNING_BLOCKS
+PacketStatusListener b minecraftServer
+PacketStatusListener c networkManager
+PathType a BLOCKED
+PathType b OPEN
+PathType c WALKABLE
+PathType d TRAPDOOR
+PathType e FENCE
+PathType f LAVA
+PathType g WATER
+PathType h RAIL
+PathType i DANGER_FIRE
+PathType j DAMAGE_FIRE
+PathType k DANGER_CACTUS
+PathType l DAMAGE_CACTUS
+PathType m DANGER_OTHER
+PathType n DAMAGE_OTHER
+PathType o DOOR_OPEN
+PathType p DOOR_WOOD_CLOSED
+PathType q DOOR_IRON_CLOSED
+PathfinderGoalBreed d animal
+PathfinderGoalBreed e partner
+PathfinderGoalRandomStroll b (I)V setTimeBetweenMovement
+PathfinderGoalSit a (Z)V setSitting
+PathfinderGoalSit a entity
+PathfinderGoalSit b willSit
+PathfinderGoalTame a entity
+PersistentBase a id
+PersistentCollection a (Ljava/lang/Class;Ljava/lang/String;)LPersistentBase; get
+PersistentVillage a ()V tick
+PersistentVillage a (LBlockPosition;I)LVillage; getClosestVillage
+PersistentVillage b ()Ljava/util/List; getVillages
+PersistentVillage b world
+PersistentVillage e villages
+PersistentVillage f time
+PistonExtendsChecker c ()Ljava/util/List; getMovedBlocks
+PistonExtendsChecker d ()Ljava/util/List; getBrokenBlocks
+PlayerAbilities a isInvulnerable
+PlayerAbilities b isFlying
+PlayerAbilities c canFly
+PlayerAbilities d canInstantlyBuild
+PlayerAbilities e mayBuild
+PlayerAbilities f flySpeed
+PlayerAbilities g walkSpeed
+PlayerChunk b playerChunkMap
+PlayerChunk c (LEntityPlayer;)V sendChunk
+PlayerChunk d location
+PlayerChunk e dirtyBlocks
+PlayerChunk f chunk
+PlayerChunk g dirtyCount
+PlayerChunk j done
+PlayerChunkMap a ()LWorldServer; getWorld
+PlayerChunkMap a (LBlockPosition;)V flagDirty
+PlayerChunkMap a (LEntityPlayer;)V addPlayer
+PlayerChunkMap b (I)I getFurthestViewableBlock
+PlayerChunkMap b (II)LPlayerChunk; getChunk
+PlayerChunkMap b (LEntityPlayer;)V removePlayer
+PlayerChunkMap c ()V flush
+PlayerChunkMap c (LEntityPlayer;)V movePlayer
+PlayerChunkMap c world
+PlayerChunkMap d managedPlayers
+PlayerConnection a (LPacket;)V sendPacket
+PlayerConnection a networkManager
+PlayerConnection b player
+PlayerConnection c (Ljava/lang/String;)V disconnect
+PlayerConnection c LOGGER
+PlayerConnection d (Ljava/lang/String;)V handleCommand
+PlayerConnection d minecraftServer
+PlayerConnection i chatThrottle
+PlayerConnection y teleportPos
+PlayerConnection z teleportAwait
+PlayerConnectionUtils a (LPacket;LPacketListener;LIAsyncTaskHandler;)V ensureMainThread
+PlayerInteractManager a (LEnumGamemode;)V setGameMode
+PlayerInteractManager a world
+PlayerInteractManager b ()LEnumGamemode;
+PlayerInteractManager b ()LEnumGamemode; getGameMode
+PlayerInteractManager b (LBlockPosition;)Z breakBlock
+PlayerInteractManager b player
+PlayerInteractManager c gamemode
+PlayerInteractManager d ()Z isCreative
+PlayerInteractManager e lastDigTick
+PlayerInteractManager g currentTick
+PlayerInventory a items
+PlayerInventory b armor
+PlayerInventory c (LItemStack;)Z pickup
+PlayerInventory c extraSlots
+PlayerInventory d itemInHandIndex
+PlayerInventory e (LItemStack;)V setCarried
+PlayerInventory e player
+PlayerInventory h ()LItemStack; getItemInHand
+PlayerInventory h (LItemStack;)I firstPartial
+PlayerInventory h carried
+PlayerInventory i ()I getHotbarSize
+PlayerInventory j ()I getFirstEmptySlotIndex
+PlayerInventory o ()LItemStack; getCarried
+PlayerList a ()V reloadWhitelist
+PlayerList a (LEntity;ILWorldServer;LWorldServer;)V changeWorld
+PlayerList a (LEntityHuman;DDDDILPacket;)V sendPacketNearby
+PlayerList a (LEntityPlayer;IZ)LEntityPlayer; moveToWorld
+PlayerList a (LIChatBaseComponent;)V sendMessage
+PlayerList a (LIChatBaseComponent;Z)V sendMessage
+PlayerList a (LPacket;)V sendAll
+PlayerList a (LScoreboardServer;LEntityPlayer;)V sendScoreboard
+PlayerList a (Lcom/mojang/authlib/GameProfile;)V addOp
+PlayerList a (Ljava/lang/String;)LEntityPlayer; getPlayer
+PlayerList a (Ljava/net/SocketAddress;Lcom/mojang/authlib/GameProfile;)Ljava/lang/String; attemptLogin
+PlayerList a (Z)V setHasWhitelist
+PlayerList a ([LWorldServer;)V setPlayerFileData
+PlayerList b (LEntityPlayer;)V savePlayerFile
+PlayerList b (Lcom/mojang/authlib/GameProfile;)V removeOp
+PlayerList c ()Lnet/minecraft/server/MinecraftServer; getServer
+PlayerList c (LEntityPlayer;)V onPlayerJoin
+PlayerList c (Lcom/mojang/authlib/GameProfile;)V removeWhitelist
+PlayerList d (Lcom/mojang/authlib/GameProfile;)V addWhitelist
+PlayerList e ()V tick
+PlayerList e (LEntityPlayer;)V disconnect
+PlayerList e (Lcom/mojang/authlib/GameProfile;)Z isWhitelisted
+PlayerList e maxPlayers
+PlayerList g (LEntityPlayer;)V updateClient
+PlayerList g (Lcom/mojang/authlib/GameProfile;)LEntityPlayer; processLogin
+PlayerList h ()LGameProfileBanList; getProfileBans
+PlayerList h (Lcom/mojang/authlib/GameProfile;)Z isOp
+PlayerList h server
+PlayerList i ()LIpBanList; getIPBans
+PlayerList i players
+PlayerList j ()V savePlayers
+PlayerList k ()LWhiteList; getWhitelist
+PlayerList l ()[Ljava/lang/String; getWhitelisted
+PlayerList m ()LOpList; getOPs
+PlayerList m operators
+PlayerList n whitelist
+PlayerList o ()I getPlayerCount
+PlayerList p ()I getMaxPlayers
+PlayerList p playerFileData
+PlayerList q ()[Ljava/lang/String; getSeenPlayers
+PlayerList q hasWhitelist
+PlayerList r ()Z getHasWhitelist
+PlayerSelector a (LICommandListener;Ljava/lang/String;)LEntityPlayer; getPlayer
+PlayerSelector a (LICommandListener;Ljava/lang/String;Ljava/lang/Class;)LEntity; getEntity
+PlayerSelector a (Ljava/lang/String;)Z isList
+PlayerSelector b (LICommandListener;Ljava/lang/String;)LIChatBaseComponent; getPlayerNames
+PlayerSelector b (LICommandListener;Ljava/lang/String;Ljava/lang/Class;)Ljava/util/List; getPlayers
+PlayerSelector b (Ljava/lang/String;)Z isPattern
+PortalTravelAgent a world
+PotionUtil a (LItemStack;)Ljava/util/List; getEffects
+PropertyManager a (Ljava/lang/String;I)I getInt
+PropertyManager a (Ljava/lang/String;J)J getLong
+PropertyManager a (Ljava/lang/String;Ljava/lang/Object;)V setProperty
+PropertyManager a (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String; getString
+PropertyManager a (Ljava/lang/String;Z)Z getBoolean
+PropertyManager b ()V savePropertiesFile
+PropertyManager b properties
+PropertyManager c file
+RecipesFurnace a ()LRecipesFurnace; getInstance
+RecipesFurnace a (LBlock;LItemStack;F)V registerRecipe
+RecipesFurnace a (LItemStack;)LItemStack; getResult
+RecipesFurnace b ()Ljava/util/Map; getRecipes
+RecipesFurnace b recipes
+RecipesFurnace c experience
+RegistryBlockID a (I)Ljava/lang/Object; fromId
+RegistryBlockID a (Ljava/lang/Object;)I getId
+RegistryID a (I)Ljava/lang/Object; fromId
+RegistryID a (Ljava/lang/Object;)I getId
+RegistryMaterials a (I)Ljava/lang/Object; getId
+RegistryMaterials c (Ljava/lang/Object;)Ljava/lang/Object; get
+RegistrySimple c ()Ljava/util/Set; keySet
+RegistrySimple c (Ljava/lang/Object;)Ljava/lang/Object; get
+RemoteControlCommandListener i ()V clearMessages
+RemoteControlCommandListener j ()Ljava/lang/String; getMessages
+RemoteStatusListener$RemoteStatusChallenge b time
+RemoteStatusListener$RemoteStatusChallenge c token
+RemoteStatusListener$RemoteStatusChallenge d identity
+RemoteStatusListener$RemoteStatusChallenge e response
+Scoreboard a (I)LScoreboardObjective; getObjectiveForSlot
+Scoreboard a (ILScoreboardObjective;)V setDisplaySlot
+Scoreboard a (LIScoreboardCriteria;)Ljava/util/Collection; getObjectivesForCriteria
+Scoreboard a (LScoreboardObjective;)V handleObjectiveAdded
+Scoreboard a (LScoreboardScore;)V handleScoreChanged
+Scoreboard a (LScoreboardTeam;)V handleTeamAdded
+Scoreboard a (Ljava/lang/String;)V handlePlayerRemoved
+Scoreboard a (Ljava/lang/String;LIScoreboardCriteria;)LScoreboardObjective; registerObjective
+Scoreboard a (Ljava/lang/String;LScoreboardTeam;)V removePlayerFromTeam
+Scoreboard a (Ljava/lang/String;Ljava/lang/String;)Z addPlayerToTeam
+Scoreboard a objectivesByName
+Scoreboard b (I)Ljava/lang/String; getSlotName
+Scoreboard b (LScoreboardObjective;)V handleObjectiveChanged
+Scoreboard b (LScoreboardTeam;)V handleTeamChanged
+Scoreboard b (Ljava/lang/String;)LScoreboardObjective; getObjective
+Scoreboard b objectivesByCriteria
+Scoreboard c ()Ljava/util/Collection; getObjectives
+Scoreboard c (LScoreboardObjective;)V handleObjectiveRemoved
+Scoreboard c (LScoreboardTeam;)V handleTeamRemoved
+Scoreboard c (Ljava/lang/String;)Ljava/util/Map; getPlayerObjectives
+Scoreboard c (Ljava/lang/String;LScoreboardObjective;)LScoreboardScore; getPlayerScoreForObjective
+Scoreboard c playerScores
+Scoreboard d ()Ljava/util/Collection; getPlayers
+Scoreboard d (LScoreboardTeam;)V removeTeam
+Scoreboard d (Ljava/lang/String;)LScoreboardTeam; getTeam
+Scoreboard d (Ljava/lang/String;LScoreboardObjective;)V resetPlayerScores
+Scoreboard d displaySlots
+Scoreboard e ()Ljava/util/Collection; getScores
+Scoreboard e (Ljava/lang/String;)LScoreboardTeam; createTeam
+Scoreboard e teamsByName
+Scoreboard f ()Ljava/util/Collection; getTeamNames
+Scoreboard f (Ljava/lang/String;)Z removePlayerFromTeam
+Scoreboard f teamsByPlayer
+Scoreboard g ()Ljava/util/Collection; getTeams
+Scoreboard g (Ljava/lang/String;)LScoreboardTeam; getPlayerTeam
+Scoreboard h (Ljava/lang/String;)I getSlotForName
+Scoreboard i (LScoreboardObjective;)Ljava/util/Collection; getScoresForObjective
+Scoreboard k (LScoreboardObjective;)V unregisterObjective
+ScoreboardBaseCriteria b ()Z isReadOnly
+ScoreboardObjective a (Ljava/lang/String;)V setDisplayName
+ScoreboardObjective b ()Ljava/lang/String; getName
+ScoreboardObjective c ()LIScoreboardCriteria; getCriteria
+ScoreboardObjective d ()Ljava/lang/String; getDisplayName
+ScoreboardScore a ()V incrementScore
+ScoreboardScore a (I)V addScore
+ScoreboardScore b (I)V removeScore
+ScoreboardScore c ()I getScore
+ScoreboardScore c (I)V setScore
+ScoreboardScore d ()LScoreboardObjective; getObjective
+ScoreboardScore d playerName
+ScoreboardScore e ()Ljava/lang/String; getPlayerName
+ScoreboardScore e score
+ScoreboardServer d (LScoreboardObjective;)Ljava/util/List; getScoreboardScorePacketsForObjective
+ScoreboardTeam a (LScoreboardTeamBase$EnumNameTagVisibility;)V setNameTagVisibility
+ScoreboardTeam a (LScoreboardTeamBase$EnumTeamPush;)V setCollisionRule
+ScoreboardTeam a (LScoreboardTeamBase;Ljava/lang/String;)Ljava/lang/String; getPlayerDisplayName
+ScoreboardTeam a (Ljava/lang/String;)V setDisplayName
+ScoreboardTeam a (Z)V setAllowFriendlyFire
+ScoreboardTeam b (LScoreboardTeamBase$EnumNameTagVisibility;)V setDeathMessageVisibility
+ScoreboardTeam b (Ljava/lang/String;)V setPrefix
+ScoreboardTeam b (Z)V setCanSeeFriendlyInvisibles
+ScoreboardTeam c ()Ljava/lang/String; getDisplayName
+ScoreboardTeam c (Ljava/lang/String;)V setSuffix
+ScoreboardTeam e ()Ljava/lang/String; getPrefix
+ScoreboardTeam f ()Ljava/lang/String; getSuffix
+ScoreboardTeam h ()Z canSeeFriendlyInvisibles
+ScoreboardTeam i ()LScoreboardTeamBase$EnumNameTagVisibility; getNameTagVisibility
+ScoreboardTeam l ()I packOptionData
+ScoreboardTeamBase a (LScoreboardTeamBase;)Z isAlly
+ScoreboardTeamBase b ()Ljava/lang/String; getName
+ScoreboardTeamBase d ()Ljava/util/Collection; getPlayerNameSet
+ScoreboardTeamBase d (Ljava/lang/String;)Ljava/lang/String; getFormattedName
+ScoreboardTeamBase g ()Z allowFriendlyFire
+ScoreboardTeamBase j ()LScoreboardTeamBase$EnumNameTagVisibility; getDeathMessageVisibility
+ScoreboardTeamBase k ()LScoreboardTeamBase$EnumTeamPush; getCollisionRule
+ScoreboardTeamBase$EnumNameTagVisibility a ALWAYS
+ScoreboardTeamBase$EnumNameTagVisibility b NEVER
+ScoreboardTeamBase$EnumNameTagVisibility c HIDE_FOR_OTHER_TEAMS
+ScoreboardTeamBase$EnumNameTagVisibility d HIDE_FOR_OWN_TEAM
+ScoreboardTeamBase$EnumTeamPush a ALWAYS
+ScoreboardTeamBase$EnumTeamPush b NEVER
+ScoreboardTeamBase$EnumTeamPush c HIDE_FOR_OTHER_TEAMS
+ScoreboardTeamBase$EnumTeamPush d HIDE_FOR_OWN_TEAM
+ServerCommand a command
+ServerCommand b source
+ServerGUI a ()Ljavax/swing/JComponent; a
+ServerGUI a (Ljavax/swing/JTextArea;Ljavax/swing/JScrollPane;Ljava/lang/String;)V a
+ServerGUI b ()Ljavax/swing/JComponent; b
+ServerGUI c ()Ljavax/swing/JComponent; c
+ServerPing a (LIChatBaseComponent;)V setMOTD
+ServerPing a (LServerPing$ServerData;)V setServerInfo
+ServerPing a (LServerPing$ServerPingPlayerSample;)V setPlayerSample
+ServerPing a (Ljava/lang/String;)V setFavicon
+ServerPing c ()LServerPing$ServerData; getServerData
+ServerPing$ServerData b ()I getProtocolVersion
+ServerStatisticManager b (LEntityPlayer;)V updateStatistics
+ShapeDetector$ShapeDetectorCollection b ()LEnumDirection; getFacing
+ShapeDetectorBlock d ()LBlockPosition; getPosition
+ShapedRecipes a width
+ShapedRecipes b height
+ShapedRecipes c items
+ShapedRecipes d result
+ShapelessRecipes a result
+ShapelessRecipes b ingredients
+SharedConstants a (C)Z isAllowedChatCharacter
+SharedConstants c allowedCharacters
+Slot a ()I getMaxStackSize
+Slot a (LEntityHuman;)Z isAllowed
+Slot a (LItemStack;)Z isAllowed
+Slot a index
+Slot b (LItemStack;)I getMaxStackSize
+Slot d ()LItemStack; getItem
+Slot d (LItemStack;)V set
+Slot d inventory
+Slot e ()Z hasItem
+Slot e rawSlotIndex
+SoundCategory a MASTER
+SoundCategory b MUSIC
+SoundCategory c RECORDS
+SoundCategory d WEATHER
+SoundCategory e BLOCKS
+SoundCategory f HOSTILE
+SoundCategory g NEUTRAL
+SoundCategory h PLAYERS
+SoundCategory i AMBIENT
+SoundCategory j VOICE
+SoundEffects dx BLOCK_METAL_PRESSUREPLATE_CLICK_OFF
+SoundEffects ec ENTITY_PLAYER_ATTACK_CRIT
+SoundEffects em ENTITY_PLAYER_HURT
+SpawnerCreature a (LWorld;II)LBlockPosition; getRandomPosition
+Statistic e name
+StatisticList a (Ljava/lang/String;)LStatistic; getStatistic
+StatisticList b stats
+StatisticManager a (LAchievement;)Z hasAchievement
+StatisticManager a (LEntityHuman;LStatistic;I)V setStatistic
+StatisticManager a (LStatistic;)I getStatisticValue
+StructureGenerator a (LWorld;LBlockPosition;)LBlockPosition; getNearestGeneratedFeature
+TileEntity A ()V invalidateBlockCache
+TileEntity B ()Z isFilteredNBT
+TileEntity D ()LWorld; getWorld
+TileEntity D_ ()LPacketPlayOutTileEntityData; getUpdatePacket
+TileEntity a (LBlockPosition;)V setPosition
+TileEntity b (LNBTTagCompound;)LNBTTagCompound; save
+TileEntity b world
+TileEntity c position
+TileEntity v ()LBlockPosition; getPosition
+TileEntity v_ ()V update
+TileEntity w ()LBlock; getBlock
+TileEntityBanner a color
+TileEntityBanner f patterns
+TileEntityBanner$EnumBannerPatternType A HALF_VERTICAL
+TileEntityBanner$EnumBannerPatternType B HALF_HORIZONTAL
+TileEntityBanner$EnumBannerPatternType C HALF_VERTICAL_MIRROR
+TileEntityBanner$EnumBannerPatternType D HALF_HORIZONTAL_MIRROR
+TileEntityBanner$EnumBannerPatternType E BORDER
+TileEntityBanner$EnumBannerPatternType F CURLY_BORDER
+TileEntityBanner$EnumBannerPatternType G CREEPER
+TileEntityBanner$EnumBannerPatternType H GRADIENT
+TileEntityBanner$EnumBannerPatternType I GRADIENT_UP
+TileEntityBanner$EnumBannerPatternType J BRICKS
+TileEntityBanner$EnumBannerPatternType K SKULL
+TileEntityBanner$EnumBannerPatternType L FLOWER
+TileEntityBanner$EnumBannerPatternType M MOJANG
+TileEntityBanner$EnumBannerPatternType a BASE
+TileEntityBanner$EnumBannerPatternType b SQUARE_BOTTOM_LEFT
+TileEntityBanner$EnumBannerPatternType c SQUARE_BOTTOM_RIGHT
+TileEntityBanner$EnumBannerPatternType d SQUARE_TOP_LEFT
+TileEntityBanner$EnumBannerPatternType e SQUARE_TOP_RIGHT
+TileEntityBanner$EnumBannerPatternType f STRIPE_BOTTOM
+TileEntityBanner$EnumBannerPatternType g STRIPE_TOP
+TileEntityBanner$EnumBannerPatternType h STRIPE_LEFT
+TileEntityBanner$EnumBannerPatternType i STRIPE_RIGHT
+TileEntityBanner$EnumBannerPatternType j STRIPE_CENTER
+TileEntityBanner$EnumBannerPatternType k STRIPE_MIDDLE
+TileEntityBanner$EnumBannerPatternType l STRIPE_DOWNRIGHT
+TileEntityBanner$EnumBannerPatternType m STRIPE_DOWNLEFT
+TileEntityBanner$EnumBannerPatternType n STRIPE_SMALL
+TileEntityBanner$EnumBannerPatternType o CROSS
+TileEntityBanner$EnumBannerPatternType p STRAIGHT_CROSS
+TileEntityBanner$EnumBannerPatternType q TRIANGLE_BOTTOM
+TileEntityBanner$EnumBannerPatternType r TRIANGLE_TOP
+TileEntityBanner$EnumBannerPatternType s TRIANGLES_BOTTOM
+TileEntityBanner$EnumBannerPatternType t TRIANGLES_TOP
+TileEntityBanner$EnumBannerPatternType u DIAGONAL_LEFT
+TileEntityBanner$EnumBannerPatternType v DIAGONAL_RIGHT
+TileEntityBanner$EnumBannerPatternType w DIAGONAL_LEFT_MIRROR
+TileEntityBanner$EnumBannerPatternType x DIAGONAL_RIGHT_MIRROR
+TileEntityBanner$EnumBannerPatternType y CIRCLE_MIDDLE
+TileEntityBanner$EnumBannerPatternType z RHOMBUS_MIDDLE
+TileEntityBeacon n inventorySlot
+TileEntityBrewingStand h items
+TileEntityBrewingStand i brewTime
+TileEntityChest o items
+TileEntityCommand d ()LCommandBlockListenerAbstract; getCommandBlock
+TileEntityCommand$Type a SEQUENCE
+TileEntityCommand$Type b AUTO
+TileEntityCommand$Type c REDSTONE
+TileEntityDispenser a (LItemStack;)I addItem
+TileEntityDispenser g items
+TileEntityDispenser h_ ()Ljava/lang/String; getName
+TileEntityDispenser k ()Ljava/lang/String; getContainerName
+TileEntityEndGateway h exitPortal
+TileEntityEndGateway i exactTeleport
+TileEntityFlowerPot e ()LItem; getItem
+TileEntityFlowerPot g ()I getData
+TileEntityFurnace b (LItemStack;)I fuelTime
+TileEntityFurnace c (LItemStack;)Z isFuel
+TileEntityFurnace h items
+TileEntityFurnace i burnTime
+TileEntityFurnace j ticksForCurrentFuel
+TileEntityFurnace k cookTime
+TileEntityFurnace l cookTimeTotal
+TileEntityFurnace m ()Z isBurning
+TileEntityFurnace n ()V burn
+TileEntityFurnace o ()Z canBurn
+TileEntityHopper a (LIInventory;LItemStack;LEnumDirection;)LItemStack; addItem
+TileEntityHopper a items
+TileEntityHopper d (I)V setCooldown
+TileEntityMobSpawner d ()LMobSpawnerAbstract; getSpawner
+TileEntityNote a (LWorld;LBlockPosition;)V play
+TileEntityNote a note
+TileEntitySign a lines
+TileEntitySign g isEditable
+TileEntitySkull a (I)V setSkullType
+TileEntitySkull a (Lcom/mojang/authlib/GameProfile;)V setGameProfile
+TileEntitySkull b (I)V setRotation
+TileEntitySkull d ()Lcom/mojang/authlib/GameProfile; getGameProfile
+TileEntitySkull e ()I getSkullType
+TileEntitySkull f rotation
+TileEntityStructure$UsageMode a SAVE
+TileEntityStructure$UsageMode b LOAD
+TileEntityStructure$UsageMode c CORNER
+TileEntityStructure$UsageMode d DATA
+UserCache a (Ljava/lang/String;)Lcom/mojang/authlib/GameProfile; getProfile
+Vec3D b (DDD)LVec3D; add
+Vec3D b x
+Vec3D c y
+Vec3D d z
+Vec3D g (LVec3D;)D distanceSquared
+Vector3f a x
+Vector3f b ()F getX
+Vector3f b y
+Vector3f c ()F getY
+Vector3f c z
+Vector3f d ()F getZ
+WeightedRandomEnchant b enchantment
+WeightedRandomEnchant c level
+WhiteList a (Lcom/mojang/authlib/GameProfile;)Z isWhitelisted
+World A ()LWorldChunkManager; getWorldChunkManager
+World A villages
+World B (LBlockPosition;)Z isRainingAt
+World C methodProfiler
+World D scoreboard
+World E isClientSide
+World F allowMonsters
+World G allowAnimals
+World N ()V checkSession
+World O ()J getSeed
+World P ()J getTime
+World Q ()J getDayTime
+World R ()LBlockPosition; getSpawn
+World S ()LIDataManager; getDataManager
+World T ()LWorldData; getWorldData
+World U ()LGameRules; getGameRules
+World Y ()I getHeight
+World a (DDDD)Z isPlayerNearby
+World a (I)LEntity; getEntity
+World a (II)LChunk; getChunkAt
+World a (IIIIIIZ)Z isAreaLoaded
+World a (IIZ)Z isChunkLoaded
+World a (LBlockPosition;)Z isValidLocation
+World a (LBlockPosition;I)Z areChunksLoaded
+World a (LBlockPosition;IZ)Z areChunksLoaded
+World a (LBlockPosition;LBlockPosition;)Z areChunksLoadedBetween
+World a (LBlockPosition;LBlockPosition;Z)Z areChunksLoadedBetween
+World a (LBlockPosition;LIBlockData;)Z setTypeUpdate
+World a (LBlockPosition;LIBlockData;I)Z setTypeAndData
+World a (LBlockPosition;LIBlockData;LIBlockData;I)V notify
+World a (LBlockPosition;LTileEntity;)V setTileEntity
+World a (LEntity;)Z addEntity
+World a (LEntity;B)V broadcastEntityEffect
+World a (LEntity;D)LEntityHuman; findNearbyPlayer
+World a (LEntity;DDDFZ)LExplosion; explode
+World a (LEntity;DDDFZZ)LExplosion; createExplosion
+World a (LEntity;LAxisAlignedBB;)Ljava/util/List; getCubes
+World a (LEntity;LAxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List; getEntities
+World a (LEntity;Z)V entityJoinedWorld
+World a (LEntityHuman;LBlockPosition;LEnumDirection;)Z douseFire
+World a (LEnumParticle;DDDDDD[I)V addParticle
+World a (LIWorldAccess;)V addIWorldAccess
+World a (LVec3D;LVec3D;)LMovingObjectPosition; rayTrace
+World a (LVec3D;LVec3D;Z)LMovingObjectPosition; rayTrace
+World a (LVec3D;LVec3D;ZZZ)LMovingObjectPosition; rayTrace
+World a (ZZ)V setSpawnFlags
+World ad ()LScoreboard; getScoreboard
+World ae ()LEnumDifficulty; getDifficulty
+World aj ()LWorldBorder; getWorldBorder
+World b (ILBlockPosition;I)V triggerEffect
+World b (J)V setDayTime
+World b (LBlockPosition;)LBiomeBase; getBiome
+World b (LBlockPosition;LEnumDirection;)Z isBlockFacePowered
+World b (LBlockPosition;Z)Z setAir
+World b (LEntity;LAxisAlignedBB;)Ljava/util/List; getEntities
+World c (LBlockPosition;LBlock;)V update
+World c (LBlockPosition;LBlock;II)V playBlockAction
+World c (LBlockPosition;LEnumDirection;)I getBlockFacePower
+World c tileEntityListUnload
+World d ()V doTick
+World d (LBlockPosition;LBlock;)V applyPhysics
+World d (LEntity;)Z strikeLightning
+World e ()V everyoneSleeping
+World e (LAxisAlignedBB;)Z containsLiquid
+World e (LBlockPosition;)Z isLoaded
+World e (LEntity;)V kill
+World e entityList
+World f (LBlockPosition;)LChunk; getChunkAtWorldCoords
+World f (LBlockPosition;LBlock;)V updateAdjacentComparators
+World f (LEntity;)V removeEntity
+World g (LBlockPosition;)Z setAir
+World g tileEntityList
+World h tileEntityListTick
+World i players
+World k ()V tickEntities
+World k (LBlockPosition;)I getLightLevel
+World k entitiesById
+World l (LBlockPosition;)LBlockPosition; getHighestBlockYAt
+World r random
+World s worldProvider
+World u ()Lnet/minecraft/server/MinecraftServer; getMinecraftServer
+World v chunkProvider
+World w dataManager
+World x (LBlockPosition;)I getBlockPower
+World x worldData
+World y (LBlockPosition;)Z isBlockIndirectlyPowered
+World y isLoading
+World z ()LIChunkProvider; getChunkProvider
+World z worldMaps
+WorldBorder a ()LEnumWorldBorderState; getState
+WorldBorder a (D)V setSize
+WorldBorder a (DDJ)V transitionSizeBetween
+WorldBorder a (LChunkCoordIntPair;)Z isInBounds
+WorldBorder b (D)V setDamageBuffer
+WorldBorder b (I)V setWarningTime
+WorldBorder c (D)V setDamageAmount
+WorldBorder c (DD)V setCenter
+WorldBorder c (I)V setWarningDistance
+WorldBorder f ()D getCenterX
+WorldBorder g ()D getCenterZ
+WorldBorder h ()D getSize
+WorldBorder m ()D getDamageBuffer
+WorldBorder n ()D getDamageAmount
+WorldBorder p ()I getWarningTime
+WorldBorder q ()I getWarningDistance
+WorldChunkManager a (LBlockPosition;)LBiomeBase; getBiome
+WorldChunkManager a (LBlockPosition;LBiomeBase;)LBiomeBase; getBiome
+WorldChunkManager a ([LBiomeBase;IIII)[LBiomeBase; getBiomes
+WorldChunkManager b ([LBiomeBase;IIII)[LBiomeBase; getBiomeBlock
+WorldData A ()Ljava/lang/String; getGeneratorOptions
+WorldData a ()J getSeed
+WorldData a (LBlockPosition;)V setSpawn
+WorldData a (LEnumDifficulty;)V setDifficulty
+WorldData a (LEnumGamemode;)V setGameType
+WorldData a (Z)V setThundering
+WorldData b (J)V setTime
+WorldData b (Z)V setStorm
+WorldData c (J)V setDayTime
+WorldData e ()J getTime
+WorldData f ()J getDayTime
+WorldData f (I)V setThunderDuration
+WorldData g (I)V setWeatherDuration
+WorldData j ()Ljava/lang/String; getName
+WorldData m ()Z isThundering
+WorldData n ()I getThunderDuration
+WorldData o ()Z hasStorm
+WorldData p ()I getWeatherDuration
+WorldData q ()LEnumGamemode; getGameType
+WorldData q levelName
+WorldData r ()Z shouldGenerateMapFeatures
+WorldData s ()Z isHardcore
+WorldData t ()LWorldType; getType
+WorldData x ()LEnumDifficulty; getDifficulty
+WorldData y ()Z isDifficultyLocked
+WorldGenFlatInfo a layers
+WorldGenFlatInfo b structures
+WorldGenMineshaft$Type a NORMAL
+WorldGenMineshaft$Type b MESA
+WorldGenStrongholdPieces$WorldGenStrongholdPiece$WorldGenStrongholdDoorType a OPENING
+WorldGenStrongholdPieces$WorldGenStrongholdPiece$WorldGenStrongholdDoorType b WOOD_DOOR
+WorldGenStrongholdPieces$WorldGenStrongholdPiece$WorldGenStrongholdDoorType c GRATES
+WorldGenStrongholdPieces$WorldGenStrongholdPiece$WorldGenStrongholdDoorType d IRON_DOOR
+WorldGenTrees b (LWorld;Ljava/util/Random;LBlockPosition;)Z generate
+WorldGenerator b (LWorld;Ljava/util/Random;LBlockPosition;)Z generate
+WorldManager b world
+WorldMap a (II)V flagDirty
+WorldMap b centerX
+WorldMap c centerZ
+WorldMap d map
+WorldMap e track
+WorldMap f scale
+WorldMap g colors
+WorldMap i decorations
+WorldMap$WorldMapHumanTracker a trackee
+WorldMap$WorldMapHumanTracker c worldMap
+WorldNBTStorage c baseDir
+WorldNBTStorage d playerDir
+WorldNBTStorage e dataDir
+WorldNBTStorage f sessionId
+WorldProvider a (II)Z canSpawn
+WorldProvider c ()LChunkGenerator; getChunkGenerator
+WorldProvider g type
+WorldProvider i ()I getSeaLevel
+WorldProvider o ()LWorldBorder; getWorldBorder
+WorldProvider p ()LDimensionManager; getDimensionManager
+WorldServer I server
+WorldServer J tracker
+WorldServer K manager
+WorldServer L nextTickListHash
+WorldServer M nextTickList
+WorldServer N entitiesByUUID
+WorldServer P emptyTime
+WorldServer Q portalTravelAgent
+WorldServer R spawnerCreature
+WorldServer a (IIIIII)Ljava/util/List; getTileEntities
+WorldServer a (Ljava/util/UUID;)LEntity; getEntity
+WorldServer a (ZLIProgressUpdate;)V save
+WorldServer al ()Z getSpawnNPCs
+WorldServer am ()Z getSpawnAnimals
+WorldServer b savingDisabled
+WorldServer c siegeManager
+WorldServer g ()Z everyoneDeeplySleeping
+WorldServer p ()LBlockPosition; getDimensionSpawn
+WorldServer q ()V flushSave
+WorldServer r ()LChunkProviderServer; getChunkProviderServer
+WorldServer s ()V saveLevel
+WorldServer v ()LEntityTracker; getTracker
+WorldServer w ()LPlayerChunkMap; getPlayerChunkMap
+WorldServer x ()LPortalTravelAgent; getTravelAgent
+WorldSettings a (Ljava/lang/String;)LWorldSettings; setGeneratorSettings
+WorldType a ()Ljava/lang/String; name
+WorldType a (Ljava/lang/String;)LWorldType; getType
+WorldType a types
+WorldType b NORMAL
+WorldType c FLAT
+WorldType d ()I getVersion
+WorldType d LARGE_BIOMES
+WorldType e AMPLIFIED
+WorldType f CUSTOMIZED
+WorldType g DEBUG_ALL_BLOCK_STATES
+WorldType h NORMAL_1_1
+WorldType j name
+WorldType k version
+net/minecraft/server/MinecraftServer A spawnAnimals
+net/minecraft/server/MinecraftServer B spawnNPCs
+net/minecraft/server/MinecraftServer C pvpMode
+net/minecraft/server/MinecraftServer D allowFlight
+net/minecraft/server/MinecraftServer E ()Z getAllowNether
+net/minecraft/server/MinecraftServer E motd
+net/minecraft/server/MinecraftServer G ()Ljava/lang/String; getVersion
+net/minecraft/server/MinecraftServer J ()[Ljava/lang/String; getPlayers
+net/minecraft/server/MinecraftServer L ()Z isDebugging
+net/minecraft/server/MinecraftServer L demoMode
+net/minecraft/server/MinecraftServer N ()LICommandHandler; getCommandHandler
+net/minecraft/server/MinecraftServer U ()Z getSpawnMonsters
+net/minecraft/server/MinecraftServer W ()LConvertable; getConvertable
+net/minecraft/server/MinecraftServer X ()Ljava/lang/String; getResourcePack
+net/minecraft/server/MinecraftServer Y ()Ljava/lang/String; getResourcePackHash
+net/minecraft/server/MinecraftServer Z ()Z getSnooperEnabled
+net/minecraft/server/MinecraftServer Z serverThread
+net/minecraft/server/MinecraftServer a (I)LWorldServer; getWorldServer
+net/minecraft/server/MinecraftServer a (LEnumGamemode;)V setGamemode
+net/minecraft/server/MinecraftServer a (LICommandListener;Ljava/lang/String;LBlockPosition;Z)Ljava/util/List; tabCompleteCommand
+net/minecraft/server/MinecraftServer a (Z)V saveChunks
+net/minecraft/server/MinecraftServer aA ()LUserCache; getUserCache
+net/minecraft/server/MinecraftServer aB ()LServerPing; getServerPing
+net/minecraft/server/MinecraftServer aI ()LDataConverterManager; getDataConverterManager
+net/minecraft/server/MinecraftServer aJ ()Lorg/apache/logging/log4j/Logger; getLogger
+net/minecraft/server/MinecraftServer a_ (Ljava/lang/String;Ljava/lang/String;)V setResourcePack
+net/minecraft/server/MinecraftServer ab ()Z getOnlineMode
+net/minecraft/server/MinecraftServer ac ()Z getSpawnAnimals
+net/minecraft/server/MinecraftServer ad ()Z getSpawnNPCs
+net/minecraft/server/MinecraftServer af ()Z getPVP
+net/minecraft/server/MinecraftServer ag ()Z getAllowFlight
+net/minecraft/server/MinecraftServer ah ()Z getEnableCommandBlock
+net/minecraft/server/MinecraftServer ai ()Ljava/lang/String; getMotd
+net/minecraft/server/MinecraftServer aj ()I getMaxBuildHeight
+net/minecraft/server/MinecraftServer ak ()Z isStopped
+net/minecraft/server/MinecraftServer al ()LPlayerList; getPlayerList
+net/minecraft/server/MinecraftServer as ()I getSpawnProtection
+net/minecraft/server/MinecraftServer at ()Z getForceGamemode
+net/minecraft/server/MinecraftServer aw ()I getIdleTimeout
+net/minecraft/server/MinecraftServer az ()Lcom/mojang/authlib/GameProfileRepository; getGameProfileRepository
+net/minecraft/server/MinecraftServer b (I)V setPort
+net/minecraft/server/MinecraftServer c methodProfiler
+net/minecraft/server/MinecraftServer d (I)V setIdleTimeout
+net/minecraft/server/MinecraftServer d (Z)V setOnlineMode
+net/minecraft/server/MinecraftServer d worldServer
+net/minecraft/server/MinecraftServer e (Ljava/lang/String;)V info
+net/minecraft/server/MinecraftServer e (Z)V setSpawnAnimals
+net/minecraft/server/MinecraftServer f (Ljava/lang/String;)V warning
+net/minecraft/server/MinecraftServer f (Z)V setSpawnNPCs
+net/minecraft/server/MinecraftServer g (Z)V setPVP
+net/minecraft/server/MinecraftServer h (Z)V setAllowFlight
+net/minecraft/server/MinecraftServer i (Z)V setForceGamemode
+net/minecraft/server/MinecraftServer j ()Z init
+net/minecraft/server/MinecraftServer j (Ljava/lang/String;)V setWorld
+net/minecraft/server/MinecraftServer k LOGGER
+net/minecraft/server/MinecraftServer l (Ljava/lang/String;)V setMotd
+net/minecraft/server/MinecraftServer l convertable
+net/minecraft/server/MinecraftServer m ()Z getGenerateStructures
+net/minecraft/server/MinecraftServer n ()LEnumGamemode; getGamemode
+net/minecraft/server/MinecraftServer n universe
+net/minecraft/server/MinecraftServer o ()LEnumDifficulty; getDifficulty
+net/minecraft/server/MinecraftServer p ()Z isHardcore
+net/minecraft/server/MinecraftServer s dataConverterManager
+net/minecraft/server/MinecraftServer t serverIp
+net/minecraft/server/MinecraftServer u ()V stop
+net/minecraft/server/MinecraftServer v ()Ljava/lang/String; getServerIp
+net/minecraft/server/MinecraftServer w ()Z isRunning
+net/minecraft/server/MinecraftServer w isRunning
+net/minecraft/server/MinecraftServer x ()V safeShutdown
+net/minecraft/server/MinecraftServer x isStopped
+net/minecraft/server/MinecraftServer y ticks
+net/minecraft/server/MinecraftServer z onlineMode

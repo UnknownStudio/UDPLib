@@ -3,11 +3,16 @@ package team.unstudio.udpl.command.anno;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,29 +21,23 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import team.unstudio.udpl.command.CommandHelper;
+import com.google.common.collect.Lists;
 
-/**
- * @author Administrator
- *
- */
-/**
- * @author Administrator
- *
- */
+import team.unstudio.udpl.command.CommandHelper;
+import team.unstudio.udpl.util.ServerUtils;
+
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
+	
+	private static final String unknownCommandMessage = ChatColor.RED+"未知的指令，输入 /%1$s help 查看帮助.";
+	private static final String noPermissionMessage = ChatColor.RED+"没有足够的权限:"+ChatColor.YELLOW+" %1$s .";
+	private static final String noEnoughParameterMessage = ChatColor.RED+"参数不足! 正确的使用方法: %1$s";
+	private static final String wrongSenderMessage = ChatColor.RED+"该指令不能由该指令发送者发送!";
+	private static final String errorParameterMessage = ChatColor.RED+"参数错误! 正确的使用方法: %1$s";
+	private static final String runCommandFailureMessage = ChatColor.RED+"指令执行失败, 请在控制台查看更多的错误信息.";
 	
 	private final JavaPlugin plugin;
 	private final String name;
-	private final List<CommandWrapper> wrappers = new ArrayList<>();
-	private CommandWrapper defaultCommand;
-	
-	private String noPermissionMessage = "没有足够的权限";
-	private String noEnoughParameterMessage = "参数不足";
-	private String wrongSenderMessage = "错误的指令执行者";
-	private String errorParameterMessage = "参数错误";
-	private String unknownCommandMessage = "未知的指令";
-	private String runCommandFailureMessage = "指令执行失败";
+	private final CommandWrapper defaultHandler;
 	
 	private String usage;
 	private String description;
@@ -59,196 +58,180 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	public AnnoCommandManager(@Nonnull String name,JavaPlugin plugin){
 		this.name = name;
 		this.plugin = plugin;
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(args.length==0&&defaultCommand!=null){
-			handleCommand(defaultCommand, sender, command, label, args);
-			return true;
-		}
-		
-		int i=0;
-		int index =0;
-		List<CommandWrapper> subWrappers = wrappers;
-		while(!subWrappers.isEmpty()&&i<args.length){
-			for(CommandWrapper wrapper:subWrappers){
-				if(!wrapper.getNode().equalsIgnoreCase(args[i])) {
-					if(index>=args.length*subWrappers.size()) {
-						onUnknownCommand(sender, command, label, args);
-						return true;
-					}
-					index++;
-					continue;
-				}
-				
-				i++;
-				subWrappers = wrapper.getChildren();
-				
-				if (subWrappers.isEmpty()) {
-					handleCommand(wrapper, sender, command, label ,Arrays.copyOfRange(args, i, args.length));
-					return true;
-				}
-				break;
-			}
-		}
-		onUnknownCommand(sender, command, label, args);
-		return true;
+		this.defaultHandler = new CommandWrapper(name,this,null);
 	}
 	
-	private void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
-		switch (wrapper.onCommand(sender, args)) {
-		case ErrorParameter:
-			onErrorParameter(sender, command, label, args, wrapper);
-			break;
-		case NoEnoughParameter:
-			onNoEnoughParameter(sender, command, label, args, wrapper);
-			break;
-		case NoPermission:
-			onNoPermission(sender, command, label, args, wrapper);
-			break;
-		case WrongSender:
-			onWrongSender(sender, command, label, args, wrapper);
-			break;
-		case Failure:
-			onRunCommandFailure(sender, command, label, args, wrapper);
-			break;
-		case Success:
-			break;
-		}
+	public JavaPlugin getPlugin() {
+		return plugin;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getUsage() {
+		return usage;
 	}
 
-	/**
-	 * 添加指令
-	 * @param sub
-	 * @return
-	 */
-	public AnnoCommandManager addCommand(Object object){
-		for(Method method:object.getClass().getDeclaredMethods()){
-			team.unstudio.udpl.command.anno.Command annoCommand = method.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
-			
-			if(annoCommand==null) 
-				continue;
-			
-			getCommandWrapper(annoCommand.value()).setMethod(object, method);
-
-			for(Alias annoAlias:method.getAnnotationsByType(Alias.class))
-				getCommandWrapper(annoAlias.value()).setMethod(object, method);
-		}
+	public AnnoCommandManager setUsage(String usage) {
+		this.usage = usage;
 		return this;
 	}
 	
-	public CommandWrapper getCommandWrapper(String args[]){
-		if(args.length==0){
-			if(defaultCommand!=null) 
-				return defaultCommand;
-			CommandWrapper wrapper = new CommandWrapper(null);
-			defaultCommand = wrapper;
-			return wrapper;
-		}else{
-			CommandWrapper w = null;
-			for(CommandWrapper w1:wrappers) if(w1.getNode().equalsIgnoreCase(args[0])){
-				w = w1;
-			}
-			if(w == null){
-				w = new CommandWrapper(args[0]);
-				wrappers.add(w);
-			}
-			w: for (int i = 1; i < args.length; i++) {
-				for (CommandWrapper w1 : w.getChildren()) {
-					if (w.getNode().equalsIgnoreCase(args[i])) {
-						w = w1;
-						continue w;
-					}
-				}
-				CommandWrapper w2 = new CommandWrapper(args[i]);
-				w.getChildren().add(w2);
-				w = w2;
-			}
-			return w;
-		}
+	public String getDescription() {
+		return description;
 	}
 
-	public String getNoPermissionMessage() {
-		return noPermissionMessage;
-	}
-
-	public AnnoCommandManager setNoPermissionMessage(String def) {
-		this.noPermissionMessage = def;
-		return this;
-	}
-
-	public String getNoEnoughParameterMessage() {
-		return noEnoughParameterMessage;
-	}
-
-	public AnnoCommandManager setNoEnoughParameterMessage(String def) {
-		this.noEnoughParameterMessage = def;
-		return this;
-	}
-
-	public String getWrongSenderMessage() {
-		return wrongSenderMessage;
-	}
-
-	public AnnoCommandManager setWrongSenderMessage(String def) {
-		this.wrongSenderMessage = def;
+	public AnnoCommandManager setDescription(String description) {
+		this.description = description;
 		return this;
 	}
 	
-	public String getErrorParameterMessage() {
-		return errorParameterMessage;
-	}
-
-	public AnnoCommandManager setErrorParameterMessage(String def) {
-		this.errorParameterMessage = def;
-		return this;
+	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		sender.sendMessage(String.format(unknownCommandMessage,label));
 	}
 
 	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(noPermissionMessage);
+		sender.sendMessage(String.format(noPermissionMessage,handler.getPermission()));
 	}
 	
 	protected void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(noEnoughParameterMessage);
+		StringBuilder builder = new StringBuilder(ChatColor.WHITE+"/");
+		
+		{
+			Stack<String> subCommandStack = new Stack<>();
+			CommandWrapper wrapper = handler;
+			do{
+				subCommandStack.push(wrapper.getNode());
+				wrapper = wrapper.getParent();
+			}while(wrapper == null);
+			
+			while(!subCommandStack.isEmpty()){
+				builder.append(subCommandStack.pop());
+				builder.append(" ");
+			}
+		}
+		
+		{
+			String[] requiredUsages = handler.getRequiredUsages();
+			for (int i = 0, size = args.length; i < size; i++) {
+				builder.append("<");
+				builder.append(requiredUsages[i]);
+				builder.append("> ");
+			}
+			builder.append(ChatColor.RED);
+			for (int i = args.length, size = requiredUsages.length; i < size; i++) {
+				builder.append("<");
+				builder.append(requiredUsages[i]);
+				builder.append("> ");
+			}
+		}
+		
+		{
+			builder.append(ChatColor.WHITE);
+			String[] optionalUsages = handler.getOptionalUsages();
+			for (int i = 0, size = optionalUsages.length; i < size; i++) {
+				builder.append("[");
+				builder.append(optionalUsages[i]);
+				builder.append("] ");
+			}
+		}
+		
+		sender.sendMessage(String.format(noEnoughParameterMessage,builder.toString()));
 	}
 	
 	protected void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(wrongSenderMessage);
 	}
 	
-	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(errorParameterMessage);
-	}
-	
-	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args){
-		sender.sendMessage(unknownCommandMessage);
+	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler, int[] errorParameterIndexs){
+		StringBuilder builder = new StringBuilder(ChatColor.WHITE+"/");
+		
+		{
+			Stack<String> subCommandStack = new Stack<>();
+			CommandWrapper wrapper = handler;
+			do{
+				subCommandStack.push(wrapper.getNode());
+				wrapper = wrapper.getParent();
+			}while(wrapper == null);
+			
+			while(!subCommandStack.isEmpty()){
+				builder.append(subCommandStack.pop());
+				builder.append(" ");
+			}
+		}
+		
+		List<Integer> errorParameterIndexsList = Lists.newArrayList();
+		for(int i:errorParameterIndexs)
+			errorParameterIndexsList.add(i);
+		
+		{
+			String[] requiredUsages = handler.getRequiredUsages();
+			for (int i = 0, size = requiredUsages.length; i < size; i++) {
+				if(errorParameterIndexsList.contains(i))
+					builder.append(ChatColor.RED);
+				else
+					builder.append(ChatColor.WHITE);
+				builder.append("<");
+				builder.append(requiredUsages[i]);
+				builder.append("> ");
+			}
+		}
+		
+		{
+			String[] optionalUsages = handler.getOptionalUsages();
+			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredUsages().length; i < size; i++) {
+				if(errorParameterIndexsList.contains(requiredLength+i))
+					builder.append(ChatColor.RED);
+				else
+					builder.append(ChatColor.WHITE);
+				builder.append("[");
+				builder.append(optionalUsages[i]);
+				builder.append("] ");
+			}
+		}
+		
+		sender.sendMessage(String.format(errorParameterMessage,builder.toString()));
 	}
 	
 	protected void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
 		sender.sendMessage(runCommandFailureMessage);
 	}
 	
-	public String getUnknownCommandMessage() {
-		return unknownCommandMessage;
-	}
-
-	public AnnoCommandManager setUnknownCommandMessage(String def) {
-		this.unknownCommandMessage = def;
-		return this;
-	}
-
-	public String getRunCommandFailureMessage() {
-		return runCommandFailureMessage;
-	}
-
-	public AnnoCommandManager setRunCommandFailureMessage(String def) {
-		this.runCommandFailureMessage = def;
-		return this;
-	}
-
-	public JavaPlugin getPlugin() {
-		return plugin;
+	/**
+	 * 参数转换
+	 * @param clazz 目标类型
+	 * @param value 参数
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	protected Object transformParameter(Class<?> clazz,String value){
+		if(value == null || value.isEmpty())
+			return null;
+		else if (clazz.equals(String.class))
+			return value;
+		else if (clazz.equals(int.class) || clazz.equals(Integer.class))
+			return Integer.parseInt(value);
+		else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
+			return Boolean.parseBoolean(value);
+		else if (clazz.equals(float.class) || clazz.equals(Float.class))
+			return Float.parseFloat(value);
+		else if (clazz.equals(double.class) || clazz.equals(Double.class))
+			return Double.parseDouble(value);
+		else if (clazz.equals(long.class) || clazz.equals(Long.class))
+			return Long.parseLong(value);
+		else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
+			return Byte.parseByte(value);
+		else if (clazz.equals(short.class) || clazz.equals(Short.class))
+			return Short.parseShort(value);
+		else if (clazz.equals(Player.class))
+			return Bukkit.getPlayerExact(value);
+		else if (clazz.equals(OfflinePlayer.class))
+			return Bukkit.getOfflinePlayer(value);
+		else if (clazz.equals(Material.class))
+			return Material.valueOf(value);
+		else
+			return null;
 	}
 	
 	/**
@@ -270,56 +253,130 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		command.setTabCompleter(this);
 		return this;
 	}
-
-	public String getName() {
-		return name;
+	
+	@Override
+	public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
+		
+		CommandWrapper parent = defaultHandler;
+		int i, size;
+		for (i = 0,size = toLowerCaseArgs.length; i < size; i++) {
+			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
+			if(wrapper == null)
+				break;
+			
+			parent = wrapper;
+		}
+		
+		handleCommand(parent, sender, command, label, Arrays.copyOfRange(args, i+1, args.length));
+		return true;
 	}
 	
-	public String getUsage() {
-		return usage;
+	protected void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
+		switch (wrapper.onCommand(sender,command,label,args)) {
+		case UnknownCommand:
+			onUnknownCommand(sender, command, label, args, wrapper);
+			break;
+		case ErrorParameter:
+			break;
+		case NoEnoughParameter:
+			onNoEnoughParameter(sender, command, label, args, wrapper);
+			break;
+		case NoPermission:
+			onNoPermission(sender, command, label, args, wrapper);
+			break;
+		case WrongSender:
+			onWrongSender(sender, command, label, args, wrapper);
+			break;
+		case Failure:
+			onRunCommandFailure(sender, command, label, args, wrapper);
+			break;
+		case Success:
+			break;
+		}
 	}
 
-	public void setUsage(String usage) {
-		this.usage = usage;
+	/**
+	 * 添加指令
+	 */
+	public AnnoCommandManager addCommand(Object object){
+		for(Method method:object.getClass().getDeclaredMethods()){
+			team.unstudio.udpl.command.anno.Command annoCommand = method.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
+			
+			if(annoCommand==null) 
+				continue;
+			
+			createCommandWrapper(annoCommand.value()).setMethod(object, method);
+
+			for(Alias annoAlias:method.getAnnotationsByType(Alias.class))
+				createCommandWrapper(annoAlias.value()).setMethod(object, method);
+		}
+		return this;
 	}
 	
-	public String getDescription() {
-		return description;
+	public AnnoCommandManager addAllCommand(Object ...object){
+		Arrays.stream(object).forEach(this::addCommand);
+		return this;
 	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	
+	public CommandWrapper getCommandWrapper(String[] args){
+		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
+		
+		CommandWrapper parent = defaultHandler;
+		for (int i = 0,size = toLowerCaseArgs.length; i < size; i++) {
+			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
+			if(wrapper == null)
+				break;
+			
+			parent = wrapper;
+		}
+		
+		return parent;
+	}
+	
+	private CommandWrapper createCommandWrapper(String[] args){
+		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
+		
+		CommandWrapper parent = defaultHandler;
+		for (int i = 0,size = toLowerCaseArgs.length; i < size; i++) {
+			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
+			if(wrapper == null){
+				wrapper = new CommandWrapper(toLowerCaseArgs[i], this, parent);
+				parent.getChildren().put(wrapper.getNode(),wrapper);
+			}
+			
+			parent = wrapper;
+		}
+		
+		return parent;
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		List<String> list = new ArrayList<>();
 		
-		int i=0;
-		List<CommandWrapper> tsubs = wrappers;
-		while(!tsubs.isEmpty()&&i<args.length-1){
-			for(CommandWrapper s:tsubs){
-				if(s.getNode().equalsIgnoreCase(args[i])){
-					i++;
-					tsubs = s.getChildren();
-					if(!tsubs.isEmpty())
-						continue;
-					
-					list.addAll(s.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
-					break;
-				}
-			}
+		CommandWrapper parent = defaultHandler;
+		int i, size;
+		for (i = 0,size = toLowerCaseArgs.length; i < size; i++) {
+			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
+			if(wrapper == null)
+				break;
+			
+			parent = wrapper;
+		}
+		list.addAll(parent.onTabComplete(Arrays.copyOfRange(args, i+1, args.length)));
+		
+		{ //Sub Commands
+			String prefix = toLowerCaseArgs[size];
+			parent.getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(list::add);
 		}
 		
-		if(!tsubs.isEmpty())
-			for(CommandWrapper s:tsubs)
-				if(args[i].isEmpty()||s.getNode().startsWith(args[args.length-1]))
-					list.add(s.getNode());
+		if(list.isEmpty()){ //Players
+			String prefix = args[size];
+			Collections.addAll(list, ServerUtils.getOnlinePlayerNamesWithFilter(name->name.startsWith(prefix)));
+		}
 		
-		if(list.isEmpty())
-			for(Player player:Bukkit.getOnlinePlayers())
-				if(player.getName().startsWith(args[0]))
-					list.add(player.getName());
 		return list;
 	}
 }

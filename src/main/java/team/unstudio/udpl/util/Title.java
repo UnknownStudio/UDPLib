@@ -9,62 +9,83 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
+
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
-public interface Title {
+public final class Title {
 	
-	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
+	private Title(){}
 	
-	public static void title(Player player, String title){
+	private static final ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
+	
+	public static Result title(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut){
+		Result result = setTimeAndDisplay(player, fadeIn, stay, fadeOut);
+		if(result.isFailure())
+			return result;
+		result = title(player, title);
+		if(result.isFailure())
+			return result;
+		result = subTitle(player, subTitle);
+		if(result.isFailure())
+			return result;
+		return Result.success();
+	}
+	
+	public static Result title(Player player, String title){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.TITLE);
 		container.getChatComponents().write(0, WrappedChatComponent.fromText(title));
 		try {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
+			return Result.success();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			return Result.failure(e);
 		}
 	}
 	
-	public static void subTitle(Player player, String subTitle){
+	public static Result subTitle(Player player, String subTitle){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.SUBTITLE);
 		container.getChatComponents().write(0, WrappedChatComponent.fromText(subTitle));
 		try {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
+			return Result.success();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			return Result.failure(e);
 		}
 	}
 	
-	public static void setTimeAndDisplay(Player player, int fadeIn, int stay, int fadeOut){
+	public static Result setTimeAndDisplay(Player player, int fadeIn, int stay, int fadeOut){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.TIMES);
 		container.getIntegers().write(0, fadeIn).write(1, stay).write(2, fadeOut);
 		try {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
+			return Result.success();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			return Result.failure(e);
 		}
 	}
 	
-	public static void hide(Player player){
+	public static Result hide(Player player){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.CLEAR);
 		try {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
+			return Result.success();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			return Result.failure(e);
 		}
 	}
 	
-	public static void reset(Player player){
+	public static Result reset(Player player){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.RESET);
 		try {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
+			return Result.success();
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			return Result.failure(e);
 		}
 	}
 }

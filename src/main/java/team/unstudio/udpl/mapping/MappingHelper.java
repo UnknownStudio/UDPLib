@@ -4,62 +4,56 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 
-public enum MappingHelper {
+import team.unstudio.udpl.core.UDPLib;
+
+public final class MappingHelper {
 	
-	;
+	private MappingHelper(){}
 	
-	static{
+	private static final boolean DEBUG = UDPLib.isDebug();
+	
+	private static MemberMapping memberMapping;
+	
+	public static void loadMapping(){
 		loadMapping(Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().indexOf("-")));
 	}
 	
-	private static ClassMapping classMapping;
-	private static MemberMapping memberMapping;
-	
 	public static void loadMapping(String version){
-		try {
-			classMapping = new ClassMapping(MappingHelper.class.getResourceAsStream("/mappings/"+version+"/cl.csrg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-			classMapping = null;
-		}
 		try {
 			memberMapping = new MemberMapping(MappingHelper.class.getResourceAsStream("/mappings/"+version+"/members.csrg"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			if(DEBUG)
+				e.printStackTrace();
 			memberMapping = null;
 		}
-	}
-
-	public static ClassMapping getClassMapping() {
-		return classMapping;
 	}
 
 	public static MemberMapping getMemberMapping() {
 		return memberMapping;
 	}
 	
-	public String getClassDeobf(String obf){
-		if(classMapping == null) 
-			return "";
+	public static String getMemberDeobf(String className,String obf,String def){
+		if(memberMapping == null) 
+			return def;
 		
-		return classMapping.getDeobf(obf);
+		return memberMapping.getDeobf(className,obf,def);
 	}
 	
-	public String getClassObf(String deobf){
-		if(classMapping == null) 
-			return "";
-		
-		return classMapping.getObf(deobf);
-	}
-	
-	public String getMemberDeobf(String className,String obf){
+	public static String getMemberDeobf(String className,String obf){
 		if(memberMapping == null) 
 			return "";
 		
 		return memberMapping.getDeobf(className,obf);
 	}
 	
-	public String getMemberObf(String className,String deobf){
+	public static String getMemberObf(String className,String deobf,String def){
+		if(memberMapping == null) 
+			return def;
+		
+		return memberMapping.getObf(className,deobf,def);
+	}
+	
+	public static String getMemberObf(String className,String deobf){
 		if(memberMapping == null) 
 			return "";
 		

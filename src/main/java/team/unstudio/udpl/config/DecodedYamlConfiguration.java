@@ -1,13 +1,13 @@
 package team.unstudio.udpl.config;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.logging.Level;
+
+import javax.annotation.Nullable;
 
 /**
  * 可以指定编码的 YamlConfiguration， 如不指定编码，默认为UTF-8
@@ -26,20 +26,17 @@ public class DecodedYamlConfiguration extends YamlConfiguration {
         this.charset = charset;
     }
 
-    public static DecodedYamlConfiguration loadConfiguration(File file) {
+    @Nullable
+    public static DecodedYamlConfiguration loadConfiguration(File file){
         Validate.notNull(file, "File cannot be null");
         DecodedYamlConfiguration config = new DecodedYamlConfiguration();
-
         try {
-            config.load(file);
-        } catch (FileNotFoundException var3) {
-        } catch (IOException var4) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, var4);
-        } catch (InvalidConfigurationException var5) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, var5);
-        }
-
-        return config;
+			config.load(file);
+			return config;
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 
     @Override
