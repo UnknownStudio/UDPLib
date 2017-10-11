@@ -11,6 +11,10 @@ public final class Result {
 	public static Result success() {
 		return SUCCESS_RESULT;
 	}
+	
+	public static Result failure() {
+		return new Result(false);
+	}
 
 	public static Result failure(String message) {
 		return new Result(false, message);
