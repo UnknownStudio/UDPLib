@@ -16,10 +16,10 @@ public enum BukkitVersion{
 	public static final BukkitVersion CURRENT_BUKKIT_VERSION = valueOf(ReflectionUtils.PackageType.getServerVersion().toUpperCase());
 			
 	public boolean isAbove(BukkitVersion value){
-		return compareTo(value) >= 0;
+		return compareTo(value) <= 0;
 	}
 	
 	public boolean isBelow(BukkitVersion value){
-		return compareTo(value) <= 0;
+		return compareTo(value) >= 0;
 	}
 }
