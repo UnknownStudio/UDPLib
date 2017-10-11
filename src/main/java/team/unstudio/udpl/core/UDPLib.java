@@ -15,13 +15,12 @@ import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
 import team.unstudio.udpl.mapping.MappingHelper;
 import team.unstudio.udpl.nms.NmsHelper;
-import team.unstudio.udpl.test.Test;
+import team.unstudio.udpl.test.TestLoader;
 
 public final class UDPLib extends JavaPlugin{
 
 	public static final String NAME = "UDPLib";
 	public static final String VERSION = "1.0.0";
-	//TODO:BossBar,Hologram,Tab
 
 	private static final File PLUGIN_PATH = new File("plugins");
 
@@ -51,12 +50,12 @@ public final class UDPLib extends JavaPlugin{
 		setDebug(CONFIG.debug);
 		
 		if(CONFIG.enableTest)
-			Test.INSTANCE.onLoad();
+			TestLoader.INSTANCE.onLoad();
 		
 		loadPluginManager();
 		
 		if(CONFIG.enableTest)
-			Test.INSTANCE.onEnable();
+			TestLoader.INSTANCE.onEnable();
 	}
 
 	@Override

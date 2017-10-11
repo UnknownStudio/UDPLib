@@ -3,9 +3,9 @@ package team.unstudio.udpl.test;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
 
-public class Test {
+public class TestLoader {
 	
-	public static final Test INSTANCE = new Test();
+	public static final TestLoader INSTANCE = new TestLoader();
 
 	public static TestConfiguration config;
 	
