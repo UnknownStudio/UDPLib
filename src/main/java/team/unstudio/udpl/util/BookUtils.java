@@ -17,9 +17,9 @@ import team.unstudio.udpl.item.ItemHelper;
 import team.unstudio.udpl.nms.ReflectionUtils;
 import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
 
-public final class Book {
+public final class BookUtils {
 	
-	private Book(){}
+	private BookUtils(){}
 
 	private static final boolean debug = UDPLib.isDebug();
 	private static boolean initialised = false;

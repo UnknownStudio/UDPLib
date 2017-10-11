@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 /**
  * Created by trychen on 17/7/11.
  */
-public class Sign {
+public class SignUtils {
 	private static final boolean debug = UDPLib.isDebug();
 	
     protected static String version = Bukkit.getServer().getBukkitVersion().substring(0, 3);
