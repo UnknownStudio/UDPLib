@@ -1,8 +1,10 @@
-package team.unstudio.udpl.util;
+package team.unstudio.udpl.i18n;
 
 import java.util.Locale;
 
 import org.bukkit.entity.Player;
+
+import team.unstudio.udpl.util.PlayerUtils;
 
 public interface I18n {
 	

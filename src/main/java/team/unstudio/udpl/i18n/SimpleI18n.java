@@ -1,4 +1,4 @@
-package team.unstudio.udpl.util;
+package team.unstudio.udpl.i18n;
 
 import java.io.File;
 import java.util.Locale;
