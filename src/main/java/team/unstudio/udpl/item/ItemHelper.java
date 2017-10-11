@@ -3,8 +3,8 @@ package team.unstudio.udpl.item;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.nms.ReflectionUtils;
-import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
+import team.unstudio.udpl.util.ReflectionUtils;
+import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

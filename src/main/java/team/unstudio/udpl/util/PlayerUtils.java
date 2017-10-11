@@ -8,8 +8,7 @@ import java.util.Locale;
 import org.bukkit.entity.Player;
 
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.nms.ReflectionUtils;
-import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
+import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
 public final class PlayerUtils {
 	

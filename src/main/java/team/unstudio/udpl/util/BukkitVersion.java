@@ -1,7 +1,5 @@
 package team.unstudio.udpl.util;
 
-import team.unstudio.udpl.nms.ReflectionUtils;
-
 public enum BukkitVersion{
 	
 	V1_12_R1,

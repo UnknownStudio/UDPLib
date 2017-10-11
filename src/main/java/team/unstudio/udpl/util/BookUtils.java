@@ -14,8 +14,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.item.ItemHelper;
-import team.unstudio.udpl.nms.ReflectionUtils;
-import team.unstudio.udpl.nms.ReflectionUtils.PackageType;
+import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
 public final class BookUtils {
 	

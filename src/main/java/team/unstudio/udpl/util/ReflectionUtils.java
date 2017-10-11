@@ -1,4 +1,4 @@
-package team.unstudio.udpl.nms;
+package team.unstudio.udpl.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
