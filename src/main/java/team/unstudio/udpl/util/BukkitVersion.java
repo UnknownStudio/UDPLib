@@ -10,8 +10,8 @@ public enum BukkitVersion{
 	V1_9_R2(902),
 	V1_9_R1(901),
 	V1_8_R3(803),
-	V1_8_R2(803),
-	V1_8_R1(803);
+	V1_8_R2(802),
+	V1_8_R1(801);
 
 	public static final BukkitVersion CURRENT_BUKKIT_VERSION = valueOf(ReflectionUtils.PackageType.getServerVersion().toUpperCase());
 			
