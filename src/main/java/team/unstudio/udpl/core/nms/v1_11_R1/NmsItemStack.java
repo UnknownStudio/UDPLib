@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import team.unstudio.udpl.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.NmsHelper;
 
-public class NmsItemStack implements team.unstudio.udpl.nms.NmsItemStack{
+public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemStack{
 	
 	private final net.minecraft.server.v1_11_R1.ItemStack itemStack;
 	

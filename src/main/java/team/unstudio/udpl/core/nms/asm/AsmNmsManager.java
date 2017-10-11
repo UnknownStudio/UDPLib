@@ -6,9 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.nms.NmsItemStack;
 import team.unstudio.udpl.nms.NmsNBT;
 import team.unstudio.udpl.nms.ReflectionUtils;
+import team.unstudio.udpl.nms.inventory.NmsItemStack;
 
 public class AsmNmsManager {
 	

@@ -1,4 +1,4 @@
-package team.unstudio.udpl.nms;
+package team.unstudio.udpl.nms.inventory;
 
 import org.bukkit.inventory.ItemStack;
 

@@ -6,7 +6,7 @@ import org.bukkit.entity.Entity;
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
 import team.unstudio.udpl.nms.NmsHelper;
 
-public class NmsEntity implements team.unstudio.udpl.nms.NmsEntity{
+public class NmsEntity implements team.unstudio.udpl.nms.entity.NmsEntity{
 	
 	private final Entity entity;
 	
@@ -25,7 +25,7 @@ public class NmsEntity implements team.unstudio.udpl.nms.NmsEntity{
 	}
 
 	@Override
-	public team.unstudio.udpl.nms.NmsEntity setNBT(team.unstudio.udpl.nbt.NBTTagCompound nbt) throws Exception {
+	public team.unstudio.udpl.nms.entity.NmsEntity setNBT(team.unstudio.udpl.nbt.NBTTagCompound nbt) throws Exception {
 		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
 		return this;
 	}

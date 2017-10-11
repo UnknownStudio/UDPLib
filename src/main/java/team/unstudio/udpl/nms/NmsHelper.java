@@ -3,6 +3,7 @@ package team.unstudio.udpl.nms;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.core.nms.asm.AsmNmsManager;
+import team.unstudio.udpl.nms.inventory.NmsItemStack;
 
 public final class NmsHelper {
 	

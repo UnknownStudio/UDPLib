@@ -10,7 +10,7 @@ public class NmsItemStackGenerator implements Opcodes {
 		MethodVisitor mv;
 
 		cw.visit(52, ACC_PUBLIC + ACC_SUPER, "team/unstudio/udpl/core/nms/asm/NmsItemStack", null,
-				"java/lang/Object", new String[] { "team/unstudio/udpl/nms/NmsItemStack" });
+				"java/lang/Object", new String[] { "team/unstudio/udpl/nms/inventory/NmsItemStack" });
 
 		cw.visitSource("NmsItemStack.java", null);
 
