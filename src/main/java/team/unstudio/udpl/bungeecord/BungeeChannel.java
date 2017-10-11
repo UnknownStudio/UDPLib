@@ -534,17 +534,20 @@ public class BungeeChannel {
      */
     public void teleport(Player player, ServerLocation serverLocation) {
         // teleport to this server
-        if (serverLocation.getServer().equals(getCachedServer())) {
-            player.teleport(serverLocation.toLocation());
-            return;
-        }
-        
-        connect(player, serverLocation.getServer());
-
-        forward(serverLocation.getServer(), "Teleport", data -> {
-            data.writeUTF(player.getName());
-            data.writeUTF(serverLocation.toString());
-        });
+    	//TODO: Unsupport this.
+    	throw new UnsupportedOperationException();
+    	
+//        if (serverLocation.getServer().equals(getCachedServer())) {
+//            player.teleport(serverLocation.toLocation());
+//            return;
+//        }
+//        
+//        connect(player, serverLocation.getServer());
+//
+//        forward(serverLocation.getServer(), "Teleport", data -> {
+//            data.writeUTF(player.getName());
+//            data.writeUTF(serverLocation.toString());
+//        });
     }
 
     /**
