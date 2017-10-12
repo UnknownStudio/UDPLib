@@ -101,10 +101,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		{
 			Stack<String> subCommandStack = new Stack<>();
 			CommandWrapper wrapper = handler;
-			do{
+			while(wrapper != null){
 				subCommandStack.push(wrapper.getNode());
 				wrapper = wrapper.getParent();
-			}while(wrapper == null);
+			}
 			
 			while(!subCommandStack.isEmpty()){
 				builder.append(subCommandStack.pop());
@@ -150,10 +150,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		{
 			Stack<String> subCommandStack = new Stack<>();
 			CommandWrapper wrapper = handler;
-			do{
+			while(wrapper != null){
 				subCommandStack.push(wrapper.getNode());
 				wrapper = wrapper.getParent();
-			}while(wrapper == null);
+			}
 			
 			while(!subCommandStack.isEmpty()){
 				builder.append(subCommandStack.pop());
