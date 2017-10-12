@@ -12,7 +12,7 @@ public class NmsItemStackGenerator implements Opcodes {
 		cw.visit(52, ACC_PUBLIC + ACC_SUPER, "team/unstudio/udpl/core/nms/asm/NmsItemStack", null,
 				"java/lang/Object", new String[] { "team/unstudio/udpl/nms/inventory/NmsItemStack" });
 
-		cw.visitSource("NmsItemStack.java", null);
+		cw.visitSource(null, null);
 
 		{
 			fv = cw.visitField(ACC_PRIVATE + ACC_FINAL, "itemStack", "Lnet/minecraft/server/"+nmsVersion+"/ItemStack;", null,
@@ -72,13 +72,13 @@ public class NmsItemStackGenerator implements Opcodes {
 			mv.visitLabel(l0);
 			mv.visitLineNumber(24, l0);
 			mv.visitMethodInsn(INVOKESTATIC, "team/unstudio/udpl/nms/NmsHelper", "getNBT",
-					"()Lteam/unstudio/udpl/nms/NmsNBT;", false);
+					"()Lteam/unstudio/udpl/nms/nbt/NmsNBT;", false);
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitFieldInsn(GETFIELD, "team/unstudio/udpl/core/nms/asm/NmsItemStack", "itemStack",
 					"Lnet/minecraft/server/"+nmsVersion+"/ItemStack;");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/ItemStack", "getTag",
 					"()Lnet/minecraft/server/"+nmsVersion+"/NBTTagCompound;", false);
-			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/NmsNBT", "toCompound",
+			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/nbt/NmsNBT", "toCompound",
 					"(Ljava/lang/Object;)Lteam/unstudio/udpl/nms/nbt/NBTTagCompound;", true);
 			mv.visitInsn(ARETURN);
 			Label l1 = new Label();
@@ -97,9 +97,9 @@ public class NmsItemStackGenerator implements Opcodes {
 			mv.visitFieldInsn(GETFIELD, "team/unstudio/udpl/core/nms/asm/NmsItemStack", "itemStack",
 					"Lnet/minecraft/server/"+nmsVersion+"/ItemStack;");
 			mv.visitMethodInsn(INVOKESTATIC, "team/unstudio/udpl/nms/NmsHelper", "getNBT",
-					"()Lteam/unstudio/udpl/nms/NmsNBT;", false);
+					"()Lteam/unstudio/udpl/nms/nbt/NmsNBT;", false);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/NmsNBT", "toNBT",
+			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/nbt/NmsNBT", "toNBT",
 					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Ljava/lang/Object;", true);
 			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/ItemStack", "setTag",
@@ -142,9 +142,9 @@ public class NmsItemStackGenerator implements Opcodes {
 			mv.visitFieldInsn(GETFIELD, "team/unstudio/udpl/core/nms/asm/NmsItemStack", "itemStack",
 					"Lnet/minecraft/server/"+nmsVersion+"/ItemStack;");
 			mv.visitMethodInsn(INVOKESTATIC, "team/unstudio/udpl/nms/NmsHelper", "getNBT",
-					"()Lteam/unstudio/udpl/nms/NmsNBT;", false);
+					"()Lteam/unstudio/udpl/nms/nbt/NmsNBT;", false);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/NmsNBT", "toNBT",
+			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/nbt/NmsNBT", "toNBT",
 					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Ljava/lang/Object;", true);
 			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/ItemStack", "load",
@@ -167,7 +167,7 @@ public class NmsItemStackGenerator implements Opcodes {
 			mv.visitLabel(l0);
 			mv.visitLineNumber(44, l0);
 			mv.visitMethodInsn(INVOKESTATIC, "team/unstudio/udpl/nms/NmsHelper", "getNBT",
-					"()Lteam/unstudio/udpl/nms/NmsNBT;", false);
+					"()Lteam/unstudio/udpl/nms/nbt/NmsNBT;", false);
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitFieldInsn(GETFIELD, "team/unstudio/udpl/core/nms/asm/NmsItemStack", "itemStack",
 					"Lnet/minecraft/server/"+nmsVersion+"/ItemStack;");
@@ -177,7 +177,7 @@ public class NmsItemStackGenerator implements Opcodes {
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/ItemStack", "save",
 					"(Lnet/minecraft/server/"+nmsVersion+"/NBTTagCompound;)Lnet/minecraft/server/"+nmsVersion+"/NBTTagCompound;",
 					false);
-			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/NmsNBT", "toCompound",
+			mv.visitMethodInsn(INVOKEINTERFACE, "team/unstudio/udpl/nms/nbt/NmsNBT", "toCompound",
 					"(Ljava/lang/Object;)Lteam/unstudio/udpl/nms/nbt/NBTTagCompound;", true);
 			mv.visitInsn(ARETURN);
 			Label l1 = new Label();
