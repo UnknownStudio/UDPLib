@@ -248,9 +248,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 不安全的注册指令
 	 */
 	public AnnoCommandManager unsafeRegisterCommand(){
-		PluginCommand command = CommandHelper.unsafeRegisterCommand(name, plugin);
-		command.setExecutor(this);
-		command.setTabCompleter(this);
+		CommandHelper.unsafeRegisterCommand(name, plugin).ifPresent(command->{
+			command.setExecutor(this);
+			command.setTabCompleter(this);
+		});
 		return this;
 	}
 	
