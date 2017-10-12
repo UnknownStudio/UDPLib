@@ -132,7 +132,7 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 	}
 	
 	@Override
-	public NBTBase toNBT(team.unstudio.udpl.nms.nbt.NBTBase nbt){
+	public NBTBase toNmsNBT(team.unstudio.udpl.nms.nbt.NBTBase nbt){
 		if(nbt == null)
 			return null;
 		switch (nbt.getType()) {
@@ -156,14 +156,14 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 			return new NBTTagString(((team.unstudio.udpl.nms.nbt.NBTTagString)nbt).getValue());
 		case LIST:
 			NBTTagList nmsList = new NBTTagList();
-			for(team.unstudio.udpl.nms.nbt.NBTBase nbtBase:((team.unstudio.udpl.nms.nbt.NBTTagList)nbt).getList())
-				nmsList.add(toNBT(nbtBase));
+			for(team.unstudio.udpl.nms.nbt.NBTBase nbtBase:(team.unstudio.udpl.nms.nbt.NBTTagList)nbt)
+				nmsList.add(toNmsNBT(nbtBase));
 			return nmsList;
 		case COMPOUND:
 			team.unstudio.udpl.nms.nbt.NBTTagCompound oldNbtMap = (team.unstudio.udpl.nms.nbt.NBTTagCompound)nbt;
 			NBTTagCompound nmsMap = new NBTTagCompound();
 			for(String key:oldNbtMap.keySet())
-				nmsMap.set(key, toNBT(oldNbtMap.get(key)));
+				nmsMap.set(key, toNmsNBT(oldNbtMap.get(key)));
 			return nmsMap;
 		default:
 			return null;

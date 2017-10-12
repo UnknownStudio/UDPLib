@@ -1,5 +1,9 @@
 package team.unstudio.udpl.nms.nbt;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 public final class NBTTagByte extends NBTNumber {
 	private byte value;
 
@@ -44,5 +48,17 @@ public final class NBTTagByte extends NBTNumber {
 	@Override
 	public double getDouble() {
 		return value;
+	}
+
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("==", getClass().getName());
+		map.put("value", getValue());
+		return map;
+	}
+	
+	public static NBTTagByte deserialize(Map<String, Object> map){
+		return new NBTTagByte((byte) map.get("value"));
 	}
 }

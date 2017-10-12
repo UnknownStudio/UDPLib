@@ -1,5 +1,9 @@
 package team.unstudio.udpl.nms.nbt;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 public final class NBTTagDouble extends NBTNumber {
 	private double value;
 
@@ -44,5 +48,17 @@ public final class NBTTagDouble extends NBTNumber {
 	@Override
 	public double getDouble() {
 		return value;
+	}
+	
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("==", getClass().getName());
+		map.put("value", getValue());
+		return map;
+	}
+	
+	public static NBTTagDouble deserialize(Map<String, Object> map){
+		return new NBTTagDouble((double) map.get("value"));
 	}
 }

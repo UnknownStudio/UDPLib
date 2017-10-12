@@ -26,7 +26,7 @@ public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemSta
 
 	@Override
 	public void setTag(NBTTagCompound nbt) {
-		itemStack.setTag((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
+		itemStack.setTag((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemSta
 	
 	@Override
 	public void load(NBTTagCompound nbt){
-		itemStack.load((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
+		itemStack.load((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
 	}
 
 	@Override

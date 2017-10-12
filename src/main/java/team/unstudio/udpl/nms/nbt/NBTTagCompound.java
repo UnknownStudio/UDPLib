@@ -22,7 +22,8 @@ public final class NBTTagCompound extends NBTBase {
 	}
 
 	public NBTTagCompound set(String path, NBTBase value) {
-		this.map.put(path, value);
+		if(value.getType() != NBTBaseType.END)
+			this.map.put(path, value);
 		return this;
 	}
 
@@ -206,5 +207,18 @@ public final class NBTTagCompound extends NBTBase {
 
 	public Set<Map.Entry<String, NBTBase>> getEntry() {
 		return this.map.entrySet();
+	}
+	
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("==", getClass().getName());
+		map.put("value", this.map);
+		return map;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static NBTTagCompound deserialize(Map<String, Object> map){
+		return new NBTTagCompound((Map<String,NBTBase>) map.get("value"));
 	}
 }

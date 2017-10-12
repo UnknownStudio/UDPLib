@@ -13,7 +13,7 @@ public class NmsNBTGenerator implements Opcodes {
 		cw.visit(52, ACC_PUBLIC + ACC_SUPER, "team/unstudio/udpl/core/nms/asm/NmsNBT", null, "java/lang/Object",
 				new String[] { "team/unstudio/udpl/nms/nbt/NmsNBT" });
 
-		cw.visitSource(null, null);
+		cw.visitSource("NmsNBT.java", null);
 
 		{
 			fv = cw.visitField(ACC_PRIVATE + ACC_STATIC + ACC_SYNTHETIC,
@@ -54,7 +54,7 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLineNumber(22, l1);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound");
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagCompound");
 			mv.visitVarInsn(ASTORE, 2);
 			Label l3 = new Label();
 			mv.visitLabel(l3);
@@ -67,8 +67,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLabel(l4);
 			mv.visitLineNumber(24, l4);
 			mv.visitVarInsn(ALOAD, 2);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound", "c", "()Ljava/util/Set;",
-					false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagCompound", "c",
+					"()Ljava/util/Set;", false);
 			mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Set", "iterator", "()Ljava/util/Iterator;", true);
 			mv.visitVarInsn(ASTORE, 5);
 			Label l5 = new Label();
@@ -77,8 +77,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLabel(l6);
 			mv.visitFrame(Opcodes.F_FULL, 6,
 					new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT", "java/lang/Object",
-							"net/minecraft/server/"+nmsVersion+"/NBTTagCompound", "team/unstudio/udpl/nms/nbt/NBTTagCompound",
-							Opcodes.TOP, "java/util/Iterator" },
+							"net/minecraft/server/" + nmsVersion + "/NBTTagCompound",
+							"team/unstudio/udpl/nms/nbt/NBTTagCompound", Opcodes.TOP, "java/util/Iterator" },
 					0, new Object[] {});
 			mv.visitVarInsn(ALOAD, 5);
 			mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Iterator", "next", "()Ljava/lang/Object;", true);
@@ -92,8 +92,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitVarInsn(ALOAD, 2);
 			mv.visitVarInsn(ALOAD, 4);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound", "get",
-					"(Ljava/lang/String;)Lnet/minecraft/server/"+nmsVersion+"/NBTBase;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagCompound", "get",
+					"(Ljava/lang/String;)Lnet/minecraft/server/" + nmsVersion + "/NBTBase;", false);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNBTBase",
 					"(Ljava/lang/Object;)Lteam/unstudio/udpl/nms/nbt/NBTBase;", false);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagCompound", "set",
@@ -115,7 +115,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLabel(l9);
 			mv.visitLocalVariable("this", "Lteam/unstudio/udpl/core/nms/asm/NmsNBT;", null, l0, l9, 0);
 			mv.visitLocalVariable("nbt", "Ljava/lang/Object;", null, l0, l9, 1);
-			mv.visitLocalVariable("oldNbt", "Lnet/minecraft/server/"+nmsVersion+"/NBTTagCompound;", null, l3, l9, 2);
+			mv.visitLocalVariable("oldNbt", "Lnet/minecraft/server/" + nmsVersion + "/NBTTagCompound;", null, l3, l9,
+					2);
 			mv.visitLocalVariable("newNbt", "Lteam/unstudio/udpl/nms/nbt/NBTTagCompound;", null, l4, l9, 3);
 			mv.visitLocalVariable("key", "Ljava/lang/String;", null, l7, l5, 4);
 			mv.visitMaxs(5, 6);
@@ -140,7 +141,7 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLineNumber(33, l1);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagList");
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagList");
 			mv.visitVarInsn(ASTORE, 2);
 			Label l3 = new Label();
 			mv.visitLabel(l3);
@@ -157,7 +158,8 @@ public class NmsNBTGenerator implements Opcodes {
 			Label l5 = new Label();
 			mv.visitLabel(l5);
 			mv.visitVarInsn(ALOAD, 2);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagList", "size", "()I", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagList", "size", "()I",
+					false);
 			mv.visitVarInsn(ISTORE, 5);
 			Label l6 = new Label();
 			mv.visitLabel(l6);
@@ -168,15 +170,15 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLineNumber(36, l8);
 			mv.visitFrame(Opcodes.F_FULL, 6,
 					new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT", "java/lang/Object",
-							"net/minecraft/server/"+nmsVersion+"/NBTTagList", "team/unstudio/udpl/nms/nbt/NBTTagList",
-							Opcodes.INTEGER, Opcodes.INTEGER },
+							"net/minecraft/server/" + nmsVersion + "/NBTTagList",
+							"team/unstudio/udpl/nms/nbt/NBTTagList", Opcodes.INTEGER, Opcodes.INTEGER },
 					0, new Object[] {});
 			mv.visitVarInsn(ALOAD, 3);
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitVarInsn(ALOAD, 2);
 			mv.visitVarInsn(ILOAD, 4);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagList", "h",
-					"(I)Lnet/minecraft/server/"+nmsVersion+"/NBTBase;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagList", "h",
+					"(I)Lnet/minecraft/server/" + nmsVersion + "/NBTBase;", false);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNBTBase",
 					"(Ljava/lang/Object;)Lteam/unstudio/udpl/nms/nbt/NBTBase;", false);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagList", "add",
@@ -200,7 +202,7 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLabel(l11);
 			mv.visitLocalVariable("this", "Lteam/unstudio/udpl/core/nms/asm/NmsNBT;", null, l0, l11, 0);
 			mv.visitLocalVariable("nbt", "Ljava/lang/Object;", null, l0, l11, 1);
-			mv.visitLocalVariable("oldNbt", "Lnet/minecraft/server/"+nmsVersion+"/NBTTagList;", null, l3, l11, 2);
+			mv.visitLocalVariable("oldNbt", "Lnet/minecraft/server/" + nmsVersion + "/NBTTagList;", null, l3, l11, 2);
 			mv.visitLocalVariable("newNbt", "Lteam/unstudio/udpl/nms/nbt/NBTTagList;", null, l4, l11, 3);
 			mv.visitLocalVariable("i", "I", null, l5, l10, 4);
 			mv.visitLocalVariable("size", "I", null, l6, l10, 5);
@@ -228,8 +230,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagByte");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagByte");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagByte", "g", "()B", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagByte");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagByte", "g", "()B", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagByte", "<init>", "(B)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -260,8 +262,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagShort");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagShort");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagShort", "f", "()S", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagShort");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagShort", "f", "()S", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagShort", "<init>", "(S)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -292,8 +294,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagInt");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagInt");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagInt", "e", "()I", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagInt");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagInt", "e", "()I", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagInt", "<init>", "(I)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -324,8 +326,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagLong");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagLong");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagLong", "d", "()J", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagLong");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagLong", "d", "()J", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagLong", "<init>", "(J)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -356,8 +358,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagFloat");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagFloat");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagFloat", "i", "()F", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagFloat");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagFloat", "i", "()F", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagFloat", "<init>", "(F)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -388,8 +390,9 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagDouble");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagDouble");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagDouble", MappingHelper.getMemberDeobf("NBTNumber", "h()D", "h"), "()D", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagDouble");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagDouble",
+					MappingHelper.getMemberDeobf("NBTNumber", "h()D", "h"), "()D", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagDouble", "<init>", "(D)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -420,8 +423,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagString");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagString");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagString", "c_",
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagString");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagString", "c_",
 					"()Ljava/lang/String;", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagString", "<init>",
 					"(Ljava/lang/String;)V", false);
@@ -454,8 +457,9 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagByteArray");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagByteArray");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagByteArray", "c", "()[B", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagByteArray");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagByteArray", "c", "()[B",
+					false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagByteArray", "<init>", "([B)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -486,8 +490,9 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitTypeInsn(NEW, "team/unstudio/udpl/nms/nbt/NBTTagIntArray");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTTagIntArray");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagIntArray", "d", "()[I", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagIntArray");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagIntArray", "d", "()[I",
+					false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagIntArray", "<init>", "([I)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();
@@ -516,8 +521,9 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLineNumber(107, l1);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/"+nmsVersion+"/NBTBase");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTBase", "getTypeId", "()B", false);
+			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTBase");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTBase", "getTypeId", "()B",
+					false);
 			Label l3 = new Label();
 			Label l4 = new Label();
 			Label l5 = new Label();
@@ -632,8 +638,9 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitEnd();
 		}
 		{
-			mv = cw.visitMethod(ACC_PUBLIC, "toNBT",
-					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/"+nmsVersion+"/NBTBase;", null, null);
+			mv = cw.visitMethod(ACC_PUBLIC, "toNmsNBT",
+					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/" + nmsVersion + "/NBTBase;", null,
+					null);
 			mv.visitCode();
 			Label l0 = new Label();
 			mv.visitLabel(l0);
@@ -675,111 +682,118 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLabel(l5);
 			mv.visitLineNumber(140, l5);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagByte");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagByte");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagByte");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagByte", "getValue", "()B", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagByte", "<init>", "(B)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagByte", "<init>", "(B)V",
+					false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l14);
 			mv.visitLineNumber(142, l14);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagShort");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagShort");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagShort");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagShort", "getValue", "()S", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagShort", "<init>", "(S)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagShort", "<init>", "(S)V",
+					false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l8);
 			mv.visitLineNumber(144, l8);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagInt");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagInt");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagInt");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagInt", "getValue", "()I", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagInt", "<init>", "(I)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagInt", "<init>", "(I)V",
+					false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l13);
 			mv.visitLineNumber(146, l13);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagLong");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagLong");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagLong");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagLong", "getValue", "()J", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagLong", "<init>", "(J)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagLong", "<init>", "(J)V",
+					false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l7);
 			mv.visitLineNumber(148, l7);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagFloat");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagFloat");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagFloat");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagFloat", "getValue", "()F", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagFloat", "<init>", "(F)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagFloat", "<init>", "(F)V",
+					false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l6);
 			mv.visitLineNumber(150, l6);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagDouble");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagDouble");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagDouble");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagDouble", "getValue", "()D", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagDouble", "<init>", "(D)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagDouble", "<init>", "(D)V",
+					false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l10);
 			mv.visitLineNumber(152, l10);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagByteArray");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagByteArray");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagByteArray");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagByteArray", "getValue", "()[B", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagByteArray", "<init>", "([B)V",
-					false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagByteArray", "<init>",
+					"([B)V", false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l9);
 			mv.visitLineNumber(154, l9);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagIntArray");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagIntArray");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagIntArray");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagIntArray", "getValue", "()[I", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagIntArray", "<init>", "([I)V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagIntArray", "<init>",
+					"([I)V", false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l4);
 			mv.visitLineNumber(156, l4);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagString");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagString");
 			mv.visitInsn(DUP);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagString");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagString", "getValue",
 					"()Ljava/lang/String;", false);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagString", "<init>",
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagString", "<init>",
 					"(Ljava/lang/String;)V", false);
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l12);
 			mv.visitLineNumber(158, l12);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagList");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagList");
 			mv.visitInsn(DUP);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagList", "<init>", "()V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagList", "<init>", "()V",
+					false);
 			mv.visitVarInsn(ASTORE, 2);
 			Label l16 = new Label();
 			mv.visitLabel(l16);
 			mv.visitLineNumber(159, l16);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagList");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagList", "getList", "()Ljava/util/List;",
-					false);
-			mv.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "iterator", "()Ljava/util/Iterator;", true);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagList", "iterator",
+					"()Ljava/util/Iterator;", false);
 			mv.visitVarInsn(ASTORE, 4);
 			Label l17 = new Label();
 			mv.visitJumpInsn(GOTO, l17);
@@ -787,7 +801,7 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLabel(l18);
 			mv.visitFrame(Opcodes.F_FULL, 5,
 					new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT", "team/unstudio/udpl/nms/nbt/NBTBase",
-							"net/minecraft/server/"+nmsVersion+"/NBTTagList", Opcodes.TOP, "java/util/Iterator" },
+							"net/minecraft/server/" + nmsVersion + "/NBTTagList", Opcodes.TOP, "java/util/Iterator" },
 					0, new Object[] {});
 			mv.visitVarInsn(ALOAD, 4);
 			mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Iterator", "next", "()Ljava/lang/Object;", true);
@@ -799,10 +813,10 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitVarInsn(ALOAD, 2);
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitVarInsn(ALOAD, 3);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNBT",
-					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/"+nmsVersion+"/NBTBase;", false);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagList", "add",
-					"(Lnet/minecraft/server/"+nmsVersion+"/NBTBase;)V", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNmsNBT",
+					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/" + nmsVersion + "/NBTBase;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagList", "add",
+					"(Lnet/minecraft/server/" + nmsVersion + "/NBTBase;)V", false);
 			mv.visitLabel(l17);
 			mv.visitLineNumber(159, l17);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
@@ -816,17 +830,19 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l11);
 			mv.visitLineNumber(163, l11);
-			mv.visitFrame(Opcodes.F_FULL, 2, new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT",
-					"team/unstudio/udpl/nms/nbt/NBTBase" }, 0, new Object[] {});
+			mv.visitFrame(Opcodes.F_FULL, 2,
+					new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT", "team/unstudio/udpl/nms/nbt/NBTBase" }, 0,
+					new Object[] {});
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "team/unstudio/udpl/nms/nbt/NBTTagCompound");
 			mv.visitVarInsn(ASTORE, 3);
 			Label l21 = new Label();
 			mv.visitLabel(l21);
 			mv.visitLineNumber(164, l21);
-			mv.visitTypeInsn(NEW, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound");
+			mv.visitTypeInsn(NEW, "net/minecraft/server/" + nmsVersion + "/NBTTagCompound");
 			mv.visitInsn(DUP);
-			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound", "<init>", "()V", false);
+			mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/server/" + nmsVersion + "/NBTTagCompound", "<init>", "()V",
+					false);
 			mv.visitVarInsn(ASTORE, 4);
 			Label l22 = new Label();
 			mv.visitLabel(l22);
@@ -840,11 +856,10 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitJumpInsn(GOTO, l23);
 			Label l24 = new Label();
 			mv.visitLabel(l24);
-			mv.visitFrame(Opcodes.F_FULL, 7,
-					new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT", "team/unstudio/udpl/nms/nbt/NBTBase",
-							Opcodes.TOP, "team/unstudio/udpl/nms/nbt/NBTTagCompound",
-							"net/minecraft/server/"+nmsVersion+"/NBTTagCompound", Opcodes.TOP, "java/util/Iterator" },
-					0, new Object[] {});
+			mv.visitFrame(Opcodes.F_FULL, 7, new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT",
+					"team/unstudio/udpl/nms/nbt/NBTBase", Opcodes.TOP, "team/unstudio/udpl/nms/nbt/NBTTagCompound",
+					"net/minecraft/server/" + nmsVersion + "/NBTTagCompound", Opcodes.TOP, "java/util/Iterator" }, 0,
+					new Object[] {});
 			mv.visitVarInsn(ALOAD, 6);
 			mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Iterator", "next", "()Ljava/lang/Object;", true);
 			mv.visitTypeInsn(CHECKCAST, "java/lang/String");
@@ -859,10 +874,10 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitVarInsn(ALOAD, 5);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/nms/nbt/NBTTagCompound", "get",
 					"(Ljava/lang/String;)Lteam/unstudio/udpl/nms/nbt/NBTBase;", false);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNBT",
-					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/"+nmsVersion+"/NBTBase;", false);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/"+nmsVersion+"/NBTTagCompound", "set",
-					"(Ljava/lang/String;Lnet/minecraft/server/"+nmsVersion+"/NBTBase;)V", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNmsNBT",
+					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/" + nmsVersion + "/NBTBase;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagCompound", "set",
+					"(Ljava/lang/String;Lnet/minecraft/server/" + nmsVersion + "/NBTBase;)V", false);
 			mv.visitLabel(l23);
 			mv.visitLineNumber(165, l23);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
@@ -876,24 +891,26 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitInsn(ARETURN);
 			mv.visitLabel(l15);
 			mv.visitLineNumber(169, l15);
-			mv.visitFrame(Opcodes.F_FULL, 2, new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT",
-					"team/unstudio/udpl/nms/nbt/NBTBase" }, 0, new Object[] {});
+			mv.visitFrame(Opcodes.F_FULL, 2,
+					new Object[] { "team/unstudio/udpl/core/nms/asm/NmsNBT", "team/unstudio/udpl/nms/nbt/NBTBase" }, 0,
+					new Object[] {});
 			mv.visitInsn(ACONST_NULL);
 			mv.visitInsn(ARETURN);
 			Label l27 = new Label();
 			mv.visitLabel(l27);
 			mv.visitLocalVariable("this", "Lteam/unstudio/udpl/core/nms/asm/NmsNBT;", null, l0, l27, 0);
 			mv.visitLocalVariable("nbt", "Lteam/unstudio/udpl/nms/nbt/NBTBase;", null, l0, l27, 1);
-			mv.visitLocalVariable("nmsList", "Lnet/minecraft/server/"+nmsVersion+"/NBTTagList;", null, l16, l11, 2);
+			mv.visitLocalVariable("nmsList", "Lnet/minecraft/server/" + nmsVersion + "/NBTTagList;", null, l16, l11, 2);
 			mv.visitLocalVariable("nbtBase", "Lteam/unstudio/udpl/nms/nbt/NBTBase;", null, l19, l17, 3);
 			mv.visitLocalVariable("oldNbtMap", "Lteam/unstudio/udpl/nms/nbt/NBTTagCompound;", null, l21, l15, 3);
-			mv.visitLocalVariable("nmsMap", "Lnet/minecraft/server/"+nmsVersion+"/NBTTagCompound;", null, l22, l15, 4);
+			mv.visitLocalVariable("nmsMap", "Lnet/minecraft/server/" + nmsVersion + "/NBTTagCompound;", null, l22, l15,
+					4);
 			mv.visitLocalVariable("key", "Ljava/lang/String;", null, l25, l23, 5);
 			mv.visitMaxs(5, 7);
 			mv.visitEnd();
 		}
 		{
-			mv = cw.visitMethod(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, "toNBT",
+			mv = cw.visitMethod(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, "toNmsNBT",
 					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Ljava/lang/Object;", null, null);
 			mv.visitCode();
 			Label l0 = new Label();
@@ -901,8 +918,8 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitLineNumber(1, l0);
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitVarInsn(ALOAD, 1);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNBT",
-					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/"+nmsVersion+"/NBTBase;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "team/unstudio/udpl/core/nms/asm/NmsNBT", "toNmsNBT",
+					"(Lteam/unstudio/udpl/nms/nbt/NBTBase;)Lnet/minecraft/server/" + nmsVersion + "/NBTBase;", false);
 			mv.visitInsn(ARETURN);
 			mv.visitMaxs(2, 2);
 			mv.visitEnd();

@@ -2,7 +2,7 @@ package team.unstudio.udpl.nms.nbt;
 
 public abstract class NBTNumber extends NBTBase{
 	
-	public NBTNumber(NBTBaseType type) {
+	protected NBTNumber(NBTBaseType type) {
 		super(type);
 	}
 

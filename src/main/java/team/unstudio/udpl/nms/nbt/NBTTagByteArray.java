@@ -1,11 +1,24 @@
 package team.unstudio.udpl.nms.nbt;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 public final class NBTTagByteArray extends NBTBase {
 	private byte[] value;
 
 	public NBTTagByteArray(byte[] value) {
 		super(NBTBaseType.BYTEARRAY);
 		this.value = value;
+	}
+	
+	public NBTTagByteArray(Byte[] value) {
+		super(NBTBaseType.BYTEARRAY);
+		this.value = new byte[value.length];
+		for (int i = 0, size = value.length; i < size; i++)
+			this.value[i] = value[i];
 	}
 
 	public byte[] getValue() {
@@ -23,4 +36,16 @@ public final class NBTTagByteArray extends NBTBase {
 		return builder.append(']').toString();
 	}
 
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("==", getClass().getName());
+		map.put("value", Arrays.asList(getValue()));
+		return map;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static NBTTagByteArray deserialize(Map<String, Object> map){
+		return new NBTTagByteArray(((List<Byte>)map.get("value")).toArray(new Byte[0]));
+	}
 }

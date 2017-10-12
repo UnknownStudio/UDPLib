@@ -69,5 +69,5 @@ public interface NmsNBT {
 	/**
 	 * 转换为NMSNBT
 	 */
-	public Object toNBT(NBTBase nbt);
+	public Object toNmsNBT(NBTBase nbt);
 }

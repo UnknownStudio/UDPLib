@@ -26,7 +26,7 @@ public class NmsEntity implements team.unstudio.udpl.nms.entity.NmsEntity{
 
 	@Override
 	public team.unstudio.udpl.nms.entity.NmsEntity setNBT(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt) throws Exception {
-		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
+		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
 		return this;
 	}
 
