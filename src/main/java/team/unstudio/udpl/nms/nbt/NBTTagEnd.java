@@ -1,4 +1,4 @@
-package team.unstudio.udpl.nbt;
+package team.unstudio.udpl.nms.nbt;
 
 public class NBTTagEnd extends NBTBase {
 

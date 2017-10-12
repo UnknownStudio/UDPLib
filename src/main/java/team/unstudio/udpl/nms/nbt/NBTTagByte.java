@@ -1,24 +1,24 @@
-package team.unstudio.udpl.nbt;
+package team.unstudio.udpl.nms.nbt;
 
-public final class NBTTagShort extends NBTNumber {
-	private short value;
+public final class NBTTagByte extends NBTNumber {
+	private byte value;
 
-	public NBTTagShort(short value) {
-		super(NBTBaseType.DOUBLE);
+	public NBTTagByte(byte value) {
+		super(NBTBaseType.BYTE);
 		this.value = value;
 	}
 
-	public short getValue() {
+	public byte getValue() {
 		return this.value;
 	}
 
 	public String toString() {
-		return Short.toString(this.value);
+		return Byte.toString(this.value);
 	}
-	
+
 	@Override
 	public byte getByte() {
-		return (byte) value;
+		return value;
 	}
 
 	@Override

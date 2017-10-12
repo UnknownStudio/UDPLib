@@ -1,4 +1,4 @@
-package team.unstudio.udpl.nbt;
+package team.unstudio.udpl.nms.nbt;
 
 public final class NBTTagLong extends NBTNumber {
 	private long value;

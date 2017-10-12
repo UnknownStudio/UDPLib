@@ -3,8 +3,8 @@ package team.unstudio.udpl.core.nms.v1_11_R1;
 import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import team.unstudio.udpl.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.NmsHelper;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemStack{
 	

@@ -1,19 +1,19 @@
-package team.unstudio.udpl.nbt;
+package team.unstudio.udpl.nms.nbt;
 
-public final class NBTTagFloat extends NBTNumber {
-	private float value;
+public final class NBTTagDouble extends NBTNumber {
+	private double value;
 
-	public NBTTagFloat(float value) {
-		super(NBTBaseType.FLOAT);
+	public NBTTagDouble(double value) {
+		super(NBTBaseType.DOUBLE);
 		this.value = value;
 	}
 
-	public float getValue() {
+	public double getValue() {
 		return this.value;
 	}
 
 	public String toString() {
-		return Float.toString(this.value);
+		return Double.toString(this.value);
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public final class NBTTagFloat extends NBTNumber {
 
 	@Override
 	public float getFloat() {
-		return value;
+		return (float) value;
 	}
 
 	@Override

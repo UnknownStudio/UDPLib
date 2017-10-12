@@ -2,18 +2,18 @@ package team.unstudio.udpl.nms;
 
 import javax.annotation.Nullable;
 
-import team.unstudio.udpl.nbt.NBTBase;
-import team.unstudio.udpl.nbt.NBTTagByte;
-import team.unstudio.udpl.nbt.NBTTagByteArray;
-import team.unstudio.udpl.nbt.NBTTagCompound;
-import team.unstudio.udpl.nbt.NBTTagDouble;
-import team.unstudio.udpl.nbt.NBTTagFloat;
-import team.unstudio.udpl.nbt.NBTTagInt;
-import team.unstudio.udpl.nbt.NBTTagIntArray;
-import team.unstudio.udpl.nbt.NBTTagList;
-import team.unstudio.udpl.nbt.NBTTagLong;
-import team.unstudio.udpl.nbt.NBTTagShort;
-import team.unstudio.udpl.nbt.NBTTagString;
+import team.unstudio.udpl.nms.nbt.NBTBase;
+import team.unstudio.udpl.nms.nbt.NBTTagByte;
+import team.unstudio.udpl.nms.nbt.NBTTagByteArray;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
+import team.unstudio.udpl.nms.nbt.NBTTagDouble;
+import team.unstudio.udpl.nms.nbt.NBTTagFloat;
+import team.unstudio.udpl.nms.nbt.NBTTagInt;
+import team.unstudio.udpl.nms.nbt.NBTTagIntArray;
+import team.unstudio.udpl.nms.nbt.NBTTagList;
+import team.unstudio.udpl.nms.nbt.NBTTagLong;
+import team.unstudio.udpl.nms.nbt.NBTTagShort;
+import team.unstudio.udpl.nms.nbt.NBTTagString;
 
 /**
  * NBT的转换接口

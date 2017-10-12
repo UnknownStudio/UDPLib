@@ -16,92 +16,92 @@ import net.minecraft.server.v1_11_R1.NBTTagString;
 public class NmsNBT implements team.unstudio.udpl.nms.NmsNBT{
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagCompound toCompound(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagCompound toCompound(Object nbt){
 		if(nbt == null)
 			return null;
 		NBTTagCompound oldNbt = (NBTTagCompound) nbt;
-		team.unstudio.udpl.nbt.NBTTagCompound newNbt = new team.unstudio.udpl.nbt.NBTTagCompound();
+		team.unstudio.udpl.nms.nbt.NBTTagCompound newNbt = new team.unstudio.udpl.nms.nbt.NBTTagCompound();
 		for (String key : oldNbt.c())
 			newNbt.set(key, toNBTBase(oldNbt.get(key)));
 		return newNbt;
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagList toList(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagList toList(Object nbt){
 		if(nbt == null)
 			return null;
 		NBTTagList oldNbt = (NBTTagList) nbt;
-		team.unstudio.udpl.nbt.NBTTagList newNbt = new team.unstudio.udpl.nbt.NBTTagList();
+		team.unstudio.udpl.nms.nbt.NBTTagList newNbt = new team.unstudio.udpl.nms.nbt.NBTTagList();
 		for(int i=0,size = oldNbt.size();i<size;i++)
 			newNbt.add(toNBTBase(oldNbt.h(i)));
 		return newNbt;
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagByte toByte(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagByte toByte(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagByte(((NBTTagByte) nbt).g());
+		return new team.unstudio.udpl.nms.nbt.NBTTagByte(((NBTTagByte) nbt).g());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagShort toShort(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagShort toShort(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagShort(((NBTTagShort) nbt).f());
+		return new team.unstudio.udpl.nms.nbt.NBTTagShort(((NBTTagShort) nbt).f());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagInt toInt(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagInt toInt(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagInt(((NBTTagInt) nbt).e());
+		return new team.unstudio.udpl.nms.nbt.NBTTagInt(((NBTTagInt) nbt).e());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagLong toLong(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagLong toLong(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagLong(((NBTTagLong) nbt).d());
+		return new team.unstudio.udpl.nms.nbt.NBTTagLong(((NBTTagLong) nbt).d());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagFloat toFloat(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagFloat toFloat(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagFloat(((NBTTagFloat) nbt).i());
+		return new team.unstudio.udpl.nms.nbt.NBTTagFloat(((NBTTagFloat) nbt).i());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagDouble toDouble(Object nbt){		
+	public team.unstudio.udpl.nms.nbt.NBTTagDouble toDouble(Object nbt){		
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagDouble(((NBTTagDouble) nbt).asDouble());
+		return new team.unstudio.udpl.nms.nbt.NBTTagDouble(((NBTTagDouble) nbt).asDouble());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagString toString(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagString toString(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagString(((NBTTagString) nbt).c_());
+		return new team.unstudio.udpl.nms.nbt.NBTTagString(((NBTTagString) nbt).c_());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagByteArray toByteArray(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagByteArray toByteArray(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagByteArray(((NBTTagByteArray) nbt).c());
+		return new team.unstudio.udpl.nms.nbt.NBTTagByteArray(((NBTTagByteArray) nbt).c());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagIntArray toIntArray(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTTagIntArray toIntArray(Object nbt){
 		if(nbt == null)
 			return null;
-		return new team.unstudio.udpl.nbt.NBTTagIntArray(((NBTTagIntArray) nbt).d());
+		return new team.unstudio.udpl.nms.nbt.NBTTagIntArray(((NBTTagIntArray) nbt).d());
 	}
 	
 	@Override
-	public team.unstudio.udpl.nbt.NBTBase toNBTBase(Object nbt){
+	public team.unstudio.udpl.nms.nbt.NBTBase toNBTBase(Object nbt){
 		if(nbt == null)
 			return null;
 		switch (((NBTBase) nbt).getTypeId()) {
@@ -132,35 +132,35 @@ public class NmsNBT implements team.unstudio.udpl.nms.NmsNBT{
 	}
 	
 	@Override
-	public NBTBase toNBT(team.unstudio.udpl.nbt.NBTBase nbt){
+	public NBTBase toNBT(team.unstudio.udpl.nms.nbt.NBTBase nbt){
 		if(nbt == null)
 			return null;
 		switch (nbt.getType()) {
 		case BYTE:
-			return new NBTTagByte(((team.unstudio.udpl.nbt.NBTTagByte)nbt).getValue());
+			return new NBTTagByte(((team.unstudio.udpl.nms.nbt.NBTTagByte)nbt).getValue());
 		case SHORT:
-			return new NBTTagShort(((team.unstudio.udpl.nbt.NBTTagShort)nbt).getValue());
+			return new NBTTagShort(((team.unstudio.udpl.nms.nbt.NBTTagShort)nbt).getValue());
 		case INTEGER:
-			return new NBTTagInt(((team.unstudio.udpl.nbt.NBTTagInt)nbt).getValue());
+			return new NBTTagInt(((team.unstudio.udpl.nms.nbt.NBTTagInt)nbt).getValue());
 		case LONG:
-			return new NBTTagLong(((team.unstudio.udpl.nbt.NBTTagLong)nbt).getValue());
+			return new NBTTagLong(((team.unstudio.udpl.nms.nbt.NBTTagLong)nbt).getValue());
 		case FLOAT:
-			return new NBTTagFloat(((team.unstudio.udpl.nbt.NBTTagFloat)nbt).getValue());
+			return new NBTTagFloat(((team.unstudio.udpl.nms.nbt.NBTTagFloat)nbt).getValue());
 		case DOUBLE:
-			return new NBTTagDouble(((team.unstudio.udpl.nbt.NBTTagDouble)nbt).getValue());
+			return new NBTTagDouble(((team.unstudio.udpl.nms.nbt.NBTTagDouble)nbt).getValue());
 		case BYTEARRAY:
-			return new NBTTagByteArray(((team.unstudio.udpl.nbt.NBTTagByteArray)nbt).getValue());
+			return new NBTTagByteArray(((team.unstudio.udpl.nms.nbt.NBTTagByteArray)nbt).getValue());
 		case INTARRAY:
-			return new NBTTagIntArray(((team.unstudio.udpl.nbt.NBTTagIntArray)nbt).getValue());
+			return new NBTTagIntArray(((team.unstudio.udpl.nms.nbt.NBTTagIntArray)nbt).getValue());
 		case STRING:
-			return new NBTTagString(((team.unstudio.udpl.nbt.NBTTagString)nbt).getValue());
+			return new NBTTagString(((team.unstudio.udpl.nms.nbt.NBTTagString)nbt).getValue());
 		case LIST:
 			NBTTagList nmsList = new NBTTagList();
-			for(team.unstudio.udpl.nbt.NBTBase nbtBase:((team.unstudio.udpl.nbt.NBTTagList)nbt).getList())
+			for(team.unstudio.udpl.nms.nbt.NBTBase nbtBase:((team.unstudio.udpl.nms.nbt.NBTTagList)nbt).getList())
 				nmsList.add(toNBT(nbtBase));
 			return nmsList;
 		case COMPOUND:
-			team.unstudio.udpl.nbt.NBTTagCompound oldNbtMap = (team.unstudio.udpl.nbt.NBTTagCompound)nbt;
+			team.unstudio.udpl.nms.nbt.NBTTagCompound oldNbtMap = (team.unstudio.udpl.nms.nbt.NBTTagCompound)nbt;
 			NBTTagCompound nmsMap = new NBTTagCompound();
 			for(String key:oldNbtMap.keySet())
 				nmsMap.set(key, toNBT(oldNbtMap.get(key)));
