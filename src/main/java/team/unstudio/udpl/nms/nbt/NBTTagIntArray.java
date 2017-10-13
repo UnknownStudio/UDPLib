@@ -1,9 +1,9 @@
 package team.unstudio.udpl.nms.nbt;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public final class NBTTagIntArray extends NBTBase {
@@ -38,14 +38,16 @@ public final class NBTTagIntArray extends NBTBase {
 	
 	@Override
 	public Map<String, Object> serialize() {
-		Map<String, Object> map = Maps.newHashMap();
+		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("==", getClass().getName());
-		map.put("value", Arrays.asList(getValue()));
+		List<Integer> values = Lists.newLinkedList();
+		for(int value:getValue()) values.add(value);
+		map.put("value", values);
 		return map;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static NBTTagIntArray deserialize(Map<String, Object> map){
-		return new NBTTagIntArray(((List<Byte>)map.get("value")).toArray(new Integer[0]));
+		return new NBTTagIntArray(((List<Integer>)map.get("value")).toArray(new Integer[0]));
 	}
 }

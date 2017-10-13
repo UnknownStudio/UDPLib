@@ -6,11 +6,11 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 
 public final class NBTTagCompound extends NBTBase {
-	private final Map<String, NBTBase> map = Maps.newHashMap();
+	private final Map<String, NBTBase> map = Maps.newLinkedHashMap();
 
 	public NBTTagCompound(Map<String, NBTBase> map) {
 		this();
-		map.putAll(map);
+		this.map.putAll(map);
 	}
 
 	public NBTTagCompound() {
@@ -211,7 +211,7 @@ public final class NBTTagCompound extends NBTBase {
 	
 	@Override
 	public Map<String, Object> serialize() {
-		Map<String, Object> map = Maps.newHashMap();
+		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("==", getClass().getName());
 		map.put("value", this.map);
 		return map;

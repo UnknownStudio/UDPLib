@@ -16,7 +16,7 @@ public class NBTTagEnd extends NBTBase {
 
 	@Override
 	public Map<String, Object> serialize() {
-		Map<String, Object> map = Maps.newHashMap();
+		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("==", getClass().getName());
 		return map;
 	}

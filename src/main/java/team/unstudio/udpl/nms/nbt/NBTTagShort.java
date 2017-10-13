@@ -52,13 +52,13 @@ public final class NBTTagShort extends NBTNumber {
 	
 	@Override
 	public Map<String, Object> serialize() {
-		Map<String, Object> map = Maps.newHashMap();
+		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("==", getClass().getName());
 		map.put("value", getValue());
 		return map;
 	}
 	
 	public static NBTTagShort deserialize(Map<String, Object> map){
-		return new NBTTagShort((short) map.get("value"));
+		return new NBTTagShort(((Number)map.get("value")).shortValue());
 	}
 }

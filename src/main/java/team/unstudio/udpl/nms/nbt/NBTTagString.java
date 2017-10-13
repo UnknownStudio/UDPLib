@@ -22,7 +22,7 @@ public final class NBTTagString extends NBTBase {
 	
 	@Override
 	public Map<String, Object> serialize() {
-		Map<String, Object> map = Maps.newHashMap();
+		Map<String, Object> map = Maps.newLinkedHashMap();
 		map.put("==", getClass().getName());
 		map.put("value", getValue());
 		return map;
