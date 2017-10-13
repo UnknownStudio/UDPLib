@@ -17,7 +17,7 @@ public final class NBTTagByte extends NBTNumber {
 	}
 
 	public String toString() {
-		return Byte.toString(this.value);
+		return Byte.toString(this.value)+"B";
 	}
 
 	@Override

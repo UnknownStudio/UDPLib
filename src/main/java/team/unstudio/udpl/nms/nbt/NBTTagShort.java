@@ -17,7 +17,7 @@ public final class NBTTagShort extends NBTNumber {
 	}
 
 	public String toString() {
-		return Short.toString(this.value);
+		return Short.toString(this.value)+"S";
 	}
 	
 	@Override

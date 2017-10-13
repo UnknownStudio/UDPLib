@@ -8,6 +8,7 @@ public enum NBTBaseType {
 	INTEGER, 
 	INTARRAY, 
 	BYTEARRAY, 
+	LONGARRAY,
 	COMPOUND, 
 	LIST, 
 	LONG, 

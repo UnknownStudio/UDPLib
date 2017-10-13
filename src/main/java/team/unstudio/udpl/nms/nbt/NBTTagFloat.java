@@ -17,7 +17,7 @@ public final class NBTTagFloat extends NBTNumber {
 	}
 
 	public String toString() {
-		return Float.toString(this.value);
+		return Float.toString(this.value)+"F";
 	}
 	
 	@Override

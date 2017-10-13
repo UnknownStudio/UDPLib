@@ -17,7 +17,7 @@ public final class NBTTagLong extends NBTNumber {
 	}
 
 	public String toString() {
-		return Long.toString(this.value);
+		return Long.toString(this.value)+"L";
 	}
 	
 	@Override

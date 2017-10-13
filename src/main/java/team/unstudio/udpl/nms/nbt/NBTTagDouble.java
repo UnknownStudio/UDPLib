@@ -17,7 +17,7 @@ public final class NBTTagDouble extends NBTNumber {
 	}
 
 	public String toString() {
-		return Double.toString(this.value);
+		return Double.toString(this.value)+"D";
 	}
 	
 	@Override
