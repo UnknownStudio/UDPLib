@@ -1,4 +1,4 @@
-package team.unstudio.udpl.test;
+package team.unstudio.udpl.core.test;
 
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;

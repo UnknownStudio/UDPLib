@@ -1,4 +1,4 @@
-package team.unstudio.udpl.test;
+package team.unstudio.udpl.core.test;
 
 import java.io.File;
 

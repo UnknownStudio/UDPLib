@@ -1,4 +1,4 @@
-package team.unstudio.udpl.test;
+package team.unstudio.udpl.core.test;
 
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;

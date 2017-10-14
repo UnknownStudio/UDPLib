@@ -13,10 +13,10 @@ import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.bungeecord.ServerLocation;
 import team.unstudio.udpl.command.tree.CommandNode;
 import team.unstudio.udpl.command.tree.TreeCommandManager;
+import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.mapping.MappingHelper;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
-import team.unstudio.udpl.test.TestLoader;
 
 public final class UDPLib extends JavaPlugin{
 
