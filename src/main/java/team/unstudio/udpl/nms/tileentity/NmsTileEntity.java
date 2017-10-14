@@ -2,7 +2,7 @@ package team.unstudio.udpl.nms.tileentity;
 
 import org.bukkit.block.BlockState;
 
-import team.unstudio.udpl.nbt.NBTTagCompound;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public interface NmsTileEntity {
 

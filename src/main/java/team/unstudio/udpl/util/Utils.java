@@ -4,8 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utils {
+public final class Utils {
 
+	private Utils(){}
+	
     /**
      * 读取文件内容到List
      *
