@@ -7,9 +7,7 @@ import javax.annotation.Nullable;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public enum ConfigurationHelper {
-	
-	;
+public interface ConfigurationHelper {
 	
     /**
      * 载入配置文件

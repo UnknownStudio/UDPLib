@@ -14,12 +14,6 @@ public class Area implements ConfigurationSerializable{
 	private final Location minLocation,maxLocation;
 	private AreaDataContainer data;
 	
-	public Area(Map<String, Object> map) {
-		this((Location)map.get("point1"),(Location)map.get("point2"));
-		if(map.containsKey("data"))
-			data = (AreaDataContainer) map.get("data");
-	}
-	
 	public Area(@Nonnull Location point1,@Nonnull Location point2) {
 		if(!point1.getWorld().equals(point2.getWorld())) 
 			throw new IllegalArgumentException("Different world.");
@@ -142,6 +136,13 @@ public class Area implements ConfigurationSerializable{
 		if(data != null)
 			map.put("data", data);
 		return map;
+	}
+	
+	public static Area deserialize(Map<String, Object> args) {
+		Area area = new Area((Location)args.get("point1"),(Location)args.get("point2"));
+		if(args.containsKey("data"))
+			area.data = (AreaDataContainer) args.get("data");
+		return area;
 	}
 	
 	@Override

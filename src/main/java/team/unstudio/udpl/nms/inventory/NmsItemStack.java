@@ -2,7 +2,7 @@ package team.unstudio.udpl.nms.inventory;
 
 import org.bukkit.inventory.ItemStack;
 
-import team.unstudio.udpl.nbt.NBTTagCompound;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public interface NmsItemStack {
 	

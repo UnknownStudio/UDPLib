@@ -2,6 +2,8 @@ package team.unstudio.udpl.scoreboard;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -45,6 +47,10 @@ public class ScoreboardWrapper {
 	
 	public void removeAll(Collection<String> keys){
 		keys.forEach(scoreboard::resetScores);
+	}
+	
+	public Set<String> getKeys(){
+		return scoreboard.getEntries();
 	}
 	
 	public int getScore(String key){

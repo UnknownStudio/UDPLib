@@ -101,10 +101,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		{
 			Stack<String> subCommandStack = new Stack<>();
 			CommandWrapper wrapper = handler;
-			do{
+			while(wrapper != null){
 				subCommandStack.push(wrapper.getNode());
 				wrapper = wrapper.getParent();
-			}while(wrapper == null);
+			}
 			
 			while(!subCommandStack.isEmpty()){
 				builder.append(subCommandStack.pop());
@@ -150,10 +150,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		{
 			Stack<String> subCommandStack = new Stack<>();
 			CommandWrapper wrapper = handler;
-			do{
+			while(wrapper != null){
 				subCommandStack.push(wrapper.getNode());
 				wrapper = wrapper.getParent();
-			}while(wrapper == null);
+			}
 			
 			while(!subCommandStack.isEmpty()){
 				builder.append(subCommandStack.pop());
@@ -248,9 +248,10 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 不安全的注册指令
 	 */
 	public AnnoCommandManager unsafeRegisterCommand(){
-		PluginCommand command = CommandHelper.unsafeRegisterCommand(name, plugin);
-		command.setExecutor(this);
-		command.setTabCompleter(this);
+		CommandHelper.unsafeRegisterCommand(name, plugin).ifPresent(command->{
+			command.setExecutor(this);
+			command.setTabCompleter(this);
+		});
 		return this;
 	}
 	

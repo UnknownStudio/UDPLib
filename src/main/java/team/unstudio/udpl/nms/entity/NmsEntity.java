@@ -2,7 +2,7 @@ package team.unstudio.udpl.nms.entity;
 
 import org.bukkit.entity.Entity;
 
-import team.unstudio.udpl.nbt.NBTTagCompound;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public interface NmsEntity {
 

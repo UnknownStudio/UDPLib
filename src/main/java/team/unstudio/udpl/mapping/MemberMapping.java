@@ -14,6 +14,10 @@ public final class MemberMapping {
 	private final Map<String, Map<String,String>> obfToDeobf = Maps.newHashMap();
 	private final Map<String, Map<String,String>> deobfToObf = Maps.newHashMap();
 	
+	public MemberMapping(String version) throws IOException {
+		this(MappingHelper.class.getResourceAsStream("/mappings/"+version+"/members.csrg"));
+	}
+	
 	public MemberMapping(InputStream inputStream) throws IOException {
 		load(inputStream);
 	}
