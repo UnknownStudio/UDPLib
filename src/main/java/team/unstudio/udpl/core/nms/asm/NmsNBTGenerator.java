@@ -13,7 +13,7 @@ public class NmsNBTGenerator implements Opcodes {
 		cw.visit(52, ACC_PUBLIC + ACC_SUPER, "team/unstudio/udpl/core/nms/asm/NmsNBT", null, "java/lang/Object",
 				new String[] { "team/unstudio/udpl/nms/nbt/NmsNBT" });
 
-		cw.visitSource("NmsNBT.java", null);
+		cw.visitSource(null, null);
 
 		{
 			fv = cw.visitField(ACC_PRIVATE + ACC_STATIC + ACC_SYNTHETIC,

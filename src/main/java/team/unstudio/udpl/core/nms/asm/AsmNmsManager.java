@@ -46,7 +46,7 @@ public class AsmNmsManager {
 	private void loadNBT(){
 		try {
 			byte[] b = NmsNBTGenerator.generate(NMS_VERSION);
-			nmsNbt = (NmsNBT) classLoader.loadBytecode("team.unstudio.udpl.core.nms.asm.NmsNBT", b, 0, b.length).newInstance();
+			nmsNbt = (NmsNBT) classLoader.loadClass("team.unstudio.udpl.core.nms.asm.NmsNBT", b, 0, b.length).newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			if(DEBUG)
 				e.printStackTrace();
@@ -58,7 +58,7 @@ public class AsmNmsManager {
 	private void loadItemStack(){
 		try {
 			byte[] b = NmsItemStackGenerator.generate(NMS_VERSION);
-			nmsItemStackConstructor = (Constructor<NmsItemStack>) classLoader.loadBytecode("team.unstudio.udpl.core.nms.asm.NmsItemStack", b, 0, b.length).getDeclaredConstructor(ItemStack.class);
+			nmsItemStackConstructor = (Constructor<NmsItemStack>) classLoader.loadClass("team.unstudio.udpl.core.nms.asm.NmsItemStack", b, 0, b.length).getDeclaredConstructor(ItemStack.class);
 		} catch (NoSuchMethodException | SecurityException e) {
 			if(DEBUG)
 				e.printStackTrace();
