@@ -26,6 +26,8 @@ public class NBTTest {
 		nbtTagCompound.setString("string", "String");
 		nbtTagCompound.set("list", new NBTTagList(new NBTTagString("String")));
 		System.out.println(nbtTagCompound.toString());
+		NBTTagCompound deserializedNbt = (NBTTagCompound) NBTUtils.parseFromJson(nbtTagCompound.toString());
+		System.out.println(deserializedNbt.toString());
 		File file = new File("nbt.yml");
 		FileConfiguration config = ConfigurationHelper.loadConfiguration(file);
 		config.set("nbt", nbtTagCompound);

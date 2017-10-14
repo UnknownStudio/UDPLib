@@ -26,7 +26,7 @@ public final class NBTTagLongArray extends NBTBase {
 	}
 
 	public String toString() {
-		StringBuilder builder = new StringBuilder("[");
+		StringBuilder builder = new StringBuilder("[L;");
 		for (int i = 0; i < value.length; ++i) 
 			builder.append(value[i]).append(',');
 		
