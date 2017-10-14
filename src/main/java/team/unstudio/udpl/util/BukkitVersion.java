@@ -20,4 +20,8 @@ public enum BukkitVersion{
 	public boolean isBelow(BukkitVersion value){
 		return compareTo(value) >= 0;
 	}
+	
+	public String getPacketName(){
+		return 'v'+(name().substring(1));
+	}
 }
