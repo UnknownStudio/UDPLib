@@ -277,7 +277,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			parent = wrapper;
 		}
 		
-		handleCommand(parent, sender, command, label, Arrays.copyOfRange(args, i+1, args.length));
+		handleCommand(parent, sender, command, label, Arrays.copyOfRange(args, i, args.length));
 		return true;
 	}
 	
