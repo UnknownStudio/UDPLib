@@ -20,14 +20,14 @@ public class TestLoader {
 	}
 	
 	private void testConfig(){
-		UDPLib.getInstance().getLogger().info("-----Test Config-----");
+		UDPLib.getInstance().getLogger().info("[Test]Config");
 		UDPLib.getInstance().saveResource("test.yml", false);
 		config = new TestConfiguration();
 		config.reload();
-		UDPLib.getInstance().getLogger().info(config.test);
+		UDPLib.getInstance().getLogger().info("[Test]"+config.test);
 		config.test = "Loaded plugin.";
 		config.save();
 		config.reload();
-		UDPLib.getInstance().getLogger().info(config.test);
+		UDPLib.getInstance().getLogger().info("[Test]"+config.test);
 	}
 }

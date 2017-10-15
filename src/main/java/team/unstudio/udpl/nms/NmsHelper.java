@@ -6,6 +6,7 @@ import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.core.nms.asm.AsmNmsManager;
 import team.unstudio.udpl.nms.inventory.NmsItemStack;
 import team.unstudio.udpl.nms.nbt.NmsNBT;
+import team.unstudio.udpl.util.BukkitVersion;
 
 public final class NmsHelper {
 	
@@ -15,7 +16,7 @@ public final class NmsHelper {
 
 	public static void loadNmsHelper(){
 		ASM_NMS_MANAGER = new AsmNmsManager();
-		UDPLib.getInstance().getLogger().info("Loaded Nms Helper.");
+		UDPLib.getInstance().getLogger().info("Loaded nms helper. Version: " + BukkitVersion.CURRENT_BUKKIT_VERSION);
 	}
 	
 	public static NmsNBT getNBT(){
