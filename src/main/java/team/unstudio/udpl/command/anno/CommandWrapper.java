@@ -266,8 +266,8 @@ public class CommandWrapper {
 		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
 		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
 		this.requiredUsages = requiredUsages.toArray(new String[requiredUsages.size()]);
-		this.optionalUsages = optionalDefaults.toArray(new String[optionalUsages.size()]);
-		this.optionalDefaults = optionalDefaults.toArray(new String[0]);
+		this.optionalUsages = optionalUsages.toArray(new String[optionalUsages.size()]);
+		this.optionalDefaults = optionalDefaults.toArray(new String[optionalDefaults.size()]);
 		
 		//自动补全载入
 		for(Method m:obj.getClass().getDeclaredMethods()){
