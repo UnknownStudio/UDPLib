@@ -23,7 +23,7 @@ public final class CommandHelper {
 				Method getCommandMap = Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap");
 				commandMap = (CommandMap) getCommandMap.invoke(Bukkit.getServer());
 			}
-			PluginCommand command = PluginCommand.class.getConstructor(String.class,Plugin.class).newInstance(name,plugin);
+			PluginCommand command = PluginCommand.class.getDeclaredConstructor(String.class,Plugin.class).newInstance(name,plugin);
 			commandMap.register(plugin.getName(), command);
 			return Optional.of(command);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {

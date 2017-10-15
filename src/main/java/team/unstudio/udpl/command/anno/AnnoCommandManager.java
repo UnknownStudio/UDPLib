@@ -244,6 +244,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		PluginCommand command = plugin.getCommand(name);
 		command.setExecutor(this);
 		command.setTabCompleter(this);
+		plugin.getLogger().info("Register command \""+name+"\" successful.");
 		return this;
 	}
 	
@@ -257,7 +258,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			command.get().setTabCompleter(this);
 			plugin.getLogger().info("Unsafe register command \""+name+"\" successful.");
 		}else{
-			plugin.getLogger().info("Unsafe register command \""+name+"\" failure.");
+			plugin.getLogger().warning("Unsafe register command \""+name+"\" failure.");
 		}
 		return this;
 	}
