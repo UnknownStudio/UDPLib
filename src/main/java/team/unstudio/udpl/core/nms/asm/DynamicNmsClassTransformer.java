@@ -98,46 +98,46 @@ public class DynamicNmsClassTransformer implements Opcodes{
 			}
 			return transformPackage(name);
 		}
-		
-		public String getClassSimpleName(String name){
-			return name.substring(name.lastIndexOf("/"));
-		}
-		
-		public String getSimpleDesc(String desc){
-	        if ("()V".equals(desc)) {
-	            return desc;
-	        }
+	}
+	
+	protected String getClassSimpleName(String name){
+		return name.substring(name.lastIndexOf("/")+1);
+	}
+	
+	protected String getSimpleDesc(String desc){
+        if ("()V".equals(desc)) {
+            return desc;
+        }
 
-	        Type[] args = Type.getArgumentTypes(desc);
-	        StringBuilder sb = new StringBuilder("(");
-	        for (int i = 0; i < args.length; i++) {
-	            sb.append(_getSimpleDesc(args[i].getDescriptor()));
+        Type[] args = Type.getArgumentTypes(desc);
+        StringBuilder sb = new StringBuilder("(");
+        for (int i = 0; i < args.length; i++) {
+            sb.append(_getSimpleDesc(args[i].getDescriptor()));
+        }
+        Type returnType = Type.getReturnType(desc);
+        if (returnType == Type.VOID_TYPE) {
+            sb.append(")V");
+            return sb.toString();
+        }
+        sb.append(')').append(_getSimpleDesc(returnType.getDescriptor()));
+        return sb.toString();
+	}
+	
+	private String _getSimpleDesc(String desc){
+		 Type t = Type.getType(desc);
+	        switch (t.getSort()) {
+	        case Type.ARRAY:
+	            String s = _getSimpleDesc(t.getElementType().getDescriptor());
+	            for (int i = 0; i < t.getDimensions(); ++i) {
+	                s = '[' + s;
+	            }
+	            return s;
+	        case Type.OBJECT:
+	            String newType = getClassSimpleName(transformPackage(t.getInternalName()));
+	            if (newType != null) {
+	                return 'L' + newType + ';';
+	            }
 	        }
-	        Type returnType = Type.getReturnType(desc);
-	        if (returnType == Type.VOID_TYPE) {
-	            sb.append(")V");
-	            return sb.toString();
-	        }
-	        sb.append(')').append(_getSimpleDesc(returnType.getDescriptor()));
-	        return sb.toString();
-		}
-		
-		private String _getSimpleDesc(String desc){
-			 Type t = Type.getType(desc);
-		        switch (t.getSort()) {
-		        case Type.ARRAY:
-		            String s = _getSimpleDesc(t.getElementType().getDescriptor());
-		            for (int i = 0; i < t.getDimensions(); ++i) {
-		                s = '[' + s;
-		            }
-		            return s;
-		        case Type.OBJECT:
-		            String newType = getClassSimpleName(map(t.getInternalName()));
-		            if (newType != null) {
-		                return 'L' + newType + ';';
-		            }
-		        }
-		        return desc;
-		}
+	        return desc;
 	}
 }
