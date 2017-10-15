@@ -1,5 +1,6 @@
 package team.unstudio.udpl.command;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public final class CommandHelper {
 	private static final boolean DEBUG = UDPLib.isDebug();
 	
 	private static CommandMap commandMap;
+	private static Constructor<PluginCommand> pluginCommandConstructor;
 
 	public static Optional<PluginCommand> unsafeRegisterCommand(String name,Plugin plugin){
 		try {
@@ -23,7 +25,11 @@ public final class CommandHelper {
 				Method getCommandMap = Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap");
 				commandMap = (CommandMap) getCommandMap.invoke(Bukkit.getServer());
 			}
-			PluginCommand command = PluginCommand.class.getDeclaredConstructor(String.class,Plugin.class).newInstance(name,plugin);
+			if(pluginCommandConstructor == null){
+				pluginCommandConstructor = PluginCommand.class.getDeclaredConstructor(String.class,Plugin.class);
+				pluginCommandConstructor.setAccessible(true);
+			}
+			PluginCommand command = pluginCommandConstructor.newInstance(name,plugin);
 			commandMap.register(plugin.getName(), command);
 			return Optional.of(command);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {
