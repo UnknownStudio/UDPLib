@@ -20,10 +20,12 @@ public final class MappingHelper {
 	public static void loadMapping(String version){
 		try {
 			memberMapping = new MemberMapping(version);
+			UDPLib.getInstance().getLogger().info("Loaded mapping "+version);
 		} catch (IOException e) {
 			if(DEBUG)
 				e.printStackTrace();
 			memberMapping = null;
+			UDPLib.getInstance().getLogger().warning("Loaded mapping "+version+" failure.");
 		}
 	}
 

@@ -58,7 +58,7 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onDisable() {
-		//防止玩家有未关闭的界面造成刷物品
+		//防止玩家未关闭界面造成刷物品
 		for(Player player:Bukkit.getOnlinePlayers())
 			player.closeInventory();
 	}
