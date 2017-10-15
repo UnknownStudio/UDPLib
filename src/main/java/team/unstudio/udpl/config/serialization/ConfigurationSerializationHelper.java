@@ -87,7 +87,7 @@ public final class ConfigurationSerializationHelper{
 		else if(config.contains(key+".=="))
 			return Optional.ofNullable(config.get(key));
 		else
-			return Optional.ofNullable(deserialize(config.getConfigurationSection(key)));
+			return deserialize(config.getConfigurationSection(key));
 	}
 	
 	public static Optional<Object> deserialize(ConfigurationSection config){
@@ -126,7 +126,9 @@ public final class ConfigurationSerializationHelper{
 						if(setting!=null)
 							key = setting.value();
 						
-						field.set(obj, deserialize(config, key));
+						Optional<Object> value = deserialize(config, key);
+						if(value.isPresent())
+							field.set(obj, value.get());
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 						e.printStackTrace();
 					}

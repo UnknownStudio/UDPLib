@@ -10,11 +10,13 @@ public class TestLoader {
 	public static TestConfiguration config;
 	
 	public void onLoad(){
+		UDPLib.getInstance().getLogger().info("Loaded test.");
 	}
 	
 	public void onEnable(){
 		testConfig();
 		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new TestCommand()).unsafeRegisterCommand();
+		UDPLib.getInstance().getLogger().info("Enable test.");
 	}
 	
 	private void testConfig(){
