@@ -2,9 +2,8 @@ package team.unstudio.udpl.mapping;
 
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
-
 import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.util.ServerUtils;
 
 public final class MappingHelper {
 	
@@ -15,12 +14,12 @@ public final class MappingHelper {
 	private static MemberMapping memberMapping;
 	
 	public static void loadMapping(){
-		loadMapping(Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().indexOf("-")));
+		loadMapping(ServerUtils.getMinecraftVersion());
 	}
 	
 	public static void loadMapping(String version){
 		try {
-			memberMapping = new MemberMapping(MappingHelper.class.getResourceAsStream("/mappings/"+version+"/members.csrg"));
+			memberMapping = new MemberMapping(version);
 		} catch (IOException e) {
 			if(DEBUG)
 				e.printStackTrace();
