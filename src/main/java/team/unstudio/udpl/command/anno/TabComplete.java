@@ -10,5 +10,8 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 public @interface TabComplete {
 
+	/**
+	 * 指令的名称
+	 */
 	String[] value();
 }
