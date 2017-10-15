@@ -33,6 +33,7 @@ public @interface Version {
 	@Retention(RUNTIME)
 	@Target({ TYPE, FIELD, METHOD })
 	public static @interface Source{
-		BukkitVersion value();
+		BukkitVersion bukkit();
+		String minecraft();
 	}
 }
