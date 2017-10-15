@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 import javax.annotation.Nonnull;
@@ -250,10 +251,14 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 不安全的注册指令
 	 */
 	public AnnoCommandManager unsafeRegisterCommand(){
-		CommandHelper.unsafeRegisterCommand(name, plugin).ifPresent(command->{
-			command.setExecutor(this);
-			command.setTabCompleter(this);
-		});
+		Optional<PluginCommand> command = CommandHelper.unsafeRegisterCommand(name, plugin);
+		if(command.isPresent()){
+			command.get().setExecutor(this);
+			command.get().setTabCompleter(this);
+			plugin.getLogger().info("Unsafe register command \""+name+"\" successful.");
+		}else{
+			plugin.getLogger().info("Unsafe register command \""+name+"\" failure.");
+		}
 		return this;
 	}
 	
