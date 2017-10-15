@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -77,11 +78,7 @@ public abstract class ConfigurationHandler{
 
 			String key = anno.value().isEmpty()?f.getName():anno.value();
 			try {
-				Object object = ConfigurationSerializationHelper.deserialize(config, key);
-				if (object != null)
-					f.set(this, object);
-				else
-					f.set(this, defaults.get(key));
+				f.set(this, ConfigurationSerializationHelper.deserialize(config, key).orElseGet(()->defaults.get(key)));
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 			}
 		}
