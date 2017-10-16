@@ -207,7 +207,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 */
 	@SuppressWarnings("deprecation")
 	protected Object transformParameter(Class<?> clazz, String value) {
-		if (value == null || value.isEmpty())
+		if (value == null)
 			return null;
 		else if (clazz.equals(String.class))
 			return value;
