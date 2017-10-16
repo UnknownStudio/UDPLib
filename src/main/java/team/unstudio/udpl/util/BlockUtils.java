@@ -29,7 +29,7 @@ public final class BlockUtils {
 	 * @param state
 	 * @return
 	 */
-	static boolean sendBlockBreakAnimation(Player player, Location location, byte state) {
+	public static boolean sendBlockBreakAnimation(Player player, Location location, byte state) {
 		PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
 		container.getIntegers().write(0, player.getEntityId());
 		container.getBlockPositionModifier().write(0,

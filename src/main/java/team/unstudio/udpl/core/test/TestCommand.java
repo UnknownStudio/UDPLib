@@ -1,24 +1,57 @@
 package team.unstudio.udpl.core.test;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
+import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.util.ActionBar;
+import team.unstudio.udpl.util.BlockUtils;
+import team.unstudio.udpl.util.PlayerUtils;
+import team.unstudio.udpl.util.PluginUtils;
+import team.unstudio.udpl.util.SignUtils;
 import team.unstudio.udpl.util.Title;
 
 public final class TestCommand {
 	
-	@Command(senders = Player.class)
-	@Alias({"help"})
-	public boolean help(Player sender){
+	@Command
+	@Alias("help")
+	public boolean help(CommandSender sender){
 		sender.sendMessage("UDPL Test 已正常启动.");
 		return true;
 	}
 
-	@Command(value = { "title" }, senders = Player.class)
-	public void title(Player sender, @Required String title, @Required String subTitle, @Optional("5") int fadeIn,
-			@Optional("10") int stay, @Optional("5") int fadeOut) {
+	@Command(value = "title", senders = Player.class)
+	public void title(Player sender, @Required(usage = "Title") String title,
+			@Required(usage = "SubTitle") String subTitle, @Optional(value = "10", usage = "FadeIn") int fadeIn,
+			@Optional(value = "20", usage = "FadeIn") int stay, @Optional(value = "10", usage = "FadeIn") int fadeOut) {
 		Title.title(sender, title, subTitle, fadeIn, stay, fadeOut);
+	}
+	
+	@Command(value = "actionbar", senders = Player.class)
+	public void actionbar(Player sender, @Required(usage = "Text") String text){
+		ActionBar.send(sender, text);
+	}
+	
+	@Command(value = "blockbreakanima", senders = Player.class)
+	public void blockBreakAnima(Player sender, @Required(usage = "State") byte state){
+		BlockUtils.sendBlockBreakAnimation(sender, sender.getLocation().subtract(0, 1, 0), state);
+	}
+	
+	@Command(value = "sign", senders = Player.class)
+	public void sign(Player sender, @Required(usage = "Text") String text){
+		SignUtils.open(sender, new String[]{text,"","",""});
+	}
+	
+	@Command("save")
+	public void saveDirectory(CommandSender sender){
+		PluginUtils.saveDirectory(UDPLib.getInstance(), "lang", true);
+	}
+	
+	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")
+	public void permission(Player sender){
+		sender.sendMessage(PlayerUtils.getLanguage(sender));
 	}
 }

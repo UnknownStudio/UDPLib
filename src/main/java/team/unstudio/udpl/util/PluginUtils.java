@@ -9,7 +9,7 @@ public final class PluginUtils {
 
 	private PluginUtils() {}
 	
-	public void saveDirectory(JavaPlugin plugin,String resourcePath,boolean replace){
+	public static void saveDirectory(JavaPlugin plugin,String resourcePath,boolean replace){
 		Validate.notEmpty(resourcePath);
 		resourcePath = resourcePath.replace('\\', '/');
 		URL url = plugin.getClass().getClassLoader().getResource(resourcePath);
