@@ -371,7 +371,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			
 			parent = wrapper;
 		}
-		list.addAll(parent.onTabComplete(Arrays.copyOfRange(args, i+1, args.length)));
+		list.addAll(parent.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
 		
 		{ //Sub Commands
 			String prefix = toLowerCaseArgs[size];
