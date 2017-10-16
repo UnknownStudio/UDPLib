@@ -12,6 +12,7 @@ import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.ActionBar;
 import team.unstudio.udpl.util.BlockUtils;
+import team.unstudio.udpl.util.BookUtils;
 import team.unstudio.udpl.util.EntityUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.PluginUtils;
@@ -40,7 +41,7 @@ public final class TestCommand {
 	}
 	
 	@Command(value = "blockbreakanima", senders = Player.class)
-	public void blockBreakAnima(Player sender, @Required(usage = "State") int state){
+	public void blockBreakAnima(Player sender, @Required(usage = "State") byte state){
 		BlockUtils.sendBlockBreakAnimation(sender, sender.getLocation().subtract(0, 1, 0), state);
 	}
 	
@@ -57,6 +58,11 @@ public final class TestCommand {
 	@Command(value = "fakeitem", senders = Player.class)
 	public void fakeItem(Player sender){
 		EntityUtils.sendFakeItemEntity(sender, new ItemStack(Material.STONE), sender.getLocation(), "Stone");
+	}
+	
+	@Command(value = "openbook", senders = Player.class)
+	public void openBook(Player sender){
+		BookUtils.open(sender, sender.getInventory().getItemInMainHand());
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")

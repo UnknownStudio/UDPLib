@@ -374,12 +374,12 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		list.addAll(parent.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
 		
 		{ //Sub Commands
-			String prefix = toLowerCaseArgs[size];
+			String prefix = toLowerCaseArgs[size-1];
 			parent.getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(list::add);
 		}
 		
 		if(list.isEmpty()){ //Players
-			String prefix = args[size];
+			String prefix = args[size-1];
 			Collections.addAll(list, ServerUtils.getOnlinePlayerNamesWithFilter(name->name.startsWith(prefix)));
 		}
 		

@@ -11,13 +11,10 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 
-import team.unstudio.udpl.core.UDPLib;
-
 public final class BlockUtils {
 	
 	private BlockUtils() {}
 	
-	private static final boolean debug = UDPLib.isDebug();
 	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 	
 	/**
@@ -29,20 +26,18 @@ public final class BlockUtils {
 	 * @param state
 	 * @return
 	 */
-	public static boolean sendBlockBreakAnimation(Player player, Location location, int state) {
+	public static Result sendBlockBreakAnimation(Player player, Location location, byte state) {
 		PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
 		container.getIntegers().write(0, player.getEntityId());
 		container.getBlockPositionModifier().write(0,
 				new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
-		container.getIntegers().write(1, state);
+		container.getIntegers().write(1, (int) state);
 
 		try {
 			protocolManager.sendServerPacket(player, container);
-			return true;
+			return Result.success();
 		} catch (InvocationTargetException e) {
-			if (debug)
-				e.printStackTrace();
+			return Result.failure(e);
 		}
-		return false;
 	}
 }

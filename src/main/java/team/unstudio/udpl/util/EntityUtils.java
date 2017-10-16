@@ -35,16 +35,18 @@ public final class EntityUtils {
 		PacketContainer spawnEntityLiving = protocolManager.createPacket(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
 		spawnEntityLiving.getIntegers().write(0, entityID); //Entity ID
 		spawnEntityLiving.getUUIDs().write(0, UUID.randomUUID()); //Entity UUID
-		spawnEntityLiving.getBytes().write(0, (byte) 2); //Entity Type
+		spawnEntityLiving.getIntegers().write(1, 2); //Entity Type
 		spawnEntityLiving.getDoubles().write(0, location.getX())
 							  .write(1, location.getY())
 							  .write(2, location.getZ());
-		spawnEntityLiving.getBytes().write(1, (byte) 0) 
-							.write(2, (byte) 0);
-		spawnEntityLiving.getIntegers().write(0, 1); //Data
-		spawnEntityLiving.getShorts().write(0, (short) 0)
-							 .write(1, (short) 0)
-							 .write(2, (short) 0);
+		spawnEntityLiving.getIntegers().write(2, 0) //Pitch
+									   .write(3, 0)	//Yaw
+									   //Data
+									   .write(4, 1)
+									   //Velocity(X,Y,Z)
+									   .write(5, 0) 
+									   .write(6, 0)
+									   .write(7, 0);
 		
 		PacketContainer entityMetadata = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
 		entityMetadata.getIntegers().write(0, entityID);
