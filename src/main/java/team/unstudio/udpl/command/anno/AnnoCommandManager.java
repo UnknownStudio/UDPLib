@@ -207,33 +207,30 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 */
 	@SuppressWarnings("deprecation")
 	protected Object transformParameter(Class<?> clazz, String value) {
-		try {
-			if (value == null || value.isEmpty())
-				return null;
-			else if (clazz.equals(String.class))
-				return value;
-			else if (clazz.equals(int.class) || clazz.equals(Integer.class))
-				return Integer.parseInt(value);
-			else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
-				return Boolean.parseBoolean(value);
-			else if (clazz.equals(float.class) || clazz.equals(Float.class))
-				return Float.parseFloat(value);
-			else if (clazz.equals(double.class) || clazz.equals(Double.class))
-				return Double.parseDouble(value);
-			else if (clazz.equals(long.class) || clazz.equals(Long.class))
-				return Long.parseLong(value);
-			else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
-				return Byte.parseByte(value);
-			else if (clazz.equals(short.class) || clazz.equals(Short.class))
-				return Short.parseShort(value);
-			else if (clazz.equals(Player.class))
-				return Bukkit.getPlayerExact(value);
-			else if (clazz.equals(OfflinePlayer.class))
-				return Bukkit.getOfflinePlayer(value);
-			else if (clazz.equals(Material.class))
-				return Material.valueOf(value);
-		} catch (Exception e) {
-		}
+		if (value == null || value.isEmpty())
+			return null;
+		else if (clazz.equals(String.class))
+			return value;
+		else if (clazz.equals(int.class) || clazz.equals(Integer.class))
+			return Integer.parseInt(value);
+		else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
+			return Boolean.parseBoolean(value);
+		else if (clazz.equals(float.class) || clazz.equals(Float.class))
+			return Float.parseFloat(value);
+		else if (clazz.equals(double.class) || clazz.equals(Double.class))
+			return Double.parseDouble(value);
+		else if (clazz.equals(long.class) || clazz.equals(Long.class))
+			return Long.parseLong(value);
+		else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
+			return Byte.parseByte(value);
+		else if (clazz.equals(short.class) || clazz.equals(Short.class))
+			return Short.parseShort(value);
+		else if (clazz.equals(Player.class))
+			return Bukkit.getPlayerExact(value);
+		else if (clazz.equals(OfflinePlayer.class))
+			return Bukkit.getOfflinePlayer(value);
+		else if (clazz.equals(Material.class))
+			return Material.valueOf(value);
 		return null;
 	}
 	
