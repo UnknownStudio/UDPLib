@@ -15,6 +15,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.google.common.base.Strings;
 
 public final class EntityUtils {
@@ -24,7 +25,8 @@ public final class EntityUtils {
 	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 	private static int nextEntityID = Integer.MAX_VALUE;
 	
-	public Result sendFakeItemEntity(@Nonnull Player player,@Nonnull ItemStack itemStack,@Nonnull Location location,@Nullable String displayName){
+	@Deprecated
+	public static Result sendFakeItemEntity(@Nonnull Player player,@Nonnull ItemStack itemStack,@Nonnull Location location,@Nullable String displayName){
 		Validate.notNull(player);
 		Validate.notNull(itemStack);
 		Validate.notNull(location);
@@ -46,13 +48,15 @@ public final class EntityUtils {
 		
 		PacketContainer entityMetadata = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
 		entityMetadata.getIntegers().write(0, entityID);
-		entityMetadata.getBytes().write(0, (byte) 0);
-		entityMetadata.getIntegers().write(1, 300);
-		entityMetadata.getStrings().write(0, Strings.nullToEmpty(displayName));
-		entityMetadata.getBooleans().write(0, !Strings.isNullOrEmpty(displayName))
-									.write(1, false)
-									.write(2, true);
-		entityMetadata.getItemModifier().write(0, itemStack);
+		WrappedDataWatcher dataWatcher = new WrappedDataWatcher();
+		dataWatcher.setObject(0, (byte) 0);
+		dataWatcher.setObject(1, 300);
+		dataWatcher.setObject(2, Strings.nullToEmpty(displayName));
+		dataWatcher.setObject(3, !Strings.isNullOrEmpty(displayName));
+		dataWatcher.setObject(4, false);
+		dataWatcher.setObject(5, true);
+		dataWatcher.setObject(6, itemStack);
+		entityMetadata.getWatchableCollectionModifier().write(0, dataWatcher.getWatchableObjects());
         try {
             protocolManager.sendServerPacket(player, spawnEntityLiving);
             protocolManager.sendServerPacket(player, entityMetadata);

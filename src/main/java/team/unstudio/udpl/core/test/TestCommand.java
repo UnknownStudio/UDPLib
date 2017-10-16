@@ -1,7 +1,10 @@
 package team.unstudio.udpl.core.test;
 
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
@@ -9,6 +12,7 @@ import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.ActionBar;
 import team.unstudio.udpl.util.BlockUtils;
+import team.unstudio.udpl.util.EntityUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.PluginUtils;
 import team.unstudio.udpl.util.SignUtils;
@@ -48,6 +52,11 @@ public final class TestCommand {
 	@Command("save")
 	public void saveDirectory(CommandSender sender){
 		PluginUtils.saveDirectory(UDPLib.getInstance(), "lang", true);
+	}
+	
+	@Command(value = "fakeitem", senders = Player.class)
+	public void fakeItem(Player sender){
+		EntityUtils.sendFakeItemEntity(sender, new ItemStack(Material.STONE), sender.getLocation(), "Stone");
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")
