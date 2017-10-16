@@ -1,5 +1,9 @@
 package team.unstudio.udpl.core.test;
 
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,6 +13,7 @@ import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
+import team.unstudio.udpl.command.anno.TabComplete;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.ActionBar;
 import team.unstudio.udpl.util.BlockUtils;
@@ -31,7 +36,7 @@ public final class TestCommand {
 	@Command(value = "title", senders = Player.class)
 	public void title(Player sender, @Required(usage = "Title") String title,
 			@Required(usage = "SubTitle") String subTitle, @Optional(value = "10", usage = "FadeIn") int fadeIn,
-			@Optional(value = "20", usage = "FadeIn") int stay, @Optional(value = "10", usage = "FadeIn") int fadeOut) {
+			@Optional(value = "20", usage = "Stay") int stay, @Optional(value = "10", usage = "FadeOut") int fadeOut) {
 		Title.title(sender, title, subTitle, fadeIn, stay, fadeOut);
 	}
 	
@@ -68,5 +73,10 @@ public final class TestCommand {
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")
 	public void permission(Player sender){
 		sender.sendMessage(PlayerUtils.getLanguage(sender));
+	}
+	
+	@TabComplete(value = "permission")
+	public List<String> tabComplete(String[] args){
+		return Arrays.asList("TabComplete");
 	}
 }
