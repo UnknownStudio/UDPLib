@@ -40,7 +40,7 @@ public final class TestCommand {
 	}
 	
 	@Command(value = "blockbreakanima", senders = Player.class)
-	public void blockBreakAnima(Player sender, @Required(usage = "State") byte state){
+	public void blockBreakAnima(Player sender, @Required(usage = "State") int state){
 		BlockUtils.sendBlockBreakAnimation(sender, sender.getLocation().subtract(0, 1, 0), state);
 	}
 	

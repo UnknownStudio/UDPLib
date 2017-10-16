@@ -29,12 +29,12 @@ public final class BlockUtils {
 	 * @param state
 	 * @return
 	 */
-	public static boolean sendBlockBreakAnimation(Player player, Location location, byte state) {
+	public static boolean sendBlockBreakAnimation(Player player, Location location, int state) {
 		PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
 		container.getIntegers().write(0, player.getEntityId());
 		container.getBlockPositionModifier().write(0,
 				new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
-		container.getBytes().write(0, state);
+		container.getIntegers().write(1, state);
 
 		try {
 			protocolManager.sendServerPacket(player, container);
