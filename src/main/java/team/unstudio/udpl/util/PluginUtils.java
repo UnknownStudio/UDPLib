@@ -1,8 +1,11 @@
 package team.unstudio.udpl.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.annotation.Nonnull;
 
@@ -13,38 +16,24 @@ public final class PluginUtils {
 
 	private PluginUtils() {}
 	
-	public static void saveDirectory(@Nonnull JavaPlugin plugin,@Nonnull String resourcePath,boolean replace){
+	public static void saveDirectory(@Nonnull JavaPlugin plugin,@Nonnull String resourcePath,boolean replace) throws IOException{
 		Validate.notNull(plugin);
 		Validate.notEmpty(resourcePath);
-		
-		plugin.getLogger().info("Plugin save directory. " + resourcePath);
-		
 		resourcePath = resourcePath.replace('\\', '/');
+		
+		plugin.getLogger().info("Plugin save directory. Path: " + resourcePath);
+		
 		URL url = plugin.getClass().getClassLoader().getResource(resourcePath);
 		if(url == null)
-			throw new IllegalArgumentException("File isn't found. "+resourcePath);
+			throw new IllegalArgumentException("Directory isn't found. Path: "+resourcePath);
 		
-		File path = new File(url.getPath());
-		if(!path.exists())
-			throw new IllegalArgumentException("File isn't found. "+path.getAbsolutePath());
-		if(path.isFile()){
-			plugin.saveResource(resourcePath, replace);
-			return;
-		}
-		
-		File outPath = new File(plugin.getDataFolder(),resourcePath);
-		if(!outPath.exists())
-			outPath.mkdirs();
-		
-		File[] files = path.listFiles();
-		if(files == null)
-			return;
-		
-		for (File file : files) {
-			if(file.isFile())
-				plugin.saveResource(resourcePath+"/"+file.getName(), replace);
-			else
-				saveDirectory(plugin, resourcePath+"/"+file.getName(), replace);
+		JarURLConnection jarConn = (JarURLConnection) url.openConnection();
+		JarFile jarFile = jarConn.getJarFile();
+		Enumeration<JarEntry> entrys = jarFile.entries();
+		while(entrys.hasMoreElements()){
+			JarEntry entry = entrys.nextElement();
+			if(entry.getName().startsWith(resourcePath)&&!entry.isDirectory())
+				plugin.saveResource(entry.getName(), replace);
 		}
 	}
 }
