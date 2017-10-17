@@ -33,6 +33,7 @@ public class CommandWrapper {
 	private String usage;
 	private String description;
 	private boolean allowOp;
+	private boolean exactParameterMatching;
 	
 	private boolean hasStringArray;
 	
@@ -116,6 +117,10 @@ public class CommandWrapper {
 		// 检查参数数量
 		if (requireds.length > args.length)
 			return CommandResult.NoEnoughParameter;
+		
+		// 精确参数匹配
+		if (exactParameterMatching && requireds.length + optionals.length < args.length)
+			return CommandResult.UnknownCommand;
 
 		// 转换参数
 		Object[] objs = new Object[this.command.getParameterTypes().length];
@@ -225,6 +230,7 @@ public class CommandWrapper {
 		usage = anno.usage();
 		description = anno.description();
 		allowOp = anno.allowOp();
+		exactParameterMatching = anno.exactParameterMatching();
 		
 		Class<?>[] parameterTypes = method.getParameterTypes();
 		hasStringArray = parameterTypes[parameterTypes.length-1].equals(String[].class);
