@@ -9,7 +9,6 @@ import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,13 +16,15 @@ import org.bukkit.entity.Player;
 /**
  * Created by trychen on 17/7/11.
  */
-public class SignUtils {
+public final class SignUtils {
 	
-    protected static String version = Bukkit.getServer().getBukkitVersion().substring(0, 3);
+    private static String version = ServerUtils.getMinecraftVersion();
     private static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
     private static PacketType BLOCK_CHANGE = PacketType.Play.Server.BLOCK_CHANGE;
     private static PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
     private static PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
+    
+    private SignUtils(){}
 
     public static Result open(Player player, String[] lines){
         Location loc = player.getLocation();
