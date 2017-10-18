@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import team.unstudio.udpl.command.CommandResult;
+import team.unstudio.udpl.core.UDPLib;
 
 public class CommandWrapper {
 	
@@ -26,7 +27,7 @@ public class CommandWrapper {
 	private Object obj;
 	
 	private Method command;
-	private Method tabcomplete;
+	private Method tabCompleter;
 	
 	private String permission;
 	private Class<? extends CommandSender>[] senders;
@@ -205,15 +206,16 @@ public class CommandWrapper {
 	
 	@SuppressWarnings("unchecked")
 	public List<String> onTabComplete(String[] args){
-		if(command==null){
+		if(tabCompleter==null){
 			if(args.length<=requireds.length)
 				return requiredCompletes.get(args.length-1);
-			else if(args.length<=optionals.length)
+			else if(args.length<=requireds.length+optionals.length)
 				return optionalCompletes.get(args.length-requireds.length-1);
-			return Collections.EMPTY_LIST;
+			else
+				return Collections.EMPTY_LIST;
 		}else{
 			try {
-				return (List<String>) tabcomplete.invoke(obj, args);
+				return (List<String>) tabCompleter.invoke(obj, new Object[]{args});
 			} catch (Exception e) {
 				return Collections.EMPTY_LIST;
 			}
@@ -283,7 +285,7 @@ public class CommandWrapper {
 			
 			if(Arrays.equals(tab.value(), anno.value())){
 				m.setAccessible(true);
-				tabcomplete = m;
+				tabCompleter = m;
 				break;
 			}
 		}
