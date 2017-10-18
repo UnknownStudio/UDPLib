@@ -84,4 +84,14 @@ public final class UDPLib extends JavaPlugin{
 	public static void setDebug(boolean debug){
 		DEBUG = debug;
 	}
+	
+	public static void debug(String value){
+		if(isDebug())
+			getInstance().getLogger().info(value);
+	}
+	
+	public static void debug(Throwable e){
+		if(isDebug())
+			e.printStackTrace();
+	}
 }

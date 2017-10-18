@@ -10,56 +10,45 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.utility.MinecraftReflection;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.item.ItemHelper;
 import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
 public final class BookUtils {
 	
 	private BookUtils(){}
 
-	private static final boolean DEBUG = UDPLib.isDebug();
-	private static boolean initialised = false;
-	private static Method getHandle;
-	private static Method openBook;
-
-	static {
-		try {
-			getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-			openBook = ReflectionUtils.getMethod("EntityPlayer", PackageType.MINECRAFT_SERVER, "a",
-					PackageType.MINECRAFT_SERVER.getClass("ItemStack"),
-					PackageType.MINECRAFT_SERVER.getClass("EnumHand"));
-			initialised = true;
-		} catch (ReflectiveOperationException e) {
-			if(DEBUG)
-				e.printStackTrace();
-			initialised = false;
-		}
-	}
-
-	public static boolean isInitialised() {
-		return initialised;
-	}
+	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 	
 	public static Result open(Player player, ItemStack book){
-		if (!isInitialised()) 
-			return Result.failure("Uninitialized book api.");
 		ItemStack held = player.getInventory().getItemInMainHand();
 		player.getInventory().setItemInMainHand(book);
 		
+		PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.CUSTOM_PAYLOAD);
+		container.getStrings().write(0, "MC|BOpen");
+		ByteBuf byteBuf = Unpooled.buffer();
+		byteBuf.writeByte(0);
+		Object serializer = MinecraftReflection.getPacketDataSerializer(byteBuf);
+		container.getModifier().withType(ByteBuf.class).write(0, serializer);
+
 		try {
-			Object entityplayer = getHandle.invoke(player);
-			Class<?> enumHand = PackageType.MINECRAFT_SERVER.getClass("EnumHand");
-			Object[] enumArray = enumHand.getEnumConstants();
-			openBook.invoke(entityplayer, ItemHelper.getNMSItemStack(book), enumArray[0]);
-			player.getInventory().setItemInMainHand(held);
+			protocolManager.sendServerPacket(player, container);
 			return Result.success();
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
-			initialised = false;
-			player.getInventory().setItemInMainHand(held);
+		} catch (InvocationTargetException e) {
+			if (UDPLib.isDebug())
+				e.printStackTrace();
 			return Result.failure(e);
+		} finally {
+			player.getInventory().setItemInMainHand(held);
 		}
 	}
 	
@@ -78,6 +67,8 @@ public final class BookUtils {
 				listPages.add(ChatSerializer_a.invoke(ChatSerializer, page));
 			return Result.success();
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
+			if (UDPLib.isDebug())
+				e.printStackTrace();
 			return Result.failure(e);
 		}
 	}
@@ -97,7 +88,7 @@ public final class BookUtils {
 			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
 			return Optional.of(listPages.stream().map(Object::toString).toArray(String[]::new));
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-			if (DEBUG)
+			if (UDPLib.isDebug())
 				e.printStackTrace();
 		}
 		return Optional.empty();

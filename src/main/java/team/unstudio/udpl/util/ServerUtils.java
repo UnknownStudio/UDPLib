@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 
+import team.unstudio.udpl.core.UDPLib;
+
 public final class ServerUtils {
 
 	private ServerUtils(){}
@@ -26,6 +28,8 @@ public final class ServerUtils {
 						.invokeMethod(ReflectionUtils.getValue(Bukkit.getServer(), true, "console"), "getVersion");
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | NoSuchFieldException | SecurityException e) {
+				if(UDPLib.isDebug())
+					e.printStackTrace();
 				String bukkitVersion = Bukkit.getBukkitVersion();
 				int index = Bukkit.getBukkitVersion().indexOf("-");
 				MINECRAFT_VERSION = bukkitVersion.substring(0, index == -1 ? bukkitVersion.length() : index);
