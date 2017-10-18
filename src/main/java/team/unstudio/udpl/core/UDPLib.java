@@ -52,6 +52,8 @@ public final class UDPLib extends JavaPlugin{
 		
 		loadPluginManager();
 		
+		new AnnoCommandManager("udpl").addCommand(new UDPLCommand()).registerCommand();
+		
 		if(CONFIG.enableTest)
 			TestLoader.INSTANCE.onEnable();
 	}
