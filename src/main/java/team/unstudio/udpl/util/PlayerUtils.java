@@ -4,8 +4,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
+import java.util.WeakHashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListeningWhitelist;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.events.PacketListener;
 
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.ReflectionUtils.PackageType;
@@ -14,23 +24,55 @@ public final class PlayerUtils {
 	
 	private PlayerUtils(){}
 	
-	private static final boolean debug = UDPLib.isDebug();
+	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+	private static WeakHashMap<Player, Locale> PLAYER_LANGUAGE_CACHE = new WeakHashMap<>();
 	
-	public static final String DEFAULT_LANGUAGE = "en_US";
+	public static void initPlayerUtils(){
+		protocolManager.addPacketListener(new PacketListener() {
+			
+			@Override
+			public void onPacketSending(PacketEvent arg0) {}
+			
+			@Override
+			public void onPacketReceiving(PacketEvent arg0) {
+				Player player = arg0.getPlayer();
+				PacketContainer container = arg0.getPacket();
+				String locale = container.getStrings().read(0);
+				PLAYER_LANGUAGE_CACHE.put(player, Locale.forLanguageTag(locale));
+			}
+			
+			@Override
+			public ListeningWhitelist getSendingWhitelist() {
+				return ListeningWhitelist.EMPTY_WHITELIST;
+			}
+			
+			@Override
+			public ListeningWhitelist getReceivingWhitelist() {
+				return ListeningWhitelist.newBuilder().lowest().types(PacketType.Play.Client.SETTINGS).build();
+			}
+			
+			@Override
+			public Plugin getPlugin() {
+				return UDPLib.getInstance();
+			}
+		});
+	}
+	
+	public static final Locale DEFAULT_LANGUAGE = Locale.US;
 	public static String getLanguage(Player player){
-		try {
-			Method getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-			Field locale = ReflectionUtils.getField(PackageType.MINECRAFT_SERVER.getClass("EntityPlayer"), true, "locale");
-			return (String) locale.get(getHandle.invoke(player));
-		} catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-			if(debug)
-				e.printStackTrace();
-		}
-		return DEFAULT_LANGUAGE;
+		return getLanguageLocale(player).toLanguageTag();
 	}
 	
 	public static Locale getLanguageLocale(Player player){
-		return Locale.forLanguageTag(getLanguage(player));
+		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
+			try {
+				PLAYER_LANGUAGE_CACHE.put(player, Locale.forLanguageTag((String) NMSReflectionUtils.getEntityPlayer_locale().get(NMSReflectionUtils.getCraftPlayer_getHandle().invoke(player))));
+			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+				UDPLib.debug(e);
+				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
+			}
+		}
+		return PLAYER_LANGUAGE_CACHE.get(player);
 	}
 	
 	//exp helper

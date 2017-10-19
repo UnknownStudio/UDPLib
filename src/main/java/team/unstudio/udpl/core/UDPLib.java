@@ -14,6 +14,7 @@ import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.mapping.MappingHelper;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
+import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.SignUtils;
 
 public final class UDPLib extends JavaPlugin{
@@ -41,6 +42,7 @@ public final class UDPLib extends JavaPlugin{
 		NmsHelper.loadNmsHelper();
 		
 		SignUtils.initSignUtils();
+		PlayerUtils.initPlayerUtils();
 	}
 
 	@Override
