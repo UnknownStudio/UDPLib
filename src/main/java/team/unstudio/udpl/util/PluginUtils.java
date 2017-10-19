@@ -16,7 +16,7 @@ public final class PluginUtils {
 
 	private PluginUtils() {}
 	
-	public static void saveDirectory(@Nonnull JavaPlugin plugin,@Nonnull String resourcePath,boolean replace) throws IOException{
+	public static void saveDirectory(@Nonnull JavaPlugin plugin,@Nonnull String resourcePath,boolean replace){
 		Validate.notNull(plugin);
 		Validate.notEmpty(resourcePath);
 		resourcePath = resourcePath.replace('\\', '/');
@@ -27,13 +27,19 @@ public final class PluginUtils {
 		if(url == null)
 			throw new IllegalArgumentException("Directory isn't found. Path: "+resourcePath);
 		
-		JarURLConnection jarConn = (JarURLConnection) url.openConnection();
-		JarFile jarFile = jarConn.getJarFile();
-		Enumeration<JarEntry> entrys = jarFile.entries();
-		while(entrys.hasMoreElements()){
-			JarEntry entry = entrys.nextElement();
-			if(entry.getName().startsWith(resourcePath)&&!entry.isDirectory())
-				plugin.saveResource(entry.getName(), replace);
+		JarURLConnection jarConn;
+		try {
+			jarConn = (JarURLConnection) url.openConnection();
+			JarFile jarFile = jarConn.getJarFile();
+			Enumeration<JarEntry> entrys = jarFile.entries();
+			while(entrys.hasMoreElements()){
+				JarEntry entry = entrys.nextElement();
+				if(entry.getName().startsWith(resourcePath)&&!entry.isDirectory())
+					plugin.saveResource(entry.getName(), replace);
+			}
+		} catch (IOException e) {
+			plugin.getLogger().warning("Plugin save directory failed. Path: " + resourcePath);
+			e.printStackTrace();
 		}
 	}
 }

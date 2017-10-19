@@ -1,6 +1,5 @@
 package team.unstudio.udpl.core.test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,11 +56,7 @@ public final class TestCommand {
 	
 	@Command("save")
 	public void saveDirectory(CommandSender sender){
-		try {
-			PluginUtils.saveDirectory(UDPLib.getInstance(), "lang", true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		PluginUtils.saveDirectory(UDPLib.getInstance(), "lang", true);
 	}
 	
 	@Command(value = "fakeitem", senders = Player.class)

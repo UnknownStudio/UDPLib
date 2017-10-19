@@ -1,8 +1,6 @@
 package team.unstudio.udpl.util;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.WeakHashMap;
 
@@ -18,7 +16,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.events.PacketListener;
 
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
 public final class PlayerUtils {
 	
