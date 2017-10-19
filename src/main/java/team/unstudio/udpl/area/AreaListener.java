@@ -2,6 +2,8 @@ package team.unstudio.udpl.area;
 
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,12 +16,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 public final class AreaListener implements Listener{
 	
 	private final AreaManager areaManager;
-	private final Map<Player, List<Area>> playerArea = Maps.newHashMap();
+	private final Map<Player, List<Area>> playerArea = new WeakHashMap<>();
 	
 	public AreaListener(AreaManager areaManager) {
 		this.areaManager = areaManager;
