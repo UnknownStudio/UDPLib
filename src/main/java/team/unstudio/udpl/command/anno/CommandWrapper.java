@@ -23,9 +23,10 @@ public class CommandWrapper {
 	private final Map<String,CommandWrapper> children = Maps.newHashMap();
 	private final CommandWrapper parent;
 	
-	private Object obj;
-	
+	private Object commandObject;
 	private Method command;
+	
+	private Object tabCompleterObject;
 	private Method tabCompleter;
 	
 	private String permission;
@@ -60,7 +61,7 @@ public class CommandWrapper {
 	}
 	
 	public Object getObj() {
-		return obj;
+		return commandObject;
 	}
 	
 	public String getPermission() {
@@ -105,7 +106,7 @@ public class CommandWrapper {
 	}
 	
 	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
-		if (obj == null)
+		if (commandObject == null)
 			return CommandResult.UnknownCommand;
 		
 		if (!checkSender(sender))
@@ -164,9 +165,9 @@ public class CommandWrapper {
 		// 执行指令
 		try {
 			if (this.command.getReturnType().equals(boolean.class))
-				return (boolean) this.command.invoke(obj, objs) ? CommandResult.Success : CommandResult.Failure;
+				return (boolean) this.command.invoke(commandObject, objs) ? CommandResult.Success : CommandResult.Failure;
 			else {
-				this.command.invoke(obj, objs);
+				this.command.invoke(commandObject, objs);
 				return CommandResult.Success;
 			}
 		} catch (Exception e) {
@@ -215,17 +216,16 @@ public class CommandWrapper {
 			
 		if(tabCompleter!=null)
 			try {
-				tabComplete.addAll((List<String>) tabCompleter.invoke(obj, new Object[]{args}));
+				tabComplete.addAll((List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args}));
 			} catch (Exception e) {}
 		
 		return tabComplete;
 	}
 	
-	public void setMethod(Object obj,Method method){
-		this.obj = obj;
+	public void setCommandMethod(Object obj,Command anno,Method method){
+		this.commandObject = obj;
 		this.command = method;
 		method.setAccessible(true);
-		Command anno = method.getAnnotation(Command.class);
 		permission = anno.permission();
 		senders = anno.senders();
 		usage = anno.usage();
@@ -275,18 +275,10 @@ public class CommandWrapper {
 		this.requiredUsages = requiredUsages.toArray(new String[requiredUsages.size()]);
 		this.optionalUsages = optionalUsages.toArray(new String[optionalUsages.size()]);
 		this.optionalDefaults = optionalDefaults.toArray(new Object[optionalDefaults.size()]);
-		
-		//自动补全载入
-		for(Method m:obj.getClass().getDeclaredMethods()){
-			TabComplete tab = m.getAnnotation(TabComplete.class);
-			if(tab == null)
-				continue;
-			
-			if(Arrays.equals(tab.value(), anno.value())){
-				m.setAccessible(true);
-				tabCompleter = m;
-				break;
-			}
-		}
+	}
+	
+	public void setTabCompleteMethod(Object object, TabComplete anno, Method tabComplete){
+		this.tabCompleterObject = object;
+		this.tabCompleter = tabComplete;
 	}
 }

@@ -305,17 +305,25 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	/**
 	 * 添加指令
 	 */
-	public AnnoCommandManager addCommand(Object object){
-		for(Method method:object.getClass().getDeclaredMethods()){
-			team.unstudio.udpl.command.anno.Command annoCommand = method.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
-			
-			if(annoCommand==null) 
-				continue;
-			
-			createCommandWrapper(annoCommand.value()).setMethod(object, method);
+	public AnnoCommandManager addCommand(Object object) {
+		for (Method method : object.getClass().getDeclaredMethods()) {
+			team.unstudio.udpl.command.anno.Command annoCommand = method
+					.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
 
-			for(Alias annoAlias:method.getAnnotationsByType(Alias.class))
-				createCommandWrapper(annoAlias.value()).setMethod(object, method);
+			if (annoCommand != null) {
+				createCommandWrapper(annoCommand.value()).setCommandMethod(object, annoCommand, method);
+
+				for (Alias annoAlias : method.getAnnotationsByType(Alias.class))
+					createCommandWrapper(annoAlias.value()).setCommandMethod(object, annoCommand, method);
+
+				continue;
+			}
+			
+			TabComplete annoTabComplete = method.getAnnotation(TabComplete.class);
+			
+			if(annoTabComplete != null){
+				getCommandWrapper(annoTabComplete.value()).ifPresent(wrapper->wrapper.setTabCompleteMethod(object, annoTabComplete, method));
+			}
 		}
 		return this;
 	}
@@ -325,22 +333,22 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 	
-	public CommandWrapper getCommandWrapper(String[] args){
+	public Optional<CommandWrapper> getCommandWrapper(String[] args){
 		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		
 		CommandWrapper parent = defaultHandler;
 		for (int i = 0,size = toLowerCaseArgs.length; i < size; i++) {
 			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
 			if(wrapper == null)
-				break;
+				return Optional.empty();
 			
 			parent = wrapper;
 		}
 		
-		return parent;
+		return Optional.of(parent);
 	}
 	
-	private CommandWrapper createCommandWrapper(String[] args){
+	protected CommandWrapper createCommandWrapper(String[] args){
 		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		
 		CommandWrapper parent = defaultHandler;
