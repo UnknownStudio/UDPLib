@@ -22,15 +22,20 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
     public static AutoCharsetYamlConfiguration loadConfiguration(File file){
         Validate.notNull(file, "File cannot be null");
         AutoCharsetYamlConfiguration config = new AutoCharsetYamlConfiguration();
-
-        try{
-        	config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
-        }catch(Exception e){}
-
-        if (config.charset == null) 
-        	config.charset = defaultCharset;
-
-        try {
+        setConfigCharsetName(config,file);
+        return loadFile(config,file);
+    }
+    
+    private static void setConfigCharsetName(AutoCharsetYamlConfiguration config,File file) {
+    	 try{
+         	config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
+         	if (config.charset == null) 
+            	config.charset = defaultCharset;
+         }catch(Exception e){}
+    }
+    
+    private static AutoCharsetYamlConfiguration loadFile(AutoCharsetYamlConfiguration config,File file) {
+    	try {
 			config.load(file);
 			return config;
 		} catch (IOException | InvalidConfigurationException e) {
@@ -38,4 +43,5 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
 			return null;
 		}
     }
+    
 }

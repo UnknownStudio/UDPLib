@@ -24,31 +24,10 @@ public abstract class ConfigurationHandler{
 
 	private final File file;
 	private final Map<String,Object> defaults = new HashMap<>();
-	private boolean cache = false;
+	private boolean loaded = false;
 	
 	public ConfigurationHandler(File file) {
 		this.file = file;
-	}
-	
-	private void loadDefaults(){
-		defaults.clear();
-		
-		for(Field f:getClass().getDeclaredFields()){
-			int modifiers = f.getModifiers();
-			if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
-				continue;
-			
-			f.setAccessible(true);
-			
-			ConfigItem anno= f.getDeclaredAnnotation(ConfigItem.class);
-			if(anno==null) 
-				continue;
-			
-			String key = anno.value().isEmpty()?f.getName():anno.value();
-			try {
-				defaults.put(key,f.get(this));
-			} catch (IllegalArgumentException | IllegalAccessException e) {}
-		}
 	}
 	
 	/**
@@ -56,34 +35,61 @@ public abstract class ConfigurationHandler{
 	 * @return
 	 */
 	public boolean reload(){
-		if(!cache){
-			loadDefaults();
-			cache=true;
-		}
+		loadDefaultsIfBeforeNot();
 			
 		YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 		if(config == null)
 			return false;
 
 		for (Field f : getClass().getDeclaredFields()) {
-			int modifiers = f.getModifiers();
-			if (Modifier.isFinal(modifiers) || Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers))
-				continue;
-
-			f.setAccessible(true);
-
-			ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
-			if (anno == null)
-				continue;
-
-			String key = anno.value().isEmpty()?f.getName():anno.value();
-			try {
-				f.set(this, ConfigurationSerializationHelper.deserialize(config, key).orElseGet(()->defaults.get(key)));
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-			}
+			String key = getConfigItemKeyOrNull(f);
+			if(key==null)continue;
+			setFieldIfConfigValueExist(config,f,key);
 		}
 
 		return true;
+	}
+	
+	private void loadDefaultsIfBeforeNot() {
+		if(!loaded){
+			loadDefaults();
+			loaded=true;
+		}
+	}
+	
+	private void loadDefaults(){
+		defaults.clear();
+		for(Field f:getClass().getDeclaredFields()){
+			String key = getConfigItemKeyOrNull(f);
+			if(key==null)continue;
+			putValue(key,f);
+		}
+	}
+	
+	private String getConfigItemKeyOrNull(Field f) {
+		if(!isGeneral(f))return null;
+		f.setAccessible(true);
+		ConfigItem anno= f.getDeclaredAnnotation(ConfigItem.class);
+		if(anno==null)return null;
+		String key = anno.value().isEmpty()?f.getName():anno.value();
+		return key;
+	}
+	
+	private boolean isGeneral(Field f) {
+		int modifiers = f.getModifiers();
+		return !(Modifier.isFinal(modifiers) || Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers));
+	}
+	
+	private void putValue(String key,Field f) {
+		try {
+			defaults.put(key,f.get(this));
+		} catch (IllegalArgumentException | IllegalAccessException e) {}
+	}
+	
+	private void setFieldIfConfigValueExist(YamlConfiguration config,Field f,String key) {
+		try {
+			f.set(this, ConfigurationSerializationHelper.deserialize(config, key).orElseGet(()->defaults.get(key)));
+		} catch (IllegalArgumentException | IllegalAccessException e) {}
 	}
 	
 	/**
@@ -95,8 +101,7 @@ public abstract class ConfigurationHandler{
 			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
 			
 			for(Field f:getClass().getDeclaredFields()){
-				int modifiers = f.getModifiers();
-				if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
+				if(!isGeneral(f))
 					continue;
 				
 				f.setAccessible(true);
