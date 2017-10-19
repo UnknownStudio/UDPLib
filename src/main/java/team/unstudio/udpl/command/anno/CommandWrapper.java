@@ -15,7 +15,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import team.unstudio.udpl.command.CommandResult;
-import team.unstudio.udpl.core.UDPLib;
 
 public class CommandWrapper {
 	
@@ -206,20 +205,20 @@ public class CommandWrapper {
 	
 	@SuppressWarnings("unchecked")
 	public List<String> onTabComplete(String[] args){
-		if(tabCompleter==null){
-			if(args.length<=requireds.length)
-				return requiredCompletes.get(args.length-1);
-			else if(args.length<=requireds.length+optionals.length)
-				return optionalCompletes.get(args.length-requireds.length-1);
-			else
-				return Collections.EMPTY_LIST;
-		}else{
+		List<String> tabComplete = Lists.newArrayList();
+		
+		String prefix = args[args.length-1];
+		if (args.length <= requireds.length)
+			requiredCompletes.get(args.length - 1).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
+		else if (args.length <= requireds.length + optionals.length)
+			optionalCompletes.get(args.length - requireds.length - 1).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
+			
+		if(tabCompleter!=null)
 			try {
-				return (List<String>) tabCompleter.invoke(obj, new Object[]{args});
-			} catch (Exception e) {
-				return Collections.EMPTY_LIST;
-			}
-		}
+				tabComplete.addAll((List<String>) tabCompleter.invoke(obj, new Object[]{args}));
+			} catch (Exception e) {}
+		
+		return tabComplete;
 	}
 	
 	public void setMethod(Object obj,Method method){
