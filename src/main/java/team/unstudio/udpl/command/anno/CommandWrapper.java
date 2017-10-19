@@ -4,13 +4,14 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
 import org.bukkit.command.CommandSender;
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -60,10 +61,6 @@ public class CommandWrapper {
 		return children;
 	}
 	
-	public Object getObj() {
-		return commandObject;
-	}
-	
 	public String getPermission() {
 		return permission;
 	}
@@ -82,10 +79,6 @@ public class CommandWrapper {
 
 	public boolean isAllowOp() {
 		return allowOp;
-	}
-	
-	public Method getMethod() {
-		return command;
 	}
 	
 	@Nullable
@@ -214,10 +207,11 @@ public class CommandWrapper {
 		else if (args.length <= requireds.length + optionals.length)
 			optionalCompletes.get(args.length - requireds.length - 1).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
 			
-		if(tabCompleter!=null)
+		if(tabCompleter!=null){
 			try {
 				tabComplete.addAll((List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args}));
 			} catch (Exception e) {}
+		}
 		
 		return tabComplete;
 	}
@@ -225,24 +219,24 @@ public class CommandWrapper {
 	public void setCommandMethod(Object obj,Command anno,Method method){
 		this.commandObject = obj;
 		this.command = method;
-		method.setAccessible(true);
-		permission = anno.permission();
-		senders = anno.senders();
-		usage = anno.usage();
-		description = anno.description();
-		allowOp = anno.allowOp();
-		exactParameterMatching = anno.exactParameterMatching();
+		this.command.setAccessible(true);
+		this.permission = anno.permission();
+		this.senders = anno.senders();
+		this.usage = anno.usage();
+		this.description = anno.description();
+		this.allowOp = anno.allowOp();
+		this.exactParameterMatching = anno.exactParameterMatching();
 		
 		Class<?>[] parameterTypes = method.getParameterTypes();
-		hasStringArray = parameterTypes[parameterTypes.length-1].equals(String[].class);
+		this.hasStringArray = parameterTypes[parameterTypes.length-1].equals(String[].class);
 		
 		//参数载入
 		List<Class<?>> requireds = new ArrayList<>();
 		List<Class<?>> optionals = new ArrayList<>();
 		List<String> requiredUsages = new ArrayList<>();
 		List<String> optionalUsages = new ArrayList<>();
-		requiredCompletes = new ArrayList<>();
-		optionalCompletes = new ArrayList<>();
+		List<List<String>> requiredCompletes = new ArrayList<>();
+		List<List<String>> optionalCompletes = new ArrayList<>();
 		List<Object> optionalDefaults = new ArrayList<>();
 		
 		Parameter[] parameters = method.getParameters();
@@ -253,7 +247,7 @@ public class CommandWrapper {
 					requireds.add(parameters[i].getType());
 					requiredUsages.add(annoRequired.usage() == null || annoRequired.usage().isEmpty()
 							? parameters[i].getName() : annoRequired.usage());
-					requiredCompletes.add(Collections.unmodifiableList(Arrays.asList(annoRequired.complete())));
+					requiredCompletes.add(ImmutableList.copyOf(annoRequired.complete()));
 					continue;
 				}
 			}
@@ -265,16 +259,19 @@ public class CommandWrapper {
 					optionalUsages.add(annoOptional.usage() == null || annoOptional.usage().isEmpty()
 							? parameters[i].getName() : annoOptional.usage());
 					optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
-					optionalCompletes.add(Collections.unmodifiableList(Arrays.asList(annoOptional.complete())));
+					optionalCompletes.add(ImmutableList.copyOf(annoOptional.complete()));
 					continue;
 				}
 			}
 		}
+		
 		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
 		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
 		this.requiredUsages = requiredUsages.toArray(new String[requiredUsages.size()]);
+		this.requiredCompletes = ImmutableList.copyOf(requiredCompletes);
 		this.optionalUsages = optionalUsages.toArray(new String[optionalUsages.size()]);
 		this.optionalDefaults = optionalDefaults.toArray(new Object[optionalDefaults.size()]);
+		this.optionalCompletes = ImmutableList.copyOf(optionalCompletes);
 	}
 	
 	public void setTabCompleteMethod(Object object, TabComplete anno, Method tabComplete){
