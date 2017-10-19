@@ -11,12 +11,11 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.google.common.collect.Sets;
-
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.event.FakeSignUpdateEvent;
 
-import java.util.Set;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,7 +34,7 @@ public final class SignUtils {
     private static PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
     private static PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
     
-    private static final Set<Player> OPENED_FAKE_SIGN_PLAYERS = Sets.newHashSet();
+    private static final Map<Player,BlockPosition> OPENED_FAKE_SIGN_PLAYERS = new WeakHashMap<>();
     
     private SignUtils(){}
     
@@ -48,9 +47,12 @@ public final class SignUtils {
 			@Override
 			public void onPacketReceiving(PacketEvent arg0) {
 				Player player = arg0.getPlayer();
-				if(!OPENED_FAKE_SIGN_PLAYERS.contains(player))
+				if(!OPENED_FAKE_SIGN_PLAYERS.containsKey(player))
 					return;
 				PacketContainer container = arg0.getPacket();
+				BlockPosition position = container.getBlockPositionModifier().read(0);
+				if(!position.equals(OPENED_FAKE_SIGN_PLAYERS.get(player)))
+					return;
 				String line1 = container.getStrings().read(0);
 				String line2 = container.getStrings().read(1);
 				String line3 = container.getStrings().read(2);
@@ -100,7 +102,7 @@ public final class SignUtils {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
-                OPENED_FAKE_SIGN_PLAYERS.add(player);
+                OPENED_FAKE_SIGN_PLAYERS.put(player, blockPosition);
                 return Result.success();
             } catch (Exception var11) {
             	return Result.failure(var11);
@@ -118,7 +120,7 @@ public final class SignUtils {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
-                OPENED_FAKE_SIGN_PLAYERS.add(player);
+                OPENED_FAKE_SIGN_PLAYERS.put(player, blockPosition);
                 return Result.success();
             } catch (Exception var12) {
             	return Result.failure(var12);
@@ -141,7 +143,7 @@ public final class SignUtils {
                 e = manager.createPacket(OPEN_SIGN_ENTITY);
                 e.getBlockPositionModifier().write(0, blockPosition);
                 manager.sendServerPacket(player, e);
-                OPENED_FAKE_SIGN_PLAYERS.add(player);
+                OPENED_FAKE_SIGN_PLAYERS.put(player, blockPosition);
                 return Result.success();
             } catch (Exception var12) {
             	return Result.failure(var12);
