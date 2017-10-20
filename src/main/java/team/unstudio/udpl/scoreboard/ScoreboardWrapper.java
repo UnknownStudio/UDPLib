@@ -3,6 +3,7 @@ package team.unstudio.udpl.scoreboard;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -51,6 +52,10 @@ public class ScoreboardWrapper {
 	
 	public Set<String> getKeys(){
 		return scoreboard.getEntries();
+	}
+	
+	public Set<String> getKeys(int score){
+		return getKeys().stream().filter(key->getScore(key) == score).collect(Collectors.toSet());
 	}
 	
 	public int getScore(String key){
