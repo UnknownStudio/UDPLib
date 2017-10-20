@@ -173,10 +173,7 @@ public class AreaManager {
 
 	public void setAutoSave(boolean autoSave) {
 		this.autoSave = autoSave;
-		if(autoSave)
-			startNewAutoSaveTask();
-		else
-			stopAutoSaveTask();
+		updateAutoSaveTask();
 	}
 	
 	public long getAutoSavePeriod() {
@@ -185,7 +182,14 @@ public class AreaManager {
 
 	public void setAutoSavePeriod(long autoSavePeriod) {
 		this.autoSavePeriod = autoSavePeriod;
-		startNewAutoSaveTask();
+		updateAutoSaveTask();
+	}
+	
+	private void updateAutoSaveTask(){
+		if(autoSave)
+			startNewAutoSaveTask();
+		else
+			stopAutoSaveTask();
 	}
 	
 	private void startNewAutoSaveTask(){
@@ -205,10 +209,7 @@ public class AreaManager {
 
 	public void setAutoBackup(boolean autoBackup) {
 		this.autoBackup = autoBackup;
-		if(autoBackup)
-			startNewAutoBackupTask();
-		else
-			stopAutoBackupTask();
+		updateAutoBackupTask();
 	}
 
 	public long getAutoBackupPeriod() {
@@ -217,7 +218,14 @@ public class AreaManager {
 
 	public void setAutoBackupPeriod(long autoBackupPeriod) {
 		this.autoBackupPeriod = autoBackupPeriod;
-		startNewAutoBackupTask();
+		updateAutoBackupTask();
+	}
+	
+	private void updateAutoBackupTask(){
+		if(autoBackup)
+			startNewAutoBackupTask();
+		else
+			stopAutoBackupTask();
 	}
 	
 	private void startNewAutoBackupTask(){
