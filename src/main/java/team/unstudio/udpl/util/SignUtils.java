@@ -11,12 +11,12 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
+import com.google.common.collect.Maps;
+
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.event.FakeSignUpdateEvent;
 
 import java.util.Map;
-import java.util.WeakHashMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,11 +34,12 @@ public final class SignUtils {
     private static PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
     private static PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
     
-    private static final Map<Player,BlockPosition> OPENED_FAKE_SIGN_PLAYERS = new WeakHashMap<>();
+    private static final Map<Player,BlockPosition> OPENED_FAKE_SIGN_PLAYERS = Maps.newHashMap();
     
     private SignUtils(){}
     
     public static void initSignUtils(){
+    	CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
     	manager.addPacketListener(new PacketListener() {
 			
 			@Override

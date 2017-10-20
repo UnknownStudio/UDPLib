@@ -14,6 +14,7 @@ import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.mapping.MappingHelper;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
+import team.unstudio.udpl.util.CacheUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.SignUtils;
 
@@ -38,23 +39,24 @@ public final class UDPLib extends JavaPlugin{
 		
 		NBTUtils.registerAllNBTSerilizable();
 		
-		MappingHelper.loadMapping();
-		NmsHelper.loadNmsHelper();
-		
-		SignUtils.initSignUtils();
-		PlayerUtils.initPlayerUtils();
-	}
-
-	@Override
-	public void onEnable() {
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
 		setDebug(CONFIG.debug);
 		
+		MappingHelper.loadMapping();
+		NmsHelper.loadNmsHelper();
+		CacheUtils.initCacheUtils();
+		
+		SignUtils.initSignUtils();
+		PlayerUtils.initPlayerUtils();
+		
 		if(CONFIG.enableTest)
 			TestLoader.INSTANCE.onLoad();
-		
+	}
+
+	@Override
+	public void onEnable() {
 		loadPluginManager();
 		
 		new AnnoCommandManager("udpl").addCommand(new UDPLCommand()).registerCommand();
