@@ -3,11 +3,13 @@ package team.unstudio.udpl.core.test;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
@@ -36,6 +38,27 @@ public final class TestCommand {
 		return true;
 	}
 	
+	@Command(value = "i18n", senders = Player.class)
+	public void i18n(Player sender){
+		TestLoader.i18n.sendLocalizedMessage(sender, "test");
+	}
+	
+	@Command(value = "area", senders = Player.class)
+	public void area(Player sender,
+						@Required int x1,
+						@Required int y1,
+						@Required int z1,
+						@Required int x2,
+						@Required int y2,
+						@Required int z2){
+		TestLoader.areaManager.addArea(new Area(new Location(sender.getWorld(), x1, y1, z1), new Location(sender.getWorld(), x2, y2, z2)));
+	}
+	
+	@Command(value = "language", senders = Player.class)
+	public void language(Player sender){
+		sender.sendMessage(PlayerUtils.getLanguage(sender));
+	}
+	
 	@Command(value = "nmsitem", senders = Player.class)
 	public void nmsitem(Player sender){
 		sender.sendMessage(NmsHelper.createItemStack(sender.getInventory().getItemInMainHand()).save().toString());
@@ -48,6 +71,7 @@ public final class TestCommand {
 		 scoreboard.put("UDPL Version " + UDPLib.getInstance().getDescription().getVersion(), 15);
 		 scoreboard.put("NMS Version " + BukkitVersion.CURRENT_BUKKIT_VERSION, 14);
 		 scoreboard.put("MC Version " + ServerUtils.getMinecraftVersion(), 15);
+		 scoreboard.put("Language " + PlayerUtils.getLanguage(sender), 14);
 		 scoreboard.display(sender);
 	}
 
