@@ -23,6 +23,10 @@ public class TestLoader {
 		
 		areaManager.addPlayerEnterAreaCallback((player,area)->player.sendMessage("Entered Area."));
 		areaManager.addPlayerLeaveAreaCallback((player,area)->player.sendMessage("Leaved Area."));
+		areaManager.setAutoSavePeriod(20*60);
+		areaManager.setAutoSave(true);
+		areaManager.setAutoBackupPeriod(20*120);
+		areaManager.setAutoBackup(true);
 	}
 	
 	public void onEnable(){
