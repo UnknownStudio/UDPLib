@@ -18,6 +18,10 @@ public interface I18n {
 		return format(Locale.forLanguageTag(locale), key, args);
 	}
 	
+	default String format(Player player, String key, Object... args){
+		return format(PlayerUtils.getLanguageLocale(player), key, args);
+	}
+	
 	default void sendMessage(Player player, String locale, String key, Object... args){
 		player.sendMessage(format(locale, key, args));
 	}
@@ -31,6 +35,6 @@ public interface I18n {
 	}
 	
 	default void sendLocalizedMessage(Player player, String key, Object... args){
-		player.sendMessage(format(PlayerUtils.getLanguageLocale(player), key, args));
+		player.sendMessage(format(player, key, args));
 	}
 }
