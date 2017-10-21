@@ -215,7 +215,7 @@ public class CommandWrapper {
 			}
 			
 			//Sub Command
-			parent.getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
+			getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
 		}
 		
 		if(tabCompleter!=null){
