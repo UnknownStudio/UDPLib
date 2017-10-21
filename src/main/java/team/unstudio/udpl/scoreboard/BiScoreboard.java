@@ -41,13 +41,14 @@ public class BiScoreboard {
 	
 	public void put(String key, int score){
 		String oldKey = getKey(score);
-		scoreboard.resetScores(oldKey);
+		if(oldKey != null)
+			scoreboard.resetScores(oldKey);
 		objective.getScore(key).setScore(score);
 		keyToScore.forcePut(key, score);
 	}
 	
 	public void put(int score, String key){
-		this.put(key,score);
+		this.put(key, score);
 	}
 	
 	public void putAll(Map<String,Integer> map){
