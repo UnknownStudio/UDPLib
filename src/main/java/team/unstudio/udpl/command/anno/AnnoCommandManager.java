@@ -417,12 +417,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			parent = wrapper;
 		}
 		list.addAll(parent.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
-		
-		if(list.isEmpty()){ //Players
-			String prefix = args[size-1];
-			Collections.addAll(list, ServerUtils.getOnlinePlayerNamesWithFilter(name->name.startsWith(prefix)));
-		}
-		
+
 		return list;
 	}
 	

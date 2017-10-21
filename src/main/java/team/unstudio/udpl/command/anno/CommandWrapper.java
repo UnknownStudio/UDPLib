@@ -202,8 +202,10 @@ public class CommandWrapper {
 		List<String> tabComplete = Lists.newArrayList();
 		int index = args.length-1;
 		
-		{
+		if(index >= 0){
 			String prefix = args[index];
+			
+			//Parameter
 			if (args.length <= requireds.length){
 				requiredCompletes.get(index).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
 				tabComplete.addAll(manager.tabCompleteParameter(requireds[index], prefix));
@@ -211,10 +213,8 @@ public class CommandWrapper {
 				optionalCompletes.get(index - requireds.length).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
 				tabComplete.addAll(manager.tabCompleteParameter(optionals[index - requireds.length], prefix));
 			}
-		}
 			
-		{
-			String prefix = args[index].toLowerCase();
+			//Sub Command
 			parent.getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
 		}
 		
