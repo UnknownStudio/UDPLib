@@ -56,25 +56,23 @@ public class SimpleI18n implements I18n{
 		}
 	}
 	
+	@Override
+	public String format(String key) {
+		return format(defaultLocale, key);
+	}
+	
+	@Override
 	public String format(String key, Object... args){
 		return format(defaultLocale, key, args);
 	}
 	
-	public String format(Locale locale, String key, Object... args){
-		Object[] localizedArgs = new Object[args.length];
-		for (int i = 0, size = args.length; i < size; i++) {
-			Object arg = args[i];
-			if(arg instanceof String)
-				localizedArgs[i] = format(locale, (String) arg);
-			else
-				localizedArgs[i] = arg;
-		}
-		
+	@Override
+	public String format(Locale locale, String key){
 		if(cache.containsKey(locale))
-			return String.format(cache.get(locale).getString(key, key), localizedArgs);
+			return cache.get(locale).getString(key, key);
 		else if(cache.containsKey(defaultLocale))
-			return String.format(cache.get(defaultLocale).getString(key, key), localizedArgs);
+			return cache.get(defaultLocale).getString(key, key);
 		else
-			return String.format(key, localizedArgs);
+			return key;
 	}
 }

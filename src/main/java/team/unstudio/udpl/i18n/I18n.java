@@ -8,7 +8,31 @@ import team.unstudio.udpl.util.PlayerUtils;
 
 public interface I18n {
 	
-	String format(Locale locale, String key, Object... args);
+	String format(Locale locale, String key);
+	
+	default String format(String key){
+		return format(Locale.getDefault(), key);
+	}
+	
+	default String format(String locale, String key){
+		return format(Locale.forLanguageTag(locale), key);
+	}
+	
+	default String format(Player player, String key){
+		return format(PlayerUtils.getLanguageLocale(player), key);
+	}
+	
+	default String format(Locale locale, String key, Object... args){
+		Object[] localizedArgs = new Object[args.length];
+		for (int i = 0, size = args.length; i < size; i++) {
+			Object arg = args[i];
+			if(arg instanceof String)
+				localizedArgs[i] = format(locale, (String) arg);
+			else
+				localizedArgs[i] = arg;
+		}
+		return String.format(format(locale, key), localizedArgs);
+	}
 	
 	default String format(String key, Object... args){
 		return format(Locale.getDefault(), key, args);
