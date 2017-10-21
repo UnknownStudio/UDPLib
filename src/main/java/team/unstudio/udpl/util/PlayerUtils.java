@@ -2,8 +2,7 @@ package team.unstudio.udpl.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
-import java.util.WeakHashMap;
-
+import java.util.Map;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -14,6 +13,7 @@ import com.comphenix.protocol.events.ListeningWhitelist;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.events.PacketListener;
+import com.google.common.collect.Maps;
 
 import team.unstudio.udpl.core.UDPLib;
 
@@ -22,7 +22,7 @@ public final class PlayerUtils {
 	private PlayerUtils(){}
 	
 	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-	private static WeakHashMap<Player, Locale> PLAYER_LANGUAGE_CACHE = new WeakHashMap<>();
+	private static Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newHashMap();
 	
 	public static void initPlayerUtils(){
 		protocolManager.addPacketListener(new PacketListener() {
@@ -34,8 +34,11 @@ public final class PlayerUtils {
 			public void onPacketReceiving(PacketEvent arg0) {
 				Player player = arg0.getPlayer();
 				PacketContainer container = arg0.getPacket();
-				String locale = container.getStrings().read(0);
-				PLAYER_LANGUAGE_CACHE.put(player, Locale.forLanguageTag(locale));
+				String languageTag = container.getStrings().read(0);
+				Locale locale = Locale.forLanguageTag(languageTag);
+				if(locale == Locale.ROOT)
+					return;
+				PLAYER_LANGUAGE_CACHE.put(player, locale);
 			}
 			
 			@Override
