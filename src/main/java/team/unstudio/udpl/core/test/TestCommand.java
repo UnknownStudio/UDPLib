@@ -33,8 +33,10 @@ public final class TestCommand {
 	
 	@Command
 	@Alias("help")
-	public boolean help(CommandSender sender){
+	public boolean help(CommandSender sender,String[] args){
 		sender.sendMessage("UDPL Test 已正常启动.");
+		if(args.length > 0)
+			sender.sendMessage("多参数测试成功.");
 		return true;
 	}
 	
