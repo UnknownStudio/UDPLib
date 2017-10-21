@@ -115,24 +115,25 @@ public class AreaManager {
 	}
 	
 	public void loadAll(){
-		plugin.getLogger().info(String.format("[%s]Loading areas...", plugin.getName()));
+		plugin.getLogger().info("Loading areas...");
 		managers.clear();
 		for(World world:Bukkit.getWorlds()){
 			WorldAreaManager a = new WorldAreaManager(world,areaPath);
 			a.load();
 			managers.put(world, a);
 		}
-		plugin.getLogger().info(String.format("[%s]Loaded areas.", plugin.getName()));
+		plugin.getLogger().info("Loaded areas.");
 	}
 	
 	public void saveAll(){
-		plugin.getLogger().info(String.format("[%s]Saving areas...", plugin.getName()));
+		plugin.getLogger().info("Saving areas...");
 		for(WorldAreaManager a:managers.values()) 
 			a.save();
-		plugin.getLogger().info(String.format("[%s]Saved areas.", plugin.getName()));
+		plugin.getLogger().info("Saved areas.");
 	}
 	
 	public synchronized void backupAll(){
+		plugin.getLogger().info("Backuping areas...");
 		File backupPath = this.backupPath != null ? this.backupPath : new File(areaPath, "backup");
 		if(!backupPath.exists())
 			backupPath.mkdirs();
@@ -141,6 +142,7 @@ public class AreaManager {
 		File backupFile = new File(backupPath,"backup-"+date+".zip");
 		File[] files = areaPath.listFiles((dir,name)->name.endsWith(".yml"));
 		ZipUtils.zip(backupFile, files);
+		plugin.getLogger().info("Backuped areas.");
 	}
 	
 	public void addPlayerEnterAreaCallback(PlayerEnterAreaCallback callback){
