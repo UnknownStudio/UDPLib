@@ -1,5 +1,6 @@
 package team.unstudio.udpl.util;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +22,8 @@ public final class CacheUtils {
 	
 	private CacheUtils(){}
 	
-	private static Set<Map<Player,?>> PLAYER_CACHES = Sets.newHashSet();
+	private static Set<Map<Player,?>> PLAYER_MAP_CACHES = Sets.newHashSet();
+	private static Set<Collection<Player>> PLAYER_COLLECTION_CACHES = Sets.newHashSet();
 	
 	public static void initCacheUtils(){
 		Bukkit.getPluginManager().registerEvents(new CacheListener(), UDPLib.getInstance());
@@ -29,12 +31,22 @@ public final class CacheUtils {
 	
 	public static void registerPlayerCache(@Nonnull Map<Player,?> cache){
 		Validate.notNull(cache);
-		PLAYER_CACHES.add(cache);
+		PLAYER_MAP_CACHES.add(cache);
+	}
+	
+	public static void registerPlayerCache(@Nonnull Collection<Player> cache){
+		Validate.notNull(cache);
+		PLAYER_COLLECTION_CACHES.add(cache);
 	}
 	
 	public static void unregisterPlayerCache(@Nonnull Map<Player,?> cache){
 		Validate.notNull(cache);
-		PLAYER_CACHES.remove(cache);
+		PLAYER_MAP_CACHES.remove(cache);
+	}
+	
+	public static void unregisterPlayerCache(@Nonnull Collection<Player> cache){
+		Validate.notNull(cache);
+		PLAYER_COLLECTION_CACHES.remove(cache);
 	}
 	
 	private static class CacheListener implements Listener{
@@ -42,7 +54,8 @@ public final class CacheUtils {
 		@EventHandler(priority=EventPriority.MONITOR)
 		public void onQuit(PlayerQuitEvent event){
 			Player player = event.getPlayer();
-			CacheUtils.PLAYER_CACHES.forEach(cache->cache.remove(player));
+			PLAYER_MAP_CACHES.forEach(cache->cache.remove(player));
+			PLAYER_COLLECTION_CACHES.forEach(cache->cache.remove(player));
 		}
 	}
 }
