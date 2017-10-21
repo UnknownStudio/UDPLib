@@ -50,7 +50,7 @@ public class SimpleI18n implements I18n{
 	public void reload(){
 		cache.clear();
 		for(File file:path.listFiles((file,name)->name.endsWith(".yml"))){
-			Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')));
+			Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')).replaceAll("_", "-"));
 			Configuration config = ConfigurationHelper.loadConfiguration(file);
 			cache.put(locale, config);
 		}

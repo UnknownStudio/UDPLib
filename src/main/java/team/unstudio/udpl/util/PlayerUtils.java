@@ -35,7 +35,8 @@ public final class PlayerUtils {
 				Player player = arg0.getPlayer();
 				PacketContainer container = arg0.getPacket();
 				String languageTag = container.getStrings().read(0);
-				Locale locale = Locale.forLanguageTag(toLanguageTagNormalized(languageTag));
+				String nomalizedLanguageTag = toLanguageTagNormalized(languageTag);
+				Locale locale = Locale.forLanguageTag(nomalizedLanguageTag);
 				if(locale == Locale.ROOT)
 					return;
 				PLAYER_LANGUAGE_CACHE.put(player, locale);
@@ -77,7 +78,8 @@ public final class PlayerUtils {
 	}
 	
 	private static String toLanguageTagNormalized(String languageTag){
-		int first = languageTag.indexOf("_"), second = languageTag.indexOf("_", first+1);
+		languageTag = languageTag.replaceAll("_", "-");
+		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
 		if(first == -1)
 			return languageTag;
 		else if(second == -1){
