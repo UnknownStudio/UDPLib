@@ -10,6 +10,9 @@ import java.util.jar.JarFile;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PluginUtils {
@@ -41,5 +44,9 @@ public final class PluginUtils {
 			plugin.getLogger().warning("Plugin save directory failed. Path: " + resourcePath);
 			e.printStackTrace();
 		}
+	}
+	
+	public static void registerEvent(Listener listener,Plugin plugin){
+		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 }
