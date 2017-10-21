@@ -22,7 +22,7 @@ public final class PlayerUtils {
 	private PlayerUtils(){}
 	
 	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-	private static Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newHashMap();
+	private static Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
 	
 	public static void initPlayerUtils(){
 		protocolManager.addPacketListener(new PacketListener() {
