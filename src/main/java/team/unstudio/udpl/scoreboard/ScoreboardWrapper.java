@@ -16,14 +16,21 @@ public class ScoreboardWrapper {
 	private final Scoreboard scoreboard;
 	private final Objective objective;
 	
-	public ScoreboardWrapper(){
-		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		objective = scoreboard.registerNewObjective("ScoreboardAPI", "dummy");
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+	public ScoreboardWrapper(Scoreboard scoreboard,Objective objective){
+		this.scoreboard = scoreboard;
+		this.objective = objective;
 	}
 	
 	public Scoreboard getScoreboard(){
 		return scoreboard;
+	}
+	
+	public Objective getObjective(){
+		return objective;
+	}
+	
+	public void setDisplayerSlot(DisplaySlot slot){
+		objective.setDisplaySlot(slot);
 	}
 	
 	public String getDisplayName(){

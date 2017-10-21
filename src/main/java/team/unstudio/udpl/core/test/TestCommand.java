@@ -17,7 +17,7 @@ import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.NmsHelper;
-import team.unstudio.udpl.scoreboard.ScoreboardWrapper;
+import team.unstudio.udpl.scoreboard.BiScoreboard;
 import team.unstudio.udpl.util.ActionBar;
 import team.unstudio.udpl.util.BlockUtils;
 import team.unstudio.udpl.util.BookUtils;
@@ -68,7 +68,7 @@ public final class TestCommand {
 	
 	@Command(value = "scoreboard", senders = Player.class)
 	public void scoreboard(Player sender){
-		 ScoreboardWrapper scoreboard = new ScoreboardWrapper();
+		 BiScoreboard scoreboard = new BiScoreboard();
 		 scoreboard.put("UDPL Test", 16);
 		 scoreboard.put("UDPL Version " + UDPLib.getInstance().getDescription().getVersion(), 15);
 		 scoreboard.put("NMS Version " + BukkitVersion.CURRENT_BUKKIT_VERSION, 14);
