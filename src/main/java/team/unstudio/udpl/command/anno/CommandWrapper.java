@@ -200,13 +200,24 @@ public class CommandWrapper {
 	@SuppressWarnings("unchecked")
 	public List<String> onTabComplete(String[] args){
 		List<String> tabComplete = Lists.newArrayList();
+		int index = args.length-1;
 		
-		String prefix = args[args.length-1];
-		if (args.length <= requireds.length)
-			requiredCompletes.get(args.length - 1).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
-		else if (args.length <= requireds.length + optionals.length)
-			optionalCompletes.get(args.length - requireds.length - 1).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
+		{
+			String prefix = args[index];
+			if (args.length <= requireds.length){
+				requiredCompletes.get(index).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
+				tabComplete.addAll(manager.tabCompleteParameter(requireds[index], prefix));
+			}else if (args.length <= requireds.length + optionals.length){
+				optionalCompletes.get(index - requireds.length).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
+				tabComplete.addAll(manager.tabCompleteParameter(optionals[index - requireds.length], prefix));
+			}
+		}
 			
+		{
+			String prefix = args[index].toLowerCase();
+			parent.getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
+		}
+		
 		if(tabCompleter!=null){
 			try {
 				tabComplete.addAll((List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args}));

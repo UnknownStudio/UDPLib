@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Stack;
-
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +22,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import team.unstudio.udpl.command.CommandHelper;
 import team.unstudio.udpl.util.ServerUtils;
@@ -40,6 +42,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	private final String name;
 	private final CommandWrapper defaultHandler;
 	
+	protected final Map<Class<?>,CommandParameterHandler> parameterHandlers;
+	
 	private String usage;
 	private String description;
 	
@@ -56,10 +60,35 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * @param name 指令名
 	 * @param plugin 插件
 	 */
-	public AnnoCommandManager(@Nonnull String name,JavaPlugin plugin){
+	public AnnoCommandManager(@Nonnull String name, @Nonnull JavaPlugin plugin){
+		this(name,plugin,null);
+	}
+	
+	/**
+	 * 创建指令管理者
+	 * @param name 指令名
+	 * @param plugin 插件
+	 * @param parameters 指令参数处理器
+	 */
+	public AnnoCommandManager(@Nonnull String name, @Nonnull JavaPlugin plugin, Map<Class<?>,CommandParameterHandler> parameterHandlers){
+		Validate.notNull(name);
+		Validate.notNull(plugin);
 		this.name = name;
 		this.plugin = plugin;
 		this.defaultHandler = new CommandWrapper(name,this,null);
+		this.parameterHandlers = initParameter(parameterHandlers);
+	}
+	
+	protected Map<Class<?>,CommandParameterHandler> initParameter(Map<Class<?>,CommandParameterHandler> parameterHandlers){
+		Map<Class<?>,CommandParameterHandler> map = Maps.newHashMap();
+		
+		map.put(Player.class, new CommandParameterHandler.PlayerHandler());
+		map.put(OfflinePlayer.class, new CommandParameterHandler.OfflinePlayerHandler());
+		
+		if(parameterHandlers != null)
+			map.putAll(parameterHandlers);
+		
+		return ImmutableMap.copyOf(map);
 	}
 	
 	public JavaPlugin getPlugin() {
@@ -205,7 +234,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * @param value 参数
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	protected Object transformParameter(Class<?> clazz, String value) {
 		if (value == null)
 			return null;
@@ -225,13 +253,25 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return Byte.parseByte(value);
 		else if (clazz.equals(short.class) || clazz.equals(Short.class))
 			return Short.parseShort(value);
-		else if (clazz.equals(Player.class))
-			return Bukkit.getPlayerExact(value);
-		else if (clazz.equals(OfflinePlayer.class))
-			return Bukkit.getOfflinePlayer(value);
-		else if (clazz.equals(Material.class))
-			return Material.valueOf(value);
-		return null;
+		else if (parameterHandlers.containsKey(clazz))
+			return parameterHandlers.get(clazz).transform(value);
+		else
+			throw new IllegalArgumentException(String.format("Can't transform parameter. Class: %1$s. Value: \"%2$s\".",clazz.getName(),value));
+	}
+	
+	/**
+	 * 补全参数
+	 * @param clazz
+	 * @param value
+	 * @return
+	 */
+	protected List<String> tabCompleteParameter(Class<?> clazz, String value) {
+		if (value == null)
+			return Collections.emptyList();
+		else if (parameterHandlers.containsKey(clazz))
+			return parameterHandlers.get(clazz).tabComplete(value);
+		else
+			return Collections.emptyList();
 	}
 	
 	/**
@@ -328,17 +368,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 	
-	public AnnoCommandManager addAllCommand(Object ...object){
+	public AnnoCommandManager addAllCommand(Object... object){
 		Arrays.stream(object).forEach(this::addCommand);
 		return this;
 	}
 	
 	public Optional<CommandWrapper> getCommandWrapper(String[] args){
-		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
-		
 		CommandWrapper parent = defaultHandler;
-		for (int i = 0,size = toLowerCaseArgs.length; i < size; i++) {
-			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
+		for (int i = 0,size = args.length; i < size; i++) {
+			CommandWrapper wrapper = parent.getChildren().get(args[i].toLowerCase());
 			if(wrapper == null)
 				return Optional.empty();
 			
@@ -367,13 +405,12 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 
 	@Override
 	public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		List<String> list = new ArrayList<>();
 		
 		CommandWrapper parent = defaultHandler;
 		int i, size;
-		for (i = 0,size = toLowerCaseArgs.length; i < size; i++) {
-			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
+		for (i = 0,size = args.length; i < size; i++) {
+			CommandWrapper wrapper = parent.getChildren().get(args[i].toLowerCase());
 			if(wrapper == null)
 				break;
 			
@@ -381,16 +418,55 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		list.addAll(parent.onTabComplete(Arrays.copyOfRange(args, i, args.length)));
 		
-		{ //Sub Commands
-			String prefix = toLowerCaseArgs[size-1];
-			parent.getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(list::add);
-		}
-		
 		if(list.isEmpty()){ //Players
 			String prefix = args[size-1];
 			Collections.addAll(list, ServerUtils.getOnlinePlayerNamesWithFilter(name->name.startsWith(prefix)));
 		}
 		
 		return list;
+	}
+	
+	public static Builder builder(){
+		return new Builder();
+	}
+	
+	public static class Builder{
+		private String name;
+		private JavaPlugin plugin;
+		private Map<Class<?>,CommandParameterHandler> parameterHandlers = Maps.newHashMap();
+		private String usage;
+		private String description;
+		
+		public Builder name(String name){
+			this.name = name;
+			return this;
+		}
+		
+		public Builder plugin(JavaPlugin plugin){
+			this.plugin = plugin;
+			return this;
+		}
+		
+		public Builder usage(String usage){
+			this.usage = usage;
+			return this;
+		}
+		
+		public Builder description(String description){
+			this.description = description;
+			return this;
+		}
+		
+		public Builder parameterHandler(Class<?> clazz,CommandParameterHandler handler){
+			parameterHandlers.put(clazz, handler);
+			return this;
+		}
+		
+		public AnnoCommandManager build(){
+			AnnoCommandManager manager = new AnnoCommandManager(name, plugin, parameterHandlers);
+			manager.setUsage(usage);
+			manager.setDescription(description);
+			return manager;
+		}
 	}
 }
