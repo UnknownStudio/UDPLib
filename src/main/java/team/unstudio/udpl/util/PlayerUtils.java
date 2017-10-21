@@ -35,7 +35,7 @@ public final class PlayerUtils {
 				Player player = arg0.getPlayer();
 				PacketContainer container = arg0.getPacket();
 				String languageTag = container.getStrings().read(0);
-				Locale locale = Locale.forLanguageTag(languageTag);
+				Locale locale = Locale.forLanguageTag(toLanguageTagNormalized(languageTag));
 				if(locale == Locale.ROOT)
 					return;
 				PLAYER_LANGUAGE_CACHE.put(player, locale);
@@ -66,13 +66,25 @@ public final class PlayerUtils {
 	public static Locale getLanguageLocale(Player player){
 		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
 			try {
-				PLAYER_LANGUAGE_CACHE.put(player, Locale.forLanguageTag((String) NMSReflectionUtils.getEntityPlayer_locale().get(NMSReflectionUtils.getCraftPlayer_getHandle().invoke(player))));
+				PLAYER_LANGUAGE_CACHE.put(player, 
+						Locale.forLanguageTag(toLanguageTagNormalized((String) NMSReflectionUtils.getEntityPlayer_locale().get(NMSReflectionUtils.getCraftPlayer_getHandle().invoke(player)))));
 			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				UDPLib.debug(e);
 				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
 			}
 		}
 		return PLAYER_LANGUAGE_CACHE.get(player);
+	}
+	
+	private static String toLanguageTagNormalized(String languageTag){
+		int first = languageTag.indexOf("_"), second = languageTag.indexOf("_", first+1);
+		if(first == -1)
+			return languageTag;
+		else if(second == -1){
+			return languageTag.substring(0, first+1) + languageTag.substring(first+1).toUpperCase();
+		}else{
+			return languageTag.substring(0, first+1) + languageTag.substring(first+1,second).toUpperCase() + languageTag.substring(second);
+		}
 	}
 	
 	//exp helper
