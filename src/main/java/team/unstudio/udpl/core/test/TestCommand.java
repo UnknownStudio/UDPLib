@@ -72,8 +72,8 @@ public final class TestCommand {
 		 scoreboard.put("UDPL Test", 16);
 		 scoreboard.put("UDPL Version " + UDPLib.getInstance().getDescription().getVersion(), 15);
 		 scoreboard.put("NMS Version " + BukkitVersion.CURRENT_BUKKIT_VERSION, 14);
-		 scoreboard.put("MC Version " + ServerUtils.getMinecraftVersion(), 15);
-		 scoreboard.put("Language " + PlayerUtils.getLanguage(sender), 14);
+		 scoreboard.put("MC Version " + ServerUtils.getMinecraftVersion(), 13);
+		 scoreboard.put("Language " + PlayerUtils.getLanguage(sender), 12);
 		 scoreboard.display(sender);
 	}
 

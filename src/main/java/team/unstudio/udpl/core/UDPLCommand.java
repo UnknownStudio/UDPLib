@@ -10,10 +10,10 @@ public final class UDPLCommand {
 	public void debug(CommandSender sender) {
 		if (UDPLib.isDebug()) {
 			UDPLib.setDebug(false);
-			sender.sendMessage("UDPL Debug 关闭.");
+			sender.sendMessage("UDPL Debug disabled.");
 		} else {
 			UDPLib.setDebug(true);
-			sender.sendMessage("UDPL Debug 开启.");
+			sender.sendMessage("UDPL Debug enabled.");
 		}
 	}
 }
