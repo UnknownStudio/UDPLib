@@ -13,25 +13,27 @@ public class TestLoader {
 	
 	public static final TestLoader INSTANCE = new TestLoader();
 	
-	public static AreaManager areaManager = new AreaManager(UDPLib.getInstance());
+	public static AreaManager areaManager;
 	public static I18n i18n;
 	public static TestConfiguration config;
 	
 	public void onLoad(){
 		testConfig();
-		UDPLib.getInstance().getLogger().info("Loaded test.");
 		
+		PluginUtils.saveDirectory(UDPLib.getInstance(), "test/lang", false);
+		i18n = new SimpleI18n(new File(UDPLib.getInstance().getDataFolder(),"test/lang"));
+		UDPLib.getInstance().getLogger().info("Loaded test.");
+	}
+	
+	public void onEnable(){
+		areaManager = new AreaManager(UDPLib.getInstance());
 		areaManager.addPlayerEnterAreaCallback((player,area)->player.sendMessage("Entered Area."));
 		areaManager.addPlayerLeaveAreaCallback((player,area)->player.sendMessage("Leaved Area."));
 		areaManager.setAutoSavePeriod(20*60);
 		areaManager.setAutoSave(true);
 		areaManager.setAutoBackupPeriod(20*120);
 		areaManager.setAutoBackup(true);
-	}
-	
-	public void onEnable(){
-		PluginUtils.saveDirectory(UDPLib.getInstance(), "test/lang", false);
-		i18n = new SimpleI18n(new File(UDPLib.getInstance().getDataFolder(),"test/lang"));
+		
 		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new TestCommand()).unsafeRegisterCommand();
 		UDPLib.getInstance().getLogger().info("Enable test.");
 	}

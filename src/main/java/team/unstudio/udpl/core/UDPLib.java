@@ -46,7 +46,6 @@ public final class UDPLib extends JavaPlugin{
 		
 		MappingHelper.loadMapping();
 		NmsHelper.loadNmsHelper();
-		CacheUtils.initCacheUtils();
 		
 		SignUtils.initSignUtils();
 		PlayerUtils.initPlayerUtils();
@@ -57,6 +56,8 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onEnable() {
+		CacheUtils.initCacheUtils();
+		
 		loadPluginManager();
 		
 		new AnnoCommandManager("udpl").addCommand(new UDPLCommand()).registerCommand();
