@@ -29,6 +29,7 @@ public class SimpleI18n implements I18n{
 			throw new IllegalArgumentException("Path isn't directory.");
 		
 		this.path = path;
+		reload();
 	}
 
 	public final File getPath() {
