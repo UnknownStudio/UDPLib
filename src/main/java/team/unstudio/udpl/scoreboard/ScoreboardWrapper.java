@@ -13,12 +13,19 @@ import org.bukkit.scoreboard.Scoreboard;
 
 public class ScoreboardWrapper {
 	
-	private final Scoreboard scoreboard;
-	private final Objective objective;
-	
-	public ScoreboardWrapper(Scoreboard scoreboard,Objective objective){
+	protected Scoreboard scoreboard;
+	protected Objective objective;
+
+	public ScoreboardWrapper() {
+	}
+
+	public ScoreboardWrapper(Scoreboard scoreboard, Objective objective){
 		this.scoreboard = scoreboard;
 		this.objective = objective;
+	}
+
+	public ScoreboardWrapper(Objective objective) {
+		this(Bukkit.getScoreboardManager().getNewScoreboard(), objective);
 	}
 	
 	public Scoreboard getScoreboard(){
@@ -54,7 +61,7 @@ public class ScoreboardWrapper {
 	}
 	
 	public void removeAll(Collection<String> keys){
-		keys.forEach(scoreboard::resetScores);
+		keys.forEach(this::remove);
 	}
 	
 	public Set<String> getKeys(){

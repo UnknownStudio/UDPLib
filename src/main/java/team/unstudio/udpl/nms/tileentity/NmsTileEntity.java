@@ -6,9 +6,9 @@ import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public interface NmsTileEntity {
 
-	public BlockState getBlockState();
+	BlockState getBlockState();
 	
-	public NBTTagCompound getNBT() throws Exception;
+	NBTTagCompound getNBT() throws Exception;
 
-	public NmsTileEntity setNBT(NBTTagCompound nbt) throws Exception;
+	NmsTileEntity setNBT(NBTTagCompound nbt) throws Exception;
 }

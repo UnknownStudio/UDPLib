@@ -68,7 +68,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 创建指令管理者
 	 * @param name 指令名
 	 * @param plugin 插件
-	 * @param parameters 指令参数处理器
+	 * @param parameterHandlers 指令参数处理器
 	 */
 	public AnnoCommandManager(@Nonnull String name, @Nonnull JavaPlugin plugin, Map<Class<?>,CommandParameterHandler> parameterHandlers){
 		Validate.notNull(name);

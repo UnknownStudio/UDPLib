@@ -15,10 +15,8 @@ import com.google.common.collect.HashBiMap;
 /**
  * 一个名称与分数唯一对应的计分板
  */
-public class BiScoreboard {
-	
-	private final Scoreboard scoreboard;
-	private final Objective objective;
+public class BiScoreboard extends ScoreboardWrapper {
+
 	private final BiMap<String,Integer> keyToScore = HashBiMap.create();
 	
 	public BiScoreboard(){
@@ -26,19 +24,8 @@ public class BiScoreboard {
 		objective = scoreboard.registerNewObjective("ScoreboardAPI", "dummy");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
-	
-	public Scoreboard getScoreboard(){
-		return scoreboard;
-	}
-	
-	public String getDisplayName(){
-		return objective.getDisplayName();
-	}
-	
-	public void setDisplayName(String name){
-		objective.setDisplayName(name);
-	}
-	
+
+	@Override
 	public void put(String key, int score){
 		String oldKey = getKey(score);
 		if(oldKey != null)
@@ -50,7 +37,8 @@ public class BiScoreboard {
 	public void put(int score, String key){
 		this.put(key, score);
 	}
-	
+
+	@Override
 	public void putAll(Map<String,Integer> map){
 		map.entrySet().forEach(entry->put(entry.getKey(),entry.getValue()));
 	}
@@ -58,28 +46,26 @@ public class BiScoreboard {
 	public void putAllInverse(Map<Integer,String> map){
 		map.entrySet().forEach(entry->put(entry.getKey(),entry.getValue()));
 	}
-	
+
+	@Override
 	public void remove(String key){
-		scoreboard.resetScores(key);
+		super.remove(key);
 		keyToScore.remove(key);
 	}
 	
 	public void remove(int score){
 		BiMap<Integer,String> scoreToKey = keyToScore.inverse();
 		if(scoreToKey.containsKey(score)){
-			scoreboard.resetScores(scoreToKey.get(score));
+			super.remove(scoreToKey.get(score));
 			scoreToKey.remove(score);
 		}
-	}
-	
-	public void removeAll(Collection<String> keys){
-		keys.forEach(this::remove);
 	}
 	
 	public void removeAllInverse(Collection<Integer> scores){
 		scores.forEach(this::remove);
 	}
-	
+
+	@Override
 	public Set<String> getKeys(){
 		return keyToScore.keySet();
 	}
@@ -102,13 +88,5 @@ public class BiScoreboard {
 	
 	public boolean containScore(int score){
 		return keyToScore.inverse().containsKey(score);
-	}
-	
-	public void display(Player player){
-		player.setScoreboard(getScoreboard());
-	}
-	
-	public void reset(Player player){
-		player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 	}
 }

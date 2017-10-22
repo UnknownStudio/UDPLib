@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -12,25 +13,25 @@ import org.bukkit.plugin.Plugin;
 
 import team.unstudio.udpl.core.UDPLib;
 
-public final class CommandHelper {
+public interface CommandHelper {
+	boolean DEBUG = UDPLib.isDebug();
 	
-	private static final boolean DEBUG = UDPLib.isDebug();
-	
-	private static CommandMap commandMap;
-	private static Constructor<PluginCommand> pluginCommandConstructor;
+	AtomicReference<CommandMap> commandMap = new AtomicReference<>();
+	AtomicReference<Constructor<PluginCommand>> pluginCommandConstructor = new AtomicReference<>();
 
-	public static Optional<PluginCommand> unsafeRegisterCommand(String name,Plugin plugin){
+	static Optional<PluginCommand> unsafeRegisterCommand(String name, Plugin plugin){
 		try {
-			if(commandMap == null){
+			if(commandMap.get() == null){
+				//noinspection JavaReflectionMemberAccess
 				Method getCommandMap = Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap");
-				commandMap = (CommandMap) getCommandMap.invoke(Bukkit.getServer());
+				commandMap.set((CommandMap) getCommandMap.invoke(Bukkit.getServer()));
 			}
-			if(pluginCommandConstructor == null){
-				pluginCommandConstructor = PluginCommand.class.getDeclaredConstructor(String.class,Plugin.class);
-				pluginCommandConstructor.setAccessible(true);
+			if(pluginCommandConstructor.get() == null){
+				pluginCommandConstructor.set(PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class));
+				pluginCommandConstructor.get().setAccessible(true);
 			}
-			PluginCommand command = pluginCommandConstructor.newInstance(name,plugin);
-			commandMap.register(plugin.getName(), command);
+			PluginCommand command = pluginCommandConstructor.get().newInstance(name,plugin);
+			commandMap.get().register(plugin.getName(), command);
 			return Optional.of(command);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {
 			if(DEBUG)
