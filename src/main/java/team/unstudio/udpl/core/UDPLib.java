@@ -1,6 +1,8 @@
 package team.unstudio.udpl.core;
 
 import java.io.File;
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
@@ -26,6 +28,7 @@ public final class UDPLib extends JavaPlugin{
 	private static UDPLib INSTANCE;
 	private static boolean DEBUG;
 	private static UDPLConfiguration CONFIG;
+	private static Logger LOGGER = Logger.getLogger("UDPLib");
 
 	public UDPLib() {
 		INSTANCE = this;
@@ -33,6 +36,7 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onLoad() {
+		LOGGER = getLogger();
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
 		ConfigurationSerialization.registerClass(ServerLocation.class);
@@ -92,7 +96,11 @@ public final class UDPLib extends JavaPlugin{
 	public static void setDebug(boolean debug){
 		DEBUG = debug;
 	}
-	
+
+	public static Logger getLog() {
+		return LOGGER;
+	}
+
 	public static void debug(String value){
 		if(isDebug())
 			getInstance().getLogger().info(value);

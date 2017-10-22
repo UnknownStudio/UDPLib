@@ -22,7 +22,7 @@ public class TestLoader {
 		
 		PluginUtils.saveDirectory(UDPLib.getInstance(), "test/lang", false);
 		i18n = new SimpleI18n(new File(UDPLib.getInstance().getDataFolder(),"test/lang"));
-		UDPLib.getInstance().getLogger().info("Loaded test.");
+		UDPLib.getLog().info("Loaded test.");
 	}
 	
 	public void onEnable(){
@@ -35,18 +35,18 @@ public class TestLoader {
 		areaManager.setAutoBackup(true);
 		
 		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new TestCommand()).unsafeRegisterCommand();
-		UDPLib.getInstance().getLogger().info("Enable test.");
+		UDPLib.getLog().info("Enable test.");
 	}
 	
 	private void testConfig(){
-		UDPLib.getInstance().getLogger().info("[Test]Config");
+		UDPLib.getLog().info("[Test]Config");
 		UDPLib.getInstance().saveResource("test.yml", false);
 		config = new TestConfiguration();
 		config.reload();
-		UDPLib.getInstance().getLogger().info("[Test]"+config.test);
+		UDPLib.getLog().info("[Test]"+config.test);
 		config.test = "Loaded plugin.";
 		config.save();
 		config.reload();
-		UDPLib.getInstance().getLogger().info("[Test]"+config.test);
+		UDPLib.getLog().info("[Test]"+config.test);
 	}
 }

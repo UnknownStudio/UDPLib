@@ -12,9 +12,12 @@ import team.unstudio.udpl.config.serialization.ConfigurationSerializationHelper;
 import team.unstudio.udpl.config.serialization.ConfigurationSerializer;
 import team.unstudio.udpl.config.serialization.Setting;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 public class ConfigurationTest {
-	
-	public static void main(String[] args) throws Exception{
+	@Test
+	public void serializer() throws Exception{
 		ConfigurationSerializationHelper.registerSerializer(new SerializerNameSerializer());
 		
 		File file = new File("config.yml");
@@ -25,17 +28,17 @@ public class ConfigurationTest {
 		config.save(file);
 		
 		config = ConfigurationHelper.loadConfiguration(file);
-		System.out.println(((SerializableName)(ConfigurationSerializationHelper.deserialize(config,"SerializableName").get())).name);
-		System.out.println(((ExternalizableName)(ConfigurationSerializationHelper.deserialize(config,"ExternalizableName").get())).name);
-		System.out.println(((SerializerName)(ConfigurationSerializationHelper.deserialize(config,"SerializerName").get())).name);
+		assertEquals("SerializableName", ((SerializableName)(ConfigurationSerializationHelper.deserialize(config,"SerializableName").get())).name);
+		assertEquals("ExternalizableName", ((ExternalizableName)(ConfigurationSerializationHelper.deserialize(config,"ExternalizableName").get())).name);
+		assertEquals("SerializerName", ((SerializerName)(ConfigurationSerializationHelper.deserialize(config,"SerializerName").get())).name);
 	}
 	
-	public static class SerializableName implements ConfigurationSerializable{
+	public class SerializableName implements ConfigurationSerializable{
 		@Setting("className")
 		private String name = getClass().getSimpleName();
 	}
 	
-	public static class ExternalizableName implements ConfigurationExternalizable{
+	public class ExternalizableName implements ConfigurationExternalizable{
 		private String name = getClass().getSimpleName();
 
 		@Override
@@ -49,7 +52,7 @@ public class ConfigurationTest {
 		}
 	}
 	
-	public static class SerializerName{
+	public class SerializerName{
 		private final String name;
 		public SerializerName(String name) {
 			this.name = name;
@@ -59,7 +62,7 @@ public class ConfigurationTest {
 		}
 	}
 	
-	public static class SerializerNameSerializer implements ConfigurationSerializer<SerializerName>{
+	public class SerializerNameSerializer implements ConfigurationSerializer<SerializerName>{
 
 		@Override
 		public void serialize(ConfigurationSection section, SerializerName obj) {

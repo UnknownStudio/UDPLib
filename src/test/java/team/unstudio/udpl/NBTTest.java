@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.nbt.NBTTagList;
@@ -11,8 +14,8 @@ import team.unstudio.udpl.nms.nbt.NBTTagString;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
 
 public class NBTTest {
-
-	public static void main(String[] args) throws IOException {
+	@Test
+	public void nbt() throws IOException {
 		NBTUtils.registerAllNBTSerilizable();
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		nbtTagCompound.setByte("byte", Byte.MAX_VALUE);
@@ -25,16 +28,20 @@ public class NBTTest {
 		nbtTagCompound.setShort("short", Short.MAX_VALUE);
 		nbtTagCompound.setString("string", "String");
 		nbtTagCompound.set("list", new NBTTagList(new NBTTagString("String")));
-		System.out.println(nbtTagCompound.toString());
+		String expected = "{\"byte\":127B,\"byteArray\":[B;127,-128],\"double\":1.7976931348623157E308D,\"float\":3.4028235E38F,\"int\":2147483647,\"intArray\":[I;2147483647,-2147483648],\"long\":9223372036854775807L,\"short\":32767S,\"string\":\"String\",\"list\":[\"String\"]}";
+		assertEquals(expected, nbtTagCompound.toString());
+
 		NBTTagCompound deserializedNbt = (NBTTagCompound) NBTUtils.parseFromJson(nbtTagCompound.toString());
-		System.out.println(deserializedNbt.toString());
+		assertEquals(expected, deserializedNbt.toString());
+
 		File file = new File("nbt.yml");
 		FileConfiguration config = ConfigurationHelper.loadConfiguration(file);
+		file.deleteOnExit();
+
 		config.set("nbt", nbtTagCompound);
 		config.save(file);
 		config = ConfigurationHelper.loadConfiguration(file);
-		System.out.println(config.get("nbt"));
-		file.deleteOnExit();
+		assertEquals(expected, config.get("nbt").toString());
 	}
 
 }

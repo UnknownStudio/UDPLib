@@ -16,7 +16,7 @@ public final class NmsHelper {
 
 	public static void loadNmsHelper(){
 		ASM_NMS_MANAGER = new AsmNmsManager();
-		UDPLib.getInstance().getLogger().info("Loaded nms helper. Version: " + BukkitVersion.CURRENT_BUKKIT_VERSION);
+		UDPLib.getLog().info("Loaded nms helper. Version: " + BukkitVersion.CURRENT_BUKKIT_VERSION);
 	}
 	
 	public static NmsNBT getNBT(){
