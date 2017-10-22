@@ -1,8 +1,13 @@
 package team.unstudio.udpl;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import team.unstudio.udpl.mapping.MappingHelper;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MappingTest {
 	@Test
@@ -20,5 +25,11 @@ public class MappingTest {
 		MappingHelper.loadMapping("1.8");
 		MappingHelper.loadMapping("1.10");
 		MappingHelper.loadMapping("1.11");
+	}
+
+	@AfterClass
+	public static void delFile() throws IOException {
+		File file = new File("mappings");
+		FileUtils.deleteDirectory(file);
 	}
 }

@@ -7,6 +7,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import team.unstudio.udpl.config.EncodingDetect;
@@ -15,7 +17,7 @@ import team.unstudio.udpl.config.EncodingDetect;
  * Created by trychen on 17/7/29.
  */
 public class EncodingDetectTest {
-    private static File file = new File("encoding_test.yml");
+    private static File file = new File("encoding_tester.yml");
 
     @Test
     public void guessingFileEncoding() throws IOException {
@@ -29,7 +31,11 @@ public class EncodingDetectTest {
         guess("ISO-8859-1", Arrays.asList("ASCII"));
         guess("Unicode", Arrays.asList());
         guess("CP1250", Arrays.asList("ASCII"));
-        file.deleteOnExit();
+    }
+
+    @AfterClass
+    public static void delFile(){
+        file.delete();
     }
 
     public void guess(String code, List<String> expect) throws IOException {
