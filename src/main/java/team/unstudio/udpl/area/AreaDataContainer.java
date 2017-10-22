@@ -1,10 +1,10 @@
 package team.unstudio.udpl.area;
 
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 public class AreaDataContainer extends HashMap<String, Object> implements ConfigurationSerializable{
 	
@@ -37,7 +37,7 @@ public class AreaDataContainer extends HashMap<String, Object> implements Config
 	@Override
 	public Object put(String key, Object value){
 		if(!checkKey(key))
-			throw new IllegalArgumentException("The key is wrong.");
+			throw new IllegalArgumentException("Wrong key pattern");
 		return super.put(key, value);
 	}
 	

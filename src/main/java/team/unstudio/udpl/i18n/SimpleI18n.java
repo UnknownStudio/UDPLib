@@ -1,21 +1,16 @@
 package team.unstudio.udpl.i18n;
 
+import com.google.common.collect.Maps;
+import org.apache.commons.lang.Validate;
+import org.bukkit.configuration.Configuration;
+import team.unstudio.udpl.config.ConfigurationHelper;
+
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.Configuration;
-import com.google.common.collect.Maps;
-
-import team.unstudio.udpl.config.ConfigurationHelper;
-
 public class SimpleI18n implements I18n{
-	
-	public static final Locale DEFAULT_LOCALE = Locale.US;
-	
 	private final File path;
 	protected final Map<Locale,Configuration> cache = Maps.newHashMap();
 	

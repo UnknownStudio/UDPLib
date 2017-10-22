@@ -12,76 +12,72 @@ import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
 import com.google.common.collect.Sets;
-
-import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.event.FakeSignUpdateEvent;
-
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.event.FakeSignUpdateEvent;
+
+import java.util.Set;
 
 /**
  * Created by trychen on 17/7/11.
  */
-public final class SignUtils {
+public interface SignUtils {
 	
-    private static String version = ServerUtils.getMinecraftVersion();
-    private static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-    private static PacketType BLOCK_CHANGE = PacketType.Play.Server.BLOCK_CHANGE;
-    private static PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
-    private static PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
+     String version = ServerUtils.getMinecraftVersion();
+     ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+     PacketType BLOCK_CHANGE = PacketType.Play.Server.BLOCK_CHANGE;
+     PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
+     PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
     
-    private static final Set<Player> OPENED_FAKE_SIGN_PLAYERS = Sets.newHashSet();
+     Set<Player> OPENED_FAKE_SIGN_PLAYERS = Sets.newHashSet();
     
-    private SignUtils(){}
-    
-    public static void initSignUtils(){
-    	CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
-    	manager.addPacketListener(new PacketListener() {
-			
-			@Override
-			public void onPacketSending(PacketEvent arg0) {}
-			
-			@Override
-			public void onPacketReceiving(PacketEvent arg0) {
-				Player player = arg0.getPlayer();
-				if(!OPENED_FAKE_SIGN_PLAYERS.contains(player))
-					return;
-				PacketContainer container = arg0.getPacket();
-				String line1 = container.getStrings().read(0);
-				String line2 = container.getStrings().read(1);
-				String line3 = container.getStrings().read(2);
-				String line4 = container.getStrings().read(3);
-				Bukkit.getPluginManager()
-						.callEvent(new FakeSignUpdateEvent(player, new String[] { line1, line2, line3, line4 }));
-				OPENED_FAKE_SIGN_PLAYERS.remove(player);
-			}
+     static void initSignUtils(){
+         CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
+         manager.addPacketListener(new PacketListener() {
 
-			@Override
-			public ListeningWhitelist getSendingWhitelist() {
-				return ListeningWhitelist.EMPTY_WHITELIST;
-			}
-			
-			@Override
-			public ListeningWhitelist getReceivingWhitelist() {
-				return ListeningWhitelist.newBuilder().lowest().types(PacketType.Play.Client.UPDATE_SIGN).build();
-			}
-			
-			@Override
-			public Plugin getPlugin() {
-				return UDPLib.getInstance();
-			}
-		});
+             @Override
+             public void onPacketSending(PacketEvent arg0) {}
+
+             @Override
+             public void onPacketReceiving(PacketEvent arg0) {
+                 Player player = arg0.getPlayer();
+                 if(!OPENED_FAKE_SIGN_PLAYERS.contains(player))
+                     return;
+                 PacketContainer container = arg0.getPacket();
+                 String line1 = container.getStrings().read(0);
+                 String line2 = container.getStrings().read(1);
+                 String line3 = container.getStrings().read(2);
+                 String line4 = container.getStrings().read(3);
+                 Bukkit.getPluginManager()
+                         .callEvent(new FakeSignUpdateEvent(player, new String[] { line1, line2, line3, line4 }));
+                 OPENED_FAKE_SIGN_PLAYERS.remove(player);
+             }
+
+             @Override
+             public ListeningWhitelist getSendingWhitelist() {
+                 return ListeningWhitelist.EMPTY_WHITELIST;
+             }
+
+             @Override
+             public ListeningWhitelist getReceivingWhitelist() {
+                 return ListeningWhitelist.newBuilder().lowest().types(PacketType.Play.Client.UPDATE_SIGN).build();
+             }
+
+             @Override
+             public Plugin getPlugin() {
+                 return UDPLib.getInstance();
+             }
+        });
     }
 
     /**
      * If you want to receive sign update, to see {@link team.unstudio.udpl.event.FakeSignUpdateEvent}
      */
-    public static Result open(Player player, String[] lines){
+    static Result open(Player player, String[] lines){
         Location loc = player.getLocation();
         int x = loc.getBlockX();
         int y = 0;

@@ -226,6 +226,6 @@ public class ServerLocation implements ConfigurationSerializable {
 
             return new ServerLocation(server, world, x, y, z, pitch, yaw);
         }
-        throw new IllegalArgumentException("can't deserialize " + str + " as an ServerLocation");
+        throw new IllegalArgumentException("Cannot deserialize " + str + " as an ServerLocation");
     }
 }

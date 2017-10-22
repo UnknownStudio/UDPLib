@@ -1,14 +1,8 @@
 package team.unstudio.udpl.area;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nonnull;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,14 +10,19 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import team.unstudio.udpl.area.function.PlayerEnterAreaCallback;
 import team.unstudio.udpl.area.function.PlayerLeaveAreaCallback;
+import team.unstudio.udpl.core.UDPLI18n;
 import team.unstudio.udpl.util.Chunk;
 import team.unstudio.udpl.util.ZipUtils;
+
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AreaManager {
 	
@@ -115,34 +114,34 @@ public class AreaManager {
 	}
 	
 	public void loadAll(){
-		plugin.getLogger().info("Loading areas...");
+		plugin.getLogger().info(UDPLI18n.format("debug.area.load"));
 		managers.clear();
 		for(World world:Bukkit.getWorlds()){
 			WorldAreaManager a = new WorldAreaManager(world,areaPath);
 			a.load();
 			managers.put(world, a);
 		}
-		plugin.getLogger().info("Loaded areas.");
+		plugin.getLogger().info(UDPLI18n.format("debug.area.loaded", managers.size()));
 	}
 	
 	public void saveAll(){
-		plugin.getLogger().info("Saving areas...");
+		plugin.getLogger().info(UDPLI18n.format("debug.area.save"));
 		for(WorldAreaManager a:managers.values()) 
 			a.save();
-		plugin.getLogger().info("Saved areas.");
+		plugin.getLogger().info(UDPLI18n.format("debug.area.saved", managers.size()));
 	}
 	
 	public synchronized void backupAll(){
-		plugin.getLogger().info("Backuping areas...");
+		plugin.getLogger().info(UDPLI18n.format("debug.area.backup"));
 		File backupPath = this.backupPath != null ? this.backupPath : new File(areaPath, "backup");
 		if(!backupPath.exists())
 			backupPath.mkdirs();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		String date = dateFormat.format(new Date());
 		File backupFile = new File(backupPath,"backup-"+date+".zip");
-		File[] files = areaPath.listFiles((dir,name)->name.endsWith(".yml"));
+		File[] files = (File[]) ArrayUtils.nullToEmpty(areaPath.listFiles((dir, name)->name.endsWith(".yml")));
 		ZipUtils.zip(backupFile, files);
-		plugin.getLogger().info("Backuped areas.");
+		plugin.getLogger().info(UDPLI18n.format("debug.area.backuped", files.length));
 	}
 	
 	public void addPlayerEnterAreaCallback(PlayerEnterAreaCallback callback){
@@ -162,11 +161,11 @@ public class AreaManager {
 	}
 	
 	public void callPlayerEnterArea(Player player,Area area){
-		playerEnterAreaCallbacks.forEach(callback->callback.apply(player, area));
+		playerEnterAreaCallbacks.forEach(callback->callback.accept(player, area));
 	}
 	
 	public void callPlayerLeaveArea(Player player,Area area){
-		playerLeaveAreaCallbacks.forEach(callback->callback.apply(player, area));
+		playerLeaveAreaCallbacks.forEach(callback->callback.accept(player, area));
 	}
 	
 	public boolean isAutoSave() {
