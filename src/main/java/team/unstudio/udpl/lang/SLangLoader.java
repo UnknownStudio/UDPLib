@@ -2,7 +2,7 @@ package team.unstudio.udpl.lang;
 
 import java.io.File;
 
-import team.unstudio.udpl.util.Utils;
+import team.unstudio.udpl.util.FileUtils;
 
 /**
  * Created by trychen on 17/7/28.
@@ -16,6 +16,6 @@ public class SLangLoader {
      * @throws Exception
      */
     public SLang[] loadFromFile(String separator,File file) throws Exception {
-        return SLangSpliter.split(separator, Utils.readFile2Array(file, "utf-8"));
+        return SLangSpliter.split(separator, FileUtils.readFile2Array(file, "utf-8"));
     }
 }
