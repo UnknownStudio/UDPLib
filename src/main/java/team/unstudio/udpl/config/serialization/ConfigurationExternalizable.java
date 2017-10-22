@@ -1,10 +1,10 @@
 package team.unstudio.udpl.config.serialization;
 
-import org.bukkit.configuration.ConfigurationSection;
+import java.util.Map;
 
 public interface ConfigurationExternalizable extends ConfigurationSerializable{
 
-	public void serialize(ConfigurationSection section);
+	public Map<String,Object> serialize();
 	
-	public void deserialize(ConfigurationSection section);
+	public void deserialize(Map<String,Object> map);
 }

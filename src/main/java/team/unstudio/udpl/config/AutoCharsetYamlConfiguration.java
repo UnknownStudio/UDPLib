@@ -6,6 +6,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -19,7 +20,7 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
      * 加载Yaml 同时自动识别文件编码
      */
     @Nullable
-    public static AutoCharsetYamlConfiguration loadConfiguration(File file){
+    public static AutoCharsetYamlConfiguration loadConfiguration(@Nonnull File file){
         Validate.notNull(file, "File cannot be null");
         AutoCharsetYamlConfiguration config = new AutoCharsetYamlConfiguration();
         setConfigCharsetName(config,file);

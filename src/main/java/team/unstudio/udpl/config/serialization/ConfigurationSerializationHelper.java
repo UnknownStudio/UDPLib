@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -24,34 +25,39 @@ public final class ConfigurationSerializationHelper{
 	
 	private static final Map<Class<?>,ConfigurationSerializer<?>> REGISTED_SERIALIZERS = Maps.newHashMap();
 
-	private ConfigurationSerializationHelper(){
-		throw new AssertionError();
+	private ConfigurationSerializationHelper(){}
+	
+	public static void serialize(ConfigurationSection config,String key,List<Object> objs){
+		config.set(key, objs.stream().map(ConfigurationSerializationHelper::serialize).collect(Collectors.toList()));
 	}
 	
 	public static void serialize(ConfigurationSection config,String key,Object obj){
-		if(obj == null)
-			config.set(key, obj);
-		else if(isBasicType(obj.getClass()))
-			config.set(key, obj);
-		else if(obj instanceof org.bukkit.configuration.serialization.ConfigurationSerializable)
-			config.set(key, obj);
-		else if(hasSerializer(obj.getClass())){
-			ConfigurationSection section = config.createSection(key);
-			getSerializer(obj.getClass()).serializeObject(section, obj);
-			section.set(CLASS_NAME_KEY, obj.getClass().getName());
-		}else if(obj instanceof ConfigurationExternalizable){
-			ConfigurationSection section = config.createSection(key);
-			((ConfigurationExternalizable) obj).serialize(section);
-			section.set(CLASS_NAME_KEY, obj.getClass().getName());
-		}else if(obj instanceof ConfigurationSerializable)
-			serialize(config.createSection(key),(ConfigurationSerializable) obj);
-		else 
-			throw new SerializationException(obj.getClass().getName()+" can't serialize.");
+		config.set(key, serialize(obj));
 	}
 	
-	public static void serialize(ConfigurationSection config,ConfigurationSerializable obj){
+	private static Object serialize(Object obj) {
+		if (obj == null || isBasicType(obj.getClass())
+				|| obj instanceof org.bukkit.configuration.serialization.ConfigurationSerializable) {
+			return obj;
+		} else if (hasSerializer(obj.getClass())) {
+			Map<String, Object> map = Maps.newLinkedHashMap(getSerializer(obj.getClass()).serializeObject(obj));
+			map.put(CLASS_NAME_KEY, obj.getClass().getName());
+			return map;
+		} else if (obj instanceof ConfigurationExternalizable) {
+			Map<String, Object> map = Maps.newLinkedHashMap(((ConfigurationExternalizable) obj).serialize());
+			map.put(CLASS_NAME_KEY, obj.getClass().getName());
+			return map;
+		} else if (obj instanceof ConfigurationSerializable) {
+			Map<String, Object> map = Maps.newLinkedHashMap(serialize((ConfigurationSerializable) obj));
+			map.put(CLASS_NAME_KEY, obj.getClass().getName());
+			return map;
+		} else {
+			throw new SerializationException(obj.getClass().getName() + " can't serialize.");
+		}
+	}
+	
+	private static Map<String,Object> serialize(ConfigurationSerializable obj){
 		Class<?> clazz = obj.getClass();
-		config.set(CLASS_NAME_KEY, clazz.getName());
 		
 		List<Field> declaredFields = Arrays.asList(clazz.getDeclaredFields());
 		Class<?> parentClazz = clazz.getSuperclass();
@@ -59,6 +65,8 @@ public final class ConfigurationSerializationHelper{
 			Collections.addAll(declaredFields, clazz.getDeclaredFields());
 			parentClazz = parentClazz.getSuperclass();
 		}
+		
+		Map<String,Object> map = Maps.newLinkedHashMap();
 		
 		for(Field field:declaredFields){
 			int modifiers = field.getModifiers();
@@ -71,39 +79,51 @@ public final class ConfigurationSerializationHelper{
 				String key = field.getName();
 				
 				Setting setting = field.getAnnotation(Setting.class);
-				if(setting!=null)
+				if(setting!=null&&!setting.value().isEmpty())
 					key = setting.value();
 				
-				serialize(config, key, field.get(obj));
+				map.put(key, serialize(field.get(obj)));
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				throw new SerializationException(obj.getClass().getName()+" can't serialize.",e);
 			}
 		}
+		return map;
+	}
+	
+	public static List<Object> deserializeList(ConfigurationSection config,String key){
+		return config.getList(key, Collections.emptyList()).stream().map(ConfigurationSerializationHelper::deserialize).collect(Collectors.toList());
 	}
 	
 	public static Optional<Object> deserialize(ConfigurationSection config,String key){
-		if(!config.isConfigurationSection(key))
-			return Optional.ofNullable(config.get(key));
-		else if(config.contains(key+".=="))
-			return Optional.ofNullable(config.get(key));
-		else
-			return deserialize(config.getConfigurationSection(key));
+		return deserialize(config.get(key));
 	}
 	
-	public static Optional<Object> deserialize(ConfigurationSection config){
+	@SuppressWarnings("unchecked")
+	private static Optional<Object> deserialize(Object obj){
+		if(obj instanceof Map){
+			return deserialize((Map<String,Object>) obj);
+		}else if(obj instanceof ConfigurationSection){
+			return deserialize(((ConfigurationSection) obj).getValues(true));
+		}else{
+			return Optional.ofNullable(obj);
+		}
+	}
+	
+	private static Optional<Object> deserialize(Map<String,Object> map){
 		try {
-			if(!config.contains(CLASS_NAME_KEY))
+			if(!map.containsKey(CLASS_NAME_KEY))
 				return Optional.empty();
 			
-			Class<?> clazz = Class.forName(config.getString(CLASS_NAME_KEY));
+			Class<?> clazz = Class.forName((String) map.get(CLASS_NAME_KEY));
+			map.remove(CLASS_NAME_KEY);
 			if(hasSerializer(clazz))
-				return Optional.ofNullable(getSerializer(clazz).deserialize(config));
+				return Optional.ofNullable(getSerializer(clazz).deserialize(map));
 			
 			Constructor<?> constructor = clazz.getConstructor();
 			constructor.setAccessible(true);
 			Object obj = constructor.newInstance();
 			if(obj instanceof ConfigurationExternalizable)
-				((ConfigurationExternalizable) obj).deserialize(config);
+				((ConfigurationExternalizable) obj).deserialize(map);
 			else if(obj instanceof ConfigurationSerializable){
 				List<Field> declaredFields = Arrays.asList(clazz.getDeclaredFields());
 				Class<?> parentClazz = clazz.getSuperclass();
@@ -123,10 +143,10 @@ public final class ConfigurationSerializationHelper{
 						String key = field.getName();
 						
 						Setting setting = field.getAnnotation(Setting.class);
-						if(setting!=null)
+						if(setting!=null&&!setting.value().isEmpty())
 							key = setting.value();
 						
-						Optional<Object> value = deserialize(config, key);
+						Optional<Object> value = deserialize(map.get(key));
 						if(value.isPresent())
 							field.set(obj, value.get());
 					} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -135,7 +155,9 @@ public final class ConfigurationSerializationHelper{
 				}
 			}
 			return Optional.ofNullable(obj);
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {}
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 		return Optional.empty();
 	}
 	
@@ -145,7 +167,7 @@ public final class ConfigurationSerializationHelper{
 		BASIC_TYPE_SET = new HashSet<>();
 		Collections.addAll(BASIC_TYPE_SET, 
 				String.class, 
-				byte.class, Byte.class,
+				byte.class,Byte.class,
 				short.class,Short.class,
 				int.class,Integer.class,
 				long.class,Long.class,

@@ -2,11 +2,14 @@ package team.unstudio.udpl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import org.junit.*;
+
+import com.google.common.collect.Maps;
+
 import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.config.serialization.ConfigurationExternalizable;
 import team.unstudio.udpl.config.serialization.ConfigurationSerializable;
@@ -53,14 +56,17 @@ public class ConfigurationTest {
 		private String name = getClass().getSimpleName();
 
 		@Override
-		public void serialize(ConfigurationSection section) {
-			section.set("name", name);
+		public Map<String, Object> serialize() {
+			Map<String, Object> map = Maps.newLinkedHashMap();
+			map.put("name", name);
+			return map;
 		}
 
 		@Override
-		public void deserialize(ConfigurationSection section) {
-			name = section.getString("name");
+		public void deserialize(Map<String, Object> map) {
+			name = (String) map.get("name");
 		}
+
 	}
 	
 	public static class SerializerName{
@@ -74,14 +80,17 @@ public class ConfigurationTest {
 	}
 	
 	public static class SerializerNameSerializer implements ConfigurationSerializer<SerializerName> {
+
 		@Override
-		public void serialize(ConfigurationSection section, SerializerName obj) {
-			section.set("name", obj.getName());
+		public Map<String, Object> serialize(SerializerName obj) {
+			Map<String,Object> map = Maps.newLinkedHashMap();
+			map.put("name", obj.getName());
+			return map;
 		}
 
 		@Override
-		public SerializerName deserialize(ConfigurationSection section) {
-			return new SerializerName(section.getString("name"));
+		public SerializerName deserialize(Map<String, Object> map) {
+			return new SerializerName((String) map.get("name"));
 		}
 		
 	}
