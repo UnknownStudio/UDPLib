@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import team.unstudio.udpl.util.PlayerUtils;
 
 public interface I18n {
+	Locale DEFAULT_LOCALE = Locale.US;
 	
 	String format(Locale locale, String key);
 	

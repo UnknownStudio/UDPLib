@@ -8,25 +8,23 @@ import org.bukkit.event.inventory.InventoryType;
  * @author AAA
  *
  */
-public class UIFactory {
+public interface UIFactory {
 
 	/**
-	 * 创建一个UI
-	 * @param size
-	 * @param title
-	 * @return
+	 * 创建一个界面
+	 * @param size 界面大小(9的倍数,即槽数量)
+	 * @param title 标题
 	 */
-	public static UI createUI(int size,String title){
+	static UI createUI(int size, String title){
 		return new UI(Bukkit.createInventory(null,size,title));
 	}
 	
 	/**
-	 * 创建一个UI
-	 * @param type
-	 * @param title
-	 * @return
+	 * 创建一个界面
+	 * @param type 界面类型
+	 * @param title 标题
 	 */
-	public static UI createUI(InventoryType type,String title){
+	static UI createUI(InventoryType type, String title){
 		return new UI(Bukkit.createInventory(null, type, title));
 	}
 }

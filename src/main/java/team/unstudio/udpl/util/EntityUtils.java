@@ -1,37 +1,34 @@
 package team.unstudio.udpl.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.google.common.base.Strings;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public final class EntityUtils {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
-	private EntityUtils(){}
+public interface EntityUtils {
 	
-	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-	private static int nextEntityID = Integer.MAX_VALUE;
+	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+	AtomicInteger nextEntityID = new AtomicInteger(Integer.MAX_VALUE);
 	
 	@Deprecated
-	public static Result sendFakeItemEntity(@Nonnull Player player,@Nonnull ItemStack itemStack,@Nonnull Location location,@Nullable String displayName){
+	static Result sendFakeItemEntity(@Nonnull Player player, @Nonnull ItemStack itemStack, @Nonnull Location location, @Nullable String displayName){
 		Validate.notNull(player);
 		Validate.notNull(itemStack);
 		Validate.notNull(location);
 		
-		int entityID = nextEntityID--;
+		int entityID = nextEntityID.getAndDecrement();
 		PacketContainer spawnEntityLiving = protocolManager.createPacket(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
 		spawnEntityLiving.getIntegers().write(0, entityID); //Entity ID
 		spawnEntityLiving.getUUIDs().write(0, UUID.randomUUID()); //Entity UUID

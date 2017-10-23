@@ -1,42 +1,31 @@
 package team.unstudio.udpl.command.anno;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Stack;
-import javax.annotation.Nonnull;
-
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import team.unstudio.udpl.command.CommandHelper;
-import team.unstudio.udpl.util.ServerUtils;
+import team.unstudio.udpl.core.UDPLI18n;
+
+import javax.annotation.Nonnull;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.Optional;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
-	
-	private static final String unknownCommandMessage = ChatColor.RED+"未知的指令，输入 /%1$s help 查看帮助.";
-	private static final String noPermissionMessage = ChatColor.RED+"没有足够的权限:"+ChatColor.YELLOW+" %1$s .";
-	private static final String noEnoughParameterMessage = ChatColor.RED+"参数不足! 正确的使用方法: %1$s";
-	private static final String wrongSenderMessage = ChatColor.RED+"该指令不能由该指令发送者发送!";
-	private static final String errorParameterMessage = ChatColor.RED+"参数错误! 正确的使用方法: %1$s";
-	private static final String runCommandFailureMessage = ChatColor.RED+"指令执行失败, 请在控制台查看更多的错误信息.";
+	private static final String MESSAGE_UNKNOWN_COMMAND = UDPLI18n.format("message.unknown_command");
+	private static final String MESSAGE_NO_PERMISSION = UDPLI18n.format("message.no_permission");
+	private static final String MESSAGE_NO_ENOUGH_PARAMETER = UDPLI18n.format("message.no_enough_parameter");
+	private static final String MESSAGE_WRONG_SENDER = UDPLI18n.format("message.wrong_sender");
+	private static final String MESSAGE_WRONG_PARAMETER = UDPLI18n.format("message.wrong_parameter");
+	private static final String MESSAGE_FAILURE = UDPLI18n.format("message.failure");
 	
 	private final JavaPlugin plugin;
 	private final String name;
@@ -68,7 +57,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 创建指令管理者
 	 * @param name 指令名
 	 * @param plugin 插件
-	 * @param parameters 指令参数处理器
+	 * @param parameterHandlers 指令参数处理器
 	 */
 	public AnnoCommandManager(@Nonnull String name, @Nonnull JavaPlugin plugin, Map<Class<?>,CommandParameterHandler> parameterHandlers){
 		Validate.notNull(name);
@@ -118,11 +107,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 	
 	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(String.format(unknownCommandMessage,label));
+		sender.sendMessage(String.format(MESSAGE_UNKNOWN_COMMAND,label));
 	}
 
 	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(String.format(noPermissionMessage,handler.getPermission()));
+		sender.sendMessage(String.format(MESSAGE_NO_PERMISSION,handler.getPermission()));
 	}
 	
 	protected void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
@@ -167,11 +156,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			}
 		}
 		
-		sender.sendMessage(String.format(noEnoughParameterMessage,builder.toString()));
+		sender.sendMessage(String.format(MESSAGE_NO_ENOUGH_PARAMETER,builder.toString()));
 	}
 	
 	protected void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(wrongSenderMessage);
+		sender.sendMessage(MESSAGE_WRONG_SENDER);
 	}
 	
 	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler, int[] errorParameterIndexs){
@@ -221,11 +210,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			}
 		}
 		
-		sender.sendMessage(String.format(errorParameterMessage,builder.toString()));
+		sender.sendMessage(String.format(MESSAGE_WRONG_PARAMETER,builder.toString()));
 	}
 	
 	protected void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(runCommandFailureMessage);
+		sender.sendMessage(MESSAGE_FAILURE);
 	}
 	
 	/**
@@ -320,24 +309,24 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	protected void handleCommand(CommandWrapper wrapper,CommandSender sender,Command command,String label,String args[]){
 		switch (wrapper.onCommand(sender,command,label,args)) {
-		case UnknownCommand:
+		case UNKNOWN_COMMAND:
 			onUnknownCommand(sender, command, label, args, wrapper);
 			break;
-		case ErrorParameter:
+		case ERROR_PARAMETER:
 			break;
-		case NoEnoughParameter:
+		case NO_ENOUGH_PARAMETER:
 			onNoEnoughParameter(sender, command, label, args, wrapper);
 			break;
-		case NoPermission:
+		case NO_PERMISSION:
 			onNoPermission(sender, command, label, args, wrapper);
 			break;
-		case WrongSender:
+		case WRONG_SENDER:
 			onWrongSender(sender, command, label, args, wrapper);
 			break;
-		case Failure:
+		case FAILURE:
 			onRunCommandFailure(sender, command, label, args, wrapper);
 			break;
-		case Success:
+		case SUCCESS:
 			break;
 		}
 	}

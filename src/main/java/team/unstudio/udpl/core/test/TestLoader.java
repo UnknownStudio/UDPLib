@@ -1,13 +1,13 @@
 package team.unstudio.udpl.core.test;
 
-import java.io.File;
-
 import team.unstudio.udpl.area.AreaManager;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.i18n.I18n;
 import team.unstudio.udpl.i18n.SimpleI18n;
 import team.unstudio.udpl.util.PluginUtils;
+
+import java.io.File;
 
 public class TestLoader {
 	
@@ -35,7 +35,7 @@ public class TestLoader {
 		areaManager.setAutoBackup(true);
 		
 		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new TestCommand()).unsafeRegisterCommand();
-		UDPLib.getLog().info("Enable test.");
+		UDPLib.getLog().info("Enabled test.");
 	}
 	
 	private void testConfig(){

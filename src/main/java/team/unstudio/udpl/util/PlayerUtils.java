@@ -1,11 +1,5 @@
 package team.unstudio.udpl.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Locale;
-import java.util.Map;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -14,17 +8,20 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.events.PacketListener;
 import com.google.common.collect.Maps;
-
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.core.UDPLib;
 
-public final class PlayerUtils {
+import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
+import java.util.Map;
+
+public interface PlayerUtils {
 	
-	private PlayerUtils(){}
+	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+	Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
 	
-	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-	private static Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
-	
-	public static void initPlayerUtils(){
+	static void initPlayerUtils(){
 		protocolManager.addPacketListener(new PacketListener() {
 			
 			@Override
@@ -59,16 +56,16 @@ public final class PlayerUtils {
 		});
 	}
 	
-	public static final Locale DEFAULT_LANGUAGE = Locale.US;
-	public static String getLanguage(Player player){
+	Locale DEFAULT_LANGUAGE = Locale.US;
+	static String getLanguage(Player player){
 		return getLanguageLocale(player).toLanguageTag();
 	}
 	
-	public static Locale getLanguageLocale(Player player){
+	static Locale getLanguageLocale(Player player){
 		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
 			try {
 				PLAYER_LANGUAGE_CACHE.put(player, 
-						Locale.forLanguageTag(toLanguageTagNormalized((String) NMSReflectionUtils.getEntityPlayer_locale().get(NMSReflectionUtils.getCraftPlayer_getHandle().invoke(player)))));
+						Locale.forLanguageTag(toLanguageTagNormalized((String) NMSReflectionUtils.getLocaleNMS().get(NMSReflectionUtils.getHandleNMS().invoke(player)))));
 			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				UDPLib.debug(e);
 				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
@@ -77,7 +74,7 @@ public final class PlayerUtils {
 		return PLAYER_LANGUAGE_CACHE.get(player);
 	}
 	
-	private static String toLanguageTagNormalized(String languageTag){
+	static String toLanguageTagNormalized(String languageTag){
 		languageTag = languageTag.replaceAll("_", "-");
 		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
 		if(first == -1)
@@ -93,7 +90,7 @@ public final class PlayerUtils {
 	/**
 	 * 设置总经验
 	 */
-	public static void setTotalExperience(Player player, int exp) {
+	static void setTotalExperience(Player player, int exp) {
 		if (exp < 0) {
 			throw new IllegalArgumentException("Experience is negative!");
 		}
@@ -118,14 +115,14 @@ public final class PlayerUtils {
 	/**
 	 * 获取到该等级的经验
 	 */
-	private static int getExpAtLevel(Player player) {
+	static int getExpAtLevel(Player player) {
 		return getExpAtLevel(player.getLevel());
 	}
 
 	/**
 	 * 获取到该等级的经验
 	 */
-	public static int getExpAtLevel(int level) {
+	static int getExpAtLevel(int level) {
 		if (level > 29) {
 			return 62 + (level - 30) * 7;
 		}
@@ -138,7 +135,7 @@ public final class PlayerUtils {
 	/**
 	 * 获取升级到某等级所需经验
 	 */
-	public static int getExpToLevel(int level) {
+	static int getExpToLevel(int level) {
 		int currentLevel = 0;
 		int exp = 0;
 
@@ -155,7 +152,7 @@ public final class PlayerUtils {
 	/**
 	 * 获取总经验
 	 */
-	public static int getTotalExperience(Player player) {
+	static int getTotalExperience(Player player) {
 		int exp = Math.round(getExpAtLevel(player) * player.getExp());
 		int currentLevel = player.getLevel();
 
@@ -172,7 +169,7 @@ public final class PlayerUtils {
 	/**
 	 * 获取到下一等级的还缺少的经验
 	 */
-	public static int getExpUntilNextLevel(Player player) {
+	static int getExpUntilNextLevel(Player player) {
 		int exp = Math.round(getExpAtLevel(player) * player.getExp());
 		int nextLevel = player.getLevel();
 		return getExpAtLevel(nextLevel) - exp;

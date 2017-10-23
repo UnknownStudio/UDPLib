@@ -14,13 +14,10 @@ import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
 import com.google.common.base.Strings;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
-public final class Title {
+public interface Title {
+	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
 	
-	private Title(){}
-	
-	private static final ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
-	
-	public static Result title(Player player, @Nullable String title, @Nullable String subTitle, int fadeIn, int stay, int fadeOut){
+	static Result title(Player player, @Nullable String title, @Nullable String subTitle, int fadeIn, int stay, int fadeOut){
 		Result result = setTimeAndDisplay(player, fadeIn, stay, fadeOut);
 		if(result.isFailure())
 			return result;
@@ -40,7 +37,7 @@ public final class Title {
 		return Result.success();
 	}
 	
-	public static Result title(Player player, String title){
+	static Result title(Player player, String title){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.TITLE);
 		container.getChatComponents().write(0, WrappedChatComponent.fromText(title));
@@ -52,7 +49,7 @@ public final class Title {
 		}
 	}
 	
-	public static Result subTitle(Player player, String subTitle){
+	static Result subTitle(Player player, String subTitle){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.SUBTITLE);
 		container.getChatComponents().write(0, WrappedChatComponent.fromText(subTitle));
@@ -64,7 +61,7 @@ public final class Title {
 		}
 	}
 	
-	public static Result setTimeAndDisplay(Player player, int fadeIn, int stay, int fadeOut){
+	static Result setTimeAndDisplay(Player player, int fadeIn, int stay, int fadeOut){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.TIMES);
 		container.getIntegers().write(0, fadeIn).write(1, stay).write(2, fadeOut);
@@ -76,7 +73,7 @@ public final class Title {
 		}
 	}
 	
-	public static Result hide(Player player){
+	static Result hide(Player player){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.CLEAR);
 		try {
@@ -87,7 +84,7 @@ public final class Title {
 		}
 	}
 	
-	public static Result reset(Player player){
+	static Result reset(Player player){
 		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.TITLE);
 		container.getTitleActions().write(0, TitleAction.RESET);
 		try {

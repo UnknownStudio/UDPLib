@@ -1,21 +1,17 @@
 package team.unstudio.udpl.util;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-public final class BlockUtils {
-	
-	private BlockUtils() {}
-	
-	private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+import java.lang.reflect.InvocationTargetException;
+
+public interface BlockUtils {
+	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
 	
 	/**
 	 * 0–9 are the displayable destroy stages and each other number means that there is no animation on this coordinate.</br>
@@ -26,7 +22,7 @@ public final class BlockUtils {
 	 * @param state
 	 * @return
 	 */
-	public static Result sendBlockBreakAnimation(Player player, Location location, byte state) {
+	static Result sendBlockBreakAnimation(Player player, Location location, byte state) {
 		return sendBlockBreakAnimation(player, player.getEntityId(), location, state);
 	}
 	
@@ -39,15 +35,15 @@ public final class BlockUtils {
 	 * @param state
 	 * @return
 	 */
-	public static Result sendBlockBreakAnimation(Player player, int entityId, Location location, byte state) {
-		PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
+	static Result sendBlockBreakAnimation(Player player, int entityId, Location location, byte state) {
+		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
 		container.getIntegers().write(0, entityId);
 		container.getBlockPositionModifier().write(0,
 				new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 		container.getIntegers().write(1, (int) state);
 
 		try {
-			protocolManager.sendServerPacket(player, container);
+			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return Result.success();
 		} catch (InvocationTargetException e) {
 			return Result.failure(e);

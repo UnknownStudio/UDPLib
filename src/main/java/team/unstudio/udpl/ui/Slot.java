@@ -7,10 +7,24 @@ import org.bukkit.inventory.ItemStack;
  * 界面槽
  */
 public abstract class Slot implements Cloneable{
-	
+	/**
+	 * 槽所属的界面
+	 */
 	private UI parent;
+
+	/**
+	 * 槽中的物品
+	 */
 	private ItemStack itemStack;
+
+	/**
+	 * 槽所在的格
+	 */
 	private int slot;
+
+	/**
+	 * 可否操作
+	 */
 	private boolean allowOperate;
 	
 	public Slot() {}
@@ -26,7 +40,6 @@ public abstract class Slot implements Cloneable{
 	
 	/**
 	 * 获取物品
-	 * @return
 	 */
 	public ItemStack getItemStack() {
 		return parent!=null?parent.getInventory().getItem(slot):itemStack;

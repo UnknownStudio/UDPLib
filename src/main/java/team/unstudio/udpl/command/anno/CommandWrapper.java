@@ -1,21 +1,18 @@
 package team.unstudio.udpl.command.anno;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.bukkit.command.CommandSender;
+import team.unstudio.udpl.command.CommandResult;
+
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.command.CommandSender;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import team.unstudio.udpl.command.CommandResult;
 
 public class CommandWrapper {
 	
@@ -100,21 +97,21 @@ public class CommandWrapper {
 	
 	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
 		if (commandObject == null)
-			return CommandResult.UnknownCommand;
+			return CommandResult.UNKNOWN_COMMAND;
 		
 		if (!checkSender(sender))
-			return CommandResult.WrongSender;
+			return CommandResult.WRONG_SENDER;
 
 		if (!checkPermission(sender))
-			return CommandResult.NoPermission;
+			return CommandResult.NO_PERMISSION;
 
 		// 检查参数数量
 		if (requireds.length > args.length)
-			return CommandResult.NoEnoughParameter;
+			return CommandResult.NO_ENOUGH_PARAMETER;
 		
 		// 精确参数匹配
 		if (exactParameterMatching && requireds.length + optionals.length < args.length)
-			return CommandResult.UnknownCommand;
+			return CommandResult.UNKNOWN_COMMAND;
 
 		// 转换参数
 		Object[] objs = new Object[this.command.getParameterTypes().length];
@@ -143,7 +140,7 @@ public class CommandWrapper {
 			
 			if (errorParameterIndexs.length!=0){
 				getCommandManager().onErrorParameter(sender, command, label, args, this, errorParameterIndexs);
-				return CommandResult.ErrorParameter;
+				return CommandResult.ERROR_PARAMETER;
 			}
 		}
 
@@ -158,14 +155,14 @@ public class CommandWrapper {
 		// 执行指令
 		try {
 			if (this.command.getReturnType().equals(boolean.class))
-				return (boolean) this.command.invoke(commandObject, objs) ? CommandResult.Success : CommandResult.Failure;
+				return (boolean) this.command.invoke(commandObject, objs) ? CommandResult.SUCCESS : CommandResult.FAILURE;
 			else {
 				this.command.invoke(commandObject, objs);
-				return CommandResult.Success;
+				return CommandResult.SUCCESS;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return CommandResult.Failure;
+			return CommandResult.FAILURE;
 		}
 	}
 	

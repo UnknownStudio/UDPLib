@@ -4,18 +4,17 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Utils {
-
-	private Utils(){}
+public interface FileUtils {
 	
     /**
      * 读取文件内容到List
      *
      * @param file 文件
      * @param list 要写入到的List
+     * @param code 编码
      * @throws Exception
      */
-    public static void readFile2List(File file, List<String> list, String code) throws Exception {
+    static void readFile2List(File file, List<String> list, String code) throws Exception {
         BufferedReader fr;
         try {
             String myCode = code!=null&&!"".equals(code) ? code : "UTF-8";
@@ -24,13 +23,7 @@ public final class Utils {
 
             fr = new BufferedReader(read);
             String line = null;
-            int flag=1;
-            // 读取每一行，如果结束了，line会为空
             while ((line = fr.readLine()) != null && line.trim().length() > 0) {
-                if(flag==1) {
-                    line=line.substring(1);//去掉文件头
-                    flag++;
-                }
                 list.add(line);
             }
             fr.close();
@@ -47,9 +40,10 @@ public final class Utils {
      *
      * @param file 文件
      * @return 文件内容分行的数组
+     * @param code 编码
      * @throws Exception
      */
-    public static String[] readFile2Array(File file, String code) throws Exception {
+    static String[] readFile2Array(File file, String code) throws Exception {
         List<String> list = new ArrayList<>();
         readFile2List(file, list, code);
         return list.toArray(new String[0]);

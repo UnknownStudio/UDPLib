@@ -1,13 +1,10 @@
 package team.unstudio.udpl.core;
 
-import java.io.File;
-import java.util.logging.Logger;
-
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.bungeecord.ServerLocation;
@@ -19,6 +16,9 @@ import team.unstudio.udpl.nms.nbt.NBTUtils;
 import team.unstudio.udpl.util.CacheUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.SignUtils;
+
+import java.io.File;
+import java.util.logging.Logger;
 
 public final class UDPLib extends JavaPlugin{
 
@@ -46,6 +46,8 @@ public final class UDPLib extends JavaPlugin{
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
+		if (StringUtils.isNotEmpty(CONFIG.lang))
+			UDPLI18n.setLocale(CONFIG.lang);
 		setDebug(CONFIG.debug);
 		
 		MappingHelper.loadMapping();

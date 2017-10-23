@@ -10,19 +10,17 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
-public final class ActionBar {
+public interface ActionBar {
 	
-	private ActionBar() {}
-	
-    private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
 
-    public static Result send(Player player, String text){
-        PacketContainer container = protocolManager.createPacket(PacketType.Play.Server.CHAT);
+    static Result send(Player player, String text){
+        PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CHAT);
         container.getChatComponents().write(0, WrappedChatComponent.fromJson("{\"text\": \"" + text + "\"}"));
         container.getBytes().write(0, (byte) 2);
 
         try {
-            protocolManager.sendServerPacket(player, container);
+            PROTOCOL_MANAGER.sendServerPacket(player, container);
             return Result.success();
         } catch (InvocationTargetException e) {
         	return Result.failure(e);

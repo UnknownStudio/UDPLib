@@ -5,7 +5,13 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 
 public interface LoreTable {
-	public List<String> getLore(ItemStack item);
+	/**
+	 * lore of a item.
+	 * @param item given item
+	 * @return lore list
+	 */
+	List<String> getLore(ItemStack item);
+
 	/**
 	 * head of table in lore,
 	 * if table does not exist return -1.
@@ -13,7 +19,8 @@ public interface LoreTable {
 	 * @param item
 	 * @return head of table in lore or -1
 	 */
-	public int getHead(ItemStack item);
+	int getHead(ItemStack item);
+
 	/**
 	 * length of table in lore,
 	 * if table does not exist return 0.
@@ -21,6 +28,6 @@ public interface LoreTable {
 	 * @param item
 	 * @return length of table in lore or 0
 	 */
-	public int getLength(ItemStack item);
+	int getLength(ItemStack item);
 }
 
