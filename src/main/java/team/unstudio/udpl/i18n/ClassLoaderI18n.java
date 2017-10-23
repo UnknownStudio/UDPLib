@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * 从classpath中解析的国际化实现
@@ -53,11 +52,11 @@ public class ClassLoaderI18n implements I18n {
                     Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')).replaceAll("_", "-"));
                     Configuration config = ConfigurationHelper.loadConfiguration(file);
                     cache.put(locale, config);
-                    UDPLib.debug("Loaded language locale: " + locale.toLanguageTag());
+                    UDPLib.getLog().info("Loaded language locale: " + locale.toLanguageTag());
                 }
             }
         } catch (Exception e) {
-            UDPLib.getLog().log(Level.SEVERE, "Cannot read language file from class path", e);
+            UDPLib.getLog().error("Cannot read language file from class path", e);
         }
     }
 
