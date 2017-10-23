@@ -1,5 +1,12 @@
 package team.unstudio.udpl.area;
 
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
+import team.unstudio.udpl.config.ConfigurationHelper;
+import team.unstudio.udpl.util.Chunk;
+
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,16 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import team.unstudio.udpl.config.ConfigurationHelper;
-import team.unstudio.udpl.util.Chunk;
-
-public final class WorldAreaManager {
+public final class WorldAreaManager{
 
 	private final File worldFile;
 	private final World world;
@@ -164,5 +162,4 @@ public final class WorldAreaManager {
 		
 		return true;
 	}
-	
 }

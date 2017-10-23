@@ -1,8 +1,8 @@
 package team.unstudio.udpl.i18n;
 
 import com.google.common.collect.Maps;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.configuration.Configuration;
 import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.core.UDPLib;
@@ -48,7 +48,8 @@ public class ClassLoaderI18n implements I18n {
         cache.clear();
         try {
             for (URL url : Collections.list(classLoader.getResources(path))) {
-                for (File file : FileUtils.toFile(url).listFiles((file, name) -> name.endsWith(".yml"))) {
+                File filePath = new File(url.toURI());
+                for (File file : (File[]) ArrayUtils.nullToEmpty(filePath.listFiles((file, name) -> name.endsWith(".yml")))) {
                     Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')).replaceAll("_", "-"));
                     Configuration config = ConfigurationHelper.loadConfiguration(file);
                     cache.put(locale, config);

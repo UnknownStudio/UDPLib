@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Area implements ConfigurationSerializable{
+public class Area implements ConfigurationSerializable {
 	
 	private final Location minLocation,maxLocation;
 	private AreaDataContainer data;
