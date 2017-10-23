@@ -4,11 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -36,11 +32,6 @@ public class BiScoreboard extends ScoreboardWrapper {
 	
 	public void put(int score, String key){
 		this.put(key, score);
-	}
-
-	@Override
-	public void putAll(Map<String,Integer> map){
-		map.entrySet().forEach(entry->put(entry.getKey(),entry.getValue()));
 	}
 	
 	public void putAllInverse(Map<Integer,String> map){

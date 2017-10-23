@@ -53,7 +53,7 @@ public class ScoreboardWrapper {
 	}
 	
 	public void putAll(Map<String,Integer> map){
-		map.entrySet().forEach(entry->objective.getScore(entry.getKey()).setScore(entry.getValue()));
+		map.entrySet().forEach(entry->put(entry.getKey(), entry.getValue()));
 	}
 	
 	public void remove(String key){
