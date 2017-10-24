@@ -11,8 +11,8 @@ public final class UDPLConfiguration extends ConfigurationHandler{
 	@ConfigItem("debug")
 	public boolean debug = false;
 
-	@ConfigItem("lang")
-	public String lang = "";
+	@ConfigItem("language")
+	public String language = "";
 	
 	public UDPLConfiguration(File file) {
 		super(file);

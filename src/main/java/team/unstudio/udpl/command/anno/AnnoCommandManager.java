@@ -106,12 +106,19 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 	
-	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(String.format(MESSAGE_UNKNOWN_COMMAND,label));
+	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler) {
+		if (sender instanceof Player)
+			sender.sendMessage(UDPLI18n.format((Player) sender, "message.unknown_command"));
+		else
+			sender.sendMessage(String.format(MESSAGE_UNKNOWN_COMMAND, label));
 	}
 
-	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(String.format(MESSAGE_NO_PERMISSION,handler.getPermission()));
+	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler) {
+		if (sender instanceof Player)
+			sender.sendMessage(
+					String.format(UDPLI18n.format((Player) sender, "message.no_permission"), handler.getPermission()));
+		else
+			sender.sendMessage(String.format(MESSAGE_NO_PERMISSION, handler.getPermission()));
 	}
 	
 	protected void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
@@ -156,11 +163,18 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			}
 		}
 		
-		sender.sendMessage(String.format(MESSAGE_NO_ENOUGH_PARAMETER,builder.toString()));
+		if (sender instanceof Player)
+			sender.sendMessage(
+					String.format(UDPLI18n.format((Player) sender, "message.no_enough_parameter"), builder.toString()));
+		else
+			sender.sendMessage(String.format(MESSAGE_NO_ENOUGH_PARAMETER, builder.toString()));
 	}
 	
 	protected void onWrongSender(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		sender.sendMessage(MESSAGE_WRONG_SENDER);
+		if (sender instanceof Player)
+			sender.sendMessage(UDPLI18n.format((Player) sender, "message.wrong_sender"));
+		else
+			sender.sendMessage(MESSAGE_WRONG_SENDER);
 	}
 	
 	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler, int[] errorParameterIndexs){
@@ -210,10 +224,17 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			}
 		}
 		
-		sender.sendMessage(String.format(MESSAGE_WRONG_PARAMETER,builder.toString()));
+		if (sender instanceof Player)
+			sender.sendMessage(
+					String.format(UDPLI18n.format((Player) sender, "message.wrong_parameter"), builder.toString()));
+		else
+			sender.sendMessage(String.format(MESSAGE_WRONG_PARAMETER,builder.toString()));
 	}
 	
 	protected void onRunCommandFailure(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
+		if (sender instanceof Player)
+			sender.sendMessage(UDPLI18n.format((Player) sender, "message.failure"));
+		else
 		sender.sendMessage(MESSAGE_FAILURE);
 	}
 	

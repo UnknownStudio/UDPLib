@@ -17,6 +17,7 @@ import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
 import team.unstudio.udpl.util.CacheUtils;
 import team.unstudio.udpl.util.PlayerUtils;
+import team.unstudio.udpl.util.PluginUtils;
 import team.unstudio.udpl.util.SignUtils;
 
 import java.io.File;
@@ -47,9 +48,13 @@ public final class UDPLib extends JavaPlugin{
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
 		CONFIG.reload();
-		if (StringUtils.isNotEmpty(CONFIG.lang))
-			UDPLI18n.setLocale(CONFIG.lang);
+		
 		setDebug(CONFIG.debug);
+		
+		PluginUtils.saveDirectory(getInstance(), "lang", false);
+		
+		if (StringUtils.isNotEmpty(CONFIG.language))
+			UDPLI18n.setLocale(CONFIG.language);
 		
 		MappingHelper.loadMapping();
 		NmsHelper.loadNmsHelper();
