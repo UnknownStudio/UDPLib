@@ -1,15 +1,15 @@
 # Debug
-debug.area.load: Loading areas...
-debug.area.loaded: Loaded %s areas.
-debug.area.save: Saving areas...
-debug.area.saved: Saved %s areas.
-debug.area.backup: Backuping areas...
-debug.area.backuped: Backuped %s areas.
+debug.area.load: "Loading areas..."
+debug.area.loaded: "Loaded %s areas."
+debug.area.save: "Saving areas..."
+debug.area.saved: "Saved %s areas."
+debug.area.backup: "Backuping areas..."
+debug.area.backuped: "Backuped %s areas."
 
 # Message
-message.unknown_command: §cUnknown command, type /%s help for help.
-message.no_permission: §cPermission denied for §e/%s
-message.no_enough_parameter: §cNo enough parameter! Correct syntax: %s
-message.wrong_sender: §cUnable to use this command due to your terminal.
-message.wrong_parameter: §cWrong parameter type! Correct syntax: %s
-message.failure: §cFailed to execute this command, please check your console.
+message.unknown_command: "§cUnknown command, type /%s help for help."
+message.no_permission: "§cPermission denied for §e/%s"
+message.no_enough_parameter: "§cNo enough parameter! Correct syntax: %s"
+message.wrong_sender: "§cUnable to use this command due to your terminal."
+message.wrong_parameter: "§cWrong parameter type! Correct syntax: %s"
+message.failure: "§cFailed to execute this command, please check your console."

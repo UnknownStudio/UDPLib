@@ -51,8 +51,8 @@ public class ClassLoaderI18n implements I18n {
                 for (File file : (File[]) ArrayUtils.nullToEmpty(filePath.listFiles((file, name) -> name.endsWith(".yml")))) {
                     Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')).replaceAll("_", "-"));
                     Configuration config = ConfigurationHelper.loadConfiguration(file);
-                    cache.put(locale, config);
-                    UDPLib.getLog().info("Loaded language locale: " + locale.toLanguageTag());
+                    if(config != null)
+	                    cache.put(locale, config);
                 }
             }
         } catch (Exception e) {
