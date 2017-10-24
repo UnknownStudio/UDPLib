@@ -48,7 +48,11 @@ public final class VariableHelper {
 			if(variableMatchesing){
 				if(c == variableEnd){
 					variableMatchesing = false;
-					result.append(getValue(player, variableName.toString()));
+					String variable = getValue(player, variableName.toString());
+					if(Strings.isNullOrEmpty(variable))
+						result.append(variableStart).append(variableName.toString()).append(variableEnd);
+					else
+						result.append(variable);
 					variableName.delete(0, variableName.length());
 				}else
 					variableName.append(c);
