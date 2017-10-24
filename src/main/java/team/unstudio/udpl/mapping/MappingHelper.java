@@ -9,8 +9,6 @@ public final class MappingHelper {
 	
 	private MappingHelper(){}
 	
-	private static final boolean DEBUG = UDPLib.isDebug();
-	
 	private static MemberMapping memberMapping;
 	
 	public static void loadMapping(){
@@ -22,10 +20,9 @@ public final class MappingHelper {
 			memberMapping = new MemberMapping(version);
 			UDPLib.getLog().info("Loaded mapping "+version);
 		} catch (IOException e) {
-			if(DEBUG)
-				e.printStackTrace();
+			UDPLib.debug(e);
 			memberMapping = null;
-			UDPLib.getLog().warning("Loaded mapping "+version+" failure.");
+			UDPLib.getLog().warn("Loaded mapping "+version+" failure.");
 		}
 	}
 
