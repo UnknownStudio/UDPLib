@@ -20,7 +20,7 @@ public interface UDPLI18n {
     }
 
     static String format(String key) {
-        return I18N.format(key);
+        return I18N.localize(key);
     }
 
     static String format(String key, Object... args) {

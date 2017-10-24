@@ -61,8 +61,8 @@ public class ClassLoaderI18n implements I18n {
     }
 
     @Override
-    public String format(String key) {
-        return format(defaultLocale, key);
+    public String localize(String key) {
+        return localize(defaultLocale, key);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ClassLoaderI18n implements I18n {
     }
 
     @Override
-    public String format(Locale locale, String key){
+    public String localize(Locale locale, String key){
         if(cache.containsKey(locale))
             return cache.get(locale).getString(key, key);
         else if(cache.containsKey(defaultLocale))
