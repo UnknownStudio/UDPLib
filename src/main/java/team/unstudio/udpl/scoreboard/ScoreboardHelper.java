@@ -16,4 +16,8 @@ public interface ScoreboardHelper {
 	static void reset(Player player){
 		player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 	}
+	
+	static Scoreboard getNewScoreboard(){
+		return Bukkit.getScoreboardManager().getNewScoreboard();
+	}
 }
