@@ -1,6 +1,6 @@
 package team.unstudio.udpl.variable;
 
-import java.util.Set;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
@@ -10,30 +10,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 
 public final class VariableHelper {
 
 	private VariableHelper(){}
 	
-	private static final Set<Variable> VARIABLES = Sets.newHashSet();
+	private static final Map<String,Variable> REGISTED_VARIABLES = Maps.newHashMap();
 	
 	public static void registerVariable(@Nonnull Variable variable){
 		Validate.notNull(variable);
-		if(!variable.isRegistrable())
-			return;
-		VARIABLES.add(variable);
+		REGISTED_VARIABLES.put(variable.getName(), variable);
 	}
 
-	public static SingleVariable registerSingleVariable(@Nonnull Plugin plugin, @Nonnull String name, @Nonnull Function<Player, String> function){
-		SingleVariable variable = new SingleVariable(plugin, name, function);
+	public static SimpleVariable registerVariable(@Nonnull Plugin plugin, @Nonnull String name, @Nonnull Function<Player, String> function){
+		SimpleVariable variable = new SimpleVariable(plugin, name, function);
 		registerVariable(variable);
 		return variable;
 	}
 	
 	public static void unregisterVariable(@Nonnull Variable variable){
 		Validate.notNull(variable);
-		VARIABLES.remove(variable);
+		REGISTED_VARIABLES.remove(variable.getName());
+	}
+	
+	public static void unregisterVariable(@Nonnull String variable){
+		Validate.notEmpty(variable);
+		REGISTED_VARIABLES.remove(variable);
 	}
 	
 	public static String apply(Player player, String value){
@@ -67,11 +70,9 @@ public final class VariableHelper {
 	}
 	
 	private static String getValue(Player player,String name){
-		for(Variable variable:VARIABLES){
-			String result = variable.getValue(player, name);
-			if(!Strings.isNullOrEmpty(result))
-				return result;
-		}
-		return "";
+		if(REGISTED_VARIABLES.containsKey(name))
+			return REGISTED_VARIABLES.get(name).getValue(player);
+		else
+			return null;
 	}
 }

@@ -4,16 +4,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public interface Variable {
-	
-	String getValue(Player player, String name);
+
+	String getName();
+
+	String getValue(Player player);
 	
 	Plugin getPlugin();
-	
-	default boolean isRegistrable(){
-		return true;
-	}
-	
-	default void register(){
-		VariableHelper.registerVariable(this);
-	}
 }
