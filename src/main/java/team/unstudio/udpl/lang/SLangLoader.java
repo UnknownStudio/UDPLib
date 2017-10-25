@@ -2,20 +2,19 @@ package team.unstudio.udpl.lang;
 
 import java.io.File;
 
-import team.unstudio.udpl.util.Utils;
+import team.unstudio.udpl.util.FileUtils;
 
 /**
  * Created by trychen on 17/7/28.
  */
-public class SLangLoader {
+public interface SLangLoader {
     /**
      * 读取文件内容并通过SLangSpliter读取所有语言项
-     * @param separator
-     * @param file
-     * @return
-     * @throws Exception
+     * @param separator 分隔符
+     * @param file 文件
+     * @throws Exception 文件读取错误
      */
-    public SLang[] loadFromFile(String separator,File file) throws Exception {
-        return SLangSpliter.split(separator, Utils.readFile2Array(file, "utf-8"));
+    static SLang[] loadFromFile(String separator,File file) throws Exception {
+        return SLangSpliter.split(separator, FileUtils.readFile2Array(file, "utf-8"));
     }
 }

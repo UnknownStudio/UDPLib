@@ -4,19 +4,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
-public final class ScoreboardHelper {
-	
-	private ScoreboardHelper() {}
-	
-	public static void setPlayerScoreboard(Player player,Scoreboard scoreboard){
+public interface ScoreboardHelper {
+	static void setPlayerScoreboard(Player player, Scoreboard scoreboard){
 		player.setScoreboard(scoreboard);
 	}
 	
-	public static void clear(Player player){
+	static void clear(Player player){
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 	}
 	
-	public static void reset(Player player){
+	static void reset(Player player){
 		player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+	}
+	
+	static Scoreboard getNewScoreboard(){
+		return Bukkit.getScoreboardManager().getNewScoreboard();
 	}
 }

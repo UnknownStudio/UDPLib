@@ -1,21 +1,16 @@
 package team.unstudio.udpl.i18n;
 
+import com.google.common.collect.Maps;
+import org.apache.commons.lang.Validate;
+import org.bukkit.configuration.Configuration;
+import team.unstudio.udpl.config.ConfigurationHelper;
+
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.Configuration;
-import com.google.common.collect.Maps;
-
-import team.unstudio.udpl.config.ConfigurationHelper;
-
 public class SimpleI18n implements I18n{
-	
-	public static final Locale DEFAULT_LOCALE = Locale.US;
-	
 	private final File path;
 	protected final Map<Locale,Configuration> cache = Maps.newHashMap();
 	
@@ -29,6 +24,7 @@ public class SimpleI18n implements I18n{
 			throw new IllegalArgumentException("Path isn't directory.");
 		
 		this.path = path;
+		reload();
 	}
 
 	public final File getPath() {
@@ -50,31 +46,30 @@ public class SimpleI18n implements I18n{
 	public void reload(){
 		cache.clear();
 		for(File file:path.listFiles((file,name)->name.endsWith(".yml"))){
-			Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')));
+			Locale locale = Locale.forLanguageTag(file.getName().substring(0, file.getName().lastIndexOf('.')).replaceAll("_", "-"));
 			Configuration config = ConfigurationHelper.loadConfiguration(file);
-			cache.put(locale, config);
+			if(config != null)
+				cache.put(locale, config);
 		}
 	}
 	
+	@Override
+	public String localize(String key) {
+		return localize(defaultLocale, key);
+	}
+	
+	@Override
 	public String format(String key, Object... args){
 		return format(defaultLocale, key, args);
 	}
 	
-	public String format(Locale locale, String key, Object... args){
-		Object[] localizedArgs = new Object[args.length];
-		for (int i = 0, size = args.length; i < size; i++) {
-			Object arg = args[i];
-			if(arg instanceof String)
-				localizedArgs[i] = format(locale, (String) arg);
-			else
-				localizedArgs[i] = arg;
-		}
-		
+	@Override
+	public String localize(Locale locale, String key){
 		if(cache.containsKey(locale))
-			return String.format(cache.get(locale).getString(key, key), localizedArgs);
+			return cache.get(locale).getString(key, key);
 		else if(cache.containsKey(defaultLocale))
-			return String.format(cache.get(defaultLocale).getString(key, key), localizedArgs);
+			return cache.get(defaultLocale).getString(key, key);
 		else
-			return String.format(key, localizedArgs);
+			return key;
 	}
 }

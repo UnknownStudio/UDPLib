@@ -14,7 +14,13 @@ public @interface Optional {
 	 */
 	String value() default "";
 	
+	/**
+	 * 用法
+	 */
 	String usage() default "";
 	
+	/**
+	 * 自动补全内容
+	 */
 	String[] complete() default {};
 }

@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 
 import team.unstudio.udpl.area.Area;
 
-@FunctionalInterface
-public interface PlayerLeaveAreaCallback {
+import java.util.function.BiConsumer;
 
-	void apply(Player player,Area area);
+@FunctionalInterface
+public interface PlayerLeaveAreaCallback extends BiConsumer<Player, Area>{
 }

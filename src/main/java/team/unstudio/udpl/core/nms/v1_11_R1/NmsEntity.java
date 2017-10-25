@@ -20,13 +20,13 @@ public class NmsEntity implements team.unstudio.udpl.nms.entity.NmsEntity{
 	}
 
 	@Override
-	public team.unstudio.udpl.nbt.NBTTagCompound getNBT() throws Exception {
+	public team.unstudio.udpl.nms.nbt.NBTTagCompound getNBT() throws Exception {
 		return NmsHelper.getNBT().toCompound(((CraftEntity)entity).getHandle().e(new NBTTagCompound()));
 	}
 
 	@Override
-	public team.unstudio.udpl.nms.entity.NmsEntity setNBT(team.unstudio.udpl.nbt.NBTTagCompound nbt) throws Exception {
-		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
+	public team.unstudio.udpl.nms.entity.NmsEntity setNBT(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt) throws Exception {
+		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
 		return this;
 	}
 

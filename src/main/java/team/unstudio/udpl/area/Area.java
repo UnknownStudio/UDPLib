@@ -1,28 +1,21 @@
 package team.unstudio.udpl.area;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-public class Area implements ConfigurationSerializable{
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Area implements ConfigurationSerializable {
 	
 	private final Location minLocation,maxLocation;
 	private AreaDataContainer data;
 	
-	public Area(Map<String, Object> map) {
-		this((Location)map.get("point1"),(Location)map.get("point2"));
-		if(map.containsKey("data"))
-			data = (AreaDataContainer) map.get("data");
-	}
-	
 	public Area(@Nonnull Location point1,@Nonnull Location point2) {
 		if(!point1.getWorld().equals(point2.getWorld())) 
-			throw new IllegalArgumentException("Different world.");
+			throw new IllegalArgumentException("Area cannot be created between different worlds");
 		
 		//Location1 < Location2
 		double x1=point1.getX(),x2=point2.getX(),y1=point1.getY(),y2=point2.getY(),z1=point1.getZ(),z2=point2.getZ(),t;
@@ -53,37 +46,35 @@ public class Area implements ConfigurationSerializable{
 	
 	/**
 	 * 判断坐标是否含于该区域
-	 * @param location
-	 * @return
+	 * @param location 坐标
 	 */
 	public boolean contain(final Location location){
 		if(location==null)
 			return false;
-		
+
 		if(!getMinLocation().getWorld().equals(location.getWorld()))
 			return false;
-		
+
 		if(getMinLocation().getX()>location.getX())
 			return false;
 		if(getMinLocation().getY()>location.getY())
 			return false;
 		if(getMinLocation().getZ()>location.getZ())
 			return false;
-		
+
 		if(getMaxLocation().getX()<location.getX())
 			return false;
 		if(getMaxLocation().getY()<location.getY())
 			return false;
 		if(getMaxLocation().getZ()<location.getZ())
 			return false;
-		
+
 		return true;
 	}
 	
 	/**
 	 * 判断区域是否含于该区域
-	 * @param area
-	 * @return
+	 * @param area 区域
 	 */
 	public boolean contain(final Area area){
 		if(area==null)
@@ -111,8 +102,7 @@ public class Area implements ConfigurationSerializable{
 	
 	/**
 	 * 判断区域是否与该区域相交
-	 * @param area
-	 * @return
+	 * @param area 区域
 	 */
 	public boolean intersect(final Area area){
 		if(area==null)
@@ -142,6 +132,13 @@ public class Area implements ConfigurationSerializable{
 		if(data != null)
 			map.put("data", data);
 		return map;
+	}
+	
+	public static Area deserialize(Map<String, Object> args) {
+		Area area = new Area((Location)args.get("point1"),(Location)args.get("point2"));
+		if(args.containsKey("data"))
+			area.data = (AreaDataContainer) args.get("data");
+		return area;
 	}
 	
 	@Override

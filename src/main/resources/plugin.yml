@@ -6,3 +6,4 @@ description: Unknown Domain Spigot plugin lib.
 depend: [ProtocolLib]
 commands:
   pm:
+  udpl:

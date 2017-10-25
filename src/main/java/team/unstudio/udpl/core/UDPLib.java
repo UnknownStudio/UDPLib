@@ -1,32 +1,36 @@
 package team.unstudio.udpl.core;
 
-import java.io.File;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.bungeecord.ServerLocation;
-import team.unstudio.udpl.command.tree.CommandNode;
-import team.unstudio.udpl.command.tree.TreeCommandManager;
+import team.unstudio.udpl.command.anno.AnnoCommandManager;
+import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.mapping.MappingHelper;
 import team.unstudio.udpl.nms.NmsHelper;
-import team.unstudio.udpl.test.TestLoader;
+import team.unstudio.udpl.nms.nbt.NBTUtils;
+import team.unstudio.udpl.util.CacheUtils;
+import team.unstudio.udpl.util.PlayerUtils;
+import team.unstudio.udpl.util.PluginUtils;
+import team.unstudio.udpl.util.SignUtils;
+
+import java.io.File;
 
 public final class UDPLib extends JavaPlugin{
 
 	public static final String NAME = "UDPLib";
 	public static final String VERSION = "1.0.0";
 
-	private static final File PLUGIN_PATH = new File("plugins");
-
 	private static UDPLib INSTANCE;
 	private static boolean DEBUG;
 	private static UDPLConfiguration CONFIG;
+	private static Logger LOGGER = LogManager.getLogger("UDPLib");
 
 	public UDPLib() {
 		INSTANCE = this;
@@ -34,25 +38,41 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onLoad() {
+//		LOGGER = getLogger();
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
 		ConfigurationSerialization.registerClass(ServerLocation.class);
 		
+		NBTUtils.registerAllNBTSerilizable();
+		
+		saveDefaultConfig();
+		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
+		CONFIG.reload();
+		
+		setDebug(CONFIG.debug);
+		
+		PluginUtils.saveDirectory(getInstance(), "lang", false);
+		
+		if (StringUtils.isNotEmpty(CONFIG.language))
+			UDPLI18n.setLocale(CONFIG.language);
+		
 		MappingHelper.loadMapping();
 		NmsHelper.loadNmsHelper();
+		
+		SignUtils.initSignUtils();
+		PlayerUtils.initPlayerUtils();
+		
+		if(CONFIG.enableTest)
+			TestLoader.INSTANCE.onLoad();
 	}
 
 	@Override
 	public void onEnable() {
-		saveDefaultConfig();
-		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
-		CONFIG.reload();
-		setDebug(CONFIG.debug);
-		
-		if(CONFIG.enableTest)
-			TestLoader.INSTANCE.onLoad();
+		CacheUtils.initCacheUtils();
 		
 		loadPluginManager();
+		
+		new AnnoCommandManager("udpl").addCommand(new UDPLCommand()).registerCommand();
 		
 		if(CONFIG.enableTest)
 			TestLoader.INSTANCE.onEnable();
@@ -60,43 +80,13 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onDisable() {
-		//防止玩家有未关闭的界面造成刷物品
+		//防止玩家未关闭界面造成刷物品
 		for(Player player:Bukkit.getOnlinePlayers())
 			player.closeInventory();
 	}
 	
 	private void loadPluginManager(){
-		new TreeCommandManager("pm", this).addNode(new CommandNode() {
-			@Override
-			public boolean onCommand(CommandSender sender, Object[] args) {
-				Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin((String)args[0]));
-				sender.sendMessage("[PluginManager]卸载插件成功: "+args[0]);
-				return true;
-			}
-		}.setNode("disable").setPermission("udpc.pm.disable").setParameterTypes(String.class).setUsage("<Plugin>"))
-		.addNode(new CommandNode() {
-			@Override
-			public boolean onCommand(CommandSender sender, Object[] args) {
-				String file = (String) args[0];
-				if(!file.endsWith(".jar"))file=file+".jar";
-				try {
-					Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File(PLUGIN_PATH, file)));
-					sender.sendMessage("[PluginManager]加载插件成功: "+file);
-				} catch (Exception e) {
-					sender.sendMessage("[PluginManager]加载插件失败: "+file);
-				}
-				return true;
-			}
-		}.setNode("enable").setPermission("udpc.pm.enable").setParameterTypes(String.class).setUsage("<Plugin>"))
-		.addNode(new CommandNode() {
-			@Override
-			public boolean onCommand(CommandSender sender, Object[] args) {
-				StringBuilder b = new StringBuilder("[PluginManager]");
-				for(Plugin p:Bukkit.getPluginManager().getPlugins())b.append(p.getName()+" ");
-				sender.sendMessage(b.toString());
-				return true;
-			}
-		}.setNode("plugins").setPermission("udpc.pm.plugins")).registerCommand();
+		new AnnoCommandManager("pm").addCommand(new PluginManager()).registerCommand();
 	}
 
 	public static UDPLConfiguration getUDPLConfig(){
@@ -113,5 +103,19 @@ public final class UDPLib extends JavaPlugin{
 	
 	public static void setDebug(boolean debug){
 		DEBUG = debug;
+	}
+
+	public static Logger getLog() {
+		return LOGGER;
+	}
+
+	public static void debug(String value){
+		if(isDebug())
+			getInstance().getLogger().info(value);
+	}
+	
+	public static void debug(Throwable e){
+		if(isDebug())
+			e.printStackTrace();
 	}
 }

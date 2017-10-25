@@ -1,8 +1,8 @@
 package team.unstudio.udpl.core;
 
-import java.io.File;
-
 import team.unstudio.udpl.config.ConfigurationHandler;
+
+import java.io.File;
 
 public final class UDPLConfiguration extends ConfigurationHandler{
 	@ConfigItem("enableTest")
@@ -10,6 +10,9 @@ public final class UDPLConfiguration extends ConfigurationHandler{
 	
 	@ConfigItem("debug")
 	public boolean debug = false;
+
+	@ConfigItem("language")
+	public String language = "";
 	
 	public UDPLConfiguration(File file) {
 		super(file);

@@ -5,19 +5,18 @@ import java.util.Locale;
 /**
  * Created by trychen on 17/7/11.
  */
-public class SLangSpliter {
+public interface SLangSpliter {
     /**
-     * 分离符号
+     * 分隔符
      */
-    public final static String separator = "|";
+    String separator = "|";
 
     /**
      * 使用默认的分割符号分割文本到 SLang
      *
-     * @param list
-     * @return
+     * @param list 要分割的文本
      */
-    public SLang[] split(String[] list) {
+    static SLang[] split(String[] list) {
         return split(separator, list);
     }
 
@@ -26,9 +25,8 @@ public class SLangSpliter {
      *
      * @param separator 分割符
      * @param list      文本行数据
-     * @return
      */
-    public static SLang[] split(String separator, String[] list) {
+    static SLang[] split(String separator, String[] list) {
         if (list.length < 0) return new SLang[0];
 
         String[] locals = list[0].split(separator);

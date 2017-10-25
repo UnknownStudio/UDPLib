@@ -3,10 +3,11 @@ package team.unstudio.udpl.config;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.InvalidConfigurationException;
 
-import java.io.*;
-import java.nio.charset.Charset;
-
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * 本类使用了 cpDetector，以达到自动识别文件编码的
@@ -15,22 +16,29 @@ import javax.annotation.Nullable;
 public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
     public final static Charset defaultCharset = Charset.defaultCharset();
 
+    private AutoCharsetYamlConfiguration() {}
+
     /**
      * 加载Yaml 同时自动识别文件编码
      */
     @Nullable
-    public static AutoCharsetYamlConfiguration loadConfiguration(File file){
+    public static AutoCharsetYamlConfiguration loadConfiguration(@Nonnull File file){
         Validate.notNull(file, "File cannot be null");
         AutoCharsetYamlConfiguration config = new AutoCharsetYamlConfiguration();
-
-        try{
-        	config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
-        }catch(Exception e){}
-
-        if (config.charset == null) 
-        	config.charset = defaultCharset;
-
-        try {
+        setConfigCharsetName(config,file);
+        return loadFile(config,file);
+    }
+    
+    private static void setConfigCharsetName(AutoCharsetYamlConfiguration config,File file) {
+    	 try{
+         	config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
+         	if (config.charset == null) 
+            	config.charset = defaultCharset;
+         }catch(Exception e){}
+    }
+    
+    private static AutoCharsetYamlConfiguration loadFile(AutoCharsetYamlConfiguration config,File file) {
+    	try {
 			config.load(file);
 			return config;
 		} catch (IOException | InvalidConfigurationException e) {
@@ -38,4 +46,5 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
 			return null;
 		}
     }
+    
 }

@@ -3,8 +3,8 @@ package team.unstudio.udpl.core.nms.v1_11_R1;
 import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import team.unstudio.udpl.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.NmsHelper;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemStack{
 	
@@ -26,7 +26,7 @@ public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemSta
 
 	@Override
 	public void setTag(NBTTagCompound nbt) {
-		itemStack.setTag((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
+		itemStack.setTag((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class NmsItemStack implements team.unstudio.udpl.nms.inventory.NmsItemSta
 	
 	@Override
 	public void load(NBTTagCompound nbt){
-		itemStack.load((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNBT(nbt));
+		itemStack.load((net.minecraft.server.v1_11_R1.NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
 	}
 
 	@Override

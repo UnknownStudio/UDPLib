@@ -35,28 +35,39 @@ import org.bukkit.command.CommandSender;
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface Command {
+	
 	/**
 	 * 指令名
 	 */
 	String[] value() default {};
+	
 	/**
 	 * 指令权限
 	 */
 	String permission() default "";
+	
 	/**
 	 * 允许的指令发送者
 	 */
 	Class<? extends CommandSender>[] senders() default {CommandSender.class};
+	
 	/**
 	 * 指令用法
 	 */
 	String usage() default "";
+	
 	/**
 	 * 指令描述
 	 */
 	String description() default "";
+	
 	/**
 	 * 允许OP无视权限执行指令
 	 */
 	boolean allowOp() default true;
+	
+	/**
+	 * 精确参数匹配
+	 */
+	boolean exactParameterMatching() default false;
 }

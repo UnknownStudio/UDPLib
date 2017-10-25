@@ -20,10 +20,24 @@ import team.unstudio.udpl.core.UDPLib;
  * 界面的包装类
  */
 public class UI implements Listener,Cloneable{
-	
+	/**
+	 * 界面物品栏
+	 */
 	private final Inventory inventory;
+
+	/**
+	 * 槽列表
+	 */
 	private final List<Slot> slots;
+
+	/**
+	 * 可否操作物品栏
+	 */
 	private boolean allowOperateInventory = false;
+
+	/**
+	 * 可否操作玩家背包
+	 */
 	private boolean allowOperateBackpack = false;
 
 	public UI(Inventory inventory) {
@@ -97,6 +111,9 @@ public class UI implements Listener,Cloneable{
 		return true;
 	}
 
+	/**
+	 * 监听点击事件
+	 */
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onClick(InventoryClickEvent event){
 		if(event.getClickedInventory()!=null&&event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
@@ -116,16 +133,22 @@ public class UI implements Listener,Cloneable{
 			((Player)event.getWhoClicked()).updateInventory();
 		}
 	}
-	
+
+	/**
+	 * 监听关闭事件
+	 */
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onClose(InventoryCloseEvent event){
 		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1)
 			unregisterAllEvent();
 	}
-	
+
+	/**
+	 * 克隆一个界面
+	 */
 	@Override
 	public UI clone(){
-		UI ui = null;
+		UI ui;
 		if(inventory.getType()==InventoryType.CHEST){
 			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getSize(), inventory.getTitle()));
 			for(Slot b:slots){
@@ -167,7 +190,10 @@ public class UI implements Listener,Cloneable{
 	public void setAllowOperateInventory(boolean allowOperateInventory) {
 		this.allowOperateInventory = allowOperateInventory;
 	}
-	
+
+	/**
+	 * 取消注册
+	 */
 	private void unregisterAllEvent(){
 		InventoryClickEvent.getHandlerList().unregister(this);
 		InventoryCloseEvent.getHandlerList().unregister(this);

@@ -1,43 +1,96 @@
 package team.unstudio.udpl.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Locale;
-
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListeningWhitelist;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.events.PacketListener;
+import com.google.common.collect.Maps;
 import org.bukkit.entity.Player;
-
+import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
-public final class PlayerUtils {
+import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
+import java.util.Map;
+
+public interface PlayerUtils {
 	
-	private PlayerUtils(){}
+	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+	Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
 	
-	private static final boolean debug = UDPLib.isDebug();
-	
-	public static final String DEFAULT_LANGUAGE = "en_US";
-	public static String getLanguage(Player player){
-		try {
-			Method getHandle = ReflectionUtils.getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-			Field locale = ReflectionUtils.getField(PackageType.MINECRAFT_SERVER.getClass("EntityPlayer"), true, "locale");
-			return (String) locale.get(getHandle.invoke(player));
-		} catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-			if(debug)
-				e.printStackTrace();
-		}
-		return DEFAULT_LANGUAGE;
+	static void initPlayerUtils(){
+		protocolManager.addPacketListener(new PacketListener() {
+			
+			@Override
+			public void onPacketSending(PacketEvent arg0) {}
+			
+			@Override
+			public void onPacketReceiving(PacketEvent arg0) {
+				Player player = arg0.getPlayer();
+				PacketContainer container = arg0.getPacket();
+				String languageTag = container.getStrings().read(0);
+				String nomalizedLanguageTag = toLanguageTagNormalized(languageTag);
+				Locale locale = Locale.forLanguageTag(nomalizedLanguageTag);
+				if(locale == Locale.ROOT)
+					return;
+				PLAYER_LANGUAGE_CACHE.put(player, locale);
+			}
+			
+			@Override
+			public ListeningWhitelist getSendingWhitelist() {
+				return ListeningWhitelist.EMPTY_WHITELIST;
+			}
+			
+			@Override
+			public ListeningWhitelist getReceivingWhitelist() {
+				return ListeningWhitelist.newBuilder().lowest().types(PacketType.Play.Client.SETTINGS).build();
+			}
+			
+			@Override
+			public Plugin getPlugin() {
+				return UDPLib.getInstance();
+			}
+		});
 	}
 	
-	public static Locale getLanguageLocale(Player player){
-		return Locale.forLanguageTag(getLanguage(player));
+	Locale DEFAULT_LANGUAGE = Locale.US;
+	static String getLanguage(Player player){
+		return getLanguageLocale(player).toLanguageTag();
+	}
+	
+	static Locale getLanguageLocale(Player player){
+		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
+			try {
+				PLAYER_LANGUAGE_CACHE.put(player, 
+						Locale.forLanguageTag(toLanguageTagNormalized((String) NMSReflectionUtils.getLocaleNMS().get(NMSReflectionUtils.getHandleNMS().invoke(player)))));
+			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+				UDPLib.debug(e);
+				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
+			}
+		}
+		return PLAYER_LANGUAGE_CACHE.get(player);
+	}
+	
+	static String toLanguageTagNormalized(String languageTag){
+		languageTag = languageTag.replaceAll("_", "-");
+		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
+		if(first == -1)
+			return languageTag;
+		else if(second == -1){
+			return languageTag.substring(0, first+1) + languageTag.substring(first+1).toUpperCase();
+		}else{
+			return languageTag.substring(0, first+1) + languageTag.substring(first+1,second).toUpperCase() + languageTag.substring(second);
+		}
 	}
 	
 	//exp helper
 	/**
 	 * 设置总经验
 	 */
-	public static void setTotalExperience(Player player, int exp) {
+	static void setTotalExperience(Player player, int exp) {
 		if (exp < 0) {
 			throw new IllegalArgumentException("Experience is negative!");
 		}
@@ -62,14 +115,14 @@ public final class PlayerUtils {
 	/**
 	 * 获取到该等级的经验
 	 */
-	private static int getExpAtLevel(Player player) {
+	static int getExpAtLevel(Player player) {
 		return getExpAtLevel(player.getLevel());
 	}
 
 	/**
 	 * 获取到该等级的经验
 	 */
-	public static int getExpAtLevel(int level) {
+	static int getExpAtLevel(int level) {
 		if (level > 29) {
 			return 62 + (level - 30) * 7;
 		}
@@ -82,7 +135,7 @@ public final class PlayerUtils {
 	/**
 	 * 获取升级到某等级所需经验
 	 */
-	public static int getExpToLevel(int level) {
+	static int getExpToLevel(int level) {
 		int currentLevel = 0;
 		int exp = 0;
 
@@ -99,7 +152,7 @@ public final class PlayerUtils {
 	/**
 	 * 获取总经验
 	 */
-	public static int getTotalExperience(Player player) {
+	static int getTotalExperience(Player player) {
 		int exp = Math.round(getExpAtLevel(player) * player.getExp());
 		int currentLevel = player.getLevel();
 
@@ -116,7 +169,7 @@ public final class PlayerUtils {
 	/**
 	 * 获取到下一等级的还缺少的经验
 	 */
-	public static int getExpUntilNextLevel(Player player) {
+	static int getExpUntilNextLevel(Player player) {
 		int exp = Math.round(getExpAtLevel(player) * player.getExp());
 		int nextLevel = player.getLevel();
 		return getExpAtLevel(nextLevel) - exp;

@@ -1,6 +1,6 @@
 package team.unstudio.udpl.config.serialization;
 
-import org.bukkit.configuration.ConfigurationSection;
+import java.util.Map;
 
 import com.google.common.reflect.TypeToken;
 
@@ -10,11 +10,11 @@ public interface ConfigurationSerializer<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	default public void serializeObject(ConfigurationSection section,Object obj){
-		serialize(section, (T)obj);
+	default public Map<String,Object> serializeObject(Object obj){
+		return serialize((T)obj);
 	}
 	
-	public void serialize(ConfigurationSection section,T obj);
+	public Map<String,Object> serialize(T obj);
 	
-	public T deserialize(ConfigurationSection section);
+	public T deserialize(Map<String,Object> map);
 }
