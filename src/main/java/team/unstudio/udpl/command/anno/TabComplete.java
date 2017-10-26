@@ -8,13 +8,13 @@ import java.lang.annotation.Target;
 
 /**
  * 自动补全方法注解<br>
- * 必须将该方法置于与需要补全的@Command相同的类下<br>
- * <code>
- * 	@TabComplete(value = "permission") <br>
- * 	public List<String> tabComplete(String[] args){ <br>
- * 		return Arrays.asList("TabComplete"); <br>
- * 	} <br>
- * </code>
+ * 代码示例
+ * <p>
+ * 	@TabComplete(value = "example")
+ * 	public List<String> tabComplete(String[] args){
+ * 		return Arrays.asList("TabComplete");
+ * 	}
+ * </p>
  */
 @Retention(RUNTIME)
 @Target(METHOD)
