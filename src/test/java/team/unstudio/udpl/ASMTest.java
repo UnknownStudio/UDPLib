@@ -1,15 +1,11 @@
 package team.unstudio.udpl;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 import team.unstudio.udpl.core.nms.asm.DynamicClassLoader;
 import team.unstudio.udpl.util.asm.ClassWriter;
 import team.unstudio.udpl.util.asm.MethodVisitor;
 import team.unstudio.udpl.util.asm.Opcodes;
-
-import java.io.FileOutputStream;
 
 import static org.junit.Assert.assertEquals;
 
