@@ -18,9 +18,9 @@ public @interface Optional {
 	String value() default "";
 	
 	/**
-	 * 参数用法
+	 * 参数名
 	 */
-	String usage() default "";
+	String name() default "";
 	
 	/**
 	 * 自动补全

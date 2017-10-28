@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 @Target(PARAMETER)
 public @interface Required {
 	/**
-	 * 参数用法
+	 * 参数名
 	 */
-	String usage() default "";
+	String name() default "";
 	
 	/**
 	 * 自动补全

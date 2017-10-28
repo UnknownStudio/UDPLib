@@ -78,24 +78,24 @@ public final class TestCommand {
 	}
 
 	@Command(value = "title", senders = Player.class)
-	public void title(Player sender, @Required(usage = "Title") String title,
-			@Required(usage = "SubTitle") String subTitle, @Optional(value = "10", usage = "FadeIn") int fadeIn,
-			@Optional(value = "20", usage = "Stay") int stay, @Optional(value = "10", usage = "FadeOut") int fadeOut) {
+	public void title(Player sender, @Required(name = "Title") String title,
+			@Required(name = "SubTitle") String subTitle, @Optional(value = "10", name = "FadeIn") int fadeIn,
+			@Optional(value = "20", name = "Stay") int stay, @Optional(value = "10", name = "FadeOut") int fadeOut) {
 		Title.title(sender, title, subTitle, fadeIn, stay, fadeOut);
 	}
 	
 	@Command(value = "actionbar", senders = Player.class)
-	public void actionbar(Player sender, @Required(usage = "Text") String text){
+	public void actionbar(Player sender, @Required(name = "Text") String text){
 		ActionBar.send(sender, text);
 	}
 	
 	@Command(value = "blockbreakanima", senders = Player.class)
-	public void blockBreakAnima(Player sender, @Required(usage = "State") byte state){
+	public void blockBreakAnima(Player sender, @Required(name = "State") byte state){
 		BlockUtils.sendBlockBreakAnimation(sender, sender.getLocation().subtract(0, 1, 0), state);
 	}
 	
 	@Command(value = "sign", senders = Player.class)
-	public void sign(Player sender, @Required(usage = "Text") String text){
+	public void sign(Player sender, @Required(name = "Text") String text){
 		SignUtils.open(sender, new String[]{text,"","",""});
 	}
 	
