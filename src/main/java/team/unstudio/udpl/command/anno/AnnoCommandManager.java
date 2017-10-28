@@ -249,19 +249,19 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return null;
 		else if (clazz.equals(String.class))
 			return value;
-		else if (clazz.equals(int.class) || clazz.equals(Integer.class))
+		else if (clazz.equals(int.class))
 			return Integer.parseInt(value);
-		else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
+		else if (clazz.equals(boolean.class))
 			return Boolean.parseBoolean(value);
-		else if (clazz.equals(float.class) || clazz.equals(Float.class))
+		else if (clazz.equals(float.class))
 			return Float.parseFloat(value);
-		else if (clazz.equals(double.class) || clazz.equals(Double.class))
+		else if (clazz.equals(double.class))
 			return Double.parseDouble(value);
-		else if (clazz.equals(long.class) || clazz.equals(Long.class))
+		else if (clazz.equals(long.class))
 			return Long.parseLong(value);
-		else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
+		else if (clazz.equals(byte.class))
 			return Byte.parseByte(value);
-		else if (clazz.equals(short.class) || clazz.equals(Short.class))
+		else if (clazz.equals(short.class))
 			return Short.parseShort(value);
 		else if (parameterHandlers.containsKey(clazz))
 			return parameterHandlers.get(clazz).transform(value);
