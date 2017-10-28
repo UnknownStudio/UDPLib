@@ -139,7 +139,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		{
-			String[] requiredUsages = handler.getRequiredUsages();
+			String[] requiredUsages = handler.getRequiredNames();
 			for (int i = 0, size = args.length; i < size; i++) {
 				builder.append("<");
 				builder.append(requiredUsages[i]);
@@ -155,7 +155,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		
 		{
 			builder.append(ChatColor.WHITE);
-			String[] optionalUsages = handler.getOptionalUsages();
+			String[] optionalUsages = handler.getOptionalNames();
 			for (int i = 0, size = optionalUsages.length; i < size; i++) {
 				builder.append("[");
 				builder.append(optionalUsages[i]);
@@ -199,7 +199,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			errorParameterIndexsList.add(i);
 		
 		{
-			String[] requiredUsages = handler.getRequiredUsages();
+			String[] requiredUsages = handler.getRequiredNames();
 			for (int i = 0, size = requiredUsages.length; i < size; i++) {
 				if(errorParameterIndexsList.contains(i))
 					builder.append(ChatColor.RED);
@@ -212,8 +212,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		{
-			String[] optionalUsages = handler.getOptionalUsages();
-			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredUsages().length; i < size; i++) {
+			String[] optionalUsages = handler.getOptionalNames();
+			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
 				if(errorParameterIndexsList.contains(requiredLength+i))
 					builder.append(ChatColor.RED);
 				else
