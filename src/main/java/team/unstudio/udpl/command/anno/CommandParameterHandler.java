@@ -12,8 +12,18 @@ import team.unstudio.udpl.util.ServerUtils;
 
 public interface CommandParameterHandler {
 
+	/**
+	 * 参数转换
+	 * @param value
+	 * @return
+	 */
 	Object transform(String value);
 	
+	/**
+	 * 参数自动补全
+	 * @param value
+	 * @return
+	 */
 	default List<String> tabComplete(String value){
 		return Collections.emptyList();
 	}

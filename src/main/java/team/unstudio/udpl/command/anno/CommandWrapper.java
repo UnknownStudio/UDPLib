@@ -227,7 +227,9 @@ public class CommandWrapper {
 		
 		if(!hasTabComplete()){
 			try {
-				tabComplete.addAll((List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args}));
+				List<String> completed = (List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args});
+				if(completed != null)
+					tabComplete.addAll(completed);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
