@@ -12,7 +12,7 @@ public interface I18n {
 	String localize(Locale locale, String key);
 	
 	default String localize(String key){
-		return localize(Locale.getDefault(), key);
+		return localize(getDefaultLocale(), key);
 	}
 	
 	default String localize(String locale, String key){
@@ -36,7 +36,7 @@ public interface I18n {
 	}
 	
 	default String format(String key, Object... args){
-		return format(Locale.getDefault(), key, args);
+		return format(getDefaultLocale(), key, args);
 	}
 	
 	default String format(String locale, String key, Object... args){
@@ -45,5 +45,15 @@ public interface I18n {
 	
 	default String format(Player player, String key, Object... args){
 		return format(PlayerUtils.getLanguageLocale(player), key, args);
+	}
+	
+	default Locale getDefaultLocale(){
+		return Locale.getDefault();
+	}
+	
+	default void setDefaultLocale(Locale locale){}
+	
+	default void setDefaultLocale(String locale){
+		setDefaultLocale(Locale.forLanguageTag(locale));
 	}
 }

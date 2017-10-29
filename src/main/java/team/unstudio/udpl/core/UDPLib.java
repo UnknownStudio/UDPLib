@@ -72,7 +72,7 @@ public final class UDPLib extends JavaPlugin{
 		
 		loadPluginManager();
 		
-		new AnnoCommandManager("udpl").addCommand(new UDPLCommand()).registerCommand();
+		new AnnoCommandManager("udpl").addHandler(new UDPLCommand()).registerCommand();
 		
 		if(CONFIG.enableTest)
 			TestLoader.INSTANCE.onEnable();
@@ -86,7 +86,7 @@ public final class UDPLib extends JavaPlugin{
 	}
 	
 	private void loadPluginManager(){
-		new AnnoCommandManager("pm").addCommand(new PluginManager()).registerCommand();
+		new AnnoCommandManager("pm").addHandler(new PluginManager()).registerCommand();
 	}
 
 	public static UDPLConfiguration getUDPLConfig(){
