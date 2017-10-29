@@ -1,6 +1,8 @@
 package team.unstudio.udpl.i18n.slang;
 
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Created by trychen on 17/7/11.
@@ -27,25 +29,36 @@ public interface SLangSpliter {
      * @param list      文本行数据
      */
     static CachedSLang[] split(String separator, String[] list) {
-        if (list.length < 0) return new CachedSLang[0];
+        // 清理注释
+        list = Arrays.stream(list).filter(it -> !it.startsWith("#")).collect(Collectors.toList()).toArray(new String[0]);
 
+        // clean
+        if (list.length < 2) return new CachedSLang[0];
+
+        // the first line's string array
         String[] locals = list[0].split(separator);
         String[][] data = new String[list.length][locals.length];
 
         data[0] = locals;
 
+        // init data array
         for (int i = 1; i < list.length; i++) data[i] = list[i].split(separator);
 
         // get the head key or locale
         CachedSLang[] langs = new CachedSLang[locals.length];
         for (int i = 0; i < locals.length; i++)
-            if (!locals[i].equalsIgnoreCase("key"))
-                langs[i] = new CachedSLang(Locale.forLanguageTag(locals[i].replaceAll("_", "-")));
+            if (!locals[i].trim().equalsIgnoreCase("key"))
+                langs[i] = new CachedSLang(Locale.forLanguageTag(locals[i].trim().replaceAll("_", "-")));
 
 
         for (int i = 1; i < data.length; i++)
-            for (int j = 1; j < data[i].length; j++)
-                langs[j].map.put(data[i][0], data[i][j]);
+            for (int j = 1; j < data[i].length; j++) {
+                // check if trim
+                String lang = data[i][j];
+                if (lang.endsWith("∞")) lang = lang.substring(0, lang.length() - 1);
+                 else lang = lang.trim();
+                langs[j].map.put(data[i][0], lang);
+            }
 
 
         CachedSLang[] newLangs;

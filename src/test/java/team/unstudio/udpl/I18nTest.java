@@ -30,5 +30,6 @@ public class I18nTest {
         assertNotNull(sLang);
         assertEquals("测试", sLang.localize(Locale.SIMPLIFIED_CHINESE, "test"));
         assertEquals("Test", sLang.localize(Locale.US, "test"));
+        assertEquals("Test ", sLang.localize(Locale.UK, "test"));
     }
 }

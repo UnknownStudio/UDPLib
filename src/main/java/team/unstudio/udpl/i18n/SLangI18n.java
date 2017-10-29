@@ -1,9 +1,6 @@
 package team.unstudio.udpl.i18n;
 
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.ArrayUtils;
-import org.bukkit.configuration.Configuration;
-import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.config.EncodingDetect;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.i18n.slang.CachedSLang;
@@ -26,7 +23,7 @@ public class SLangI18n implements I18n {
 
     private Locale defaultLocale = Locale.getDefault();
 
-    protected SLangI18n(String[] data, String separator) {
+    public SLangI18n(String[] data, String separator) {
         this.data = data;
         this.separator = separator;
 
@@ -82,7 +79,21 @@ public class SLangI18n implements I18n {
         return null;
     }
 
+    public static SLangI18n fromFile(@Nonnull String separator, @Nonnull File file){
+        try {
+            return new SLangI18n(FileUtils.readFile2Array(file, EncodingDetect.getJavaEncode(file)), separator);
+        } catch (Exception e) {
+            UDPLib.getLog().error("Cannot read language file from file", e);
+        }
+        return null;
+    }
+
+    public static SLangI18n fromFile(@Nonnull File file){
+        return fromFile("\\|", file);
+    }
+
     public static SLangI18n fromClassLoader(@Nonnull ClassLoader classLoader, @Nonnull String filePath){
         return fromClassLoader("\\|", classLoader, filePath);
     }
+
 }

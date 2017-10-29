@@ -1,6 +1,7 @@
 package team.unstudio.udpl.util;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface FileUtils {
     static void readFile2List(File file, List<String> list, String code) throws Exception {
         BufferedReader fr;
         try {
-            String myCode = code!=null&&!"".equals(code) ? code : "UTF-8";
+            String myCode = code!=null&&!"".equals(code) ? code : Charset.defaultCharset().name();
             InputStreamReader read = new InputStreamReader(new FileInputStream(
                     file), myCode);
 
