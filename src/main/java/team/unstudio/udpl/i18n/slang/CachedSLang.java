@@ -1,4 +1,4 @@
-package team.unstudio.udpl.lang;
+package team.unstudio.udpl.i18n.slang;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by trychen on 17/7/11.
  */
-public class SLang {
+public class CachedSLang {
     /**
      * 语言
      */
@@ -19,10 +19,10 @@ public class SLang {
     protected final Map<String, String> map = new HashMap<>();
 
     /**
-     * 通过语言初始化一个 SLang
+     * 通过语言初始化一个 CachedSLang
      * @param locale
      */
-    public SLang(Locale locale) {
+    public CachedSLang(Locale locale) {
         this.locale = locale;
     }
 
@@ -32,6 +32,8 @@ public class SLang {
      * @return
      */
     public String get(String key){
-        return map.get(key);
+        String s = map.get(key);
+        if (s == null) return key;
+        else return s;
     }
 }
