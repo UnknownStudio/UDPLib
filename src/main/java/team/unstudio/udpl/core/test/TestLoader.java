@@ -34,7 +34,7 @@ public class TestLoader {
 		areaManager.setAutoBackupPeriod(20*120);
 		areaManager.setAutoBackup(true);
 		
-		new AnnoCommandManager("test", UDPLib.getInstance()).addCommand(new TestCommand()).unsafeRegisterCommand();
+		new AnnoCommandManager("test", UDPLib.getInstance()).addHandler(new TestCommand()).unsafeRegisterCommand();
 		UDPLib.getLog().info("Enabled test.");
 	}
 	

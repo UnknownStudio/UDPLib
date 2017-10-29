@@ -3,6 +3,8 @@ package team.unstudio.udpl.command.anno;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
 import team.unstudio.udpl.command.CommandResult;
 
@@ -95,8 +97,16 @@ public class CommandWrapper {
 		return optionalNames;
 	}
 	
+	public boolean hasCommand(){
+		return command != null;
+	}
+	
+	public boolean hasTabComplete(){
+		return tabCompleter != null;
+	}
+	
 	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
-		if (commandObject == null)
+		if (!hasCommand())
 			return CommandResult.UNKNOWN_COMMAND;
 		
 		if (!checkSender(sender))
@@ -215,16 +225,21 @@ public class CommandWrapper {
 			getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
 		}
 		
-		if(tabCompleter!=null){
+		if(!hasTabComplete()){
 			try {
 				tabComplete.addAll((List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args}));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return tabComplete;
 	}
 	
 	public void setCommandMethod(Object obj,Command anno,Method method){
+		Validate.notNull(obj);
+		Validate.notNull(anno);
+		Validate.notNull(method);
 		this.commandObject = obj;
 		this.command = method;
 		this.command.setAccessible(true);
@@ -283,6 +298,9 @@ public class CommandWrapper {
 	}
 	
 	public void setTabCompleteMethod(Object object, TabComplete anno, Method tabComplete){
+		Validate.notNull(object);
+		Validate.notNull(anno);
+		Validate.notNull(tabComplete);
 		this.tabCompleterObject = object;
 		this.tabCompleter = tabComplete;
 	}

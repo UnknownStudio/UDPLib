@@ -355,7 +355,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	/**
 	 * 添加指令
 	 */
-	public AnnoCommandManager addCommand(Object object) {
+	public AnnoCommandManager addHandler(Object object) {
 		for (Method method : object.getClass().getDeclaredMethods()) {
 			team.unstudio.udpl.command.anno.Command annoCommand = method
 					.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
@@ -378,8 +378,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 	
-	public AnnoCommandManager addAllCommand(Object... object){
-		Arrays.stream(object).forEach(this::addCommand);
+	public AnnoCommandManager addHandler(Object... object){
+		Arrays.stream(object).forEach(this::addHandler);
 		return this;
 	}
 	
