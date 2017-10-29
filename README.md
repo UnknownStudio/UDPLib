@@ -1,4 +1,4 @@
-# UDPLib [![CircleCI](https://circleci.com/gh/UnknownStudio/UDPLib.svg?style=svg)](https://circleci.com/gh/UnknownStudio/UDPLib)
+# UDPLib [![CircleCI](https://circleci.com/gh/UnknownStudio/UDPLib.svg?style=svg)](https://circleci.com/gh/UnknownStudio/UDPLib) [![](https://www.jitpack.io/v/UnknownStudio/UDPLib.svg)](https://www.jitpack.io/#UnknownStudio/UDPLib)
 **Unknown Domain Spigot Plugin Library**
 
 By using this lib, you can easily develop your plugin with the help of such feature:
