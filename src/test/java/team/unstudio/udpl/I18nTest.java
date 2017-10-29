@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import team.unstudio.udpl.i18n.ClassLoaderI18n;
 import team.unstudio.udpl.i18n.SLangI18n;
+import team.unstudio.udpl.i18n.slang.SLangAlignment;
 
 import java.util.Locale;
 
@@ -32,4 +33,10 @@ public class I18nTest {
         assertEquals("Test", sLang.localize(Locale.US, "test"));
         assertEquals("Test ", sLang.localize(Locale.UK, "test"));
     }
+
+    @Test
+    public void align(){
+        SLangAlignment.align("\\|", new String[]{"key|zh-CN", "test|HelloWorld"});
+    }
+
 }
