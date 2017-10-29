@@ -1,0 +1,5 @@
+name: Example
+version: 1.0.0
+main: team.unstudio.udpl.example.ExamplePlugin
+commands:
+  example:
