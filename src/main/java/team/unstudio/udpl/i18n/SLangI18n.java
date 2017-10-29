@@ -1,5 +1,6 @@
 package team.unstudio.udpl.i18n;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import team.unstudio.udpl.config.EncodingDetect;
 import team.unstudio.udpl.core.UDPLib;
@@ -8,11 +9,13 @@ import team.unstudio.udpl.i18n.slang.SLangSpliter;
 import team.unstudio.udpl.util.FileUtils;
 
 import javax.annotation.Nonnull;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Map;
+import java.net.URLConnection;
+import java.util.*;
 
 public class SLangI18n implements I18n {
     private String[] data;
@@ -36,6 +39,7 @@ public class SLangI18n implements I18n {
             cachedSLang = locale2SLang.values().stream().findFirst().get();
         }
     }
+
     public Locale getDefaultLocale() {
         return defaultLocale;
     }
@@ -54,32 +58,31 @@ public class SLangI18n implements I18n {
     }
 
     @Override
-    public String format(String key, Object... args){
+    public String format(String key, Object... args) {
         return format(defaultLocale, key, args);
     }
 
     @Override
-    public String localize(Locale locale, String key){
+    public String localize(Locale locale, String key) {
         CachedSLang lang = locale == defaultLocale ? cachedSLang : locale2SLang.get(locale);
         if (lang == null) return key;
 
         return lang.get(key);
     }
 
-    public static SLangI18n fromClassLoader(@Nonnull String separator, @Nonnull ClassLoader classLoader, @Nonnull String filePath){
+    public static SLangI18n fromClassLoader(@Nonnull String separator, @Nonnull ClassLoader classLoader, @Nonnull String filePath) {
         try {
-            for (URL url : Collections.list(classLoader.getResources(filePath))) {
-                File file = new File(url.toURI());
-                if (file.isDirectory()) throw new IllegalArgumentException("Slang file must be a file, not a directory");
-                return new SLangI18n(FileUtils.readFile2Array(file, EncodingDetect.getJavaEncode(file)), separator);
-            }
+            URL url = classLoader.getResource(filePath);
+            if (url == null) return null;
+
+            return new SLangI18n(FileUtils.readFile2Array(url, EncodingDetect.getJavaEncode(url)), separator);
         } catch (Exception e) {
             UDPLib.getLog().error("Cannot read language file from class path", e);
         }
         return null;
     }
 
-    public static SLangI18n fromFile(@Nonnull String separator, @Nonnull File file){
+    public static SLangI18n fromFile(@Nonnull String separator, @Nonnull File file) {
         try {
             return new SLangI18n(FileUtils.readFile2Array(file, EncodingDetect.getJavaEncode(file)), separator);
         } catch (Exception e) {
@@ -88,11 +91,11 @@ public class SLangI18n implements I18n {
         return null;
     }
 
-    public static SLangI18n fromFile(@Nonnull File file){
+    public static SLangI18n fromFile(@Nonnull File file) {
         return fromFile("\\|", file);
     }
 
-    public static SLangI18n fromClassLoader(@Nonnull ClassLoader classLoader, @Nonnull String filePath){
+    public static SLangI18n fromClassLoader(@Nonnull ClassLoader classLoader, @Nonnull String filePath) {
         return fromClassLoader("\\|", classLoader, filePath);
     }
 

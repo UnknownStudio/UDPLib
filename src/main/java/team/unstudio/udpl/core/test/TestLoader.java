@@ -9,10 +9,9 @@ import team.unstudio.udpl.util.PluginUtils;
 
 import java.io.File;
 
-public class TestLoader {
-	
-	public static final TestLoader INSTANCE = new TestLoader();
-	
+public enum  TestLoader {
+	INSTANCE;
+
 	public static AreaManager areaManager;
 	public static I18n i18n;
 	public static TestConfiguration config;
