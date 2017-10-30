@@ -6,7 +6,7 @@ By using this lib, you can easily develop your plugin with the help of such feat
 * Inventory UI (Custom behaviors of inventory's slot)
 * Area Manager (Allow you to manager area intuitively)
 * Item/Block Helper
-* NMS Wapper (An easy and safe way to using nsme)
+* NMS Wapper (An easy and safe way to using nms)
 * Utils
 * ....
 
