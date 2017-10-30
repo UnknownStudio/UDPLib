@@ -36,6 +36,16 @@ public class EncodingDetect {
 		String fileCode = BytesEncodingDetect.javaname[s.detectEncoding(file)];
 		return fileCode;
 	}
+	/**
+	 * 得到文件的编码
+	 * @param url
+	 * @return 文件的编码
+	 */
+	public static String getJavaEncode(URL url){
+		BytesEncodingDetect s = new BytesEncodingDetect();
+		String fileCode = BytesEncodingDetect.javaname[s.detectEncoding(url)];
+		return fileCode;
+	}
 }
 
 class BytesEncodingDetect extends Encoding {

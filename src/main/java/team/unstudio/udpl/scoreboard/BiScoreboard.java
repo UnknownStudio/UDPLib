@@ -34,6 +34,10 @@ public class BiScoreboard extends ScoreboardWrapper {
 		this.put(key, score);
 	}
 	
+	public void putAll(Map<String,Integer> map){
+		map.entrySet().forEach(entry->put(entry.getKey(), entry.getValue()));
+	}
+	
 	public void putAllInverse(Map<Integer,String> map){
 		map.entrySet().forEach(entry->put(entry.getKey(),entry.getValue()));
 	}

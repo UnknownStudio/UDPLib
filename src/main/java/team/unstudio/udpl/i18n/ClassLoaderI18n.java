@@ -79,4 +79,11 @@ public class ClassLoaderI18n implements I18n {
         else
             return key;
     }
+
+    public Configuration getRawCache(Locale locale){
+         return cache.get(locale);
+    }
+    public Configuration getRawCache(){
+         return cache.get(getDefaultLocale());
+    }
 }

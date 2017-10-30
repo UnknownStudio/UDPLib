@@ -7,9 +7,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
-@Target({PARAMETER,TYPE_PARAMETER})
+@Target(PARAMETER)
 public @interface Required {
-	String usage() default "";
+	/**
+	 * 参数名
+	 */
+	String name() default "";
 	
+	/**
+	 * 自动补全
+	 */
 	String[] complete() default {};
 }

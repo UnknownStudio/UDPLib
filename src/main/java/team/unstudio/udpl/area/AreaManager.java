@@ -181,6 +181,10 @@ public class AreaManager {
 		return autoSavePeriod;
 	}
 
+	/**
+	 * 设置自动保存周期
+	 * @param autoSavePeriod 单位为tick，1s=20tick.
+	 */
 	public void setAutoSavePeriod(long autoSavePeriod) {
 		this.autoSavePeriod = autoSavePeriod;
 		updateAutoSaveTask();
@@ -217,6 +221,10 @@ public class AreaManager {
 		return autoBackupPeriod;
 	}
 
+	/**
+	 * 设置自动备份周期
+	 * @param autoBackupPeriod 单位为tick，1s=20tick.
+	 */
 	public void setAutoBackupPeriod(long autoBackupPeriod) {
 		this.autoBackupPeriod = autoBackupPeriod;
 		updateAutoBackupTask();

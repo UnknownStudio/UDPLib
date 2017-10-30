@@ -139,7 +139,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		{
-			String[] requiredUsages = handler.getRequiredUsages();
+			String[] requiredUsages = handler.getRequiredNames();
 			for (int i = 0, size = args.length; i < size; i++) {
 				builder.append("<");
 				builder.append(requiredUsages[i]);
@@ -155,7 +155,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		
 		{
 			builder.append(ChatColor.WHITE);
-			String[] optionalUsages = handler.getOptionalUsages();
+			String[] optionalUsages = handler.getOptionalNames();
 			for (int i = 0, size = optionalUsages.length; i < size; i++) {
 				builder.append("[");
 				builder.append(optionalUsages[i]);
@@ -199,7 +199,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			errorParameterIndexsList.add(i);
 		
 		{
-			String[] requiredUsages = handler.getRequiredUsages();
+			String[] requiredUsages = handler.getRequiredNames();
 			for (int i = 0, size = requiredUsages.length; i < size; i++) {
 				if(errorParameterIndexsList.contains(i))
 					builder.append(ChatColor.RED);
@@ -212,8 +212,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		{
-			String[] optionalUsages = handler.getOptionalUsages();
-			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredUsages().length; i < size; i++) {
+			String[] optionalUsages = handler.getOptionalNames();
+			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
 				if(errorParameterIndexsList.contains(requiredLength+i))
 					builder.append(ChatColor.RED);
 				else
@@ -249,19 +249,19 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return null;
 		else if (clazz.equals(String.class))
 			return value;
-		else if (clazz.equals(int.class) || clazz.equals(Integer.class))
+		else if (clazz.equals(int.class))
 			return Integer.parseInt(value);
-		else if (clazz.equals(boolean.class) || clazz.equals(Boolean.class))
+		else if (clazz.equals(boolean.class))
 			return Boolean.parseBoolean(value);
-		else if (clazz.equals(float.class) || clazz.equals(Float.class))
+		else if (clazz.equals(float.class))
 			return Float.parseFloat(value);
-		else if (clazz.equals(double.class) || clazz.equals(Double.class))
+		else if (clazz.equals(double.class))
 			return Double.parseDouble(value);
-		else if (clazz.equals(long.class) || clazz.equals(Long.class))
+		else if (clazz.equals(long.class))
 			return Long.parseLong(value);
-		else if (clazz.equals(byte.class) || clazz.equals(Byte.class))
+		else if (clazz.equals(byte.class))
 			return Byte.parseByte(value);
-		else if (clazz.equals(short.class) || clazz.equals(Short.class))
+		else if (clazz.equals(short.class))
 			return Short.parseShort(value);
 		else if (parameterHandlers.containsKey(clazz))
 			return parameterHandlers.get(clazz).transform(value);
@@ -355,7 +355,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	/**
 	 * 添加指令
 	 */
-	public AnnoCommandManager addCommand(Object object) {
+	public AnnoCommandManager addHandler(Object object) {
 		for (Method method : object.getClass().getDeclaredMethods()) {
 			team.unstudio.udpl.command.anno.Command annoCommand = method
 					.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
@@ -378,8 +378,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return this;
 	}
 	
-	public AnnoCommandManager addAllCommand(Object... object){
-		Arrays.stream(object).forEach(this::addCommand);
+	public AnnoCommandManager addHandler(Object... object){
+		Arrays.stream(object).forEach(this::addHandler);
 		return this;
 	}
 	

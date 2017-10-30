@@ -6,8 +6,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * 可选的指令参数
+ */
 @Retention(RUNTIME)
-@Target({PARAMETER,TYPE_PARAMETER})
+@Target(PARAMETER)
 public @interface Optional {
 	/**
 	 * 当无参数输入时的默认值
@@ -15,12 +18,12 @@ public @interface Optional {
 	String value() default "";
 	
 	/**
-	 * 用法
+	 * 参数名
 	 */
-	String usage() default "";
+	String name() default "";
 	
 	/**
-	 * 自动补全内容
+	 * 自动补全
 	 */
 	String[] complete() default {};
 }

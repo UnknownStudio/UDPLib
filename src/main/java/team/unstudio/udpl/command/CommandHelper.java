@@ -1,5 +1,6 @@
 package team.unstudio.udpl.command;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
@@ -12,13 +13,22 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nonnull;
+
 public interface CommandHelper {
-	boolean DEBUG = UDPLib.isDebug();
 	
 	AtomicReference<CommandMap> commandMap = new AtomicReference<>();
 	AtomicReference<Constructor<PluginCommand>> pluginCommandConstructor = new AtomicReference<>();
 
-	static Optional<PluginCommand> unsafeRegisterCommand(String name, Plugin plugin){
+	/**
+	 * 不安全的指令注册
+	 * @param name 指令名
+	 * @param plugin 插件主类实例
+	 * @return 
+	 */
+	static Optional<PluginCommand> unsafeRegisterCommand(@Nonnull String name, @Nonnull Plugin plugin){
+		Validate.notEmpty(name);
+		Validate.notNull(plugin);
 		try {
 			if(commandMap.get() == null){
 				//noinspection JavaReflectionMemberAccess

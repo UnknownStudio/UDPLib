@@ -3,6 +3,8 @@ package team.unstudio.udpl.command.anno;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
 import team.unstudio.udpl.command.CommandResult;
 
@@ -39,8 +41,8 @@ public class CommandWrapper {
 	private Class<?>[] requireds;
 	private Class<?>[] optionals;
 	private List<List<String>> requiredCompletes;
-	private String[] requiredUsages;
-	private String[] optionalUsages;
+	private String[] requiredNames;
+	private String[] optionalNames;
 	private List<List<String>> optionalCompletes;
 	private Object[] optionalDefaults;
 
@@ -87,16 +89,24 @@ public class CommandWrapper {
 		return manager;
 	}
 	
-	public String[] getRequiredUsages() {
-		return requiredUsages;
+	public String[] getRequiredNames() {
+		return requiredNames;
 	}
 
-	public String[] getOptionalUsages() {
-		return optionalUsages;
+	public String[] getOptionalNames() {
+		return optionalNames;
+	}
+	
+	public boolean hasCommand(){
+		return command != null;
+	}
+	
+	public boolean hasTabComplete(){
+		return tabCompleter != null;
 	}
 	
 	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
-		if (commandObject == null)
+		if (!hasCommand())
 			return CommandResult.UNKNOWN_COMMAND;
 		
 		if (!checkSender(sender))
@@ -215,16 +225,23 @@ public class CommandWrapper {
 			getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
 		}
 		
-		if(tabCompleter!=null){
+		if(!hasTabComplete()){
 			try {
-				tabComplete.addAll((List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args}));
-			} catch (Exception e) {}
+				List<String> completed = (List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args});
+				if(completed != null)
+					tabComplete.addAll(completed);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return tabComplete;
 	}
 	
 	public void setCommandMethod(Object obj,Command anno,Method method){
+		Validate.notNull(obj);
+		Validate.notNull(anno);
+		Validate.notNull(method);
 		this.commandObject = obj;
 		this.command = method;
 		this.command.setAccessible(true);
@@ -241,8 +258,8 @@ public class CommandWrapper {
 		//参数载入
 		List<Class<?>> requireds = new ArrayList<>();
 		List<Class<?>> optionals = new ArrayList<>();
-		List<String> requiredUsages = new ArrayList<>();
-		List<String> optionalUsages = new ArrayList<>();
+		List<String> requiredNames = new ArrayList<>();
+		List<String> optionalNames = new ArrayList<>();
 		List<List<String>> requiredCompletes = new ArrayList<>();
 		List<List<String>> optionalCompletes = new ArrayList<>();
 		List<Object> optionalDefaults = new ArrayList<>();
@@ -253,8 +270,8 @@ public class CommandWrapper {
 				Required annoRequired = parameters[i].getAnnotation(Required.class);
 				if(annoRequired!=null){
 					requireds.add(parameters[i].getType());
-					requiredUsages.add(annoRequired.usage() == null || annoRequired.usage().isEmpty()
-							? parameters[i].getName() : annoRequired.usage());
+					requiredNames.add(annoRequired.name() == null || annoRequired.name().isEmpty()
+							? parameters[i].getName() : annoRequired.name());
 					requiredCompletes.add(ImmutableList.copyOf(annoRequired.complete()));
 					continue;
 				}
@@ -264,8 +281,8 @@ public class CommandWrapper {
 				Optional annoOptional = parameters[i].getAnnotation(Optional.class);
 				if(annoOptional!=null){
 					optionals.add(parameters[i].getType());
-					optionalUsages.add(annoOptional.usage() == null || annoOptional.usage().isEmpty()
-							? parameters[i].getName() : annoOptional.usage());
+					optionalNames.add(annoOptional.name() == null || annoOptional.name().isEmpty()
+							? parameters[i].getName() : annoOptional.name());
 					optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
 					optionalCompletes.add(ImmutableList.copyOf(annoOptional.complete()));
 					continue;
@@ -275,14 +292,17 @@ public class CommandWrapper {
 		
 		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
 		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
-		this.requiredUsages = requiredUsages.toArray(new String[requiredUsages.size()]);
+		this.requiredNames = requiredNames.toArray(new String[requiredNames.size()]);
 		this.requiredCompletes = ImmutableList.copyOf(requiredCompletes);
-		this.optionalUsages = optionalUsages.toArray(new String[optionalUsages.size()]);
+		this.optionalNames = optionalNames.toArray(new String[optionalNames.size()]);
 		this.optionalDefaults = optionalDefaults.toArray(new Object[optionalDefaults.size()]);
 		this.optionalCompletes = ImmutableList.copyOf(optionalCompletes);
 	}
 	
 	public void setTabCompleteMethod(Object object, TabComplete anno, Method tabComplete){
+		Validate.notNull(object);
+		Validate.notNull(anno);
+		Validate.notNull(tabComplete);
 		this.tabCompleterObject = object;
 		this.tabCompleter = tabComplete;
 	}
