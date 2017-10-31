@@ -71,6 +71,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	protected Map<Class<?>,CommandParameterHandler> initParameter(Map<Class<?>,CommandParameterHandler> parameterHandlers){
 		Map<Class<?>,CommandParameterHandler> map = Maps.newHashMap();
 		
+		map.put(boolean.class, new CommandParameterHandler.BooleanHandler());
 		map.put(Player.class, new CommandParameterHandler.PlayerHandler());
 		map.put(OfflinePlayer.class, new CommandParameterHandler.OfflinePlayerHandler());
 		
@@ -251,8 +252,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return value;
 		else if (clazz.equals(int.class))
 			return Integer.parseInt(value);
-		else if (clazz.equals(boolean.class))
-			return Boolean.parseBoolean(value);
 		else if (clazz.equals(float.class))
 			return Float.parseFloat(value);
 		else if (clazz.equals(double.class))
