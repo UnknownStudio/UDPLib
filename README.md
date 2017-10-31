@@ -1,4 +1,4 @@
-# UDPLib [![CircleCI](https://circleci.com/gh/UnknownStudio/UDPLib.svg?style=svg)](https://circleci.com/gh/UnknownStudio/UDPLib)
+# UDPLib [![CircleCI](https://circleci.com/gh/UnknownStudio/UDPLib.svg?style=svg)](https://circleci.com/gh/UnknownStudio/UDPLib) [![](https://www.jitpack.io/v/UnknownStudio/UDPLib.svg)](https://www.jitpack.io/#UnknownStudio/UDPLib)
 **Unknown Domain Spigot Plugin Library**
 
 By using this lib, you can easily develop your plugin with the help of such feature:
@@ -6,7 +6,7 @@ By using this lib, you can easily develop your plugin with the help of such feat
 * Inventory UI (Custom behaviors of inventory's slot)
 * Area Manager (Allow you to manager area intuitively)
 * Item/Block Helper
-* NMS Wapper (An easy and safe way to using nsme)
+* NMS Wapper (An easy and safe way to using nms)
 * Utils
 * ....
 
@@ -34,7 +34,7 @@ Maven:
 	<dependency>
 	    <groupId>com.github.UnknownStudio</groupId>
 	    <artifactId>UDPLib</artifactId>
-	    <version>1.0.0-Release</version>
+	    <version>1.0.1-Release</version>
 	</dependency>
 ```
 
