@@ -13,6 +13,15 @@ import team.unstudio.udpl.util.PluginUtils;
 public class ExamplePlugin extends JavaPlugin{
 
 	public static I18n I18N;
+	public static ExampleConfig CONFIG;
+	
+	@Override
+	public void onLoad() {
+		saveDefaultConfig();
+		CONFIG = new ExampleConfig(new File(getDataFolder(),"config.yml"));
+		CONFIG.reload(); // 第一次要初始化配置文件
+	}
+	
 	@Override
 	public void onEnable() {
 		PluginUtils.saveDirectory(this, "lang", false);
