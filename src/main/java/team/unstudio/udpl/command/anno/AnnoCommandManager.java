@@ -140,26 +140,26 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		{
-			String[] requiredUsages = handler.getRequiredNames();
+			String[] requiredNames = handler.getRequiredNames();
 			for (int i = 0, size = args.length; i < size; i++) {
 				builder.append("<");
-				builder.append(requiredUsages[i]);
+				builder.append(requiredNames[i]);
 				builder.append("> ");
 			}
 			builder.append(ChatColor.RED);
-			for (int i = args.length, size = requiredUsages.length; i < size; i++) {
+			for (int i = args.length, size = requiredNames.length; i < size; i++) {
 				builder.append("<");
-				builder.append(requiredUsages[i]);
+				builder.append(requiredNames[i]);
 				builder.append("> ");
 			}
 		}
 		
 		{
 			builder.append(ChatColor.WHITE);
-			String[] optionalUsages = handler.getOptionalNames();
-			for (int i = 0, size = optionalUsages.length; i < size; i++) {
+			String[] optionalNames = handler.getOptionalNames();
+			for (int i = 0, size = optionalNames.length; i < size; i++) {
 				builder.append("[");
-				builder.append(optionalUsages[i]);
+				builder.append(optionalNames[i]);
 				builder.append("] ");
 			}
 		}
@@ -200,27 +200,27 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			errorParameterIndexsList.add(i);
 		
 		{
-			String[] requiredUsages = handler.getRequiredNames();
-			for (int i = 0, size = requiredUsages.length; i < size; i++) {
+			String[] requiredNames = handler.getRequiredNames();
+			for (int i = 0, size = requiredNames.length; i < size; i++) {
 				if(errorParameterIndexsList.contains(i))
 					builder.append(ChatColor.RED);
 				else
 					builder.append(ChatColor.WHITE);
 				builder.append("<");
-				builder.append(requiredUsages[i]);
+				builder.append(requiredNames[i]);
 				builder.append("> ");
 			}
 		}
 		
 		{
-			String[] optionalUsages = handler.getOptionalNames();
-			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
+			String[] optionalNames = handler.getOptionalNames();
+			for (int i = 0, size = optionalNames.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
 				if(errorParameterIndexsList.contains(requiredLength+i))
 					builder.append(ChatColor.RED);
 				else
 					builder.append(ChatColor.WHITE);
 				builder.append("[");
-				builder.append(optionalUsages[i]);
+				builder.append(optionalNames[i]);
 				builder.append("] ");
 			}
 		}
