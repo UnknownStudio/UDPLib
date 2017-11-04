@@ -63,7 +63,7 @@ public final class TestCommand {
 	
 	@Command(value = "nmsitem", senders = Player.class)
 	public void nmsitem(Player sender){
-		sender.sendMessage(NmsHelper.createItemStack(sender.getInventory().getItemInMainHand()).save().toString());
+		sender.sendMessage(NmsHelper.createNmsItemStack(sender.getInventory().getItemInMainHand()).save().toString());
 	}
 	
 	@Command(value = "scoreboard", senders = Player.class)

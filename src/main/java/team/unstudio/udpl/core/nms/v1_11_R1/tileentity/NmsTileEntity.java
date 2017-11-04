@@ -20,12 +20,12 @@ public class NmsTileEntity implements team.unstudio.udpl.nms.tileentity.NmsTileE
 	
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagCompound getNBT() throws Exception{
-		return NmsHelper.getNBT().toCompound(((CraftBlockState)blockState).getTileEntity().save(new NBTTagCompound()));
+		return NmsHelper.getNmsNBT().toCompound(((CraftBlockState)blockState).getTileEntity().save(new NBTTagCompound()));
 	}
 
 	@Override
 	public void setNBT(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt) throws Exception{
-		((CraftBlockState)blockState).getTileEntity().a((NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
+		((CraftBlockState)blockState).getTileEntity().a((NBTTagCompound)NmsHelper.getNmsNBT().toNmsNBT(nbt));
 	}
 	
 

@@ -13,17 +13,8 @@ public interface NmsItemStack {
 	/**
 	 * 获取{@link ItemStack}实例
 	 * @return
-	 * @deprecated {@link NmsItemStack#getBukkitItemStack()}
 	 */
-	ItemStack getItemStack();
-	
-	/**
-	 * 获取{@link ItemStack}实例
-	 * @return
-	 */
-	default ItemStack getBukkitItemStack(){
-		return getItemStack();
-	}
+	ItemStack getBukkitItemStack();
 	
 	/**
 	 * 获取ItemStack的NBT数据

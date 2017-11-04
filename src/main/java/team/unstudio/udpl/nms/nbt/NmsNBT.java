@@ -1,5 +1,6 @@
 package team.unstudio.udpl.nms.nbt;
 
+import team.unstudio.udpl.nms.NmsHelper;
 
 /**
  * NBT的转换接口
@@ -67,7 +68,11 @@ public interface NmsNBT {
 	NBTBase toNBTBase(Object nbt);
 	
 	/**
-	 * 转换为NMSNBT
+	 * 转换为 {@link net.minecraft.server} 的NBT类
 	 */
 	Object toNmsNBT(NBTBase nbt);
+	
+	static NmsNBT getNmsNbt(){
+		return NmsHelper.getNmsNBT();
+	}
 }
