@@ -11,7 +11,7 @@ import team.unstudio.udpl.util.asm.*;
 import team.unstudio.udpl.util.asm.commons.ClassRemapper;
 import team.unstudio.udpl.util.asm.commons.Remapper;
 
-public class DynamicNmsClassTransformer implements Opcodes{
+public class NmsClassTransformer implements Opcodes{
 	
 	private final String targetNmsVersion;
 	private final String targetMinecraftVersion;
@@ -19,7 +19,7 @@ public class DynamicNmsClassTransformer implements Opcodes{
 	private final String targetObcPackage;
 	private final Map<String,MemberMapping> loadedMapping = Maps.newHashMap();
 	
-	public DynamicNmsClassTransformer(String targetNmsVersion, String targetMinecraftVersion) throws IOException {
+	public NmsClassTransformer(String targetNmsVersion, String targetMinecraftVersion){
 		this.targetNmsVersion = targetNmsVersion;
 		this.targetNmsPackage = "net/minecraft/server/"+targetNmsVersion;
 		this.targetObcPackage = "org/bukkit/craftbukkit/"+targetNmsVersion;
