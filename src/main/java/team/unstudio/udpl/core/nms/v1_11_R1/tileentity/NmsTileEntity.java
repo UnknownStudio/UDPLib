@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.nms.v1_11_R1;
+package team.unstudio.udpl.core.nms.v1_11_R1.tileentity;
 
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_11_R1.block.CraftBlockState;

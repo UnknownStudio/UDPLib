@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.nms.v1_11_R1;
+package team.unstudio.udpl.core.nms.v1_11_R1.inventory;
 
 import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;

@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.nms.v1_11_R1;
+package team.unstudio.udpl.core.nms.v1_11_R1.entity;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
