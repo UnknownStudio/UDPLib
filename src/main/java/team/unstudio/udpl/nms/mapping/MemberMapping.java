@@ -1,4 +1,4 @@
-package team.unstudio.udpl.mapping;
+package team.unstudio.udpl.nms.mapping;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,38 +52,37 @@ public final class MemberMapping {
 		}
 	}
 	
-	public boolean containObf(String className,String obf){
-		if(!obfToDeobf.containsKey(className))
-			return false;
-		
-		return obfToDeobf.get(className).containsKey(obf);
-	}
-	
-	public boolean containDeobf(String className,String deobf){
-		if(!deobfToObf.containsKey(className))
-			return false;
-		
-		return deobfToObf.get(className).containsKey(deobf);
-	}
-	
-	public String getDeobf(String className,String obf){
-		if(!obfToDeobf.containsKey(className))
-			return "";
-		return obfToDeobf.get(className).get(obf);
-	}
-	
-	public String getDeobf(String className,String obf,String def){
-		return containObf(className, obf)?getDeobf(className, obf):def;
-	}
-	
-	public String getObf(String className,String deobf){
-		if(!deobfToObf.containsKey(className))
-			return "";
-		return deobfToObf.get(className).get(deobf);
-	}
-	
-	public String getObf(String className,String deobf,String def){
-		return containDeobf(className, deobf)?getObf(className, deobf):def;
+	public String getDeobf(String className, String obfName, String desc) {
+		if (!obfToDeobf.containsKey(className))
+			return obfName;
+		return obfToDeobf.get(className).get(obfName.concat(desc));
 	}
 
+	public String getDeobf(String className, String obfName, String desc, String def) {
+		return containObf(className, obfName, desc) ? getDeobf(className, obfName, desc) : def;
+	}
+
+	public String getObf(String className, String deobfName, String desc) {
+		if (!deobfToObf.containsKey(className))
+			return deobfName;
+		return deobfToObf.get(className).get(deobfName.concat(desc));
+	}
+
+	public String getObf(String className, String deobfName, String desc, String def) {
+		return containDeobf(className, deobfName, desc) ? getObf(className, deobfName, desc) : def;
+	}
+
+	public boolean containObf(String className, String obfName, String desc) {
+		if (!obfToDeobf.containsKey(className))
+			return false;
+
+		return obfToDeobf.get(className).containsKey(obfName.concat(desc));
+	}
+
+	public boolean containDeobf(String className, String deobfName, String desc) {
+		if (!deobfToObf.containsKey(className))
+			return false;
+
+		return deobfToObf.get(className).containsKey(deobfName.concat(desc));
+	}
 }

@@ -1,6 +1,6 @@
 package team.unstudio.udpl.core.nms.asm;
 
-import team.unstudio.udpl.mapping.MappingHelper;
+import team.unstudio.udpl.nms.mapping.MappingHelper;
 import team.unstudio.udpl.util.asm.*;
 
 public class NmsNBTGenerator implements Opcodes {
@@ -392,7 +392,7 @@ public class NmsNBTGenerator implements Opcodes {
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, "net/minecraft/server/" + nmsVersion + "/NBTTagDouble");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/" + nmsVersion + "/NBTTagDouble",
-					MappingHelper.getMemberDeobf("NBTNumber", "h()D", "h"), "()D", false);
+					MappingHelper.getMemberMapping().getDeobf("NBTNumber", "h","()D"), "()D", false);
 			mv.visitMethodInsn(INVOKESPECIAL, "team/unstudio/udpl/nms/nbt/NBTTagDouble", "<init>", "(D)V", false);
 			mv.visitInsn(ARETURN);
 			Label l3 = new Label();

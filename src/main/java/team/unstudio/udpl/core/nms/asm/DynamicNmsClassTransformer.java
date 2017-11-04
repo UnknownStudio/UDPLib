@@ -3,7 +3,7 @@ package team.unstudio.udpl.core.nms.asm;
 import java.io.IOException;
 import java.io.InputStream;
 
-import team.unstudio.udpl.mapping.MemberMapping;
+import team.unstudio.udpl.nms.mapping.MemberMapping;
 import team.unstudio.udpl.util.asm.*;
 import team.unstudio.udpl.util.asm.commons.ClassRemapper;
 import team.unstudio.udpl.util.asm.commons.Remapper;
@@ -21,7 +21,7 @@ public class DynamicNmsClassTransformer implements Opcodes{
 	private final MemberMapping sourceMemberMapping;
 	private final MemberMapping targetMemberMapping;
 	
-	public DynamicNmsClassTransformer(String sourceNmsVersion,String sourceMinecraftVersion,String targetNmsVersion,String targetMinecraftVersion) throws IOException {
+	public DynamicNmsClassTransformer(String sourceNmsVersion, String sourceMinecraftVersion, String targetNmsVersion, String targetMinecraftVersion) throws IOException {
 		this.sourceNmsVersion = sourceNmsVersion;
 		this.sourceNmsPackage = "net/minecraft/server/"+sourceNmsVersion;
 		this.sourceObcPackage = "org/bukkit/craftbukkit/"+sourceNmsVersion;
