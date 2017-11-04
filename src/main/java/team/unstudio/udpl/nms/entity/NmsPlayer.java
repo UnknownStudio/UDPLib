@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public interface NmsPlayer extends NmsEntity{
 
-	Player getPlayer();
+	Player getBukkitPlayer();
 	
 	/**
 	 * 发送一个包

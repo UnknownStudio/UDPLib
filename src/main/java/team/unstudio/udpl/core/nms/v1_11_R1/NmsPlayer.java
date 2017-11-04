@@ -22,7 +22,7 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 	}
 
 	@Override
-	public Player getPlayer() {
+	public Player getBukkitPlayer() {
 		return player;
 	}
 	

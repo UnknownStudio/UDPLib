@@ -15,7 +15,7 @@ public class NmsEntity implements team.unstudio.udpl.nms.entity.NmsEntity{
 	}
 
 	@Override
-	public Entity getEntity() {
+	public Entity getBukkitEntity() {
 		return entity;
 	}
 

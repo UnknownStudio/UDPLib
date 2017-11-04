@@ -2,15 +2,28 @@ package team.unstudio.udpl.nms.inventory;
 
 import org.bukkit.inventory.ItemStack;
 
+import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
+/**
+ * {@link NmsHelper#createNmsItemStack(ItemStack)}
+ */
 public interface NmsItemStack {
 	
 	/**
-	 * 获取{@link org.bukkit.inventory.ItemStack}实例
+	 * 获取{@link ItemStack}实例
 	 * @return
+	 * @deprecated {@link NmsItemStack#getBukkitItemStack()}
 	 */
 	ItemStack getItemStack();
+	
+	/**
+	 * 获取{@link ItemStack}实例
+	 * @return
+	 */
+	default ItemStack getBukkitItemStack(){
+		return getItemStack();
+	}
 	
 	/**
 	 * 获取ItemStack的NBT数据
@@ -46,4 +59,13 @@ public interface NmsItemStack {
 	 * @return
 	 */
 	NBTTagCompound save();
+	
+	/**
+	 * 创建一个NmsItemStack对象
+	 * @param itemStack
+	 * @return
+	 */
+	static NmsItemStack createNmsItemStack(ItemStack itemStack){
+		return NmsHelper.createNmsItemStack(itemStack);
+	}
 }

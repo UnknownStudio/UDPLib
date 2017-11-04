@@ -13,6 +13,9 @@ import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
+import team.unstudio.udpl.nms.NmsHelper;
+import team.unstudio.udpl.nms.inventory.NmsItemStack;
+import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public class ExampleCommand {
 	
@@ -33,16 +36,6 @@ public class ExampleCommand {
 		player.sendMessage(prefix?player.getDisplayName()+":"+message:message);
 	}
 	
-	@Command(value = "give",
-			senders = Player.class,
-			permission = "example.give")
-	public void give(Player player, 
-					@Required(name = "物品") Material material,
-					@Optional(value = "1", name = "数量") int amount,
-					@Optional(value = "0", name = "损害值") short damage) {
-		player.getInventory().addItem(new ItemStack(material, amount, damage));
-	}
-	
 	private static final String[] COMMON_WORDS = new String[] { "233", "666", "大吉大利，晚上吃鸡" };
 	private static final String[] BOOLEANS = new String[] { "true", "false" };
 
@@ -60,5 +53,28 @@ public class ExampleCommand {
 		default:
 			return Collections.emptyList();
 		}
+	}
+	
+	@Command(value = "give",
+			senders = Player.class,
+			permission = "example.give")
+	public void give(Player player, 
+					@Required(name = "物品") Material material,
+					@Optional(value = "1", name = "数量") int amount,
+					@Optional(value = "0", name = "损害值") short damage) {
+		player.getInventory().addItem(new ItemStack(material, amount, damage));
+	}
+	
+	@Command(value = "nmsitem",
+			senders = Player.class)
+	public void nmsitem(Player player){
+		ItemStack itemStack = player.getInventory().getItemInMainHand();
+		NmsItemStack nmsItemStack = NmsHelper.createNmsItemStack(itemStack);
+		NBTTagCompound tag = nmsItemStack.hasTag() ? nmsItemStack.getTag() : new NBTTagCompound();
+		NBTTagCompound display = tag.getCompound("display");
+		display.setString("Name", "UDPL Item");
+		tag.set("display", display);
+		nmsItemStack.setTag(tag);
+		itemStack = nmsItemStack.getBukkitItemStack();
 	}
 }
