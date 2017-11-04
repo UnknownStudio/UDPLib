@@ -75,6 +75,6 @@ public final class AsmNmsManager {
 	}
 	
 	private InputStream getNmsClassResourceAsStream(String name){
-		return AsmNmsManager.class.getResourceAsStream("team/unstudio/udpl/core/nms/"+name+".class");
+		return AsmNmsManager.class.getResourceAsStream("/team/unstudio/udpl/core/nms/"+name+".class");
 	}
 }
