@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.nms.asm;
+package team.unstudio.udpl.nms.util;
 
 import java.io.IOException;
 import java.io.InputStream;

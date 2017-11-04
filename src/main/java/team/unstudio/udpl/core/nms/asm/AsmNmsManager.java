@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.inventory.NmsItemStack;
 import team.unstudio.udpl.nms.nbt.NmsNBT;
+import team.unstudio.udpl.nms.util.NmsClassTransformer;
 import team.unstudio.udpl.util.BukkitVersion;
 import team.unstudio.udpl.util.ReflectionUtils;
 import team.unstudio.udpl.util.ServerUtils;

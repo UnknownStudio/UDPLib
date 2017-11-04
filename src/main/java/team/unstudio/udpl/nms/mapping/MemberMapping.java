@@ -53,23 +53,17 @@ public final class MemberMapping {
 	}
 	
 	public String getDeobf(String className, String obfName, String desc) {
-		if (!obfToDeobf.containsKey(className))
+		if (!containObf(className, obfName, desc))
 			return obfName;
+		
 		return obfToDeobf.get(className).get(obfName.concat(desc));
 	}
 
-	public String getDeobf(String className, String obfName, String desc, String def) {
-		return containObf(className, obfName, desc) ? getDeobf(className, obfName, desc) : def;
-	}
-
 	public String getObf(String className, String deobfName, String desc) {
-		if (!deobfToObf.containsKey(className))
+		if (!containDeobf(className, deobfName, desc))
 			return deobfName;
+		
 		return deobfToObf.get(className).get(deobfName.concat(desc));
-	}
-
-	public String getObf(String className, String deobfName, String desc, String def) {
-		return containDeobf(className, deobfName, desc) ? getObf(className, deobfName, desc) : def;
 	}
 
 	public boolean containObf(String className, String obfName, String desc) {
