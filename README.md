@@ -52,6 +52,6 @@ Gradle:
 2. Add the dependency
 ```
 	dependencies {
-		compile 'com.github.User:Repo:Tag'
+		compile 'com.github.UnknownStudio:UDPLib:1.0.1-Release'
 	}
 ```
