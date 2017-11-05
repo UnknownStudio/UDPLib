@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import net.minecraft.server.v1_11_R1.SpawnerCreature;
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
@@ -16,7 +18,9 @@ import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
 import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.core.nms.v1_11_R1.tileentity.NmsMobSpawner;
 import team.unstudio.udpl.nms.NmsHelper;
+import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
 import team.unstudio.udpl.scoreboard.BiScoreboard;
 import team.unstudio.udpl.util.ActionBar;
 import team.unstudio.udpl.util.BlockUtils;
@@ -112,6 +116,17 @@ public final class TestCommand {
 	@Command(value = "openbook", senders = Player.class)
 	public void openBook(Player sender){
 		BookUtils.open(sender, sender.getInventory().getItemInMainHand());
+	}
+	
+	@Command(value = "spawner", senders = Player.class)
+	public void spawner(Player sender){
+		Location location = sender.getLocation().subtract(0, -1, 0);
+		BlockState spawnerCreature = location.getBlock().getState();
+		NmsMobSpawner nmsSpawner = (NmsMobSpawner) NmsTileEntity.createNmsTileEntity(spawnerCreature);
+		sender.sendMessage(nmsSpawner.save().toString());
+		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
+		nmsSpawner.setSpawnCount((short) 10);
+		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")
