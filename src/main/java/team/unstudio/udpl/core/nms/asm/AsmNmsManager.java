@@ -10,25 +10,18 @@ import org.bukkit.inventory.ItemStack;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.inventory.NmsItemStack;
 import team.unstudio.udpl.nms.nbt.NmsNBT;
-import team.unstudio.udpl.nms.util.NmsClassTransformer;
+import team.unstudio.udpl.nms.util.NmsClassLoader;
 import team.unstudio.udpl.util.BukkitVersion;
-import team.unstudio.udpl.util.ReflectionUtils;
-import team.unstudio.udpl.util.ServerUtils;
 
 public final class AsmNmsManager {
 	
-	public static final String NMS_VERSION = ReflectionUtils.PackageType.getServerVersion();
-	public static final String MINECRAFT_VERSION = ServerUtils.getMinecraftVersion();
-	
-	private final DynamicClassLoader classLoader;
-	private NmsClassTransformer transformer;
+	private final NmsClassLoader classLoader;
 	
 	private NmsNBT nmsNbt;
 	private Constructor<NmsItemStack> nmsItemStackConstructor;
 
 	public AsmNmsManager() {
-		classLoader = new DynamicClassLoader(AsmNmsManager.class.getClassLoader());
-		transformer = new NmsClassTransformer(NMS_VERSION, MINECRAFT_VERSION);
+		classLoader = new NmsClassLoader(AsmNmsManager.class.getClassLoader());
 		loadNBT();
 		loadItemStack();
 	}
@@ -70,8 +63,7 @@ public final class AsmNmsManager {
 	
 	private Class<?> loadClass(String name, BukkitVersion bukkitVersion, String minecraftVersion) throws IOException{
 		try (InputStream input = getNmsClassResourceAsStream(name)){
-			byte[] b = transformer.transform(input, bukkitVersion.getPackageName(), minecraftVersion);
-			return classLoader.loadClass(null, b, 0, b.length);
+			return classLoader.loadClass(input, bukkitVersion.getPackageName(), minecraftVersion);
 		}
 	}
 	
