@@ -21,10 +21,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *  An util worked with ProtocolLib can help you edit & open book easily
+ */
 public interface BookUtils {
 	
 	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
-	
+
+	/**
+	 * Open book from {@link ItemStack}, needn't the item in player's inventory
+	 *
+	 * @param player the player to open
+	 * @param book the book to open
+	 * @return
+	 */
 	static Result open(Player player, ItemStack book){
 		ItemStack held = player.getInventory().getItemInMainHand();
 		player.getInventory().setItemInMainHand(book);
@@ -47,11 +57,17 @@ public interface BookUtils {
 			player.getInventory().setItemInMainHand(held);
 		}
 	}
-	
+
+	/**
+	 * Replace the content of a book
+	 *
+	 * @param book the book to edit
+	 * @param pages the contents to replace the old one
+	 */
 	static Result setPages(BookMeta book, BaseComponent... pages){
 		return setPages(book, Arrays.stream(pages).map(ComponentSerializer::toString).toArray(String[]::new));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	static Result setPages(BookMeta book, String... pages){
 		try {
@@ -63,13 +79,16 @@ public interface BookUtils {
 				listPages.add(ChatSerializer_a.invoke(ChatSerializer, page));
 			return Result.success();
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
-			if (UDPLib.isDebug())
-				e.printStackTrace();
+			UDPLib.debug(e);
 			return Result.failure(e);
 		}
 	}
-	
 
+	/**
+	 * Get all lines' {@link BaseComponent} of book
+	 * @param book
+	 * @return
+	 */
 	static Optional<BaseComponent[]> getPagesReturnBaseComponent(BookMeta book){
 		Optional<String[]> pages = getPages(book);
 		if(!pages.isPresent())
@@ -77,15 +96,19 @@ public interface BookUtils {
 		
 		return Optional.of(Arrays.stream(pages.get()).map(ComponentSerializer::parse).toArray(BaseComponent[]::new));
 	}
-	
+
+	/**
+	 * Get all lines' String of book
+	 * @param book
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	static Optional<String[]> getPages(BookMeta book){
 		try {
 			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
 			return Optional.of(listPages.stream().map(Object::toString).toArray(String[]::new));
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-			if (UDPLib.isDebug())
-				e.printStackTrace();
+			UDPLib.debug(e);
 		}
 		return Optional.empty();
 	}

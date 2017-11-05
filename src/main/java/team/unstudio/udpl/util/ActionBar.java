@@ -10,10 +10,20 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * An action bar helper with ProtocolLib,
+ * also called overlay message in client.
+ */
 public interface ActionBar {
 	
 	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
 
+    /**
+     * sending an action bar to a player
+     *
+     * @param player the player to send
+     * @param text the message to send
+     */
     static Result send(Player player, String text){
         PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CHAT);
         container.getChatComponents().write(0, WrappedChatComponent.fromJson("{\"text\": \"" + text + "\"}"));
