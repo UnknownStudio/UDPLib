@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.nms.v1_11_R1;
+package team.unstudio.udpl.core.nms.v1_11_R1.nbt;
 
 import net.minecraft.server.v1_11_R1.NBTBase;
 import net.minecraft.server.v1_11_R1.NBTTagByte;

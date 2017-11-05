@@ -6,7 +6,7 @@ import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public interface NmsEntity {
 
-	Entity getEntity();
+	Entity getBukkitEntity();
 	
 	NBTTagCompound getNBT() throws Exception;
 

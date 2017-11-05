@@ -32,6 +32,7 @@ public interface ConfigurationHelper {
     static YamlConfiguration newConfiguration(){
 		return new DecodedYamlConfiguration();
     }
+    
     /**
      * 创建空的配配置文件
      */

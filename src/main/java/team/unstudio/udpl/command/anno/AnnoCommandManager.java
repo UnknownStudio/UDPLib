@@ -71,6 +71,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	protected Map<Class<?>,CommandParameterHandler> initParameter(Map<Class<?>,CommandParameterHandler> parameterHandlers){
 		Map<Class<?>,CommandParameterHandler> map = Maps.newHashMap();
 		
+		map.put(boolean.class, new CommandParameterHandler.BooleanHandler());
 		map.put(Player.class, new CommandParameterHandler.PlayerHandler());
 		map.put(OfflinePlayer.class, new CommandParameterHandler.OfflinePlayerHandler());
 		
@@ -139,26 +140,26 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		}
 		
 		{
-			String[] requiredUsages = handler.getRequiredNames();
+			String[] requiredNames = handler.getRequiredNames();
 			for (int i = 0, size = args.length; i < size; i++) {
 				builder.append("<");
-				builder.append(requiredUsages[i]);
+				builder.append(requiredNames[i]);
 				builder.append("> ");
 			}
 			builder.append(ChatColor.RED);
-			for (int i = args.length, size = requiredUsages.length; i < size; i++) {
+			for (int i = args.length, size = requiredNames.length; i < size; i++) {
 				builder.append("<");
-				builder.append(requiredUsages[i]);
+				builder.append(requiredNames[i]);
 				builder.append("> ");
 			}
 		}
 		
 		{
 			builder.append(ChatColor.WHITE);
-			String[] optionalUsages = handler.getOptionalNames();
-			for (int i = 0, size = optionalUsages.length; i < size; i++) {
+			String[] optionalNames = handler.getOptionalNames();
+			for (int i = 0, size = optionalNames.length; i < size; i++) {
 				builder.append("[");
-				builder.append(optionalUsages[i]);
+				builder.append(optionalNames[i]);
 				builder.append("] ");
 			}
 		}
@@ -199,27 +200,27 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			errorParameterIndexsList.add(i);
 		
 		{
-			String[] requiredUsages = handler.getRequiredNames();
-			for (int i = 0, size = requiredUsages.length; i < size; i++) {
+			String[] requiredNames = handler.getRequiredNames();
+			for (int i = 0, size = requiredNames.length; i < size; i++) {
 				if(errorParameterIndexsList.contains(i))
 					builder.append(ChatColor.RED);
 				else
 					builder.append(ChatColor.WHITE);
 				builder.append("<");
-				builder.append(requiredUsages[i]);
+				builder.append(requiredNames[i]);
 				builder.append("> ");
 			}
 		}
 		
 		{
-			String[] optionalUsages = handler.getOptionalNames();
-			for (int i = 0, size = optionalUsages.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
+			String[] optionalNames = handler.getOptionalNames();
+			for (int i = 0, size = optionalNames.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
 				if(errorParameterIndexsList.contains(requiredLength+i))
 					builder.append(ChatColor.RED);
 				else
 					builder.append(ChatColor.WHITE);
 				builder.append("[");
-				builder.append(optionalUsages[i]);
+				builder.append(optionalNames[i]);
 				builder.append("] ");
 			}
 		}
@@ -251,8 +252,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return value;
 		else if (clazz.equals(int.class))
 			return Integer.parseInt(value);
-		else if (clazz.equals(boolean.class))
-			return Boolean.parseBoolean(value);
 		else if (clazz.equals(float.class))
 			return Float.parseFloat(value);
 		else if (clazz.equals(double.class))

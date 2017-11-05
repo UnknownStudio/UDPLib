@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.nms.v1_11_R1;
+package team.unstudio.udpl.core.nms.v1_11_R1.tileentity;
 
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_11_R1.block.CraftBlockState;
@@ -14,19 +14,18 @@ public class NmsTileEntity implements team.unstudio.udpl.nms.tileentity.NmsTileE
 	}
 
 	@Override
-	public BlockState getBlockState() {
+	public BlockState getBukkitBlockState() {
 		return blockState;
 	}
 	
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagCompound getNBT() throws Exception{
-		return NmsHelper.getNBT().toCompound(((CraftBlockState)blockState).getTileEntity().save(new NBTTagCompound()));
+		return NmsHelper.getNmsNBT().toCompound(((CraftBlockState)blockState).getTileEntity().save(new NBTTagCompound()));
 	}
 
 	@Override
-	public team.unstudio.udpl.nms.tileentity.NmsTileEntity setNBT(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt) throws Exception{
-		((CraftBlockState)blockState).getTileEntity().a((NBTTagCompound)NmsHelper.getNBT().toNmsNBT(nbt));
-		return this;
+	public void setNBT(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt) throws Exception{
+		((CraftBlockState)blockState).getTileEntity().a((NBTTagCompound)NmsHelper.getNmsNBT().toNmsNBT(nbt));
 	}
 	
 
