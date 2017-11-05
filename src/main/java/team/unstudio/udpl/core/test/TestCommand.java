@@ -120,7 +120,7 @@ public final class TestCommand {
 	
 	@Command(value = "spawner", senders = Player.class)
 	public void spawner(Player sender){
-		Location location = sender.getLocation().subtract(0, -1, 0);
+		Location location = sender.getLocation().subtract(0, 1, 0);
 		BlockState spawnerCreature = location.getBlock().getState();
 		NmsMobSpawner nmsSpawner = (NmsMobSpawner) NmsTileEntity.createNmsTileEntity(spawnerCreature);
 		sender.sendMessage(nmsSpawner.save().toString());
