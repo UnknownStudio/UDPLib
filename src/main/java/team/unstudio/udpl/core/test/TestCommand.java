@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.minecraft.server.v1_11_R1.SpawnerCreature;
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
@@ -18,8 +17,8 @@ import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
 import team.unstudio.udpl.core.UDPLib;
-import team.unstudio.udpl.core.nms.v1_11_R1.tileentity.NmsMobSpawner;
 import team.unstudio.udpl.nms.NmsHelper;
+import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
 import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
 import team.unstudio.udpl.scoreboard.BiScoreboard;
 import team.unstudio.udpl.util.ActionBar;

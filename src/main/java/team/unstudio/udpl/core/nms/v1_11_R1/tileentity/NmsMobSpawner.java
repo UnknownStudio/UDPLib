@@ -103,7 +103,7 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 	@Override
 	public short getSpawnCount() {
 		try {
-			return (short) spawnCount.get(getTileEntity().getSpawner());
+			return (short) spawnCount.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
@@ -121,7 +121,7 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 	@Override
 	public short getSpawnRange() {
 		try {
-			return (short) spawnRange.get(getTileEntity().getSpawner());
+			return (short) spawnRange.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
@@ -149,7 +149,7 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 	@Override
 	public short getMinSpawnDelay() {
 		try {
-			return (short) minSpawnDelay.get(getTileEntity().getSpawner());
+			return (short) minSpawnDelay.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
@@ -167,7 +167,7 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 	@Override
 	public short getMaxSpawnDelay() {
 		try {
-			return (short) maxSpawnDelay.get(getTileEntity().getSpawner());
+			return (short) maxSpawnDelay.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
@@ -185,7 +185,7 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 	@Override
 	public short getMaxNearbyEntities() {
 		try {
-			return (short) maxNearbyEntities.get(getTileEntity().getSpawner());
+			return (short) maxNearbyEntities.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
@@ -203,7 +203,7 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 	@Override
 	public short getRequiredPlayerRange() {
 		try {
-			return (short) requiredPlayerRange.get(getTileEntity().getSpawner());
+			return (short) requiredPlayerRange.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
