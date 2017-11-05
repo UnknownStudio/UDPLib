@@ -72,7 +72,7 @@ public interface NmsNBT {
 	 */
 	Object toNmsNBT(NBTBase nbt);
 	
-	static NmsNBT getNmsNbt(){
+	static NmsNBT getInstance(){
 		return NmsHelper.getNmsNBT();
 	}
 }

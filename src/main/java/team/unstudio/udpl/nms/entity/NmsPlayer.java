@@ -4,33 +4,29 @@ import org.bukkit.entity.Player;
 
 public interface NmsPlayer extends NmsEntity{
 
-	Player getBukkitPlayer();
+	Player getBukkitEntity();
 	
 	/**
 	 * 发送一个包
 	 * @param packet
-	 * @throws Exception
 	 */
-	void sendPacket(Object packet) throws Exception;
+	void sendPacket(Object packet);
 	
 	/**
 	 * 发送一个ActionBar
 	 * @param message
-	 * @throws Exception
 	 */
-	void sendActionBar(String message) throws Exception;
+	void sendActionBar(String message);
 	
 	/**
 	 * 发送一个Title
 	 * @param title
 	 * @param subtitle
-	 * @throws Exception
 	 */
-	void sendTitle(String title, String subtitle) throws Exception;
+	void sendTitle(String title, String subtitle);
 	
 	/**
 	 * 重置Title
-	 * @throws Exception
 	 */
-	void resetTitle() throws Exception;
+	void resetTitle();
 }

@@ -1,6 +1,6 @@
 package team.unstudio.udpl.nms;
 
-public class NmsException extends Exception{
+public class NmsException extends RuntimeException{
 	
 	public NmsException() {}
 

@@ -22,16 +22,18 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 	}
 
 	@Override
-	public Player getBukkitPlayer() {
+	public Player getBukkitEntity() {
 		return player;
 	}
 	
 	@Override
 	public void sendPacket(Object packet){
-		if(!(packet instanceof Packet))throw new RuntimeException("Type isn't Packet");
+		if(!(packet instanceof Packet))
+			throw new IllegalArgumentException("Parameter packet isn't net.minecraft.server.Packet");
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket((Packet<?>) packet);
 	}
 	
+	@Override
 	public void sendTitle(String title, String subtitle) {
 		if (title != null) {
 			PacketPlayOutTitle packetTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
@@ -46,6 +48,7 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 		}
 	}
 
+	@Override
 	public void resetTitle() {
 		PacketPlayOutTitle packetReset = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.RESET, null);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetReset);
@@ -116,6 +119,7 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 		sendPacket(packetplayoutworldparticles);
 	}
 	
+	@Override
 	public void sendActionBar(String message){
 	    sendPacket(new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}"), (byte)2));
 	}
