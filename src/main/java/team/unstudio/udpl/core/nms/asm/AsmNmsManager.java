@@ -120,9 +120,9 @@ public final class AsmNmsManager {
 		}
 	}
 	
-	private Constructor<?> getConstructor(String name, String bukkitVersion, String minecraftVersion, Class<?>... classes){
+	private Constructor<?> getConstructor(String name, String bukkitVersion, String minecraftVersion, Class<?>... parameterTypes){
 		try {
-			return loadClass(name, bukkitVersion, minecraftVersion).getDeclaredConstructor(ItemStack.class);
+			return loadClass(name, bukkitVersion, minecraftVersion).getDeclaredConstructor(parameterTypes);
 		} catch (NoSuchMethodException | SecurityException | IOException e) {
 			UDPLib.debug(e);
 			return null;
