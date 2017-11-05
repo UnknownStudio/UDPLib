@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import org.bukkit.block.BlockState;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -88,13 +89,13 @@ public final class AsmNmsManager {
 	@SuppressWarnings("unchecked")
 	private void loadNmsEntity(){
 		entityConstructor = (Constructor<NmsEntity>) getConstructor(V1_11_R1+"/entity/NmsEntity", V1_11_R1, V1_11_2, Entity.class);
-		playerConstructor = (Constructor<NmsPlayer>) getConstructor(V1_11_R1+"/entity/NmsEntity", V1_11_R1, V1_11_2, Player.class);
+		playerConstructor = (Constructor<NmsPlayer>) getConstructor(V1_11_R1+"/entity/NmsPlayer", V1_11_R1, V1_11_2, Player.class);
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void loadNmsTileEntity(){
 		tileEntityConstructor = (Constructor<NmsTileEntity>) getConstructor(V1_11_R1+"/tileentity/NmsTileEntity", V1_11_R1, V1_11_2, BlockState.class);
-		mobSpawnerConstructor = (Constructor<NmsMobSpawner>) getConstructor(V1_11_R1+"/tileentity/NmsMobSpawner", V1_11_R1, V1_11_2, BlockState.class);
+		mobSpawnerConstructor = (Constructor<NmsMobSpawner>) getConstructor(V1_11_R1+"/tileentity/NmsMobSpawner", V1_11_R1, V1_11_2, CreatureSpawner.class);
 	}
 	
 	private Class<?> loadClass(String name, String bukkitVersion, String minecraftVersion) throws IOException{
