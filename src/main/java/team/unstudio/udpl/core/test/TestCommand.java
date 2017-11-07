@@ -43,11 +43,6 @@ public final class TestCommand {
 		return true;
 	}
 	
-	@Command(value = "i18n", senders = Player.class)
-	public void i18n(Player sender){
-		sender.sendMessage(TestLoader.i18n.localize(sender, "test"));
-	}
-	
 	@Command(value = "area", senders = Player.class)
 	public void area(Player sender,
 						@Required int x1,
