@@ -12,6 +12,7 @@ import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.bungeecord.ServerLocation;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.test.TestLoader;
+import team.unstudio.udpl.core.util.VersionCheck;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.mapping.MappingHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
@@ -24,13 +25,11 @@ import java.io.File;
 
 public final class UDPLib extends JavaPlugin{
 
-	public static final String NAME = "UDPLib";
-	public static final String VERSION = "1.0.0";
-
 	private static UDPLib INSTANCE;
 	private static boolean DEBUG;
 	private static UDPLConfiguration CONFIG;
 	private static Logger LOGGER = LogManager.getLogger("UDPLib");
+	private static VersionCheck VERSION_CHECK;
 
 	public UDPLib() {
 		INSTANCE = this;
@@ -38,7 +37,6 @@ public final class UDPLib extends JavaPlugin{
 
 	@Override
 	public void onLoad() {
-//		LOGGER = getLogger();
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
 		ConfigurationSerialization.registerClass(ServerLocation.class);
@@ -76,6 +74,8 @@ public final class UDPLib extends JavaPlugin{
 		
 		if(CONFIG.enableTest)
 			TestLoader.INSTANCE.onEnable();
+		
+		runVersionCheck();
 	}
 
 	@Override
@@ -117,5 +117,16 @@ public final class UDPLib extends JavaPlugin{
 	public static void debug(Throwable e){
 		if(isDebug())
 			e.printStackTrace();
+	}
+	
+	public static VersionCheck getVersionCheck(){
+		return VERSION_CHECK;
+	}
+	
+	public static void runVersionCheck(){
+		if(VERSION_CHECK == null){
+			VERSION_CHECK = new VersionCheck();
+		}
+		VERSION_CHECK.runTaskAsynchronously(getInstance());
 	}
 }

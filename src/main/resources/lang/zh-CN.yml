@@ -13,3 +13,6 @@ message.no_enough_parameter: "§c参数不足! 正确使用方式: %s"
 message.wrong_sender: "§c你当前的终端不能执行这个指令."
 message.wrong_parameter: "§c参数错误! 正确使用方式: %s"
 message.failure: "§c执行指令时出现错误, 请查看控制台了解错误信息."
+
+# Update
+plugin.found_new_version: "发现新版本: %1$s, 请到 %2$s 下载.
