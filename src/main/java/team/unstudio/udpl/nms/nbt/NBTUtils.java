@@ -111,6 +111,9 @@ public final class NBTUtils {
 		return new NBTTagString(value);
 	}
 
+	/**
+	 * inner method.
+	 */
 	public static void registerAllNBTSerilizable() {
 		ConfigurationSerialization.registerClass(NBTTagByte.class);
 		ConfigurationSerialization.registerClass(NBTTagByteArray.class);
