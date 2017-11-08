@@ -14,6 +14,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import team.unstudio.udpl.core.UDPLib;
 
 /**
@@ -57,7 +59,7 @@ public class UI implements Listener,Cloneable{
 	 */
 	public void open(final HumanEntity player){
 		inventory.clear();
-		for(Slot b:slots) b.paint();
+		for(Slot b:slots) b.updateItem();
 		Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
 		player.openInventory(inventory);
 	}
@@ -96,8 +98,22 @@ public class UI implements Listener,Cloneable{
 	 * 添加槽
 	 */
 	public UI addSlots(Slot slot,int[] slotIDs){
-		for(int slotID:slotIDs)
-			addSlot(slot.clone().setSlot(slotID));
+		for(int slotID : slotIDs){
+			Slot newSlot = slot.clone();
+			newSlot.setSlot(slotID);
+			addSlot(newSlot);
+		}
+		return this;
+	}
+	
+	/**
+	 * 添加槽
+	 */
+	public UI addSlots(ItemStack itemStack,int[] slotIDs){
+		for(int slotID : slotIDs){
+			Slot newSlot = new Slot(itemStack, slotID);
+			addSlot(newSlot);
+		}
 		return this;
 	}
 	
@@ -120,7 +136,7 @@ public class UI implements Listener,Cloneable{
 			for(Slot b:slots){
 				if(b.getSlot()==event.getRawSlot()){
 					b.onClick(event);
-					if(!b.isAllowOperate()){
+					if(!b.isOperable()){
 						event.setCancelled(true);
 						((Player)event.getWhoClicked()).updateInventory();
 					}
