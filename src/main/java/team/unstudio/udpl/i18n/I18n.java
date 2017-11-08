@@ -2,13 +2,14 @@ package team.unstudio.udpl.i18n;
 
 import java.util.Locale;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.entity.Player;
 
 import team.unstudio.udpl.util.PlayerUtils;
 
 public interface I18n {
-	Locale DEFAULT_LOCALE = Locale.US;
-	
+
 	String localize(Locale locale, String key);
 	
 	default String localize(String key){
@@ -56,4 +57,9 @@ public interface I18n {
 	default void setDefaultLocale(String locale){
 		setDefaultLocale(Locale.forLanguageTag(locale));
 	}
+	
+	@Nullable
+	I18n getParent();
+	
+	void setParent(I18n parent);
 }

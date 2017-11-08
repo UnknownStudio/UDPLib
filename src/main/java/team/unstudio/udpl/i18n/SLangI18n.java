@@ -1,6 +1,5 @@
 package team.unstudio.udpl.i18n;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import team.unstudio.udpl.config.EncodingDetect;
 import team.unstudio.udpl.core.UDPLib;
@@ -9,12 +8,8 @@ import team.unstudio.udpl.i18n.slang.SLangSpliter;
 import team.unstudio.udpl.util.FileUtils;
 
 import javax.annotation.Nonnull;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
 
 public class SLangI18n implements I18n {
@@ -25,6 +20,17 @@ public class SLangI18n implements I18n {
     private CachedSLang cachedSLang;
 
     private Locale defaultLocale = Locale.getDefault();
+	private I18n parent;
+	
+	@Override
+	public I18n getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(I18n parent) {
+		this.parent = parent;
+	}
 
     public SLangI18n(String[] data, String separator) {
         this.data = data;
@@ -65,7 +71,12 @@ public class SLangI18n implements I18n {
     @Override
     public String localize(Locale locale, String key) {
         CachedSLang lang = locale == defaultLocale ? cachedSLang : locale2SLang.get(locale);
-        if (lang == null) return key;
+        if (lang == null){
+        	if(getParent() != null)
+    			return getParent().localize(locale, key);
+        	else
+        		return key;
+        }
 
         return lang.get(key);
     }
@@ -98,5 +109,4 @@ public class SLangI18n implements I18n {
     public static SLangI18n fromClassLoader(@Nonnull ClassLoader classLoader, @Nonnull String filePath) {
         return fromClassLoader("\\|", classLoader, filePath);
     }
-
 }

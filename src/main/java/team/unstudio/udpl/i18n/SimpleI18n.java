@@ -15,6 +15,17 @@ public class SimpleI18n implements I18n{
 	protected final Map<Locale,Configuration> cache = Maps.newHashMap();
 	
 	private Locale defaultLocale = Locale.getDefault();
+	private I18n parent;
+	
+	@Override
+	public I18n getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(I18n parent) {
+		this.parent = parent;
+	}
 
 	public SimpleI18n(@Nonnull File path) {
 		Validate.notNull(path);
@@ -69,6 +80,8 @@ public class SimpleI18n implements I18n{
 			return cache.get(locale).getString(key, key);
 		else if(cache.containsKey(defaultLocale))
 			return cache.get(defaultLocale).getString(key, key);
+		else if(getParent() != null)
+			return getParent().localize(locale, key);
 		else
 			return key;
 	}
