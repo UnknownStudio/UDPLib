@@ -56,7 +56,7 @@ public class Slot implements Cloneable{
 			break;
 		case MIDDLE:
 			if(onMiddleClick != null)
-				onDoubleClick.accept(event);
+				onMiddleClick.accept(event);
 			break;
 		default:
 			break;
