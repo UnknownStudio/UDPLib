@@ -2,6 +2,7 @@ package team.unstudio.udpl.example;
 
 import java.io.File;
 
+import team.unstudio.udpl.config.ConfigItem;
 import team.unstudio.udpl.config.ConfigurationHandler;
 
 public class ExampleConfig extends ConfigurationHandler{

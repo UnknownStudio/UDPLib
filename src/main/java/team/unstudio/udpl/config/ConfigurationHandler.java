@@ -1,12 +1,7 @@
 package team.unstudio.udpl.config;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -123,16 +118,5 @@ public abstract class ConfigurationHandler{
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
-	/**
-	 * 注解一个配置项
-	 * value为在配置文件中的key
-	 * 可以为注解的配置项设置一个默认值
-	 */
-	@Retention(RUNTIME)
-	@Target(FIELD)
-	public static @interface ConfigItem{
-		String value();
 	}
 }
