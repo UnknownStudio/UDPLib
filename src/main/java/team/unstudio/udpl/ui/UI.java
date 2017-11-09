@@ -1,8 +1,10 @@
 package team.unstudio.udpl.ui;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -15,6 +17,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import com.google.common.collect.Sets;
 
 import team.unstudio.udpl.core.UDPLib;
 
@@ -30,7 +34,7 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 槽列表
 	 */
-	private final List<Slot> slots;
+	private final Set<Slot> slots;
 
 	/**
 	 * 可否操作物品栏
@@ -44,7 +48,23 @@ public class UI implements Listener,Cloneable{
 
 	public UI(Inventory inventory) {
 		this.inventory = inventory;
-		this.slots = new ArrayList<>();
+		this.slots = Sets.newHashSet();
+	}
+	
+	public UI(InventoryType type) {
+		this(Bukkit.createInventory(null, type));
+	}
+	
+	public UI(int size) {
+		this(Bukkit.createInventory(null, size));
+	}
+	
+	public UI(InventoryType type, String title) {
+		this(Bukkit.createInventory(null, type, title));
+	}
+	
+	public UI(int size, String title) {
+		this(Bukkit.createInventory(null, size, title));
 	}
 
 	/**
@@ -60,7 +80,7 @@ public class UI implements Listener,Cloneable{
 	public void open(final HumanEntity player){
 		inventory.clear();
 		for(Slot b:slots) b.updateItem();
-		Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
+		registerListener();
 		player.openInventory(inventory);
 	}
 	
@@ -71,14 +91,15 @@ public class UI implements Listener,Cloneable{
 		if(player.getOpenInventory().getTopInventory().equals(inventory)){
 			player.closeInventory();
 			if(inventory.getViewers().size()<=0)
-				unregisterAllEvent();
+				unregisterListener();
 		}
 	}
 	
 	/**
 	 * 添加槽
 	 */
-	public UI addSlot(Slot slot){
+	public UI addSlot(@Nonnull Slot slot){
+		Validate.notNull(slot);
 		slots.add(slot);
 		slot.setParent(this);
 		return this;
@@ -87,7 +108,7 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 添加槽
 	 */
-	public UI addSlot(Slot slot,Slot ...slots){
+	public UI addSlot(@Nonnull Slot slot,Slot... slots){
 		addSlot(slot);
 		for(Slot s:slots)
 			addSlot(s);
@@ -97,7 +118,8 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 添加槽
 	 */
-	public UI addSlots(Slot slot,int[] slotIDs){
+	public UI addSlots(@Nonnull Slot slot,int... slotIDs){
+		Validate.notNull(slot);
 		for(int slotID : slotIDs){
 			Slot newSlot = slot.clone();
 			newSlot.setSlot(slotID);
@@ -109,7 +131,8 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 添加槽
 	 */
-	public UI addSlots(ItemStack itemStack,int[] slotIDs){
+	public UI addSlots(@Nonnull ItemStack itemStack,int... slotIDs){
+		Validate.notNull(itemStack);
 		for(int slotID : slotIDs){
 			Slot newSlot = new Slot(itemStack, slotID);
 			addSlot(newSlot);
@@ -120,17 +143,17 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 删除槽
 	 */
-	public boolean removeSlot(Slot slot){
-		if(slot==null) return false;
+	public void removeSlot(Slot slot){
+		if(slot == null)
+			return;
 		slots.remove(slot);
 		slot.setParent(null);
-		return true;
 	}
 
 	/**
 	 * 监听点击事件
 	 */
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onClick(InventoryClickEvent event){
 		if(event.getClickedInventory()!=null&&event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
 			for(Slot b:slots){
@@ -156,7 +179,7 @@ public class UI implements Listener,Cloneable{
 	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 	public void onClose(InventoryCloseEvent event){
 		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1)
-			unregisterAllEvent();
+			unregisterListener();
 	}
 
 	/**
@@ -206,12 +229,20 @@ public class UI implements Listener,Cloneable{
 	public void setAllowOperateInventory(boolean allowOperateInventory) {
 		this.allowOperateInventory = allowOperateInventory;
 	}
+	
+	private boolean registedListener = false;
+	
+	private void registerListener(){
+		if(registedListener)
+			return;
+		
+		registedListener = true;
+		Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
+	}
 
-	/**
-	 * 取消注册
-	 */
-	private void unregisterAllEvent(){
+	private void unregisterListener(){
 		InventoryClickEvent.getHandlerList().unregister(this);
 		InventoryCloseEvent.getHandlerList().unregister(this);
+		registedListener = false;
 	}
 }

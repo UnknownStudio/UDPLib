@@ -16,6 +16,7 @@ import team.unstudio.udpl.core.util.VersionCheck;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.mapping.MappingHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
+import team.unstudio.udpl.ui.Container;
 import team.unstudio.udpl.util.CacheUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.PluginUtils;
@@ -40,6 +41,7 @@ public final class UDPLib extends JavaPlugin{
 		ConfigurationSerialization.registerClass(AreaDataContainer.class);
 		ConfigurationSerialization.registerClass(Area.class);
 		ConfigurationSerialization.registerClass(ServerLocation.class);
+		ConfigurationSerialization.registerClass(Container.class);
 		
 		NBTUtils.registerAllNBTSerilizable();
 		
