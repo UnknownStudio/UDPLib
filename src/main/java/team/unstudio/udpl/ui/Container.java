@@ -42,6 +42,11 @@ public class Container implements Cloneable,ConfigurationSerializable{
 		return inventory;
 	}
 	
+	public void addItem(ItemStack item, int... indexs){
+		for(int index : indexs)
+			inventory.setItem(index, item.clone());
+	}
+	
 	public final void open(HumanEntity player){
 		player.openInventory(inventory);
 	}
