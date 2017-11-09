@@ -134,7 +134,7 @@ public class UI implements Listener,Cloneable{
 	public UI addSlots(@Nonnull ItemStack itemStack,int... slotIDs){
 		Validate.notNull(itemStack);
 		for(int slotID : slotIDs){
-			Slot newSlot = new Slot(itemStack, slotID);
+			Slot newSlot = new Slot(itemStack.clone(), slotID);
 			addSlot(newSlot);
 		}
 		return this;
