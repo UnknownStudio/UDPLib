@@ -11,7 +11,6 @@ import team.unstudio.udpl.command.CommandResult;
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import java.util.Map;
 public class CommandWrapper {
 	
 	private final String node;
+	private final String fullCommand;
 	private final AnnoCommandManager manager;
 	private final Map<String,CommandWrapper> children = Maps.newHashMap();
 	private final CommandWrapper parent;
@@ -39,17 +39,21 @@ public class CommandWrapper {
 	private boolean hasStringArray;
 	
 	private Class<?>[] requireds;
-	private Class<?>[] optionals;
 	private List<List<String>> requiredCompletes;
 	private String[] requiredNames;
+	private String[] requiredUsages;
+
+	private Class<?>[] optionals;
 	private String[] optionalNames;
+	private String[] optionalUsages;
 	private List<List<String>> optionalCompletes;
 	private Object[] optionalDefaults;
 
-	public CommandWrapper(String node,AnnoCommandManager manager,CommandWrapper parent) {
+	public CommandWrapper(String node, AnnoCommandManager manager, CommandWrapper parent) {
 		this.node = node.toLowerCase();
 		this.manager = manager;
 		this.parent = parent;
+		this.fullCommand = parent == null ? this.node : parent.getFullCommand() + " " + this.node;
 	}
 	
 	public String getNode() {
@@ -89,6 +93,10 @@ public class CommandWrapper {
 		return manager;
 	}
 	
+	public String getFullCommand(){
+		return fullCommand;
+	}
+	
 	public String[] getRequiredNames() {
 		return requiredNames;
 	}
@@ -97,6 +105,14 @@ public class CommandWrapper {
 		return optionalNames;
 	}
 	
+	public String[] getRequiredUsages() {
+		return requiredUsages;
+	}
+
+	public String[] getOptionalUsages() {
+		return optionalUsages;
+	}
+
 	public boolean hasCommand(){
 		return command != null;
 	}
@@ -256,13 +272,15 @@ public class CommandWrapper {
 		this.hasStringArray = parameterTypes[parameterTypes.length-1].equals(String[].class);
 		
 		//参数载入
-		List<Class<?>> requireds = new ArrayList<>();
-		List<Class<?>> optionals = new ArrayList<>();
-		List<String> requiredNames = new ArrayList<>();
-		List<String> optionalNames = new ArrayList<>();
-		List<List<String>> requiredCompletes = new ArrayList<>();
-		List<List<String>> optionalCompletes = new ArrayList<>();
-		List<Object> optionalDefaults = new ArrayList<>();
+		List<Class<?>> requireds = Lists.newLinkedList();
+		List<Class<?>> optionals = Lists.newLinkedList();
+		List<String> requiredNames = Lists.newLinkedList();
+		List<String> optionalNames = Lists.newLinkedList();
+		List<String> requiredUsages = Lists.newLinkedList();
+		List<String> optionalUsages = Lists.newLinkedList();
+		List<List<String>> requiredCompletes = Lists.newLinkedList();
+		List<List<String>> optionalCompletes = Lists.newLinkedList();
+		List<Object> optionalDefaults = Lists.newLinkedList();
 		
 		Parameter[] parameters = method.getParameters();
 		for(int i=0;i<parameters.length;i++){
@@ -272,6 +290,7 @@ public class CommandWrapper {
 					requireds.add(parameters[i].getType());
 					requiredNames.add(annoRequired.name() == null || annoRequired.name().isEmpty()
 							? parameters[i].getName() : annoRequired.name());
+					requiredUsages.add(annoRequired.usage());
 					requiredCompletes.add(ImmutableList.copyOf(annoRequired.complete()));
 					continue;
 				}
@@ -283,6 +302,7 @@ public class CommandWrapper {
 					optionals.add(parameters[i].getType());
 					optionalNames.add(annoOptional.name() == null || annoOptional.name().isEmpty()
 							? parameters[i].getName() : annoOptional.name());
+					optionalUsages.add(annoOptional.usage());
 					optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
 					optionalCompletes.add(ImmutableList.copyOf(annoOptional.complete()));
 					continue;
@@ -293,8 +313,10 @@ public class CommandWrapper {
 		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
 		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
 		this.requiredNames = requiredNames.toArray(new String[requiredNames.size()]);
+		this.requiredUsages = requiredUsages.toArray(new String[requiredUsages.size()]);
 		this.requiredCompletes = ImmutableList.copyOf(requiredCompletes);
 		this.optionalNames = optionalNames.toArray(new String[optionalNames.size()]);
+		this.optionalUsages = optionalUsages.toArray(new String[optionalUsages.size()]);
 		this.optionalDefaults = optionalDefaults.toArray(new Object[optionalDefaults.size()]);
 		this.optionalCompletes = ImmutableList.copyOf(optionalCompletes);
 	}

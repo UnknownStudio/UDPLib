@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import team.unstudio.udpl.command.CommandHelper;
 import team.unstudio.udpl.core.UDPLI18n;
+import team.unstudio.udpl.i18n.I18n;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
@@ -20,6 +21,7 @@ import java.util.*;
 import java.util.Optional;
 
 public class AnnoCommandManager implements CommandExecutor,TabCompleter{
+	
 	private static final String MESSAGE_UNKNOWN_COMMAND = UDPLI18n.format("message.unknown_command");
 	private static final String MESSAGE_NO_PERMISSION = UDPLI18n.format("message.no_permission");
 	private static final String MESSAGE_NO_ENOUGH_PARAMETER = UDPLI18n.format("message.no_enough_parameter");
@@ -33,6 +35,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	protected final Map<Class<?>,CommandParameterHandler> parameterHandlers;
 	
+	private I18n i18n;
 	private String usage;
 	private String description;
 	
@@ -93,20 +96,83 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		return usage;
 	}
 
-	public AnnoCommandManager setUsage(String usage) {
+	public void setUsage(String usage) {
 		this.usage = usage;
-		return this;
 	}
 	
 	public String getDescription() {
 		return description;
 	}
 
-	public AnnoCommandManager setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public I18n getI18n() {
+		return i18n;
+	}
+
+	public void setI18n(I18n i18n) {
+		this.i18n = i18n;
+	}
+	
+	/**
+	 * 注册指令
+	 */
+	public AnnoCommandManager registerCommand(){
+		PluginCommand command = plugin.getCommand(name);
+		command.setExecutor(this);
+		command.setTabCompleter(this);
+		plugin.getLogger().info("Register command \""+name+"\" successful.");
 		return this;
 	}
 	
+	/**
+	 * 不安全的注册指令
+	 */
+	public AnnoCommandManager unsafeRegisterCommand(){
+		Optional<PluginCommand> command = CommandHelper.unsafeRegisterCommand(name, plugin);
+		if(command.isPresent()){
+			command.get().setExecutor(this);
+			command.get().setTabCompleter(this);
+			plugin.getLogger().info("Unsafe register command \""+name+"\" successful.");
+		}else{
+			plugin.getLogger().warning("Unsafe register command \""+name+"\" failure.");
+		}
+		return this;
+	}
+	
+	/**
+	 * 添加指令
+	 */
+	public AnnoCommandManager addHandler(Object object) {
+		for (Method method : object.getClass().getDeclaredMethods()) {
+			team.unstudio.udpl.command.anno.Command annoCommand = method
+					.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
+
+			if (annoCommand != null) {
+				createCommandWrapper(annoCommand.value()).setCommandMethod(object, annoCommand, method);
+
+				for (Alias annoAlias : method.getAnnotationsByType(Alias.class))
+					createCommandWrapper(annoAlias.value()).setCommandMethod(object, annoCommand, method);
+
+				continue;
+			}
+			
+			TabComplete annoTabComplete = method.getAnnotation(TabComplete.class);
+			
+			if(annoTabComplete != null){
+				getCommandWrapper(annoTabComplete.value()).ifPresent(wrapper->wrapper.setTabCompleteMethod(object, annoTabComplete, method));
+			}
+		}
+		return this;
+	}
+	
+	public AnnoCommandManager addHandler(Object... object){
+		Arrays.stream(object).forEach(this::addHandler);
+		return this;
+	}
+
 	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler) {
 		if (sender instanceof Player)
 			sender.sendMessage(UDPLI18n.format((Player) sender, "message.unknown_command"));
@@ -123,34 +189,16 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 	
 	protected void onNoEnoughParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler){
-		StringBuilder builder = new StringBuilder(ChatColor.WHITE+"/");
-		
-		{
-			Stack<String> subCommandStack = new Stack<>();
-			CommandWrapper wrapper = handler;
-			while(wrapper != null){
-				subCommandStack.push(wrapper.getNode());
-				wrapper = wrapper.getParent();
-			}
-			
-			while(!subCommandStack.isEmpty()){
-				builder.append(subCommandStack.pop());
-				builder.append(" ");
-			}
-		}
+		StringBuilder builder = new StringBuilder(ChatColor.WHITE.toString()).append("/").append(handler.getFullCommand());
 		
 		{
 			String[] requiredNames = handler.getRequiredNames();
 			for (int i = 0, size = args.length; i < size; i++) {
-				builder.append("<");
-				builder.append(requiredNames[i]);
-				builder.append("> ");
+				builder.append(" <").append(localize(sender,requiredNames[i])).append(">");
 			}
 			builder.append(ChatColor.RED);
 			for (int i = args.length, size = requiredNames.length; i < size; i++) {
-				builder.append("<");
-				builder.append(requiredNames[i]);
-				builder.append("> ");
+				builder.append(" <").append(localize(sender,requiredNames[i])).append(">");
 			}
 		}
 		
@@ -158,9 +206,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			builder.append(ChatColor.WHITE);
 			String[] optionalNames = handler.getOptionalNames();
 			for (int i = 0, size = optionalNames.length; i < size; i++) {
-				builder.append("[");
-				builder.append(optionalNames[i]);
-				builder.append("] ");
+				builder.append(" [").append(localize(sender,optionalNames[i])).append("]");
 			}
 		}
 		
@@ -179,21 +225,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 	
 	protected void onErrorParameter(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler, int[] errorParameterIndexs){
-		StringBuilder builder = new StringBuilder(ChatColor.WHITE+"/");
-		
-		{
-			Stack<String> subCommandStack = new Stack<>();
-			CommandWrapper wrapper = handler;
-			while(wrapper != null){
-				subCommandStack.push(wrapper.getNode());
-				wrapper = wrapper.getParent();
-			}
-			
-			while(!subCommandStack.isEmpty()){
-				builder.append(subCommandStack.pop());
-				builder.append(" ");
-			}
-		}
+		StringBuilder builder = new StringBuilder(ChatColor.WHITE.toString()).append("/").append(handler.getFullCommand());
 		
 		List<Integer> errorParameterIndexsList = Lists.newArrayList();
 		for(int i:errorParameterIndexs)
@@ -202,26 +234,16 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		{
 			String[] requiredNames = handler.getRequiredNames();
 			for (int i = 0, size = requiredNames.length; i < size; i++) {
-				if(errorParameterIndexsList.contains(i))
-					builder.append(ChatColor.RED);
-				else
-					builder.append(ChatColor.WHITE);
-				builder.append("<");
-				builder.append(requiredNames[i]);
-				builder.append("> ");
+				builder.append(errorParameterIndexsList.contains(i) ? ChatColor.RED : ChatColor.WHITE)
+				.append(" <").append(localize(sender,requiredNames[i])).append(">");
 			}
 		}
 		
 		{
 			String[] optionalNames = handler.getOptionalNames();
 			for (int i = 0, size = optionalNames.length,requiredLength = handler.getRequiredNames().length; i < size; i++) {
-				if(errorParameterIndexsList.contains(requiredLength+i))
-					builder.append(ChatColor.RED);
-				else
-					builder.append(ChatColor.WHITE);
-				builder.append("[");
-				builder.append(optionalNames[i]);
-				builder.append("] ");
+				builder.append(errorParameterIndexsList.contains(requiredLength+i) ? ChatColor.RED : ChatColor.WHITE)
+				.append(" [").append(localize(sender,optionalNames[i])).append("]");
 			}
 		}
 		
@@ -237,6 +259,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			sender.sendMessage(UDPLI18n.format((Player) sender, "message.failure"));
 		else
 		sender.sendMessage(MESSAGE_FAILURE);
+	}
+	
+	String localize(CommandSender sender, String key){
+		if(i18n == null)
+			return key;
+		else if(sender instanceof Player)
+			return i18n.localize((Player)sender, key);
+		else 
+			return i18n.localize(key);
 	}
 	
 	/**
@@ -283,34 +314,8 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return Collections.emptyList();
 	}
 	
-	/**
-	 * 注册指令
-	 */
-	public AnnoCommandManager registerCommand(){
-		PluginCommand command = plugin.getCommand(name);
-		command.setExecutor(this);
-		command.setTabCompleter(this);
-		plugin.getLogger().info("Register command \""+name+"\" successful.");
-		return this;
-	}
-	
-	/**
-	 * 不安全的注册指令
-	 */
-	public AnnoCommandManager unsafeRegisterCommand(){
-		Optional<PluginCommand> command = CommandHelper.unsafeRegisterCommand(name, plugin);
-		if(command.isPresent()){
-			command.get().setExecutor(this);
-			command.get().setTabCompleter(this);
-			plugin.getLogger().info("Unsafe register command \""+name+"\" successful.");
-		}else{
-			plugin.getLogger().warning("Unsafe register command \""+name+"\" failure.");
-		}
-		return this;
-	}
-	
 	@Override
-	public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		
 		CommandWrapper parent = defaultHandler;
@@ -350,37 +355,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			break;
 		}
 	}
-
-	/**
-	 * 添加指令
-	 */
-	public AnnoCommandManager addHandler(Object object) {
-		for (Method method : object.getClass().getDeclaredMethods()) {
-			team.unstudio.udpl.command.anno.Command annoCommand = method
-					.getAnnotation(team.unstudio.udpl.command.anno.Command.class);
-
-			if (annoCommand != null) {
-				createCommandWrapper(annoCommand.value()).setCommandMethod(object, annoCommand, method);
-
-				for (Alias annoAlias : method.getAnnotationsByType(Alias.class))
-					createCommandWrapper(annoAlias.value()).setCommandMethod(object, annoCommand, method);
-
-				continue;
-			}
-			
-			TabComplete annoTabComplete = method.getAnnotation(TabComplete.class);
-			
-			if(annoTabComplete != null){
-				getCommandWrapper(annoTabComplete.value()).ifPresent(wrapper->wrapper.setTabCompleteMethod(object, annoTabComplete, method));
-			}
-		}
-		return this;
-	}
-	
-	public AnnoCommandManager addHandler(Object... object){
-		Arrays.stream(object).forEach(this::addHandler);
-		return this;
-	}
 	
 	public Optional<CommandWrapper> getCommandWrapper(String[] args){
 		CommandWrapper parent = defaultHandler;
@@ -413,7 +387,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	}
 
 	@Override
-	public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> list = new ArrayList<>();
 		
 		CommandWrapper parent = defaultHandler;
@@ -438,6 +412,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		private String name;
 		private JavaPlugin plugin;
 		private Map<Class<?>,CommandParameterHandler> parameterHandlers = Maps.newHashMap();
+		private I18n i18n;
 		private String usage;
 		private String description;
 		
@@ -461,6 +436,11 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 			return this;
 		}
 		
+		public Builder i18n(I18n i18n){
+			this.i18n = i18n;
+			return this;
+		}
+		
 		public Builder parameterHandler(Class<?> clazz,CommandParameterHandler handler){
 			parameterHandlers.put(clazz, handler);
 			return this;
@@ -468,6 +448,7 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		
 		public AnnoCommandManager build(){
 			AnnoCommandManager manager = new AnnoCommandManager(name, plugin, parameterHandlers);
+			manager.setI18n(i18n);
 			manager.setUsage(usage);
 			manager.setDescription(description);
 			return manager;

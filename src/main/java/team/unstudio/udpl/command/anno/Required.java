@@ -15,6 +15,11 @@ public @interface Required {
 	String name() default "";
 	
 	/**
+	 * 参数用法
+	 */
+	String usage() default "";
+	
+	/**
 	 * 自动补全
 	 */
 	String[] complete() default {};
