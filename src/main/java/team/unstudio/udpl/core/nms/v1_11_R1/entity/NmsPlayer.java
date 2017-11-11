@@ -1,5 +1,7 @@
 package team.unstudio.udpl.core.nms.v1_11_R1.entity;
 
+import java.util.Locale;
+
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_11_R1.CraftParticle;
@@ -24,6 +26,23 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 	@Override
 	public Player getBukkitEntity() {
 		return player;
+	}
+	
+	@Override
+	public Locale getLocale() {
+		return Locale.forLanguageTag(normalizeLanguageTag(((CraftPlayer)player).getHandle().locale));
+	}
+	
+	private String normalizeLanguageTag(String languageTag){
+		languageTag = languageTag.replaceAll("_", "-");
+		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
+		if(first == -1)
+			return languageTag;
+		else if(second == -1){
+			return languageTag.substring(0, first+1) + languageTag.substring(first+1).toUpperCase();
+		}else{
+			return languageTag.substring(0, first+1) + languageTag.substring(first+1,second).toUpperCase() + languageTag.substring(second);
+		}
 	}
 	
 	@Override

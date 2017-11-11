@@ -1,10 +1,14 @@
 package team.unstudio.udpl.nms.entity;
 
+import java.util.Locale;
+
 import org.bukkit.entity.Player;
 
 public interface NmsPlayer extends NmsEntity{
 
 	Player getBukkitEntity();
+	
+	Locale getLocale();
 	
 	/**
 	 * 发送一个包
