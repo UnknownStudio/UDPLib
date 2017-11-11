@@ -1,6 +1,5 @@
 package team.unstudio.udpl.conversation;
 
-import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
@@ -21,7 +20,7 @@ public abstract class RequestBase<T> implements Request<T>{
 	private Consumer<Request<T>> onStart;
 	private Consumer<Request<T>> onComplete;
 	private BiPredicate<Request<T>, T> validator;
-	private BiConsumer<Request<T>, T> onValidateFailed;
+	private Consumer<Request<T>> onValidateFailed;
 	private Consumer<Request<T>> onTimeout;
 	
 	private boolean started = false;
@@ -128,12 +127,12 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public BiConsumer<Request<T>, T> getOnValidateFailed() {
+	public Consumer<Request<T>> getOnValidateFailed() {
 		return onValidateFailed;
 	}
 
 	@Override
-	public void setOnValidateFailed(BiConsumer<Request<T>, T> onValidateFailed) {
+	public void setOnValidateFailed(Consumer<Request<T>> onValidateFailed) {
 		this.onValidateFailed = onValidateFailed;
 	}
 
@@ -192,11 +191,14 @@ public abstract class RequestBase<T> implements Request<T>{
 		if(validator.test(this, value))
 			return true;
 		
+		callValidateFailed();
+		return false;
+	}
+	
+	protected void callValidateFailed(){
 		sendValidateFailedMessage();
 		if(onValidateFailed != null)
-			onValidateFailed.accept(this, value);
-		
-		return false;
+			onValidateFailed.accept(this);
 	}
 	
 	protected void sendPrompt(){
