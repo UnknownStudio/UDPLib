@@ -189,6 +189,13 @@ public class Slot implements Cloneable{
 			button = (Slot) super.clone();
 			button.itemStack = itemStack.clone();
 			button.slot = slot;
+			button.operable = operable;
+			button.onLeftClick = onLeftClick;
+			button.onRightClick = onRightClick;
+			button.onDoubleClick = onDoubleClick;
+			button.onMiddleClick = onMiddleClick;
+			button.onShiftLeftClick = onShiftLeftClick;
+			button.onShiftRightClick = onShiftRightClick;
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
