@@ -21,8 +21,8 @@ public class RequestDouble extends RequestBase<Double>{
 	public void start() {
 		super.start();
 		PluginUtils.registerEvents(listener, getConversation().getPlugin());
-		getConversation().getPlayer().sendMessage(getPrompt());
 		setStarted(true);
+		sendPrompt();
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class RequestDouble extends RequestBase<Double>{
 	}
 	
 	private class RequestListener implements Listener{
-		@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+		@EventHandler(priority = EventPriority.LOWEST)
 		public void onChat(AsyncPlayerChatEvent event) {
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
@@ -57,5 +57,4 @@ public class RequestDouble extends RequestBase<Double>{
 			}
 		}
 	}
-
 }

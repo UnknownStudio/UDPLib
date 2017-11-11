@@ -7,9 +7,15 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.google.common.collect.Lists;
+
+import team.unstudio.udpl.util.PluginUtils;
 
 public class Conversation {
 
@@ -17,6 +23,8 @@ public class Conversation {
 	private final Player player;
 	
 	private final List<Request<?>> requests = Lists.newLinkedList();
+	
+	private final Listener listener = new ConversationListener();
 	
 	private ConversationState state = ConversationState.UNSTARTED;
 	
@@ -52,6 +60,10 @@ public class Conversation {
 		return requests.get(index);
 	}
 	
+	public Request<?> getCurrentRequest(){
+		return currentRequest;
+	}
+	
 	public void start(){
 		if(isStarted())
 			return;
@@ -59,7 +71,12 @@ public class Conversation {
 		if(requests.isEmpty())
 			return;
 		
+		if(!player.isOnline())
+			return;
+		
 		state = ConversationState.STARTED;
+		
+		PluginUtils.registerEvents(listener, getPlugin());
 		
 		currentRequestIndex = 0;
 		currentRequest = requests.get(currentRequestIndex);
@@ -75,6 +92,7 @@ public class Conversation {
 		if(currentRequest != null && !currentRequest.isCompleted())
 			currentRequest.dispose();
 		
+		dispose();
 		getOnCancel().accept(this);
 	}
 	
@@ -89,12 +107,17 @@ public class Conversation {
 			return;
 		
 		if(++currentRequestIndex >= requests.size()){
+			dispose();
 			getOnComplete().accept(this);
 			return;
 		}
 		
 		currentRequest = requests.get(currentRequestIndex);
 		currentRequest.start();
+	}
+	
+	protected void dispose(){
+		PlayerQuitEvent.getHandlerList().unregister(listener);
 	}
 	
 	public boolean isStarted() {
@@ -127,5 +150,15 @@ public class Conversation {
 
 	public void setOnComplete(Consumer<Conversation> onComplete) {
 		this.onComplete = onComplete;
+	}
+	
+	private class ConversationListener implements Listener{
+		@EventHandler(priority = EventPriority.LOWEST)
+		public void onQuit(PlayerQuitEvent event){
+			if(!event.getPlayer().equals(getPlayer()))
+				return;
+			
+			cancel();
+		}
 	}
 }

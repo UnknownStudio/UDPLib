@@ -1,6 +1,7 @@
 package team.unstudio.udpl.conversation;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
@@ -36,7 +37,23 @@ public interface Request<T> {
 	
 	void setValidator(BiPredicate<Request<T>,T> validator);
 	
+	String getValidateFailedMessage();
+	
+	void setValidateFailedMessage(String message);
+	
+	BiConsumer<Request<T>,T> getOnValidateFailed();
+	
+	void setOnValidateFailed(BiConsumer<Request<T>,T> onValidateFailed);
+	
 	long getTimeout();
 	
 	void setTimeout(long timeout);
+	
+	String getTimeoutMessage();
+	
+	void setTimeoutMessage(String message);
+	
+	Consumer<Request<T>> getOnTimeout();
+	
+	void setOnTimeout(Consumer<Request<T>> onTimeout);
 }

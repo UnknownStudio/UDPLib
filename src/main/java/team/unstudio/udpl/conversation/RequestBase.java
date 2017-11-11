@@ -1,14 +1,19 @@
 package team.unstudio.udpl.conversation;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 
+import com.google.common.base.Strings;
+
 public abstract class RequestBase<T> implements Request<T>{
 	
 	private Conversation conversation;
 	private String prompt;
+	private String validateFailedMessage;
+	private String timeoutMessage;
 	private long timeout = -1;
 	
 	private int timeoutTaskId = -1;
@@ -16,6 +21,8 @@ public abstract class RequestBase<T> implements Request<T>{
 	private Consumer<Request<T>> onStart;
 	private Consumer<Request<T>> onComplete;
 	private BiPredicate<Request<T>, T> validator;
+	private BiConsumer<Request<T>, T> onValidateFailed;
+	private Consumer<Request<T>> onTimeout;
 	
 	private boolean started = false;
 	private boolean completed = false;
@@ -100,11 +107,51 @@ public abstract class RequestBase<T> implements Request<T>{
 		this.timeout = timeout;
 	}
 	
+	@Override
+	public String getValidateFailedMessage() {
+		return validateFailedMessage;
+	}
+
+	@Override
+	public void setValidateFailedMessage(String validateFailedMessage) {
+		this.validateFailedMessage = validateFailedMessage;
+	}
+
+	@Override
+	public String getTimeoutMessage() {
+		return timeoutMessage;
+	}
+	
+	@Override
+	public void setTimeoutMessage(String timeoutMessage) {
+		this.timeoutMessage = timeoutMessage;
+	}
+
+	@Override
+	public BiConsumer<Request<T>, T> getOnValidateFailed() {
+		return onValidateFailed;
+	}
+
+	@Override
+	public void setOnValidateFailed(BiConsumer<Request<T>, T> onValidateFailed) {
+		this.onValidateFailed = onValidateFailed;
+	}
+
+	@Override
+	public Consumer<Request<T>> getOnTimeout() {
+		return onTimeout;
+	}
+
+	@Override
+	public void setOnTimeout(Consumer<Request<T>> onTimeout) {
+		this.onTimeout = onTimeout;
+	}
+	
 	protected void startTimeoutTask(){
 		if(timeout < 0)
 			return;
 		
-		timeoutTaskId = Bukkit.getScheduler().runTaskLater(getConversation().getPlugin(), getConversation()::cancel, timeout*20).getTaskId();
+		timeoutTaskId = Bukkit.getScheduler().runTaskLater(getConversation().getPlugin(), this::callTimeout, timeout*20).getTaskId();
 	}
 	
 	protected void cancelTimeoutTask(){
@@ -131,10 +178,45 @@ public abstract class RequestBase<T> implements Request<T>{
 		}
 	}
 	
+	protected void callTimeout(){
+		getConversation().cancel();
+		sendTimeoutMessage();
+		if(onTimeout != null)
+			onTimeout.accept(this);
+	}
+	
 	protected boolean validate(T value){
 		if(validator == null)
 			return true;
 		
-		return validator.test(this, value);
+		if(validator.test(this, value))
+			return true;
+		
+		sendValidateFailedMessage();
+		if(onValidateFailed != null)
+			onValidateFailed.accept(this, value);
+		
+		return false;
+	}
+	
+	protected void sendPrompt(){
+		if(Strings.isNullOrEmpty(prompt))
+			return;
+		
+		getConversation().getPlayer().sendMessage(prompt);
+	}
+	
+	protected void sendTimeoutMessage(){
+		if(Strings.isNullOrEmpty(timeoutMessage))
+			return;
+		
+		getConversation().getPlayer().sendMessage(timeoutMessage);
+	}
+	
+	protected void sendValidateFailedMessage(){
+		if(Strings.isNullOrEmpty(validateFailedMessage))
+			return;
+		
+		getConversation().getPlayer().sendMessage(validateFailedMessage);
 	}
 }

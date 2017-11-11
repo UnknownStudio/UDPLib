@@ -1,5 +1,6 @@
 package team.unstudio.udpl.conversation.request;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
@@ -11,11 +12,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
 
-public class RequestConfirm extends RequestBase<Boolean>{
+public class RequestBigDecimal extends RequestBase<BigDecimal>{
 	
 	private final Listener listener = new RequestListener();
 	
-	private boolean result;
+	private BigDecimal result;
 
 	@Override
 	public void start() {
@@ -32,7 +33,7 @@ public class RequestConfirm extends RequestBase<Boolean>{
 	}
 
 	@Override
-	public Optional<Boolean> getResult() {
+	public Optional<BigDecimal> getResult() {
 		if(!isCompleted())
 			return Optional.empty();
 		return Optional.of(result);
@@ -44,8 +45,17 @@ public class RequestConfirm extends RequestBase<Boolean>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
-			result = "confirm".equals(event.getMessage().toLowerCase());
-			Bukkit.getScheduler().runTask(getConversation().getPlugin(), ()->setCompleted(true));
+			try{
+				BigDecimal invalidate = new BigDecimal(event.getMessage());
+				
+				if(!validate(invalidate))
+					return;
+				
+				result = invalidate;
+				Bukkit.getScheduler().runTask(getConversation().getPlugin(), () -> setCompleted(true));
+			}catch(NumberFormatException e){
+				return;
+			}
 		}
 	}
 }

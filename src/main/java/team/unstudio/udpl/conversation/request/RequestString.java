@@ -21,8 +21,8 @@ public class RequestString extends RequestBase<String>{
 	public void start() {
 		super.start();
 		PluginUtils.registerEvents(listener, getConversation().getPlugin());
-		getConversation().getPlayer().sendMessage(getPrompt());
 		setStarted(true);
+		sendPrompt();
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class RequestString extends RequestBase<String>{
 	}
 	
 	private class RequestListener implements Listener{
-		@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+		@EventHandler(priority = EventPriority.LOWEST)
 		public void onChat(AsyncPlayerChatEvent event) {
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
