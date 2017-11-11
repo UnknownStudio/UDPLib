@@ -1,4 +1,4 @@
-package team.unstudio.udpl.config.serialization;
+package team.unstudio.udpl.config;
 
 public class SerializationException extends RuntimeException{
 	

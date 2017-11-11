@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import team.unstudio.udpl.config.serialization.ConfigurationSerializationHelper;
+import com.google.common.base.Strings;
 
 /**
  * 配置文件处理器
@@ -81,7 +81,7 @@ public abstract class ConfigurationHandler{
 	
 	private void setFieldIfConfigValueExist(YamlConfiguration config,Field f,String key) {
 		try {
-			f.set(this, ConfigurationSerializationHelper.deserialize(config, key).orElseGet(()->defaults.get(key)));
+			f.set(this, config.get(key,defaults.get(key)));
 		} catch (IllegalArgumentException | IllegalAccessException e) {}
 	}
 	
@@ -100,14 +100,14 @@ public abstract class ConfigurationHandler{
 				f.setAccessible(true);
 				
 				ConfigItem anno = f.getDeclaredAnnotation(ConfigItem.class);
-				if(anno==null) 
+				if(anno == null) 
 					continue;
 				
-				String key = anno.value().isEmpty()?f.getName():anno.value();
+				String key = Strings.isNullOrEmpty(anno.value())?f.getName():anno.value();
 				try {
-					ConfigurationSerializationHelper.serialize(config, key, f.get(this));
+					config.set(key, f.get(this));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					ConfigurationSerializationHelper.serialize(config, key, defaults.get(anno.value()));
+					config.set(key, defaults.get(anno.value()));
 				}
 			}
 			
