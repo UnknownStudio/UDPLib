@@ -19,6 +19,7 @@ public class RequestConfirm extends RequestBase<Boolean>{
 
 	@Override
 	public void start() {
+		super.start();
 		PluginUtils.registerEvents(listener, getConversation().getPlugin());
 		getConversation().getPlayer().sendMessage(getPrompt());
 		setStarted(true);
@@ -26,6 +27,7 @@ public class RequestConfirm extends RequestBase<Boolean>{
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
 	}
 

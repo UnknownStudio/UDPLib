@@ -19,6 +19,7 @@ public class RequestString extends RequestBase<String>{
 
 	@Override
 	public void start() {
+		super.start();
 		PluginUtils.registerEvents(listener, getConversation().getPlugin());
 		getConversation().getPlayer().sendMessage(getPrompt());
 		setStarted(true);
@@ -26,6 +27,7 @@ public class RequestString extends RequestBase<String>{
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
 	}
 

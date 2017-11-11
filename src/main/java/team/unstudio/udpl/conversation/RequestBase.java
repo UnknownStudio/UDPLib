@@ -21,6 +21,16 @@ public abstract class RequestBase<T> implements Request<T>{
 	private boolean completed = false;
 
 	@Override
+	public void start() {
+		startTimeoutTask();
+	}
+	
+	@Override
+	public void dispose() {
+		cancelTimeoutTask();
+	}
+	
+	@Override
 	public boolean isStarted() {
 		return started;
 	}
@@ -107,24 +117,18 @@ public abstract class RequestBase<T> implements Request<T>{
 	
 	protected void setStarted(boolean started){
 		this.started = started;
-		if(started)
-			callStart();
+		if(started && onStart != null)
+			onStart.accept(this);
 	}
 	
 	protected void setCompleted(boolean completed){
 		this.completed = completed;
-		if(completed)
-			callComplete();
-	}
-	
-	protected void callStart(){
-		getOnStart().accept(this);
-	}
-	
-	protected void callComplete(){
-		dispose();
-		getOnComplete().accept(this);
-		getConversation().next();
+		if(completed){
+			dispose();
+			if(onComplete != null)
+				onComplete.accept(this);
+			getConversation().next();
+		}
 	}
 	
 	protected boolean validate(T value){
