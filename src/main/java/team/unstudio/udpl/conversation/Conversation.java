@@ -15,6 +15,14 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.common.collect.Lists;
 
+import team.unstudio.udpl.conversation.request.RequestBigDecimal;
+import team.unstudio.udpl.conversation.request.RequestBigInteger;
+import team.unstudio.udpl.conversation.request.RequestBlock;
+import team.unstudio.udpl.conversation.request.RequestConfirm;
+import team.unstudio.udpl.conversation.request.RequestDouble;
+import team.unstudio.udpl.conversation.request.RequestEntity;
+import team.unstudio.udpl.conversation.request.RequestInteger;
+import team.unstudio.udpl.conversation.request.RequestString;
 import team.unstudio.udpl.util.PluginUtils;
 
 public class Conversation {
@@ -65,11 +73,19 @@ public class Conversation {
 		return currentRequest;
 	}
 	
+	public int size(){
+		return requests.size();
+	}
+	
+	public boolean isEmpty(){
+		return requests.isEmpty();
+	}
+	
 	public Conversation start(){
 		if(isStarted())
 			return this;
 		
-		if(requests.isEmpty())
+		if(isEmpty())
 			return this;
 		
 		if(!player.isOnline())
@@ -164,5 +180,85 @@ public class Conversation {
 			
 			cancel();
 		}
+	}
+	
+	public Conversation requestString(String prompt){
+		addRequest(new RequestString().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestString(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestString().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestInteger(String prompt){
+		addRequest(new RequestInteger().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestInteger(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestInteger().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestDouble(String prompt){
+		addRequest(new RequestDouble().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestDouble(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestDouble().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestConfirm(String prompt){
+		addRequest(new RequestConfirm().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestConfirm(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestConfirm().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestBigInteger(String prompt){
+		addRequest(new RequestBigInteger().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestBigInteger(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestBigInteger().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestBigDecimal(String prompt){
+		addRequest(new RequestBigDecimal().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestBigDecimal(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestBigDecimal().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestEntity(String prompt){
+		addRequest(new RequestEntity().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestEntity(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestEntity().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
+	}
+	
+	public Conversation requestBlock(String prompt){
+		addRequest(new RequestBlock().setPrompt(prompt));
+		return this;
+	}
+	
+	public Conversation requestBlock(String prompt,long timeout,String timeoutMessage){
+		addRequest(new RequestBlock().setPrompt(prompt).setTimeout(timeout).setTimeoutMessage(timeoutMessage));
+		return this;
 	}
 }

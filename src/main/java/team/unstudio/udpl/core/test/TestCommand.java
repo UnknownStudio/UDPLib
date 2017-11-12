@@ -16,6 +16,7 @@ import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
+import team.unstudio.udpl.conversation.Conversation;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
@@ -121,6 +122,23 @@ public final class TestCommand {
 		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
 		nmsSpawner.setSpawnCount((short) 10);
 		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
+	}
+	
+	@Command(value = "conversation", senders = Player.class)
+	public void conversation(Player sender){
+		new Conversation(UDPLib.getInstance(), sender)
+				.requestString("请在聊天框输入一个消息.")
+				.requestBlock("请点击一个方块.")
+				.requestEntity("请点击一个实体.")
+				.requestBigDecimal("请输入一个数字.")
+				.requestConfirm("请在10秒内输入confirm以确认操作.", 10, "操作已超时!")
+				.setOnComplete(con->{
+					con.getPlayer().sendMessage(con.getRequest(0).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(1).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(2).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(3).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(4).getResult().get().toString());
+				}).start();
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")
