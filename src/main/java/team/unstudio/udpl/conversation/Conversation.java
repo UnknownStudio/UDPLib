@@ -51,9 +51,10 @@ public class Conversation {
 		return player;
 	}
 	
-	public void addRequest(Request<?> request){
+	public Conversation addRequest(Request<?> request){
 		request.setConversation(this);
 		requests.add(request);
+		return this;
 	}
 	
 	public Request<?> getRequest(int index){
@@ -64,15 +65,15 @@ public class Conversation {
 		return currentRequest;
 	}
 	
-	public void start(){
+	public Conversation start(){
 		if(isStarted())
-			return;
+			return this;
 		
 		if(requests.isEmpty())
-			return;
+			return this;
 		
 		if(!player.isOnline())
-			return;
+			return this;
 		
 		state = ConversationState.STARTED;
 		
@@ -81,6 +82,7 @@ public class Conversation {
 		currentRequestIndex = 0;
 		currentRequest = requests.get(currentRequestIndex);
 		currentRequest.start();
+		return this;
 	}
 	
 	public void cancel(){
@@ -140,16 +142,18 @@ public class Conversation {
 		return onCancel;
 	}
 
-	public void setOnCancel(Consumer<Conversation> onCancel) {
+	public Conversation setOnCancel(Consumer<Conversation> onCancel) {
 		this.onCancel = onCancel;
+		return this;
 	}
 
 	public Consumer<Conversation> getOnComplete() {
 		return onComplete;
 	}
 
-	public void setOnComplete(Consumer<Conversation> onComplete) {
+	public Conversation setOnComplete(Consumer<Conversation> onComplete) {
 		this.onComplete = onComplete;
+		return this;
 	}
 	
 	private class ConversationListener implements Listener{

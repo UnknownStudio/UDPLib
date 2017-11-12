@@ -16,43 +16,43 @@ public interface Request<T> {
 	
 	String getPrompt();
 	
-	void setPrompt(String prompt);
+	Request<T> setPrompt(String prompt);
 	
 	Optional<T> getResult();
+	
+	Consumer<Request<T>> getOnStart();
+	
+	Request<T> setOnStart(Consumer<Request<T>> onStart);
+	
+	Consumer<Request<T>> getOnComplete();
+	
+	Request<T> setOnComplete(Consumer<Request<T>> onComplete);
+	
+	BiPredicate<Request<T>,T> getValidator();
+	
+	Request<T> setValidator(BiPredicate<Request<T>,T> validator);
+	
+	String getValidateFailedMessage();
+	
+	Request<T> setValidateFailedMessage(String message);
+	
+	Consumer<Request<T>> getOnValidateFailed();
+	
+	Request<T> setOnValidateFailed(Consumer<Request<T>> onValidateFailed);
+	
+	long getTimeout();
+	
+	Request<T> setTimeout(long timeout);
+	
+	String getTimeoutMessage();
+	
+	Request<T> setTimeoutMessage(String message);
+	
+	Consumer<Request<T>> getOnTimeout();
+	
+	Request<T> setOnTimeout(Consumer<Request<T>> onTimeout);
 	
 	Conversation getConversation();
 	
 	void setConversation(Conversation conversation);
-	
-	Consumer<Request<T>> getOnStart();
-	
-	void setOnStart(Consumer<Request<T>> onStart);
-	
-	Consumer<Request<T>> getOnComplete();
-	
-	void setOnComplete(Consumer<Request<T>> onComplete);
-	
-	BiPredicate<Request<T>,T> getValidator();
-	
-	void setValidator(BiPredicate<Request<T>,T> validator);
-	
-	String getValidateFailedMessage();
-	
-	void setValidateFailedMessage(String message);
-	
-	Consumer<Request<T>> getOnValidateFailed();
-	
-	void setOnValidateFailed(Consumer<Request<T>> onValidateFailed);
-	
-	long getTimeout();
-	
-	void setTimeout(long timeout);
-	
-	String getTimeoutMessage();
-	
-	void setTimeoutMessage(String message);
-	
-	Consumer<Request<T>> getOnTimeout();
-	
-	void setOnTimeout(Consumer<Request<T>> onTimeout);
 }

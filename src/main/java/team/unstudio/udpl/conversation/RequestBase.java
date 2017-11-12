@@ -52,8 +52,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setPrompt(String prompt) {
+	public Request<T> setPrompt(String prompt) {
 		this.prompt = prompt;
+		return this;
 	}
 
 	@Override
@@ -72,8 +73,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setOnStart(Consumer<Request<T>> onStart) {
+	public Request<T> setOnStart(Consumer<Request<T>> onStart) {
 		this.onStart = onStart;
+		return this;
 	}
 
 	@Override
@@ -82,8 +84,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setOnComplete(Consumer<Request<T>> onComplete) {
+	public Request<T> setOnComplete(Consumer<Request<T>> onComplete) {
 		this.onComplete = onComplete;
+		return this;
 	}
 
 	@Override
@@ -92,8 +95,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setValidator(BiPredicate<Request<T>, T> validator) {
+	public Request<T> setValidator(BiPredicate<Request<T>, T> validator) {
 		this.validator = validator;
+		return this;
 	}
 
 	@Override
@@ -102,8 +106,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setTimeout(long timeout) {
+	public Request<T> setTimeout(long timeout) {
 		this.timeout = timeout;
+		return this;
 	}
 	
 	@Override
@@ -112,8 +117,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setValidateFailedMessage(String validateFailedMessage) {
+	public Request<T> setValidateFailedMessage(String validateFailedMessage) {
 		this.validateFailedMessage = validateFailedMessage;
+		return this;
 	}
 
 	@Override
@@ -122,8 +128,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 	
 	@Override
-	public void setTimeoutMessage(String timeoutMessage) {
+	public Request<T> setTimeoutMessage(String timeoutMessage) {
 		this.timeoutMessage = timeoutMessage;
+		return this;
 	}
 
 	@Override
@@ -132,8 +139,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setOnValidateFailed(Consumer<Request<T>> onValidateFailed) {
+	public Request<T> setOnValidateFailed(Consumer<Request<T>> onValidateFailed) {
 		this.onValidateFailed = onValidateFailed;
+		return this;
 	}
 
 	@Override
@@ -142,8 +150,9 @@ public abstract class RequestBase<T> implements Request<T>{
 	}
 
 	@Override
-	public void setOnTimeout(Consumer<Request<T>> onTimeout) {
+	public Request<T> setOnTimeout(Consumer<Request<T>> onTimeout) {
 		this.onTimeout = onTimeout;
+		return this;
 	}
 	
 	protected void startTimeoutTask(){
