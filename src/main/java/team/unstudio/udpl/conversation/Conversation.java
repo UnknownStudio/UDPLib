@@ -60,7 +60,6 @@ public class Conversation {
 	}
 	
 	public Conversation addRequest(Request<?> request){
-		request.setConversation(this);
 		requests.add(request);
 		return this;
 	}
@@ -97,6 +96,7 @@ public class Conversation {
 		
 		currentRequestIndex = 0;
 		currentRequest = requests.get(currentRequestIndex);
+		currentRequest.setConversation(this);
 		currentRequest.start();
 		return this;
 	}
@@ -133,6 +133,7 @@ public class Conversation {
 		}
 		
 		currentRequest = requests.get(currentRequestIndex);
+		currentRequest.setConversation(this);
 		currentRequest.start();
 	}
 	
