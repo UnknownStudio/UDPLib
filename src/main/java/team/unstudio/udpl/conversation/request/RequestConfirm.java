@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
@@ -29,6 +30,7 @@ public class RequestConfirm extends RequestBase<Boolean>{
 	public void dispose() {
 		super.dispose();
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
+		PlayerCommandPreprocessEvent.getHandlerList().unregister(listener);
 	}
 
 	@Override
@@ -48,6 +50,17 @@ public class RequestConfirm extends RequestBase<Boolean>{
 			
 			result = "confirm".equals(event.getMessage().toLowerCase());
 			Bukkit.getScheduler().runTask(getConversation().getPlugin(), ()->setCompleted(true));
+		}
+		
+		@EventHandler(priority = EventPriority.LOWEST)
+		public void onCommand(PlayerCommandPreprocessEvent event) {
+			if(!event.getPlayer().equals(getConversation().getPlayer()))
+				return;
+			
+			event.setCancelled(true);
+			
+			result = "/confirm".equals(event.getMessage().toLowerCase());
+			setCompleted(true);
 		}
 	}
 }
