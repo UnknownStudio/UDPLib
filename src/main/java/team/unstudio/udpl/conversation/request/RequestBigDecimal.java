@@ -45,6 +45,8 @@ public class RequestBigDecimal extends RequestBase<BigDecimal>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			try{
 				BigDecimal invalidate = new BigDecimal(event.getMessage());
 				

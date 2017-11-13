@@ -111,7 +111,8 @@ public class Conversation {
 			currentRequest.dispose();
 		
 		dispose();
-		getOnCancel().accept(this);
+		if(onCancel != null)
+			onCancel.accept(this);
 	}
 	
 	public void next(){
@@ -126,7 +127,8 @@ public class Conversation {
 		
 		if(++currentRequestIndex >= requests.size()){
 			dispose();
-			getOnComplete().accept(this);
+			if(onComplete != null)
+				onComplete.accept(this);
 			return;
 		}
 		

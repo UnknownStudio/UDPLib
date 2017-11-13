@@ -44,6 +44,8 @@ public class RequestDouble extends RequestBase<Double>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			try{
 				Double invalidate = Double.valueOf(event.getMessage());
 				

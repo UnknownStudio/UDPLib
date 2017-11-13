@@ -44,6 +44,8 @@ public class RequestInteger extends RequestBase<Integer>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			try{
 				Integer invalidate = Integer.valueOf(event.getMessage());
 				

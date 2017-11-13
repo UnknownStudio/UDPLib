@@ -44,6 +44,8 @@ public class RequestConfirm extends RequestBase<Boolean>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			result = "confirm".equals(event.getMessage().toLowerCase());
 			Bukkit.getScheduler().runTask(getConversation().getPlugin(), ()->setCompleted(true));
 		}

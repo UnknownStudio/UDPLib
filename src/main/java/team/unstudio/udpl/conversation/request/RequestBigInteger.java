@@ -45,6 +45,8 @@ public class RequestBigInteger extends RequestBase<BigInteger>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			try{
 				BigInteger invalidate = new BigInteger(event.getMessage());
 				

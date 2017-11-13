@@ -44,6 +44,8 @@ public class RequestString extends RequestBase<String>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			if(!validate(event.getMessage()))
 				return;
 				
