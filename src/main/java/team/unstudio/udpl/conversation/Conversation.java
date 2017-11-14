@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
@@ -59,27 +60,47 @@ public class Conversation {
 		return player;
 	}
 	
+	/**
+	 * 添加请求
+	 */
 	public Conversation addRequest(Request<?> request){
 		requests.add(request);
 		return this;
 	}
 	
+	/**
+	 * 获取请求
+	 * @throws ArrayIndexOutOfBoundsException
+	 */
 	public Request<?> getRequest(int index){
 		return requests.get(index);
 	}
 	
+	/**
+	 * 获取当前请求
+	 */
+	@Nullable
 	public Request<?> getCurrentRequest(){
 		return currentRequest;
 	}
 	
+	/**
+	 * 请求数量
+	 */
 	public int size(){
 		return requests.size();
 	}
 	
+	/**
+	 * 请求队列是否为空
+	 */
 	public boolean isEmpty(){
 		return requests.isEmpty();
 	}
 	
+	/**
+	 * 开始交流
+	 */
 	public Conversation start(){
 		if(isStarted())
 			return this;
@@ -101,6 +122,9 @@ public class Conversation {
 		return this;
 	}
 	
+	/**
+	 * 取消交流
+	 */
 	public void cancel(){
 		if(isStopped())
 			return;
@@ -115,6 +139,10 @@ public class Conversation {
 			onCancel.accept(this);
 	}
 	
+	/**
+	 * 注：内部方法，不建议直接调用<br>
+	 * inner method<br>
+	 */
 	public void next(){
 		if(isStopped())
 			return;
@@ -141,35 +169,61 @@ public class Conversation {
 		PlayerQuitEvent.getHandlerList().unregister(listener);
 	}
 	
+	/**
+	 * 交流是否已开始
+	 */
 	public boolean isStarted() {
 		return state != ConversationState.UNSTARTED;
 	}
 
+	/**
+	 * 交流是否已取消
+	 */
 	public boolean isCancelled() {
 		return state == ConversationState.CANCELLED;
 	}
 
+	/**
+	 * 交流是否已完成
+	 */
 	public boolean isCompleted() {
 		return state == ConversationState.COMPLETED;
 	}
 	
+	/**
+	 * 交流是否已停止
+	 */
 	public boolean isStopped(){
 		return isCompleted() || isCancelled();
 	}
 
+	/**
+	 * 获取交流取消监听器
+	 */
+	@Nullable
 	public Consumer<Conversation> getOnCancel() {
 		return onCancel;
 	}
 
+	/**
+	 * 设置交流取消监听器
+	 */
 	public Conversation setOnCancel(Consumer<Conversation> onCancel) {
 		this.onCancel = onCancel;
 		return this;
 	}
 
+	/**
+	 * 获取交流完成监听器
+	 */
+	@Nullable
 	public Consumer<Conversation> getOnComplete() {
 		return onComplete;
 	}
 
+	/**
+	 * 设置交流完成监听器
+	 */
 	public Conversation setOnComplete(Consumer<Conversation> onComplete) {
 		this.onComplete = onComplete;
 		return this;
