@@ -20,6 +20,7 @@ import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.event.FakeSignUpdateEvent;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 public interface SignUtils {
@@ -28,15 +29,12 @@ public interface SignUtils {
      ProtocolManager manager = ProtocolLibrary.getProtocolManager();
      PacketType BLOCK_CHANGE = PacketType.Play.Server.BLOCK_CHANGE;
      PacketType UPDATE_SIGN = PacketType.Play.Server.TILE_ENTITY_DATA;
-     PacketType OPEN_SIGN_ENTITY = PacketType.Play.Server.OPEN_SIGN_EDITOR;
     
      Set<Player> OPENED_FAKE_SIGN_PLAYERS = Sets.newHashSet();
     
      static void initSignUtils(){
          CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
          manager.addPacketListener(new PacketListener() {
-        	 
-        	 private final BlockPosition zero = new BlockPosition(0, 0, 0);
 
              @Override
              public void onPacketSending(PacketEvent arg0) {}
@@ -49,7 +47,7 @@ public interface SignUtils {
                  OPENED_FAKE_SIGN_PLAYERS.remove(player);
                  PacketContainer container = arg0.getPacket();
                  BlockPosition position = container.getBlockPositionModifier().read(0);
-                 if(!position.equals(zero))
+                 if(position.getY() != 0)
                 	 return;
                  String line1 = container.getStrings().read(0);
                  String line2 = container.getStrings().read(1);
@@ -79,72 +77,60 @@ public interface SignUtils {
     /**
      * If you want to receive sign update, to see {@link team.unstudio.udpl.event.FakeSignUpdateEvent}
      */
-    static Result open(Player player, String[] lines){
+    @SuppressWarnings("deprecation")
+	static Result open(Player player, String[] lines){
         Location loc = player.getLocation();
-        int x = loc.getBlockX();
-        int y = 0;
-        int z = loc.getBlockZ();
-        BlockPosition blockPosition = new BlockPosition(x, y, z);
-
-        if (version.startsWith("1.10.")) {
-            try {
-                PacketContainer e = manager.createPacket(BLOCK_CHANGE);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                e.getBlockData().write(0, WrappedBlockData.createData(Material.SIGN_POST));
-                manager.sendServerPacket(player, e);
-                e = manager.createPacket(UPDATE_SIGN);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                e.getChatComponentArrays().write(0, new WrappedChatComponent[]{WrappedChatComponent.fromText(lines[0]), WrappedChatComponent.fromText(lines[1]), WrappedChatComponent.fromText(lines[2]), WrappedChatComponent.fromText(lines[3])});
-                manager.sendServerPacket(player, e);
-                e = manager.createPacket(OPEN_SIGN_ENTITY);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                manager.sendServerPacket(player, e);
-                OPENED_FAKE_SIGN_PLAYERS.add(player);
-                return Result.success();
-            } catch (Exception var11) {
-            	return Result.failure(var11);
-            }
-        } else if (version.startsWith("1.8.")) {
-            try {
-                PacketContainer e = manager.createPacket(BLOCK_CHANGE);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                e.getBlockData().write(0, WrappedBlockData.createData(Material.SIGN_POST));
-                manager.sendServerPacket(player, e);
-                e = manager.createPacket(PacketType.Play.Server.UPDATE_SIGN);
-                e.getChatComponentArrays().write(0, new WrappedChatComponent[]{WrappedChatComponent.fromText(lines[0]), WrappedChatComponent.fromText(lines[1]), WrappedChatComponent.fromText(lines[2]), WrappedChatComponent.fromText(lines[3])});
-                e.getBlockPositionModifier().write(0, blockPosition);
-                manager.sendServerPacket(player, e);
-                e = manager.createPacket(OPEN_SIGN_ENTITY);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                manager.sendServerPacket(player, e);
-                OPENED_FAKE_SIGN_PLAYERS.add(player);
-                return Result.success();
-            } catch (Exception var12) {
-            	return Result.failure(var12);
-            }
-        }else {
-            try {
-                PacketContainer e = manager.createPacket(BLOCK_CHANGE);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                e.getBlockData().write(0, WrappedBlockData.createData(Material.SIGN_POST));
-                manager.sendServerPacket(player, e);
-                e = manager.createPacket(UPDATE_SIGN);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                e.getIntegers().write(0, Integer.valueOf(9));
-                NbtCompound nbt = (NbtCompound) e.getNbtModifier().read(0);
-                for (int i = 0; i < 4; i++) {
-                    nbt.put("Text" + (i + 1), "{\"extra\":[{\"text\":\"" + lines[i] + "\"}],\"text\":\"\"}");
-                }
-                e.getNbtModifier().write(0, nbt);
-                manager.sendServerPacket(player, e);
-                e = manager.createPacket(OPEN_SIGN_ENTITY);
-                e.getBlockPositionModifier().write(0, blockPosition);
-                manager.sendServerPacket(player, e);
-                OPENED_FAKE_SIGN_PLAYERS.add(player);
-                return Result.success();
-            } catch (Exception var12) {
-            	return Result.failure(var12);
-            }
-        }
+        BlockPosition blockPosition = new BlockPosition(loc.getBlockX(), 0, loc.getBlockZ());
+        
+        PacketContainer container = manager.createPacket(BLOCK_CHANGE);
+        container.getBlockPositionModifier().write(0, blockPosition);
+        container.getBlockData().write(0, WrappedBlockData.createData(Material.SIGN_POST));
+        try {
+			manager.sendServerPacket(player, container);
+		} catch (InvocationTargetException e) {
+			return Result.failure(e);
+		}
+        
+		if (version.startsWith("1.10.")) {
+			container = manager.createPacket(UPDATE_SIGN);
+			container.getBlockPositionModifier().write(0, blockPosition);
+			container.getChatComponentArrays().write(0,
+					new WrappedChatComponent[] { WrappedChatComponent.fromText(lines[0]),
+							WrappedChatComponent.fromText(lines[1]), WrappedChatComponent.fromText(lines[2]),
+							WrappedChatComponent.fromText(lines[3]) });
+		} else if (version.startsWith("1.8.")) {
+			container = manager.createPacket(PacketType.Play.Server.UPDATE_SIGN);
+			container.getChatComponentArrays().write(0,
+					new WrappedChatComponent[] { WrappedChatComponent.fromText(lines[0]),
+							WrappedChatComponent.fromText(lines[1]), WrappedChatComponent.fromText(lines[2]),
+							WrappedChatComponent.fromText(lines[3]) });
+			container.getBlockPositionModifier().write(0, blockPosition);
+		} else {
+			container = manager.createPacket(UPDATE_SIGN);
+			container.getBlockPositionModifier().write(0, blockPosition);
+			container.getIntegers().write(0, Integer.valueOf(9));
+			NbtCompound nbt = (NbtCompound) container.getNbtModifier().read(0);
+			for (int i = 0; i < 4; i++) {
+				nbt.put("Text" + (i + 1), "{\"extra\":[{\"text\":\"" + lines[i] + "\"}],\"text\":\"\"}");
+			}
+			container.getNbtModifier().write(0, nbt);
+		}
+			
+		try {
+			manager.sendServerPacket(player, container);
+		} catch (InvocationTargetException e) {
+			return Result.failure(e);
+		}
+		
+		container = manager.createPacket(PacketType.Play.Server.OPEN_SIGN_EDITOR);
+		container.getBlockPositionModifier().write(0, blockPosition);
+		try {
+			manager.sendServerPacket(player, container);
+		} catch (InvocationTargetException e) {
+			return Result.failure(e);
+		}
+		
+		OPENED_FAKE_SIGN_PLAYERS.add(player);
+		return Result.success();
     }
 }
