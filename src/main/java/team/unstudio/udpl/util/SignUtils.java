@@ -22,9 +22,6 @@ import team.unstudio.udpl.event.FakeSignUpdateEvent;
 
 import java.util.Set;
 
-/**
- * Created by trychen on 17/7/11.
- */
 public interface SignUtils {
 	
      String version = ServerUtils.getMinecraftVersion();
@@ -38,6 +35,8 @@ public interface SignUtils {
      static void initSignUtils(){
          CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
          manager.addPacketListener(new PacketListener() {
+        	 
+        	 private final BlockPosition zero = new BlockPosition(0, 0, 0);
 
              @Override
              public void onPacketSending(PacketEvent arg0) {}
@@ -47,14 +46,17 @@ public interface SignUtils {
                  Player player = arg0.getPlayer();
                  if(!OPENED_FAKE_SIGN_PLAYERS.contains(player))
                      return;
+                 OPENED_FAKE_SIGN_PLAYERS.remove(player);
                  PacketContainer container = arg0.getPacket();
+                 BlockPosition position = container.getBlockPositionModifier().read(0);
+                 if(!position.equals(zero))
+                	 return;
                  String line1 = container.getStrings().read(0);
                  String line2 = container.getStrings().read(1);
                  String line3 = container.getStrings().read(2);
                  String line4 = container.getStrings().read(3);
-                 Bukkit.getPluginManager()
-                         .callEvent(new FakeSignUpdateEvent(player, new String[] { line1, line2, line3, line4 }));
-                 OPENED_FAKE_SIGN_PLAYERS.remove(player);
+                 Bukkit.getScheduler().runTask(UDPLib.getInstance(), ()->Bukkit.getPluginManager()
+                         .callEvent(new FakeSignUpdateEvent(player, new String[] { line1, line2, line3, line4 })));
              }
 
              @Override
