@@ -1,9 +1,10 @@
-package team.unstudio.udpl.core;
+package team.unstudio.udpl.core.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import team.unstudio.udpl.command.anno.Command;
+import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.ReflectionUtils;
 import team.unstudio.udpl.util.ServerUtils;
 

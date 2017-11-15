@@ -11,6 +11,8 @@ import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.bungeecord.ServerLocation;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
+import team.unstudio.udpl.core.command.PluginManager;
+import team.unstudio.udpl.core.command.UDPLCommand;
 import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.core.util.VersionCheck;
 import team.unstudio.udpl.nms.NmsHelper;

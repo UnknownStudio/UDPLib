@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core;
+package team.unstudio.udpl.core.command;
 
 import java.io.File;
 
