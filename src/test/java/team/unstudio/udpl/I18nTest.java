@@ -2,8 +2,9 @@ package team.unstudio.udpl;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import team.unstudio.udpl.i18n.ClassLoaderI18n;
+
 import team.unstudio.udpl.i18n.SLangI18n;
+import team.unstudio.udpl.i18n.YamlI18n;
 import team.unstudio.udpl.i18n.slang.SLangAlignment;
 
 import java.util.Locale;
@@ -11,7 +12,7 @@ import java.util.Locale;
 public class I18nTest {
     @Test
     public void testClassLoaderI18n(){
-        ClassLoaderI18n i18n = new ClassLoaderI18n(I18nTest.class.getClassLoader(), "lang/simple/");
+        YamlI18n i18n = YamlI18n.fromClassLoader(I18nTest.class.getClassLoader(), "lang/simple/");
         i18n.setDefaultLocale(Locale.US);
 
         assertEquals("Internationalization %s.", i18n.localize("test"));
