@@ -2,7 +2,7 @@ package team.unstudio.udpl;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import team.unstudio.udpl.i18n.ClassLoaderI18n;
+
 import team.unstudio.udpl.i18n.SLangI18n;
 import team.unstudio.udpl.i18n.slang.SLangAlignment;
 

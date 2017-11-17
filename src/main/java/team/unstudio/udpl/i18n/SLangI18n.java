@@ -102,6 +102,11 @@ public class SLangI18n implements I18n {
         return null;
     }
 
+    /**
+     * Create Slang with separator "\\|"
+     * @param file
+     * @return
+     */
     public static SLangI18n fromFile(@Nonnull File file) {
         return fromFile("\\|", file);
     }
