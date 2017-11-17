@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.HumanEntity;
@@ -18,7 +21,8 @@ public class Container implements Cloneable,ConfigurationSerializable{
 	
 	private final Inventory inventory;
 	
-	public Container(Inventory inventory) {
+	public Container(@Nonnull Inventory inventory) {
+		Validate.notNull(inventory);
 		this.inventory = inventory;
 	}
 	
@@ -49,6 +53,18 @@ public class Container implements Cloneable,ConfigurationSerializable{
 	
 	public final void open(HumanEntity player){
 		player.openInventory(inventory);
+	}
+	
+	@Override
+	public Container clone(){
+		Container container;
+		if(inventory.getType() == InventoryType.CHEST){
+			container = new Container(Bukkit.createInventory(inventory.getHolder(), inventory.getSize(), inventory.getTitle()));
+		}else{
+			container = new Container(Bukkit.createInventory(inventory.getHolder(), inventory.getType(), inventory.getTitle()));
+		}
+		container.getInventory().setContents(inventory.getContents());
+		return container;
 	}
 	
 	@Override

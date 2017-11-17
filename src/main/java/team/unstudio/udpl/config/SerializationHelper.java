@@ -4,7 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
@@ -13,12 +14,12 @@ import com.google.common.collect.Maps;
 
 public interface SerializationHelper {
 
-	static Map<String,Object> serialize(ConfigurationSerializable obj){
+	static Map<String,Object> serialize(@Nullable ConfigurationSerializable obj){
 		Validate.notNull(obj);
 		
 		Map<String,Object> map = Maps.newLinkedHashMap();
 		Class<?> clazz = obj.getClass();
-		while(ArrayUtils.contains(clazz.getInterfaces(), ConfigurationSerializable.class)){
+		while(ConfigurationSerializable.class.isAssignableFrom(clazz)){
 			for(Field field:clazz.getDeclaredFields()){
 				int modifiers = field.getModifiers();
 				if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))
@@ -44,12 +45,12 @@ public interface SerializationHelper {
 		return map;
 	}
 	
-	static <T extends ConfigurationSerializable> T deserialize(T obj, Map<String,Object> map){
+	static <T> T deserialize(T obj, Map<String,Object> map){
 		Validate.notNull(obj);
 		Validate.notNull(map);
 		
 		Class<?> clazz = obj.getClass();
-		while(ArrayUtils.contains(clazz.getInterfaces(), ConfigurationSerializable.class)){
+		while(ConfigurationSerializable.class.isAssignableFrom(clazz)){
 			for(Field field:clazz.getDeclaredFields()){
 				int modifiers = field.getModifiers();
 				if(Modifier.isFinal(modifiers)||Modifier.isStatic(modifiers)||Modifier.isTransient(modifiers))

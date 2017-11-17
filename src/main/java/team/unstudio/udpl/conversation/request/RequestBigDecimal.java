@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
@@ -30,6 +31,7 @@ public class RequestBigDecimal extends RequestBase<BigDecimal>{
 	public void dispose() {
 		super.dispose();
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
+		PlayerCommandPreprocessEvent.getHandlerList().unregister(listener);
 	}
 
 	@Override
@@ -45,6 +47,8 @@ public class RequestBigDecimal extends RequestBase<BigDecimal>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			try{
 				BigDecimal invalidate = new BigDecimal(event.getMessage());
 				
@@ -53,6 +57,26 @@ public class RequestBigDecimal extends RequestBase<BigDecimal>{
 				
 				result = invalidate;
 				Bukkit.getScheduler().runTask(getConversation().getPlugin(), () -> setCompleted(true));
+			}catch(NumberFormatException e){
+				return;
+			}
+		}
+		
+		@EventHandler(priority = EventPriority.LOWEST)
+		public void onCommand(PlayerCommandPreprocessEvent event) {
+			if(!event.getPlayer().equals(getConversation().getPlayer()))
+				return;
+			
+			event.setCancelled(true);
+			
+			try{
+				BigDecimal invalidate = new BigDecimal(event.getMessage());
+				
+				if(!validate(invalidate))
+					return;
+				
+				result = invalidate;
+				setCompleted(true);
 			}catch(NumberFormatException e){
 				return;
 			}

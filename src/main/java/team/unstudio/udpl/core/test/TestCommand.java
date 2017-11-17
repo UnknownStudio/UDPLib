@@ -3,6 +3,7 @@ package team.unstudio.udpl.core.test;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -10,12 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import net.md_5.bungee.chat.ComponentSerializer;
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.command.anno.Alias;
 import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
+import team.unstudio.udpl.conversation.Conversation;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
@@ -52,6 +55,16 @@ public final class TestCommand {
 						@Required int y2,
 						@Required int z2){
 		TestLoader.areaManager.addArea(new Area(new Location(sender.getWorld(), x1, y1, z1), new Location(sender.getWorld(), x2, y2, z2)));
+	}
+	
+	@Command(value = "send", senders = Player.class)
+	public void send(Player sender,@Required String message){
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+	}
+	
+	@Command(value = "sendjson", senders = Player.class)
+	public void sendjson(Player sender,@Required String message){
+		sender.spigot().sendMessage(ComponentSerializer.parse(message));
 	}
 	
 	@Command(value = "language", senders = Player.class)
@@ -121,6 +134,23 @@ public final class TestCommand {
 		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
 		nmsSpawner.setSpawnCount((short) 10);
 		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
+	}
+	
+	@Command(value = "conversation", senders = Player.class)
+	public void conversation(Player sender){
+		new Conversation(UDPLib.getInstance(), sender)
+				.requestString("请在聊天框输入一个消息.")
+				.requestBlock("请点击一个方块.")
+				.requestEntity("请点击一个实体.")
+				.requestBigDecimal("请输入一个数字.")
+				.requestConfirm("请在10秒内输入confirm以确认操作.", 10, "操作已超时!")
+				.setOnComplete(con->{
+					con.getPlayer().sendMessage(con.getRequest(0).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(1).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(2).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(3).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(4).getResult().get().toString());
+				}).start();
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")

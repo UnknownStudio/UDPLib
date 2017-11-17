@@ -1,6 +1,7 @@
 package team.unstudio.udpl.ui;
 
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import javax.annotation.Nonnull;
 
@@ -25,26 +26,18 @@ import team.unstudio.udpl.core.UDPLib;
 /**
  * 界面的包装类
  */
-public class UI implements Listener,Cloneable{
-	/**
-	 * 界面物品栏
-	 */
-	private final Inventory inventory;
+public class UI implements Cloneable{
 
-	/**
-	 * 槽列表
-	 */
+	private final Inventory inventory;
 	private final Set<Slot> slots;
 
-	/**
-	 * 可否操作物品栏
-	 */
+	private final UIListener listener = new UIListener();
+	
 	private boolean allowOperateInventory = false;
-
-	/**
-	 * 可否操作玩家背包
-	 */
 	private boolean allowOperateBackpack = false;
+	private BiConsumer<UI, HumanEntity> onOpen;
+	private BiConsumer<UI, HumanEntity> onClose;
+
 
 	public UI(Inventory inventory) {
 		this.inventory = inventory;
@@ -77,22 +70,21 @@ public class UI implements Listener,Cloneable{
 	/**
 	 * 打开
 	 */
-	public void open(final HumanEntity player){
+	public void open(HumanEntity player){
 		inventory.clear();
-		for(Slot b:slots) b.updateItem();
-		registerListener();
+		for(Slot b:slots) 
+			b.updateItem();
+		callOnOpen(player);
+		listener.registerListener();
 		player.openInventory(inventory);
 	}
 	
 	/**
 	 * 关闭
 	 */
-	public void close(Player player){
-		if(player.getOpenInventory().getTopInventory().equals(inventory)){
+	public void close(HumanEntity player){
+		if(player.getOpenInventory().getTopInventory().equals(inventory))
 			player.closeInventory();
-			if(inventory.getViewers().size()<=0)
-				unregisterListener();
-		}
 	}
 	
 	/**
@@ -151,58 +143,6 @@ public class UI implements Listener,Cloneable{
 	}
 
 	/**
-	 * 监听点击事件
-	 */
-	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
-	public void onClick(InventoryClickEvent event){
-		if(event.getClickedInventory()!=null&&event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
-			for(Slot b:slots){
-				if(b.getSlot()==event.getRawSlot()){
-					b.onClick(event);
-					if(!b.isOperable()){
-						event.setCancelled(true);
-						((Player)event.getWhoClicked()).updateInventory();
-					}
-					return;
-				}
-			}
-		}
-		if(event.getSlot()==event.getRawSlot()&&!allowOperateInventory||event.getSlot()!=event.getRawSlot()&&!allowOperateBackpack){
-			event.setCancelled(true);
-			((Player)event.getWhoClicked()).updateInventory();
-		}
-	}
-
-	/**
-	 * 监听关闭事件
-	 */
-	@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
-	public void onClose(InventoryCloseEvent event){
-		if(event.getInventory().equals(inventory)&&inventory.getViewers().size()<=1)
-			unregisterListener();
-	}
-
-	/**
-	 * 克隆一个界面
-	 */
-	@Override
-	public UI clone(){
-		UI ui;
-		if(inventory.getType()==InventoryType.CHEST){
-			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getSize(), inventory.getTitle()));
-			for(Slot b:slots){
-				ui.addSlot(b.clone());
-			}
-		}else{
-			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getType(), inventory.getTitle()));
-			for(Slot b:slots){
-				ui.addSlot(b.clone());
-			}
-		}
-		return ui;
-	}
-
-	/**
 	 * 是否允许玩家操作背包
 	 */
 	public boolean isAllowOperateBackpack() {
@@ -230,19 +170,115 @@ public class UI implements Listener,Cloneable{
 		this.allowOperateInventory = allowOperateInventory;
 	}
 	
-	private boolean registedListener = false;
-	
-	private void registerListener(){
-		if(registedListener)
-			return;
-		
-		registedListener = true;
-		Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
+	/**
+	 * 获取界面打开监听器
+	 */
+	public BiConsumer<UI, HumanEntity> getOnOpen() {
+		return onOpen;
 	}
 
-	private void unregisterListener(){
-		InventoryClickEvent.getHandlerList().unregister(this);
-		InventoryCloseEvent.getHandlerList().unregister(this);
-		registedListener = false;
+	/**
+	 * 设置界面打开监听器
+	 */
+	public void setOnOpen(BiConsumer<UI, HumanEntity> onOpen) {
+		this.onOpen = onOpen;
+	}
+
+	/**
+	 * 设置界面关闭监听器
+	 */
+	public BiConsumer<UI, HumanEntity> getOnClose() {
+		return onClose;
+	}
+
+	/**
+	 * 设置界面关闭监听器
+	 */
+	public void setOnClose(BiConsumer<UI, HumanEntity> onClose) {
+		this.onClose = onClose;
+	}
+	
+	private void callOnOpen(HumanEntity player){
+		if(onOpen!=null)
+			onOpen.accept(this, player);
+	}
+	
+	private void callOnClose(HumanEntity player){
+		if(onClose!=null)
+			onClose.accept(this, player);
+	}
+
+	@Override
+	public UI clone(){
+		UI ui;
+		if(inventory.getType() == InventoryType.CHEST){
+			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getSize(), inventory.getTitle()));
+			for(Slot b:slots){
+				ui.addSlot(b.clone());
+			}
+		}else{
+			ui = new UI(Bukkit.createInventory(inventory.getHolder(), inventory.getType(), inventory.getTitle()));
+			for(Slot b:slots){
+				ui.addSlot(b.clone());
+			}
+		}
+		return ui;
+	}
+	
+	private class UIListener implements Listener{
+		private boolean registedListener = false;
+		
+		@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
+		public void onClick(InventoryClickEvent event){
+			if(event.getClickedInventory()!=null&&event.getClickedInventory().equals(inventory)&&event.getSlotType()!=SlotType.OUTSIDE){
+				for(Slot b:slots){
+					if(b.getSlot()!=event.getRawSlot())
+						continue;
+					
+					b.onClick(event);
+					
+					if (!b.isOperable()) {
+						event.setCancelled(true);
+						((Player) event.getWhoClicked()).updateInventory();
+					}
+					
+					return;
+				}
+			}
+			if(event.getSlot()==event.getRawSlot()&&!allowOperateInventory||event.getSlot()!=event.getRawSlot()&&!allowOperateBackpack){
+				event.setCancelled(true);
+				((Player)event.getWhoClicked()).updateInventory();
+			}
+		}
+
+		@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
+		public void onClose(InventoryCloseEvent event){
+			if(!event.getInventory().equals(inventory))
+				return;
+			
+			callOnClose(event.getPlayer());
+			
+			if(inventory.getViewers().size()>1)
+				return;
+			
+			unregisterListener();
+		}
+		
+		private void registerListener(){
+			if(registedListener)
+				return;
+			
+			registedListener = true;
+			Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
+		}
+
+		private void unregisterListener(){
+			if(!registedListener)
+				return;
+			
+			InventoryClickEvent.getHandlerList().unregister(this);
+			InventoryCloseEvent.getHandlerList().unregister(this);
+			registedListener = false;
+		}
 	}
 }

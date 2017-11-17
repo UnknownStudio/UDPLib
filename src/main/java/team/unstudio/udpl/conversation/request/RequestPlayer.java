@@ -45,6 +45,8 @@ public class RequestPlayer extends RequestBase<Player>{
 			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
 			
+			event.setCancelled(true);
+			
 			Player result = Bukkit.getPlayerExact(event.getMessage());
 			if(result == null)
 				callValidateFailed();

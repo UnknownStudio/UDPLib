@@ -44,8 +44,10 @@ public class RequestEntity extends RequestBase<Entity>{
 		
 		@EventHandler(priority = EventPriority.LOWEST)
 		public void onClick(EntityDamageByEntityEvent event){
-			if(event.getDamager().equals(getConversation().getPlayer()))
+			if(!event.getDamager().equals(getConversation().getPlayer()))
 				return;
+			
+			event.setCancelled(true);
 			
 			Entity invalidate = event.getEntity();
 
@@ -58,8 +60,10 @@ public class RequestEntity extends RequestBase<Entity>{
 		
 		@EventHandler(priority = EventPriority.LOWEST)
 		public void onInteractEntity(PlayerInteractEntityEvent event){
-			if(event.getPlayer().equals(getConversation().getPlayer()))
+			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
+			
+			event.setCancelled(true);
 			
 			Entity invalidate = event.getRightClicked();
 

@@ -68,11 +68,13 @@ public final class VariableHelper {
 	
 	private static String getValue(Player player, String name){
 		for(VariableHandler handler : REGISTED_VARIABLE_HANDLERS){
-			String value = handler.get(player, name);
-			if(value == null)
-				continue;
-			
-			return value;
+			try{
+				String value = handler.get(player, name);
+				if(value == null)
+					continue;
+				
+				return value;
+			}catch(Exception e){}
 		}
 		return null;
 	}

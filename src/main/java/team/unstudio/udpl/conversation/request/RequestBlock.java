@@ -42,8 +42,10 @@ public class RequestBlock extends RequestBase<Block>{
 
 		@EventHandler(priority = EventPriority.LOWEST)
 		public void onInteract(PlayerInteractEvent event){
-			if(event.getPlayer().equals(getConversation().getPlayer()))
+			if(!event.getPlayer().equals(getConversation().getPlayer()))
 				return;
+			
+			event.setCancelled(true);
 			
 			Block invalidate = event.getClickedBlock();
 

@@ -8,6 +8,10 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.events.PacketListener;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.core.UDPLib;
@@ -15,6 +19,8 @@ import team.unstudio.udpl.core.UDPLib;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public interface PlayerUtils {
 	
@@ -32,7 +38,7 @@ public interface PlayerUtils {
 				Player player = arg0.getPlayer();
 				PacketContainer container = arg0.getPacket();
 				String languageTag = container.getStrings().read(0);
-				String nomalizedLanguageTag = toLanguageTagNormalized(languageTag);
+				String nomalizedLanguageTag = normalizeLanguageTag(languageTag);
 				Locale locale = Locale.forLanguageTag(nomalizedLanguageTag);
 				if(locale == Locale.ROOT)
 					return;
@@ -65,7 +71,7 @@ public interface PlayerUtils {
 		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
 			try {
 				PLAYER_LANGUAGE_CACHE.put(player, 
-						Locale.forLanguageTag(toLanguageTagNormalized((String) NMSReflectionUtils.getLocaleNMS().get(NMSReflectionUtils.getHandleNMS().invoke(player)))));
+						Locale.forLanguageTag(normalizeLanguageTag((String) NMSReflectionUtils.getLocaleNMS().get(NMSReflectionUtils.getHandleNMS().invoke(player)))));
 			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				UDPLib.debug(e);
 				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
@@ -74,7 +80,7 @@ public interface PlayerUtils {
 		return PLAYER_LANGUAGE_CACHE.get(player);
 	}
 	
-	static String toLanguageTagNormalized(String languageTag){
+	static String normalizeLanguageTag(String languageTag){
 		languageTag = languageTag.replaceAll("_", "-");
 		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
 		if(first == -1)
@@ -84,6 +90,11 @@ public interface PlayerUtils {
 		}else{
 			return languageTag.substring(0, first+1) + languageTag.substring(first+1,second).toUpperCase() + languageTag.substring(second);
 		}
+	}
+	
+	@Nullable
+	static Block getTargetBlock(Player player){
+		return player.getTargetBlock(Sets.newHashSet(Material.AIR), 100);
 	}
 	
 	//exp helper
