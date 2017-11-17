@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class Yaml18n implements I18n{
+public class YamlI18n implements I18n{
 	protected final Map<Locale,Configuration> cache;
 	
 	private Locale defaultLocale = Locale.getDefault();
@@ -29,7 +29,7 @@ public class Yaml18n implements I18n{
 		this.parent = parent;
 	}
 
-	public Yaml18n(@Nonnull Map<Locale,Configuration> map) {
+	public YamlI18n(@Nonnull Map<Locale,Configuration> map) {
 		this.cache = map;
 	}
 
@@ -68,7 +68,7 @@ public class Yaml18n implements I18n{
 	}
 
 
-	public static Yaml18n fromFile(@Nonnull File path) {
+	public static YamlI18n fromFile(@Nonnull File path) {
 		if(!path.exists())
 			throw new IllegalArgumentException("Path isn't exist.");
 		if(!path.isDirectory())
@@ -82,10 +82,10 @@ public class Yaml18n implements I18n{
 			if(config != null)
 				map.put(locale, config);
 		}
-		return new Yaml18n(map);
+		return new YamlI18n(map);
 	}
 
-	public static Yaml18n fromClassLoader(@Nonnull ClassLoader classLoader, @Nonnull String path) {
+	public static YamlI18n fromClassLoader(@Nonnull ClassLoader classLoader, @Nonnull String path) {
 		Map<Locale,Configuration> map = new HashMap<>();
 
 		try {
@@ -102,6 +102,6 @@ public class Yaml18n implements I18n{
 			UDPLib.getLog().error("Cannot read language file from class path", e);
 		}
 
-		return new Yaml18n(map);
+		return new YamlI18n(map);
 	}
 }
