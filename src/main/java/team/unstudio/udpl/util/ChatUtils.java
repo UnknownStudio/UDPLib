@@ -23,6 +23,14 @@ public interface ChatUtils {
 	}
 	
 	/**
+	 * 发送清屏消息
+	 */
+	static void sendCleanScreen(Player player) {
+		for (int i = 0; i < 20; i++)
+			sendEmpty(player);
+	}
+	
+	/**
 	 * 将文本中'&'转换为颜色字符
 	 */
 	static String translateColorCodes(String textToTranslate){
