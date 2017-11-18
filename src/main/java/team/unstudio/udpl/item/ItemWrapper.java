@@ -10,7 +10,18 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.FireworkEffectMeta;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import com.google.common.collect.Lists;
 
@@ -213,7 +224,59 @@ public class ItemWrapper {
 		itemStack.setItemMeta(meta);
 		return this;
 	}
-
+	
+	public ItemMeta getItemMeta(){
+		return itemStack.getItemMeta();
+	}
+	
+	public ItemWrapper setItemMeta(ItemMeta itemMeta){
+		itemStack.setItemMeta(itemMeta);
+		return this;
+	}
+	
+	public BannerMeta getBannerMeta(){
+		return (BannerMeta) getItemMeta();
+	}
+	
+	public BlockStateMeta getBlockStateMeta(){
+		return (BlockStateMeta) getItemMeta();
+	}
+	
+	public BookMeta getBookMeta(){
+		return (BookMeta) getItemMeta();
+	}
+	
+	public EnchantmentStorageMeta getEnchantmentStorageMeta(){
+		return (EnchantmentStorageMeta) getItemMeta();
+	}
+	
+	public FireworkEffectMeta getFireworkEffectMeta(){
+		return (FireworkEffectMeta) getItemMeta();
+	}
+	
+	public FireworkMeta getFireworkMeta(){
+		return (FireworkMeta) getItemMeta();
+	}
+	
+	public LeatherArmorMeta getLeatherArmorMeta(){
+		return (LeatherArmorMeta) getItemMeta();
+	}
+	
+	public MapMeta getMapMeta(){
+		return (MapMeta) getItemMeta();
+	}
+	
+	public PotionMeta getPotionMeta(){
+		return (PotionMeta) getItemMeta();
+	}
+	
+	public SkullMeta getSkullMeta(){
+		return (SkullMeta) getItemMeta();
+	}
+	
+	public SpawnEggMeta getSpawnEggMeta(){
+		return (SpawnEggMeta) getItemMeta();
+	}
 	public ItemStack get(){
 		return itemStack.clone();
 	}
