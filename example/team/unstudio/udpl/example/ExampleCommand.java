@@ -18,15 +18,22 @@ import team.unstudio.udpl.nms.inventory.NmsItemStack;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
 public class ExampleCommand {
-	
-	@Command(value = {}, // 指令名
-			senders = Player.class) // 接收的指令发送者类型
+
+	/**
+	 * 该方法将会新增一个名字为 example 的子命令
+	 */
+	@Command(value = {}, // 指令名，省略时自动设置为方法名
+			senders = Player.class) // 接收的指令发送者类型，
 	@Alias("help") // 指令别名
 	@Alias("info") // 指令别名
 	public void example(Player player) { // 可选参数，value是默认值，usage是参数的用法
 		player.sendMessage(ExamplePlugin.I18N.format(player, "example.i18n"));
 	}
-	
+
+	/**
+	 * 该方法将自动生成一个名字为 sendmessage 的子命令，包含 2 个参数：
+	 * 发送的信息、前缀（可选）
+	 */
 	@Command(value = "sendmessage", // 指令名
 			senders = Player.class, // 接收的指令发送者类型
 			permission = "example.sendmessage")// 执行指令必须的权限

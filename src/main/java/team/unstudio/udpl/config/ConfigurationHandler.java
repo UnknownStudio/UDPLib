@@ -11,7 +11,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.google.common.base.Strings;
 
 /**
- * 配置文件处理器
+ * 配置文件处理器。
+ *
+ * 必须要调用一次 reload() 才会加载相关内容。
+ * 相关使用方法请查看 <a href="https://github.com/UnknownStudio/UDPLib/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6API-(Configuration-API)">Github Wiki</a>
  */
 public abstract class ConfigurationHandler{
 
