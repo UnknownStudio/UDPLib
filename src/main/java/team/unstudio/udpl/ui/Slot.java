@@ -14,6 +14,7 @@ public class Slot implements Cloneable{
 	private ItemStack itemStack;
 	private int slot;
 	private boolean operable;
+	private Consumer<InventoryClickEvent> onClick;
 	private Consumer<InventoryClickEvent> onLeftClick;
 	private Consumer<InventoryClickEvent> onRightClick;
 	private Consumer<InventoryClickEvent> onShiftLeftClick;
@@ -33,6 +34,8 @@ public class Slot implements Cloneable{
 	}
 	
 	public void onClick(InventoryClickEvent event){
+		if(onClick!=null)
+			onClick.accept(event);
 		switch (event.getClick()) {
 		case LEFT:
 			if(onLeftClick != null)
@@ -129,6 +132,14 @@ public class Slot implements Cloneable{
 		this.operable = operable;
 	}
 	
+	public Consumer<InventoryClickEvent> getOnClick() {
+		return onClick;
+	}
+
+	public void setOnClick(Consumer<InventoryClickEvent> onClick) {
+		this.onClick = onClick;
+	}
+
 	public Consumer<InventoryClickEvent> getOnLeftClick() {
 		return onLeftClick;
 	}

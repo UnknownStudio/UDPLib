@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.i18n.I18n;
-import team.unstudio.udpl.i18n.SimpleI18n;
+import team.unstudio.udpl.i18n.YamlI18n;
 import team.unstudio.udpl.util.PluginUtils;
 
 public class ExamplePlugin extends JavaPlugin{
@@ -25,7 +25,7 @@ public class ExamplePlugin extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		PluginUtils.saveDirectory(this, "lang", false);
-		I18N = new SimpleI18n(new File(getDataFolder(), "lang"));
+		I18N = YamlI18n.fromFile(new File(getDataFolder(), "lang"));
 		Player player = null;
 		player.sendMessage(ExamplePlugin.I18N.localize(player, "example.i18n"));
 		AnnoCommandManager.builder().name("example").plugin(this).parameterHandler(Material.class, new MaterialParameterHandler()).build()
