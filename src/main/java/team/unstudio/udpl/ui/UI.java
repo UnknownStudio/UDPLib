@@ -113,8 +113,16 @@ public class UI implements Cloneable{
 	public UI addSlots(@Nonnull Slot slot,int... slotIDs){
 		Validate.notNull(slot);
 		for(int slotID : slotIDs){
-			Slot newSlot = slot.clone();
-			newSlot.setSlot(slotID);
+			Slot newSlot = new Slot(slotID);
+			newSlot.setItemStack(slot.getItemStack());
+			newSlot.setOperable(slot.isOperable());
+			newSlot.setOnClick(slot.getOnClick());
+			newSlot.setOnLeftClick(slot.getOnLeftClick());
+			newSlot.setOnRightClick(slot.getOnRightClick());
+			newSlot.setOnDoubleClick(slot.getOnDoubleClick());
+			newSlot.setOnMiddleClick(slot.getOnMiddleClick());
+			newSlot.setOnShiftLeftClick(slot.getOnShiftLeftClick());
+			newSlot.setOnShiftRightClick(slot.getOnShiftRightClick());
 			addSlot(newSlot);
 		}
 		return this;

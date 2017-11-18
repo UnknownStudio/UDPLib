@@ -10,9 +10,10 @@ import org.bukkit.inventory.ItemStack;
  */
 public class Slot implements Cloneable{
 
+	private final int slot;
+	
 	private UI parent;
 	private ItemStack itemStack;
-	private int slot;
 	private boolean operable;
 	private Consumer<InventoryClickEvent> onClick;
 	private Consumer<InventoryClickEvent> onLeftClick;
@@ -21,8 +22,6 @@ public class Slot implements Cloneable{
 	private Consumer<InventoryClickEvent> onShiftRightClick;
 	private Consumer<InventoryClickEvent> onDoubleClick;
 	private Consumer<InventoryClickEvent> onMiddleClick;
-	
-	public Slot() {}
 	
 	public Slot(int slot){
 		this.slot = slot;
@@ -88,15 +87,6 @@ public class Slot implements Cloneable{
 	 */
 	public int getSlot() {
 		return slot;
-	}
-	
-	/**
-	 * 设置所在格子
-	 * @param slot
-	 */
-	public void setSlot(int slot) {
-		this.slot = slot;
-		updateItem();
 	}
 
 	/**
@@ -195,21 +185,16 @@ public class Slot implements Cloneable{
 	
 	@Override
 	public Slot clone(){
-		Slot button = null;
-		try {
-			button = (Slot) super.clone();
-			button.itemStack = itemStack.clone();
-			button.slot = slot;
-			button.operable = operable;
-			button.onLeftClick = onLeftClick;
-			button.onRightClick = onRightClick;
-			button.onDoubleClick = onDoubleClick;
-			button.onMiddleClick = onMiddleClick;
-			button.onShiftLeftClick = onShiftLeftClick;
-			button.onShiftRightClick = onShiftRightClick;
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return button;
+		Slot newSlot = new Slot(getSlot());
+		newSlot.setItemStack(getItemStack());
+		newSlot.setOperable(isOperable());
+		newSlot.setOnClick(getOnClick());
+		newSlot.setOnLeftClick(getOnLeftClick());
+		newSlot.setOnRightClick(getOnRightClick());
+		newSlot.setOnDoubleClick(getOnDoubleClick());
+		newSlot.setOnMiddleClick(getOnMiddleClick());
+		newSlot.setOnShiftLeftClick(getOnShiftLeftClick());
+		newSlot.setOnShiftRightClick(getOnShiftRightClick());
+		return newSlot;
 	}
 }
