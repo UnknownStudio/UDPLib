@@ -34,10 +34,4 @@ public class I18nTest {
         assertEquals("Test", sLang.localize(Locale.US, "test"));
         assertEquals("Test ", sLang.localize(Locale.UK, "test"));
     }
-
-    @Test
-    public void align(){
-        SLangAlignment.align("\\|", new String[]{"key|zh-CN", "test|HelloWorld"});
-    }
-
 }

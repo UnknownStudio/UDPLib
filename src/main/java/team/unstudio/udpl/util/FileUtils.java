@@ -73,4 +73,26 @@ public interface FileUtils {
         readFile2List(url, list, code);
         return list.toArray(new String[0]);
     }
+
+    static void writeArray2File(File file, Object[] objects, String code) {
+        try {
+            String myCode = code != null && !"".equals(code) ? code : Charset.defaultCharset().name();
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), myCode);
+            BufferedWriter writer = new BufferedWriter(out);
+            for (int i = 0; i < objects.length; i++) {
+                writer.write(objects[i].toString());
+                if (i < objects.length - 1) writer.newLine();
+            }
+
+            writer.flush();
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

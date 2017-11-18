@@ -8,6 +8,9 @@ import org.bukkit.Material;
 
 import team.unstudio.udpl.command.anno.CommandParameterHandler;
 
+/**
+ * 这是一个示例的命令参数处理器，可以自动转换参数为 Material
+ */
 public class MaterialParameterHandler implements CommandParameterHandler{
 
 	@Override
@@ -22,5 +25,4 @@ public class MaterialParameterHandler implements CommandParameterHandler{
 				.filter(material->material.startsWith(value))
 				.collect(Collectors.toList());
 	}
-
 }
