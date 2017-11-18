@@ -16,12 +16,16 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class SLangTest {
     private CachedSLang[] sLang;
+    private String[] datas;
+    private String separator;
     private List<String> checker;
 
     public SLangTest(Collection<String> datas, String separator, List<String> checker) {
         this.checker = checker;
+        this.separator = separator;
+        this.datas = datas.toArray(new String[0]);
 
-        sLang = SLangSpliter.split(separator, datas.toArray(new String[0]));
+        sLang = SLangSpliter.split(separator, this.datas);
     }
 
     @Parameterized.Parameters
@@ -49,6 +53,4 @@ public class SLangTest {
             fail(String.format("Can't match %s by key %s", expected, index));
         }
     }
-
-
 }
