@@ -197,4 +197,19 @@ public class Slot implements Cloneable{
 		newSlot.setOnShiftRightClick(getOnShiftRightClick());
 		return newSlot;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Slot))
+			return false;
+		
+		Slot slot = (Slot) obj;
+		
+		return getSlot() == slot.getSlot();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getSlot();
+	}
 }

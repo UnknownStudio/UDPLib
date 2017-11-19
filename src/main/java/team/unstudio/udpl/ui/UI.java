@@ -92,6 +92,8 @@ public class UI implements Cloneable{
 	 */
 	public UI addSlot(@Nonnull Slot slot){
 		Validate.notNull(slot);
+		if(slots.contains(slot))
+			throw new IllegalArgumentException("Slot has been occupied.");
 		slots.add(slot);
 		slot.setParent(this);
 		return this;
