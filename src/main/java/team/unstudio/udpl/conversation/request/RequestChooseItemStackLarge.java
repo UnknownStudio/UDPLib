@@ -75,8 +75,13 @@ public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 		return this;
 	}
 
+	private boolean changingPage = false;
+	
 	protected void openChooserUi(int page){
+		changingPage = true;
+		getConversation().getPlayer().closeInventory();
 		getUi(page).open(getConversation().getPlayer());
+		changingPage = false;
 	}
 	
 	protected UI getUi(int page){
@@ -85,9 +90,9 @@ public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 			return pageToUi.get(normalizedPage);
 		
 		UI ui = new UI(54,Strings.nullToEmpty(getTitle())+" - " + normalizedPage);
-		Slot lastPageSlot = new Slot(nextPageItem, 45);
+		Slot lastPageSlot = new Slot(getLastPageItem(), 45);
 		lastPageSlot.setOnClick(event -> openChooserUi(normalizedPage - 1));
-		Slot nextPageSlot = new Slot(nextPageItem, 53);
+		Slot nextPageSlot = new Slot(getNextPageItem(), 53);
 		nextPageSlot.setOnClick(event -> openChooserUi(normalizedPage + 1));
 		ui.addSlot(lastPageSlot, nextPageSlot);
 		int firstIndex = getPageFirstItemIndex(normalizedPage);
@@ -105,7 +110,10 @@ public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 			});
 			ui.addSlot(slot);
 		}
-		ui.setOnClose((u,p)->getConversation().cancel());
+		ui.setOnClose((u, p) -> {
+			if (!isCompleted()&&!changingPage)
+				getConversation().cancel();
+		});
 		pageToUi.put(normalizedPage, ui);
 		return ui;
 	}
@@ -116,8 +124,8 @@ public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 
 	protected int getNormalizedPage(int invalidatePage) {
 		int maxPageAmount = getMaxPageAmount();
-		return invalidatePage > 0 ? invalidatePage % maxPageAmount
-				: maxPageAmount - invalidatePage % maxPageAmount;
+		int i = invalidatePage % maxPageAmount;
+		return i > 0 ? i : maxPageAmount - i;
 	}
 	
 	protected int getPageFirstItemIndex(int page){

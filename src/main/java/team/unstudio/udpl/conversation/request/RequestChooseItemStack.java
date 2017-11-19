@@ -39,7 +39,10 @@ public class RequestChooseItemStack extends RequestBase<IndexedItemStack>{
 	}
 	
 	private void initUi(){
-		ui.setOnClose((ui,player)->getConversation().cancel());
+		ui.setOnClose((ui, player) -> {
+			if (!isCompleted())
+				getConversation().cancel();
+		});
 	}
 	
 	public RequestChooseItemStack addItem(@Nonnull ItemStack itemStack) {

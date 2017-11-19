@@ -149,9 +149,9 @@ public final class TestCommand {
 				.requestBlock("请点击一个方块.")
 				.requestEntity("请点击一个实体.")
 				.requestBigDecimal("请输入一个数字.")
-				.addRequest(new RequestChoice().addItem("我要女装","拒绝女装").setPrompt("请点击下面的选项"))
-				.addRequest(new RequestMultiChoice().setEndItem("结束").addItem("选项1","选项2").setPrompt("请点击下面的选项"))
-				.addRequest(new RequestMultiString("end"))
+				.addRequest(new RequestChoice().addItem("我要女装","拒绝女装").setPrompt("请点击下面的选项."))
+				.addRequest(new RequestMultiChoice().setEndItem("结束").addItem("选项1","选项2").setPrompt("请点击下面的选项."))
+				.addRequest(new RequestMultiString("end").setPrompt("请输入多行文字，最后输入 end 结束输入."))
 				.addRequest(new RequestChooseItemStack(InventoryType.CHEST, "请选择一个物品").addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
 				.addRequest(new RequestChooseItemStackLarge().setTitle("请选择一个物品").setNextPageItem(new ItemStack(Material.WOOL)).setLastPageItem(new ItemStack(Material.WOOD)).addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
 				.requestConfirm("请在10秒内输入confirm以确认操作.", 10, "操作已超时!")
@@ -161,6 +161,11 @@ public final class TestCommand {
 					con.getPlayer().sendMessage(con.getRequest(2).getResult().get().toString());
 					con.getPlayer().sendMessage(con.getRequest(3).getResult().get().toString());
 					con.getPlayer().sendMessage(con.getRequest(4).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(5).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(6).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(7).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(8).getResult().get().toString());
+					con.getPlayer().sendMessage(con.getRequest(9).getResult().get().toString());
 				}).start();
 	}
 	

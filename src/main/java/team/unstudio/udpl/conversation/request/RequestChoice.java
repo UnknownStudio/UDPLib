@@ -124,6 +124,7 @@ public class RequestChoice extends RequestBase<Integer>{
 				return;
 				
 			result = invalidate;
+			setCompleted(true);
 		}
 	}
 }
