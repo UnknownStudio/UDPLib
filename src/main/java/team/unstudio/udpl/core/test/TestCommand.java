@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -19,6 +20,11 @@ import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
 import team.unstudio.udpl.conversation.Conversation;
+import team.unstudio.udpl.conversation.request.RequestChoice;
+import team.unstudio.udpl.conversation.request.RequestChooseItemStack;
+import team.unstudio.udpl.conversation.request.RequestChooseItemStackLarge;
+import team.unstudio.udpl.conversation.request.RequestMultiChoice;
+import team.unstudio.udpl.conversation.request.RequestMultiString;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
@@ -143,6 +149,11 @@ public final class TestCommand {
 				.requestBlock("请点击一个方块.")
 				.requestEntity("请点击一个实体.")
 				.requestBigDecimal("请输入一个数字.")
+				.addRequest(new RequestChoice().addItem("我要女装","拒绝女装").setPrompt("请点击下面的选项"))
+				.addRequest(new RequestMultiChoice().setEndItem("结束").addItem("选项1","选项2").setPrompt("请点击下面的选项"))
+				.addRequest(new RequestMultiString("end"))
+				.addRequest(new RequestChooseItemStack(InventoryType.CHEST, "请选择一个物品").addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
+				.addRequest(new RequestChooseItemStackLarge().setTitle("请选择一个物品").setNextPageItem(new ItemStack(Material.WOOL)).setLastPageItem(new ItemStack(Material.WOOD)).addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
 				.requestConfirm("请在10秒内输入confirm以确认操作.", 10, "操作已超时!")
 				.setOnComplete(con->{
 					con.getPlayer().sendMessage(con.getRequest(0).getResult().get().toString());
