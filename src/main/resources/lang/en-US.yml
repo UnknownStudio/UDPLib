@@ -13,3 +13,6 @@ message.no_enough_parameter: "§cNo enough parameter! Correct syntax: %s"
 message.wrong_sender: "§cUnable to use this command due to your terminal."
 message.wrong_parameter: "§cWrong parameter type! Correct syntax: %s"
 message.failure: "§cFailed to execute this command, please check your console."
+
+# Update
+plugin.found_new_version: "Found new version: %1$s, Download URL: %2$s ."
