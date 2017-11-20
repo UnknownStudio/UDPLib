@@ -1,5 +1,6 @@
 package team.unstudio.udpl.core.test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +21,7 @@ import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.command.anno.Optional;
 import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
+import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.conversation.Conversation;
 import team.unstudio.udpl.conversation.request.RequestChoice;
 import team.unstudio.udpl.conversation.request.RequestChooseItemStack;
@@ -167,6 +170,12 @@ public final class TestCommand {
 					con.getPlayer().sendMessage(con.getRequest(8).getResult().get().toString());
 					con.getPlayer().sendMessage(con.getRequest(9).getResult().get().toString());
 				}).start();
+	}
+	
+	@Command("serialize")
+	public void serialize(CommandSender sender){
+		FileConfiguration configuration = ConfigurationHelper.loadConfiguration(new File(UDPLib.getInstance().getDataFolder(),"test.yml"));
+		configuration.set("test", new TestSerialization());
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")

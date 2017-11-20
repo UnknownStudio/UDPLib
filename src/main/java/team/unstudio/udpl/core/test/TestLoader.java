@@ -1,5 +1,7 @@
 package team.unstudio.udpl.core.test;
 
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+
 import team.unstudio.udpl.area.AreaManager;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
@@ -10,6 +12,7 @@ public enum TestLoader {
 	public static AreaManager areaManager;
 	
 	public void onLoad(){
+		ConfigurationSerialization.registerClass(TestSerialization.class);
 		UDPLib.getLog().info("Loaded test.");
 	}
 	
