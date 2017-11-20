@@ -14,6 +14,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestInteger extends RequestBase<Integer>{
 	
+	public static RequestInteger newRequestInteger(){
+		return new RequestInteger();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Integer result;

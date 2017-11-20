@@ -14,6 +14,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestPlayer extends RequestBase<Player>{
 	
+	public static RequestPlayer newRequestPlayer(){
+		return new RequestPlayer();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Player result;

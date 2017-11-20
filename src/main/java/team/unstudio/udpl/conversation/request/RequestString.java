@@ -14,6 +14,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestString extends RequestBase<String>{
 	
+	public static RequestString newRequestString(){
+		return new RequestString();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private String result;

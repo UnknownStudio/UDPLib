@@ -26,6 +26,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestChoice extends RequestBase<Integer>{
 	
+	public static RequestChoice newRequestChoice(){
+		return new RequestChoice();
+	}
+	
 	private final Listener listener = new RequestListener();
 	private final Set<String> items = Sets.newLinkedHashSet();
 	
@@ -57,6 +61,7 @@ public class RequestChoice extends RequestBase<Integer>{
 
 	@Override
 	public void start() {
+		Validate.notEmpty(items);
 		super.start();
 		bakedItems = getItems().toArray(new String[getItems().size()]);
 		PluginUtils.registerEvents(listener, getConversation().getPlugin());

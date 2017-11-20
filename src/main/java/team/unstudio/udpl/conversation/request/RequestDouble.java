@@ -14,6 +14,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestDouble extends RequestBase<Double>{
 	
+	public static RequestDouble newRequestDouble(){
+		return new RequestDouble();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Double result;

@@ -26,6 +26,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestMultiChoice extends RequestBase<Set<Integer>>{
 	
+	public static RequestMultiChoice newRequestMultiChoice(){
+		return new RequestMultiChoice();
+	}
+	
 	private final Listener listener = new RequestListener();
 	private final Set<String> items = Sets.newLinkedHashSet();
 	

@@ -20,6 +20,10 @@ import team.unstudio.udpl.util.IndexedItemStack;
 
 public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 	
+	public static RequestChooseItemStackLarge newRequestChooseItemStackLarge(){
+		return new RequestChooseItemStackLarge();
+	}
+	
 	private final List<ItemStack> itemStacks = Lists.newLinkedList();
 	private final Map<Integer, UI> pageToUi = Maps.newHashMap();
 	

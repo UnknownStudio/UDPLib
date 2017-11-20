@@ -14,6 +14,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestEntity extends RequestBase<Entity>{
 	
+	public static RequestEntity newRequestEntity(){
+		return new RequestEntity();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Entity result;

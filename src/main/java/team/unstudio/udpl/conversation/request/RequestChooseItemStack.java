@@ -16,6 +16,22 @@ import team.unstudio.udpl.util.IndexedItemStack;
 
 public class RequestChooseItemStack extends RequestBase<IndexedItemStack>{
 	
+	public static RequestChooseItemStack newRequestChooseItemStack(InventoryType type){
+		return new RequestChooseItemStack(type);
+	}
+	
+	public static RequestChooseItemStack newRequestChooseItemStack(int size){
+		return new RequestChooseItemStack(size);
+	}
+	
+	public static RequestChooseItemStack newRequestChooseItemStack(InventoryType type, String title){
+		return new RequestChooseItemStack(type, title);
+	}
+	
+	public static RequestChooseItemStack newRequestChooseItemStack(int size, String title){
+		return new RequestChooseItemStack(size, title);
+	}
+	
 	private final UI ui;
 	
 	public RequestChooseItemStack(InventoryType type) {

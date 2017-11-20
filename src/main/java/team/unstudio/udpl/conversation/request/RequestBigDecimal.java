@@ -15,6 +15,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestBigDecimal extends RequestBase<BigDecimal>{
 	
+	public static RequestBigDecimal newRequestBigDecimal(){
+		return new RequestBigDecimal();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private BigDecimal result;

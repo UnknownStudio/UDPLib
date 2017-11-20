@@ -13,6 +13,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestBlock extends RequestBase<Block>{
 	
+	public static RequestBlock newRequestBlock(){
+		return new RequestBlock();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Block result;

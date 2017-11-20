@@ -15,6 +15,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestBigInteger extends RequestBase<BigInteger>{
 	
+	public static RequestBigInteger newRequestBigInteger(){
+		return new RequestBigInteger();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private BigInteger result;

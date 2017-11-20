@@ -14,6 +14,10 @@ import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestConfirm extends RequestBase<Boolean>{
 	
+	public static RequestConfirm newRequestConfirm(){
+		return new RequestConfirm();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private boolean result;
