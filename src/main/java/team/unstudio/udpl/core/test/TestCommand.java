@@ -1,6 +1,7 @@
 package team.unstudio.udpl.core.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -178,9 +179,13 @@ public final class TestCommand {
 	}
 	
 	@Command("serialize")
-	public void serialize(CommandSender sender){
-		FileConfiguration configuration = ConfigurationHelper.loadConfiguration(new File(UDPLib.getInstance().getDataFolder(),"test.yml"));
-		configuration.set("test", new TestSerialization());
+	public void serialize(CommandSender sender) throws IOException{
+		File file = new File(UDPLib.getInstance().getDataFolder(),"test.yml");
+		FileConfiguration configuration = ConfigurationHelper.loadConfiguration(file);
+		configuration.set("test", new TestSerialization(233));
+		configuration.save(file);
+		configuration = ConfigurationHelper.loadConfiguration(file);
+		sender.sendMessage(Integer.toString(((TestSerialization)configuration.get("test")).getItem()));
 	}
 	
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")

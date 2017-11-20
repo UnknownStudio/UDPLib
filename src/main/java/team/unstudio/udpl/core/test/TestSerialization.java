@@ -10,8 +10,22 @@ import team.unstudio.udpl.config.SerializationHelper;
 public class TestSerialization implements ConfigurationSerializable{
 	
 	@ConfigItem("item")
-	private int item = 233;
+	private int item;
+	
+	public TestSerialization(){}
+	
+	public TestSerialization(int item){
+		this.item = item;
+	}
+	
+	public void setItem(int item){
+		this.item = item;
+	}
 
+	public int getItem(){
+		return item;
+	}
+	
 	@Override
 	public Map<String, Object> serialize() {
 		return SerializationHelper.serialize(this);
