@@ -3,6 +3,11 @@ package team.unstudio.udpl.nms.nbt;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+
 import com.google.common.collect.Maps;
 
 public final class NBTTagCompound extends NBTBase {
@@ -21,167 +26,159 @@ public final class NBTTagCompound extends NBTBase {
 		return this.map.isEmpty();
 	}
 
-	public NBTTagCompound set(String path, NBTBase value) {
+	public NBTTagCompound set(String key, NBTBase value) {
 		if(value.getType() != NBTBaseType.END)
-			this.map.put(path, value);
+			this.map.put(key, value);
 		return this;
 	}
 
-	public NBTTagCompound setByte(String path, byte value) {
-		this.map.put(path, new NBTTagByte(value));
+	public NBTTagCompound setByte(String key, byte value) {
+		this.map.put(key, new NBTTagByte(value));
 		return this;
 	}
 
-	public NBTTagCompound setShort(String path, short value) {
-		this.map.put(path, new NBTTagShort(value));
+	public NBTTagCompound setShort(String key, short value) {
+		this.map.put(key, new NBTTagShort(value));
 		return this;
 	}
 
-	public NBTTagCompound setInt(String path, int value) {
-		this.map.put(path, new NBTTagInt(value));
+	public NBTTagCompound setInt(String key, int value) {
+		this.map.put(key, new NBTTagInt(value));
 		return this;
 	}
 
-	public NBTTagCompound setLong(String path, long value) {
-		this.map.put(path, new NBTTagLong(value));
+	public NBTTagCompound setLong(String key, long value) {
+		this.map.put(key, new NBTTagLong(value));
 		return this;
 	}
 
-	public NBTTagCompound setFloat(String path, float value) {
-		this.map.put(path, new NBTTagFloat(value));
+	public NBTTagCompound setFloat(String key, float value) {
+		this.map.put(key, new NBTTagFloat(value));
 		return this;
 	}
 
-	public NBTTagCompound setDouble(String path, double value) {
-		this.map.put(path, new NBTTagDouble(value));
+	public NBTTagCompound setDouble(String key, double value) {
+		this.map.put(key, new NBTTagDouble(value));
 		return this;
 	}
 
-	public NBTTagCompound setString(String path, String value) {
-		this.map.put(path, new NBTTagString(value));
+	public NBTTagCompound setString(String key, @Nonnull String value) {
+		Validate.notNull(value);
+		this.map.put(key, new NBTTagString(value));
 		return this;
 	}
 
-	public NBTTagCompound setByteArray(String path, byte[] value) {
-		this.map.put(path, new NBTTagByteArray(value));
+	public NBTTagCompound setByteArray(String key, @Nonnull byte[] value) {
+		Validate.notNull(value);
+		this.map.put(key, new NBTTagByteArray(value));
 		return this;
 	}
 
-	public NBTTagCompound setIntArray(String path, int[] value) {
-		this.map.put(path, new NBTTagIntArray(value));
+	public NBTTagCompound setIntArray(String key, @Nonnull int[] value) {
+		Validate.notNull(value);
+		this.map.put(key, new NBTTagIntArray(value));
+		return this;
+	}
+	
+	public NBTTagCompound setLongArray(String key, @Nonnull long[] value){
+		Validate.notNull(value);
+		this.map.put(key, new NBTTagLongArray(value));
 		return this;
 	}
 
-	public NBTBase get(String path) {
-		return this.map.get(path);
+	public NBTBase get(String key) {
+		return this.map.get(key);
 	}
 
-	public byte getByte(String path) {
+	public byte getByte(String key) {
 		try {
-
-			return ((NBTNumber) this.map.get(path)).getByte();
-		} catch (Exception e) {
-
-		}
+			return ((NBTNumber) this.map.get(key)).getByte();
+		} catch (ClassCastException e) {}
 		return 0;
 	}
 
-	public short getShort(String path) {
+	public short getShort(String key) {
 		try {
-			return ((NBTNumber) this.map.get(path)).getShort();
-		} catch (Exception e) {
-
-		}
+			return ((NBTNumber) this.map.get(key)).getShort();
+		} catch (ClassCastException e) {}
 		return 0;
 	}
 
-	public int getInt(String path) {
+	public int getInt(String key) {
 		try {
-			return ((NBTNumber) this.map.get(path)).getInt();
-		} catch (Exception e) {
-
-		}
+			return ((NBTNumber) this.map.get(key)).getInt();
+		} catch (ClassCastException e) {}
 		return 0;
 	}
 
-	public long getLong(String path) {
+	public long getLong(String key) {
 		try {
-			return ((NBTNumber) this.map.get(path)).getLong();
-		} catch (Exception e) {
-
-		}
+			return ((NBTNumber) this.map.get(key)).getLong();
+		} catch (ClassCastException e) {}
 		return 0;
 	}
 
-	public float getFloat(String path) {
+	public float getFloat(String key) {
 		try {
-			return ((NBTNumber) this.map.get(path)).getFloat();
-		} catch (Exception e) {
-
-		}
+			return ((NBTNumber) this.map.get(key)).getFloat();
+		} catch (ClassCastException e) {}
 		return 0.0F;
 	}
 
-	public double getDouble(String path) {
+	public double getDouble(String key) {
 		try {
-			return ((NBTNumber) this.map.get(path)).getDouble();
-		} catch (Exception e) {
-
-		}
-
+			return ((NBTNumber) this.map.get(key)).getDouble();
+		} catch (ClassCastException e) {}
 		return 0.0D;
 	}
 
-	public String getString(String path) {
-		try {
-			return ((NBTTagString) this.map.get(path)).getValue();
-		} catch (Exception e) {
-
-		}
-		return "";
+	@Nullable
+	public String getString(String key) {
+		return containOfType(key, NBTBaseType.STRING)?((NBTTagString) this.map.get(key)).getValue():null;
 	}
 
-	public byte[] getByteArray(String path) {
-		try {
-			return ((NBTTagByteArray) this.map.get(path)).getValue();
-		} catch (Exception e) {
-
-		}
-		return new byte[0];
+	@Nullable
+	public byte[] getByteArray(String key) {
+		return containOfType(key, NBTBaseType.BYTEARRAY)?((NBTTagByteArray) this.map.get(key)).getValue():null;
 	}
 
-	public int[] getIntArray(String path) {
-		try {
-			return ((NBTTagIntArray) this.map.get(path)).getValue();
-		} catch (Exception e) {
-
-		}
-		return new int[0];
+	@Nullable
+	public int[] getIntArray(String key) {
+		return containOfType(key, NBTBaseType.INTARRAY)?((NBTTagIntArray) this.map.get(key)).getValue():null;
+	}
+	
+	@Nullable
+	public long[] getLongArray(String key){
+		return containOfType(key, NBTBaseType.LONGARRAY)?((NBTTagLongArray)this.map.get(key)).getValue():null;
 	}
 
-	public NBTTagCompound getCompound(String path) {
-		try {
-			return ((NBTTagCompound) this.map.get(path)).getValue();
-		} catch (Exception e) {
-
-		}
-		return new NBTTagCompound();
+	@Nonnull
+	public NBTTagCompound getCompound(String key) {
+		return containOfType(key, NBTBaseType.COMPOUND)?(NBTTagCompound) this.map.get(key):new NBTTagCompound();
 	}
 
+	@Nonnull
+	public NBTTagList getList(String key) {
+		return containOfType(key,NBTBaseType.LIST)?(NBTTagList) this.map.get(key):new NBTTagList();
+	}
+	
 	public NBTTagCompound getValue() {
 		return this;
 	}
-
-	public NBTTagList getList(String path) {
-		try {
-			return ((NBTTagList) this.map.get(path));
-		} catch (Exception e) {
-		}
-		return new NBTTagList();
+	
+	public boolean contain(String key){
+		return this.map.containsKey(key);
+	}
+	
+	public boolean containOfType(String key, NBTBaseType type){
+		if(!this.map.containsKey(key))
+			return false;
+		
+		return this.map.get(key).getType() == type;
 	}
 
-	public NBTTagCompound remove(String path) {
-		this.map.remove(path);
+	public NBTTagCompound remove(String key) {
+		this.map.remove(key);
 		return this;
 	}
 

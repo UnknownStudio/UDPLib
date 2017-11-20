@@ -7,18 +7,33 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
+/**
+ * Server util to quickly
+ */
 public interface ServerUtils {
-	
+
+	/**
+	 * get online players' name
+	 */
 	static String[] getOnlinePlayerNames(){
 		return Bukkit.getOnlinePlayers().stream().map(player->player.getName()).toArray(String[]::new);
 	}
-	
+
+	/**
+	 * get all online players' name with a filter
+	 */
 	static String[] getOnlinePlayerNamesWithFilter(Predicate<String> filter){
 		return Bukkit.getOnlinePlayers().stream().map(player->player.getName()).filter(filter).toArray(String[]::new);
 	}
-	
+
+	/**
+	 * cached minecraft version
+	 */
 	AtomicReference<String> MINECRAFT_VERSION = new AtomicReference<>();
 
+	/**
+	 * get minecraft version like "1.11.2"
+	 */
 	static String getMinecraftVersion() {
 		if (MINECRAFT_VERSION.get() == null) {
 			try {

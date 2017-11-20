@@ -38,14 +38,7 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
       
       - run: mvn clean install package
-        
-      - run: 
-          command: mkdir /home/circleci/repo/jar     
-          when: on_success
-          
-      - run: 
-          command: mv -f /home/circleci/repo/target/UDPLib.jar /home/circleci/repo/jar/UDPLib.jar
-          when: on_success
           
       - store_artifacts:
-          path: /home/circleci/repo/jar
+          path: /home/circleci/repo/target
+          destination: udplib

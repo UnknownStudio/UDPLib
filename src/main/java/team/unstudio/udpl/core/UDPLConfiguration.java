@@ -1,5 +1,6 @@
 package team.unstudio.udpl.core;
 
+import team.unstudio.udpl.config.ConfigItem;
 import team.unstudio.udpl.config.ConfigurationHandler;
 
 import java.io.File;

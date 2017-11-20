@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import team.unstudio.udpl.database.mysql.MySQL;
 import team.unstudio.udpl.database.sqlite.SQLite;
 
+@Deprecated
 public interface SQLHelper {
 
 	static MySQL createMySqlConnection(String host, int port, String userName, String password) throws SQLException{

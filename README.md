@@ -40,7 +40,7 @@ Maven:
 
 Gradle:
 1. Add this in your root build.gradle at the end of repositories
-```
+```gradle
 	allprojects {
 		repositories {
 			...
@@ -50,8 +50,8 @@ Gradle:
 ```
 
 2. Add the dependency
-```
+```gradle
 	dependencies {
-		compile 'com.github.User:Repo:Tag'
+	        compile 'com.github.UnknownStudio:UDPLib:1.0.1-Release'
 	}
 ```

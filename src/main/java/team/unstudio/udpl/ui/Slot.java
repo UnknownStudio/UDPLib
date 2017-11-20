@@ -1,33 +1,27 @@
 package team.unstudio.udpl.ui;
 
+import java.util.function.Consumer;
+
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * 界面槽
  */
-public abstract class Slot implements Cloneable{
-	/**
-	 * 槽所属的界面
-	 */
-	private UI parent;
+public class Slot implements Cloneable{
 
-	/**
-	 * 槽中的物品
-	 */
-	private ItemStack itemStack;
-
-	/**
-	 * 槽所在的格
-	 */
-	private int slot;
-
-	/**
-	 * 可否操作
-	 */
-	private boolean allowOperate;
+	private final int slot;
 	
-	public Slot() {}
+	private UI parent;
+	private ItemStack itemStack;
+	private boolean operable;
+	private Consumer<InventoryClickEvent> onClick;
+	private Consumer<InventoryClickEvent> onLeftClick;
+	private Consumer<InventoryClickEvent> onRightClick;
+	private Consumer<InventoryClickEvent> onShiftLeftClick;
+	private Consumer<InventoryClickEvent> onShiftRightClick;
+	private Consumer<InventoryClickEvent> onDoubleClick;
+	private Consumer<InventoryClickEvent> onMiddleClick;
 	
 	public Slot(int slot){
 		this.slot = slot;
@@ -38,21 +32,53 @@ public abstract class Slot implements Cloneable{
 		this.itemStack = itemStack;
 	}
 	
+	public void onClick(InventoryClickEvent event){
+		if(onClick!=null)
+			onClick.accept(event);
+		switch (event.getClick()) {
+		case LEFT:
+			if(onLeftClick != null)
+				onLeftClick.accept(event);
+			break;
+		case RIGHT:
+			if(onRightClick != null)
+				onRightClick.accept(event);
+			break;
+		case SHIFT_LEFT:
+			if(onShiftLeftClick != null)
+				onShiftLeftClick.accept(event);
+			break;
+		case SHIFT_RIGHT:
+			if(onShiftRightClick != null)
+				onShiftRightClick.accept(event);
+			break;
+		case DOUBLE_CLICK:
+			if(onDoubleClick != null)
+				onDoubleClick.accept(event);
+			break;
+		case MIDDLE:
+			if(onMiddleClick != null)
+				onMiddleClick.accept(event);
+			break;
+		default:
+			break;
+		}
+	}
+	
 	/**
 	 * 获取物品
 	 */
 	public ItemStack getItemStack() {
-		return parent!=null?parent.getInventory().getItem(slot):itemStack;
+		return parent != null ? parent.getInventory().getItem(slot) : itemStack;
 	}
 	
 	/**
 	 * 设置物品
 	 * @param itemstack
 	 */
-	public Slot setItemSstack(ItemStack itemstack) {
+	public void setItemStack(ItemStack itemstack) {
 		this.itemStack = itemstack;
-		if(parent!=null)parent.getInventory().setItem(slot, itemstack);
-		return this;
+		updateItem();
 	}
 	
 	/**
@@ -62,28 +88,12 @@ public abstract class Slot implements Cloneable{
 	public int getSlot() {
 		return slot;
 	}
-	
-	/**
-	 * 设置所在格子
-	 * @param slot
-	 */
-	public Slot setSlot(int slot) {
-		this.slot = slot;
-		if(parent!=null)parent.getInventory().setItem(slot, itemStack);
-		return this;
-	}
-	
-	/**
-	 * 点击事件
-	 * @param event
-	 */
-	public abstract void onClick(InventoryClickEvent event);
 
 	/**
 	 * 获取父UI
 	 * @return
 	 */
-	public final UI getParent() {
+	public UI getParent() {
 		return parent;
 	}
 
@@ -91,45 +101,115 @@ public abstract class Slot implements Cloneable{
 	 * 设置父UI
 	 * @param parent
 	 */
-	public final void setParent(UI parent) {
+	public void setParent(UI parent) {
 		this.parent = parent;
-		if(parent!=null)parent.getInventory().setItem(slot, itemStack);
-	}
-	
-	/**
-	 * 绘制
-	 */
-	public void paint(){
-		parent.getInventory().setItem(slot, itemStack);
-	}
-	
-	@Override
-	public Slot clone(){
-		Slot button = null;
-		try {
-			button = (Slot) super.clone();
-			button.itemStack = itemStack.clone();
-			button.slot = slot;
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return button;
+		updateItem();
 	}
 
 	/**
 	 * 是否可以操作
 	 * @return
 	 */
-	public boolean isAllowOperate() {
-		return allowOperate;
+	public boolean isOperable() {
+		return operable;
 	}
 
 	/**
 	 * 设置是否可以操作
-	 * @param allowOperate
+	 * @param operable
 	 */
-	public Slot setAllowOperate(boolean allowOperate) {
-		this.allowOperate = allowOperate;
-		return this;
+	public void setOperable(boolean operable) {
+		this.operable = operable;
+	}
+	
+	public Consumer<InventoryClickEvent> getOnClick() {
+		return onClick;
+	}
+
+	public void setOnClick(Consumer<InventoryClickEvent> onClick) {
+		this.onClick = onClick;
+	}
+
+	public Consumer<InventoryClickEvent> getOnLeftClick() {
+		return onLeftClick;
+	}
+
+	public void setOnLeftClick(Consumer<InventoryClickEvent> onLeftClick) {
+		this.onLeftClick = onLeftClick;
+	}
+
+	public Consumer<InventoryClickEvent> getOnRightClick() {
+		return onRightClick;
+	}
+
+	public void setOnRightClick(Consumer<InventoryClickEvent> onRightClick) {
+		this.onRightClick = onRightClick;
+	}
+
+	public Consumer<InventoryClickEvent> getOnShiftLeftClick() {
+		return onShiftLeftClick;
+	}
+
+	public void setOnShiftLeftClick(Consumer<InventoryClickEvent> onShiftLeftClick) {
+		this.onShiftLeftClick = onShiftLeftClick;
+	}
+
+	public Consumer<InventoryClickEvent> getOnShiftRightClick() {
+		return onShiftRightClick;
+	}
+
+	public void setOnShiftRightClick(Consumer<InventoryClickEvent> onShiftRightClick) {
+		this.onShiftRightClick = onShiftRightClick;
+	}
+
+	public Consumer<InventoryClickEvent> getOnDoubleClick() {
+		return onDoubleClick;
+	}
+
+	public void setOnDoubleClick(Consumer<InventoryClickEvent> onDoubleClick) {
+		this.onDoubleClick = onDoubleClick;
+	}
+
+	public Consumer<InventoryClickEvent> getOnMiddleClick() {
+		return onMiddleClick;
+	}
+
+	public void setOnMiddleClick(Consumer<InventoryClickEvent> onMiddleClick) {
+		this.onMiddleClick = onMiddleClick;
+	}
+
+	protected void updateItem(){
+		if(parent!=null)
+			parent.getInventory().setItem(slot, itemStack);
+	}
+	
+	@Override
+	public Slot clone(){
+		Slot newSlot = new Slot(getSlot());
+		newSlot.setItemStack(getItemStack());
+		newSlot.setOperable(isOperable());
+		newSlot.setOnClick(getOnClick());
+		newSlot.setOnLeftClick(getOnLeftClick());
+		newSlot.setOnRightClick(getOnRightClick());
+		newSlot.setOnDoubleClick(getOnDoubleClick());
+		newSlot.setOnMiddleClick(getOnMiddleClick());
+		newSlot.setOnShiftLeftClick(getOnShiftLeftClick());
+		newSlot.setOnShiftRightClick(getOnShiftRightClick());
+		return newSlot;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Slot))
+			return false;
+		
+		Slot slot = (Slot) obj;
+		
+		return getSlot() == slot.getSlot();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getSlot();
 	}
 }

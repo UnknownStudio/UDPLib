@@ -1,6 +1,6 @@
 package team.unstudio.udpl.core;
 
-import team.unstudio.udpl.i18n.SimpleI18n;
+import team.unstudio.udpl.i18n.YamlI18n;
 
 import java.io.File;
 import java.util.Locale;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  * @author LasmGratel
  */
 public interface UDPLI18n {
-    SimpleI18n I18N = new SimpleI18n(new File(UDPLib.getInstance().getDataFolder(), "lang"));
+    YamlI18n I18N = YamlI18n.fromFile(new File(UDPLib.getInstance().getDataFolder(), "lang"));
 
     static void setLocale(Locale locale) {
         I18N.setDefaultLocale(locale);

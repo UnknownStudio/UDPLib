@@ -5,9 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import team.unstudio.udpl.util.FileUtils;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,24 +24,26 @@ public class FileUtilsTest {
 
     @Before
     public void resetFile() throws IOException {
-        FileWriter fw = new FileWriter(file);
+        file.createNewFile();
 
+        Writer writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(file), "UTF-8"));
         for (int i = 0; i < DATA.length; i++) {
-            if (i < DATA.length - 1) fw.write(DATA[i] + LINE_SEPARATOR);
-            else fw.write(DATA[i]);
+            writer.write(DATA[i]);
+            if (i != DATA.length - 1) writer.write(LINE_SEPARATOR);
         }
-
-        fw.close();
-
+        writer.flush();
+        writer.close();
     }
 
     @After
     public void delFile(){
-        file.delete();
+//        file.delete();
     }
 
     @Test
     public void readFile() throws Exception {
-        assertArrayEquals(DATA, FileUtils.readFile2Array(file, Charset.defaultCharset().name()));
+        assertArrayEquals(DATA, FileUtils.readFile2Array(file, "UTF-8"));
     }
 }
