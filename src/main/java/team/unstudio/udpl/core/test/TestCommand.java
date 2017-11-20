@@ -23,11 +23,16 @@ import team.unstudio.udpl.command.anno.Required;
 import team.unstudio.udpl.command.anno.TabComplete;
 import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.conversation.Conversation;
+import team.unstudio.udpl.conversation.request.RequestBigDecimal;
+import team.unstudio.udpl.conversation.request.RequestBlock;
 import team.unstudio.udpl.conversation.request.RequestChoice;
 import team.unstudio.udpl.conversation.request.RequestChooseItemStack;
 import team.unstudio.udpl.conversation.request.RequestChooseItemStackLarge;
+import team.unstudio.udpl.conversation.request.RequestConfirm;
+import team.unstudio.udpl.conversation.request.RequestEntity;
 import team.unstudio.udpl.conversation.request.RequestMultiChoice;
 import team.unstudio.udpl.conversation.request.RequestMultiString;
+import team.unstudio.udpl.conversation.request.RequestString;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
@@ -148,16 +153,16 @@ public final class TestCommand {
 	@Command(value = "conversation", senders = Player.class)
 	public void conversation(Player sender){
 		new Conversation(UDPLib.getInstance(), sender)
-				.requestString("请在聊天框输入一个消息.")
-				.requestBlock("请点击一个方块.")
-				.requestEntity("请点击一个实体.")
-				.requestBigDecimal("请输入一个数字.")
-				.addRequest(new RequestChoice().addItem("我要女装","拒绝女装").setPrompt("请点击下面的选项."))
-				.addRequest(new RequestMultiChoice().setEndItem("结束").addItem("选项1","选项2").setPrompt("请点击下面的选项."))
-				.addRequest(new RequestMultiString("end").setPrompt("请输入多行文字，最后输入 end 结束输入."))
-				.addRequest(new RequestChooseItemStack(InventoryType.CHEST, "请选择一个物品").addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
-				.addRequest(new RequestChooseItemStackLarge().setTitle("请选择一个物品").setNextPageItem(new ItemStack(Material.WOOL)).setLastPageItem(new ItemStack(Material.WOOD)).addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
-				.requestConfirm("请在10秒内输入confirm以确认操作.", 10, "操作已超时!")
+				.addRequest(RequestString.newRequestString().setPrompt("请在聊天框输入一个消息."))
+				.addRequest(RequestBlock.newRequestBlock().setPrompt("请点击一个方块."))
+				.addRequest(RequestEntity.newRequestEntity().setPrompt("请点击一个实体."))
+				.addRequest(RequestBigDecimal.newRequestBigDecimal().setPrompt("请输入一个数字."))
+				.addRequest(RequestChoice.newRequestChoice().addItem("我要女装","拒绝女装").setPrompt("请点击下面的选项."))
+				.addRequest(RequestMultiChoice.newRequestMultiChoice().setEndItem("结束").addItem("选项1","选项2").setPrompt("请点击下面的选项."))
+				.addRequest(RequestMultiString.newRequestMultiString("end").setPrompt("请输入多行文字，最后输入 end 结束输入."))
+				.addRequest(RequestChooseItemStack.newRequestChooseItemStack(InventoryType.CHEST, "请选择一个物品").addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
+				.addRequest(RequestChooseItemStackLarge.newRequestChooseItemStackLarge().setTitle("请选择一个物品").setNextPageItem(new ItemStack(Material.WOOL)).setLastPageItem(new ItemStack(Material.WOOD)).addItem(new ItemStack(Material.STONE),new ItemStack(Material.GRASS)))
+				.addRequest(RequestConfirm.newRequestConfirm().setPrompt("请在10秒内输入confirm以确认操作.").setTimeout(10).setTimeoutMessage("操作已超时!"))
 				.setOnComplete(con->{
 					con.getPlayer().sendMessage(con.getRequest(0).getResult().get().toString());
 					con.getPlayer().sendMessage(con.getRequest(1).getResult().get().toString());
