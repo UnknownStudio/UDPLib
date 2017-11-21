@@ -45,7 +45,7 @@ public interface SerializationHelper {
 		return map;
 	}
 	
-	static <T> T deserialize(T obj, Map<String,Object> map){
+	static <T extends ConfigurationSerializable> T deserialize(T obj, Map<String,Object> map){
 		Validate.notNull(obj);
 		Validate.notNull(map);
 		
