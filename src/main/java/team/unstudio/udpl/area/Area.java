@@ -8,12 +8,35 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 区域，一个封装了两个坐标的类。
+ * 通过 Area 你可以判断一个坐标是否在该区域，也可以判断两个 Area 之间的关系。
+ * 相关使用方法请查看 <a href="https://github.com/UnknownStudio/UDPLib/wiki/%E5%8C%BA%E5%9F%9FAPI-(Area-API)">Github Wiki</a>
+ */
 public class Area implements ConfigurationSerializable {
-	
+	/**
+	 * 两坐标
+	 */
 	private final Location minLocation,maxLocation;
+
+	/**
+	 * 用于存储该区域数据的 Map，你可以在该 Map 中放入任何你需要的内容。
+	 * 如：拥有者、价格等。
+	 */
 	private AreaDataContainer data;
-	
+
+	/**
+	 * 两点必须在同一个世界，且两点坐标将会被重新计算。
+	 * 构造出来的 minLocation 和 maxLocation 和传入的 point 不一定相同，
+	 * 但其代表的区域一致。
+	 *
+	 * @param point1 第一个点
+	 * @param point2 第二个点
+	 *
+	 * @exception IllegalArgumentException 坐标在不同世界时
+	 */
 	public Area(@Nonnull Location point1,@Nonnull Location point2) {
+		// 坐标在不同世界
 		if(!point1.getWorld().equals(point2.getWorld())) 
 			throw new IllegalArgumentException("Area cannot be created between different worlds");
 		
@@ -37,7 +60,10 @@ public class Area implements ConfigurationSerializable {
 	public final Location getMaxLocation() {
 		return maxLocation;
 	}
-	
+
+	/**
+	 * 获取区域数据 Map
+	 */
 	public final AreaDataContainer getData() {
 		if(data == null)
 			data = new AreaDataContainer();

@@ -1,14 +1,20 @@
 package team.unstudio.udpl.bungeecord;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import sun.misc.Unsafe;
 
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -22,7 +28,7 @@ import java.util.function.Consumer;
  * @author leonardosnt (leonardosnt@outlook.com)
  * @author trychen
  */
-public class BungeeChannel {
+public class BungeeChannel implements Listener {
     /**
      * the registered bungee channels
      */
@@ -70,6 +76,8 @@ public class BungeeChannel {
         messenger.registerIncomingPluginChannel(plugin, "BungeeCord", messageListener);
 
         registerForwardListener("Teleport", this::teleportReceived);
+
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     /**
@@ -80,6 +88,7 @@ public class BungeeChannel {
         messenger.unregisterIncomingPluginChannel(plugin, "BungeeCord", messageListener);
         messenger.unregisterOutgoingPluginChannel(plugin);
         callbackMap.clear();
+        HandlerList.unregisterAll(this);
     }
 
     private BiFunction<String, Queue<CompletableFuture<?>>, Queue<CompletableFuture<?>>> computeQueueValue(CompletableFuture<?> queueValue) {
@@ -534,21 +543,28 @@ public class BungeeChannel {
      */
     public void teleport(Player player, ServerLocation serverLocation) {
         // teleport to this server
-    	//TODO: Unsupport this.
-    	throw new UnsupportedOperationException();
+    	// TODO: Uncheck for this.
+        new SecurityException("This operation haven't tested!").printStackTrace();
     	
-//        if (serverLocation.getServer().equals(getCachedServer())) {
-//            player.teleport(serverLocation.toLocation());
-//            return;
-//        }
-//        
-//        connect(player, serverLocation.getServer());
-//
-//        forward(serverLocation.getServer(), "Teleport", data -> {
-//            data.writeUTF(player.getName());
-//            data.writeUTF(serverLocation.toString());
-//        });
+        if (serverLocation.getServer().equals(getCachedServer())) {
+            player.teleport(serverLocation.toLocation());
+            return;
+        }
+
+        forward(serverLocation.getServer(), "Teleport", data -> {
+            data.writeUTF(player.getName());
+            data.writeUTF(serverLocation.toString());
+        });
+
+        connect(player, serverLocation.getServer());
     }
+
+    /**
+     * the queue to teleport player to somewhere.
+     * key -> Player's name
+     * value -> Location to send
+     */
+    private Map<String, ServerLocation> teleportQueue = Maps.newConcurrentMap();
 
     /**
      * while teleport forward received
@@ -557,11 +573,16 @@ public class BungeeChannel {
         ByteArrayDataInput dataInput = ByteStreams.newDataInput(data);
         String playerName = dataInput.readUTF();
         ServerLocation serverLocation = ServerLocation.deserialize(dataInput.readUTF());
-        
-        Player targetPlayer = Bukkit.getPlayer(playerName);
-        if(targetPlayer==null||!targetPlayer.isOnline())
-        	return;
-        
-        targetPlayer.teleport(serverLocation.toLocation());
+
+        // add player to teleport queue
+        teleportQueue.put(playerName, serverLocation);
+    }
+
+    @EventHandler
+    public void playerJoin(PlayerJoinEvent event){
+        ServerLocation serverLocation = teleportQueue.remove(event.getPlayer().getName());
+        if (serverLocation != null && serverLocation.getServer().equals(getCachedServer())) {
+            event.getPlayer().teleport(serverLocation.toLocation());
+        }
     }
 }

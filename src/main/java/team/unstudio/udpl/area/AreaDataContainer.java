@@ -5,6 +5,9 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 区域数据 Map，支持 Yaml 序列化。
+ */
 public class AreaDataContainer extends HashMap<String, Object> implements ConfigurationSerializable{
 	
 	public AreaDataContainer() {}

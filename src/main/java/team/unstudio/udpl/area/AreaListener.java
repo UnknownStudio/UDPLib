@@ -33,7 +33,7 @@ public final class AreaListener implements Listener{
 		Player player = event.getPlayer();
 		Location to = event.getTo();
 		Location from = event.getFrom();
-		if(!isMove(from,to))return;
+		if(!isMove(from,to)) return;
 		updateArea(player, to);
 	}
 	
@@ -42,7 +42,7 @@ public final class AreaListener implements Listener{
 		Player player = event.getPlayer();
 		Location to = event.getTo();
 		Location from = event.getFrom();
-		if(!isMove(from,to))return;
+		if(!isMove(from,to)) return;
 		updateArea(player, to);
 	}
 	

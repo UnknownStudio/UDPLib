@@ -24,27 +24,76 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * 区域管理器，对 WorldAreaManager 的封装。
+ * 通过该管理器，你可以监听玩家进出区域和更好的管理；
+ * 相关使用方法请查看 <a href="https://github.com/UnknownStudio/UDPLib/wiki/%E5%8C%BA%E5%9F%9FAPI-(Area-API)">Github Wiki</a>
+ */
 public class AreaManager {
-	
+	/**
+	 * 插件实例，用于注册监听器等
+	 */
 	private final JavaPlugin plugin;
+	/**
+	 * Bukkit 监听器，用于监听玩家位置
+	 */
 	private final AreaListener listener;
+	/**
+	 * 区域数据文件路径
+	 */
 	private final File areaPath;
 
+	/**
+	 * 对不同世界的区域管理器
+	 */
 	private final Map<World,WorldAreaManager> managers = Maps.newHashMap();
+	/**
+	 * 玩家进入区域的回调
+	 */
 	private final List<PlayerEnterAreaCallback> playerEnterAreaCallbacks = Lists.newArrayList();
+	/**
+	 * 玩家离开区域的回调
+	 */
 	private final List<PlayerLeaveAreaCallback> playerLeaveAreaCallbacks = Lists.newArrayList();
 	
+	/**
+	 * 是否自动保存区域到配置文件
+	 */
 	private boolean autoSave = false;
+	/**
+	 * 自动保存区域的周期，单位为 ticks
+	 */
 	private long autoSavePeriod = 10*60*20;
+	/**
+	 * 自动保存区域的线程
+	 */
 	private BukkitRunnable autoSaveTask;
-	
+
+	/**
+	 * 备份文件的路径
+	 */
 	private File backupPath;
+	/**
+	 * 是否自动备份区域
+	 */
 	private boolean autoBackup = false;
+	/**
+	 * 自动备份区域的周期，单位为 ticks
+	 */
 	private long autoBackupPeriod = 6*60*60*20;
+	/**
+	 * 自动备份区域的线程
+	 */
 	private BukkitRunnable autoBackupTask;
-	
+
+	/**
+	 * 是否正在保存或者备份
+	 */
 	protected final AtomicBoolean isSavingOrBackuping = new AtomicBoolean(false);
-	
+
+	/**
+	 * 构造区域管理器，文件为插件默认数据文件夹下的 "area" 文件夹
+	 */
 	public AreaManager(@Nonnull JavaPlugin plugin) {
 		this(plugin,new File(plugin.getDataFolder(),"area"));
 	}

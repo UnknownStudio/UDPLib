@@ -17,9 +17,19 @@ import com.google.common.base.Strings;
  * 相关使用方法请查看 <a href="https://github.com/UnknownStudio/UDPLib/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6API-(Configuration-API)">Github Wiki</a>
  */
 public abstract class ConfigurationHandler{
-
+    /**
+     * 配置文件路径
+     */
 	private final File file;
+
+    /**
+     * 配置项默认值，通过 {@link ConfigurationHandler#loadDefaults()} 加载
+     */
 	private final Map<String,Object> defaults = new HashMap<>();
+
+    /**
+     * 是否已经加载过配置项默认值
+     */
 	private boolean loaded = false;
 	
 	public ConfigurationHandler(File file) {
@@ -28,7 +38,8 @@ public abstract class ConfigurationHandler{
 	
 	/**
 	 * 重载配置文件
-	 * @return
+	 *
+	 * @return 是否加载成功
 	 */
 	public boolean reload(){
 		loadDefaultsIfBeforeNot();
@@ -45,19 +56,25 @@ public abstract class ConfigurationHandler{
 
 		return true;
 	}
-	
+
+    /**
+     * 检查是否已经加载过 ({@link ConfigurationHandler#loaded})，否则加载配置项默认值
+     */
 	private void loadDefaultsIfBeforeNot() {
 		if(!loaded){
 			loadDefaults();
-			loaded=true;
+			loaded = true;
 		}
 	}
-	
+
+    /**
+     * 加载配置项默认值，并保存到 {@link ConfigurationHandler#defaults}
+     */
 	private void loadDefaults(){
 		defaults.clear();
 		for(Field f:getClass().getDeclaredFields()){
 			String key = getConfigItemKeyOrNull(f);
-			if(key==null)continue;
+			if(key == null) continue;
 			putValue(key,f);
 		}
 	}
@@ -67,21 +84,26 @@ public abstract class ConfigurationHandler{
 		f.setAccessible(true);
 		ConfigItem anno= f.getDeclaredAnnotation(ConfigItem.class);
 		if(anno==null)return null;
-		String key = anno.value().isEmpty()?f.getName():anno.value();
-		return key;
+        return anno.value().isEmpty()?f.getName():anno.value();
 	}
 	
 	private boolean isGeneral(Field f) {
 		int modifiers = f.getModifiers();
 		return !(Modifier.isFinal(modifiers) || Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers));
 	}
-	
+
+    /**
+     * 设置配置项 Field 的值
+     */
 	private void putValue(String key,Field f) {
 		try {
 			defaults.put(key,f.get(this));
 		} catch (IllegalArgumentException | IllegalAccessException e) {}
 	}
-	
+
+    /**
+     * 在配置文件中存在 key 时，设置 Field 的值为配置文件中的值
+     */
 	private void setFieldIfConfigValueExist(YamlConfiguration config,Field f,String key) {
 		try {
 			f.set(this, config.get(key,defaults.get(key)));
@@ -90,7 +112,7 @@ public abstract class ConfigurationHandler{
 	
 	/**
 	 * 保存配置文件
-	 * @return
+	 * @return 是否加载成功
 	 */
 	public boolean save(){
 		try{
