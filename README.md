@@ -34,7 +34,7 @@ Maven:
 	<dependency>
 	    <groupId>com.github.UnknownStudio</groupId>
 	    <artifactId>UDPLib</artifactId>
-	    <version>1.0.1-Release</version>
+	    <version>1.1.0-Release</version>
 	</dependency>
 ```
 
@@ -52,6 +52,6 @@ Gradle:
 2. Add the dependency
 ```gradle
 	dependencies {
-	        compile 'com.github.UnknownStudio:UDPLib:1.0.1-Release'
+	        compile 'com.github.UnknownStudio:UDPLib:1.1.0-Release'
 	}
 ```
