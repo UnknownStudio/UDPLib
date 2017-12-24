@@ -1,8 +1,8 @@
 package team.unstudio.udpl.nms.entity;
 
-import java.util.Locale;
-
 import org.bukkit.entity.Player;
+
+import java.util.Locale;
 
 public interface NmsPlayer extends NmsEntity{
 
@@ -12,20 +12,16 @@ public interface NmsPlayer extends NmsEntity{
 	
 	/**
 	 * 发送一个包
-	 * @param packet
 	 */
 	void sendPacket(Object packet);
 	
 	/**
 	 * 发送一个ActionBar
-	 * @param message
 	 */
 	void sendActionBar(String message);
 	
 	/**
 	 * 发送一个Title
-	 * @param title
-	 * @param subtitle
 	 */
 	void sendTitle(String title, String subtitle);
 	

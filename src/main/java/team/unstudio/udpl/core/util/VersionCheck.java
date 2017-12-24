@@ -1,21 +1,20 @@
 package team.unstudio.udpl.core.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import org.apache.commons.io.IOUtils;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-
+import org.apache.commons.io.IOUtils;
+import org.bukkit.scheduler.BukkitRunnable;
 import team.unstudio.udpl.core.UDPLI18n;
 import team.unstudio.udpl.core.UDPLib;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class VersionCheck extends BukkitRunnable{
 	

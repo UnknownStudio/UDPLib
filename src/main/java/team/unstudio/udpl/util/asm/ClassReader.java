@@ -1598,9 +1598,9 @@ public class ClassReader {
 
         // visits the local variables type annotations
         if (tanns != null) {
-            for (int i = 0; i < tanns.length; ++i) {
-                if ((readByte(tanns[i]) >> 1) == (0x40 >> 1)) {
-                    int v = readAnnotationTarget(context, tanns[i]);
+            for (int tann1 : tanns) {
+                if ((readByte(tann1) >> 1) == (0x40 >> 1)) {
+                    int v = readAnnotationTarget(context, tann1);
                     v = readAnnotationValues(v + 2, c, true,
                             mv.visitLocalVariableAnnotation(context.typeRef,
                                     context.typePath, context.start,
@@ -1610,9 +1610,9 @@ public class ClassReader {
             }
         }
         if (itanns != null) {
-            for (int i = 0; i < itanns.length; ++i) {
-                if ((readByte(itanns[i]) >> 1) == (0x40 >> 1)) {
-                    int v = readAnnotationTarget(context, itanns[i]);
+            for (int itann1 : itanns) {
+                if ((readByte(itann1) >> 1) == (0x40 >> 1)) {
+                    int v = readAnnotationTarget(context, itann1);
                     v = readAnnotationValues(v + 2, c, true,
                             mv.visitLocalVariableAnnotation(context.typeRef,
                                     context.typePath, context.start,
@@ -2316,9 +2316,9 @@ public class ClassReader {
     private Attribute readAttribute(final Attribute[] attrs, final String type,
             final int off, final int len, final char[] buf, final int codeOff,
             final Label[] labels) {
-        for (int i = 0; i < attrs.length; ++i) {
-            if (attrs[i].type.equals(type)) {
-                return attrs[i].read(this, off, len, buf, codeOff, labels);
+        for (Attribute attr : attrs) {
+            if (attr.type.equals(type)) {
+                return attr.read(this, off, len, buf, codeOff, labels);
             }
         }
         return new Attribute(type).read(this, off, len, null, -1, null);

@@ -1,11 +1,6 @@
 package team.unstudio.udpl.conversation;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +8,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.google.common.collect.Lists;
-
 import team.unstudio.udpl.util.PluginUtils;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class Conversation {
 
@@ -75,8 +72,6 @@ public class Conversation {
 
 	/**
 	 * 获取请求
-	 * 
-	 * @throws ArrayIndexOutOfBoundsException
 	 */
 	public Request<?> getRequest(int index) {
 		return requests.get(index);

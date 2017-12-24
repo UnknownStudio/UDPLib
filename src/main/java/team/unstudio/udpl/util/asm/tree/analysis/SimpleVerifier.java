@@ -154,11 +154,11 @@ public class SimpleVerifier extends BasicVerifier {
         if (BasicValue.REFERENCE_VALUE.equals(v)) {
             if (isArray) {
                 v = newValue(type.getElementType());
-                String desc = v.getType().getDescriptor();
+                StringBuilder desc = new StringBuilder(v.getType().getDescriptor());
                 for (int i = 0; i < type.getDimensions(); ++i) {
-                    desc = '[' + desc;
+                    desc.insert(0, '[');
                 }
-                v = new BasicValue(Type.getType(desc));
+                v = new BasicValue(Type.getType(desc.toString()));
             } else {
                 v = new BasicValue(type);
             }
@@ -290,8 +290,7 @@ public class SimpleVerifier extends BasicVerifier {
                 return true;
             }
             if (currentClassInterfaces != null) {
-                for (int i = 0; i < currentClassInterfaces.size(); ++i) {
-                    Type v = currentClassInterfaces.get(i);
+                for (Type v : currentClassInterfaces) {
                     if (isAssignableFrom(t, v)) {
                         return true;
                     }

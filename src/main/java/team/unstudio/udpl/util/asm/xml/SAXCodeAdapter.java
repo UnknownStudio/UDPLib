@@ -29,19 +29,12 @@
  */
 package team.unstudio.udpl.util.asm.xml;
 
+import org.xml.sax.helpers.AttributesImpl;
+import team.unstudio.udpl.util.asm.*;
+import team.unstudio.udpl.util.asm.util.Printer;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.xml.sax.helpers.AttributesImpl;
-
-import team.unstudio.udpl.util.asm.AnnotationVisitor;
-import team.unstudio.udpl.util.asm.Handle;
-import team.unstudio.udpl.util.asm.Label;
-import team.unstudio.udpl.util.asm.MethodVisitor;
-import team.unstudio.udpl.util.asm.Opcodes;
-import team.unstudio.udpl.util.asm.Type;
-import team.unstudio.udpl.util.asm.TypePath;
-import team.unstudio.udpl.util.asm.util.Printer;
 
 /**
  * A {@link MethodVisitor} that generates SAX 2.0 events from the visited
@@ -73,7 +66,7 @@ public final class SAXCodeAdapter extends MethodVisitor {
         super(Opcodes.ASM5);
         this.sa = sa;
         this.access = access;
-        this.labelNames = new HashMap<Label, String>();
+        this.labelNames = new HashMap<>();
     }
 
     @Override
@@ -210,8 +203,8 @@ public final class SAXCodeAdapter extends MethodVisitor {
         attrs.addAttribute("", "bsm", "bsm", "",
                 SAXClassAdapter.encode(bsm.toString()));
         sa.addStart("INVOKEDYNAMIC", attrs);
-        for (int i = 0; i < bsmArgs.length; i++) {
-            sa.addElement("bsmArg", getConstantAttribute(bsmArgs[i]));
+        for (Object bsmArg : bsmArgs) {
+            sa.addElement("bsmArg", getConstantAttribute(bsmArg));
         }
         sa.addEnd("INVOKEDYNAMIC");
     }
@@ -261,9 +254,9 @@ public final class SAXCodeAdapter extends MethodVisitor {
         attrs.addAttribute("", "dflt", "dflt", "", getLabel(dflt));
         String o = Printer.OPCODES[Opcodes.TABLESWITCH];
         sa.addStart(o, attrs);
-        for (int i = 0; i < labels.length; i++) {
+        for (Label label : labels) {
             AttributesImpl att2 = new AttributesImpl();
-            att2.addAttribute("", "name", "name", "", getLabel(labels[i]));
+            att2.addAttribute("", "name", "name", "", getLabel(label));
             sa.addElement("label", att2);
         }
         sa.addEnd(o);
@@ -404,13 +397,8 @@ public final class SAXCodeAdapter extends MethodVisitor {
         sa.addEnd("method");
     }
 
-    private final String getLabel(final Label label) {
-        String name = labelNames.get(label);
-        if (name == null) {
-            name = Integer.toString(labelNames.size());
-            labelNames.put(label, name);
-        }
-        return name;
+    private String getLabel(final Label label) {
+        return labelNames.computeIfAbsent(label, k -> Integer.toString(labelNames.size()));
     }
 
 }

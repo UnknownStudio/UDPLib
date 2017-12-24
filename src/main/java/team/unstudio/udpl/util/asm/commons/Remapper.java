@@ -54,11 +54,11 @@ public abstract class Remapper {
         Type t = Type.getType(desc);
         switch (t.getSort()) {
         case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
+            StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
             for (int i = 0; i < t.getDimensions(); ++i) {
-                s = '[' + s;
+                s.insert(0, '[');
             }
-            return s;
+            return s.toString();
         case Type.OBJECT:
             String newType = map(t.getInternalName());
             if (newType != null) {
@@ -71,14 +71,14 @@ public abstract class Remapper {
     private Type mapType(Type t) {
         switch (t.getSort()) {
         case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
+            StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
             for (int i = 0; i < t.getDimensions(); ++i) {
-                s = '[' + s;
+                s.insert(0, '[');
             }
-            return Type.getType(s);
+            return Type.getType(s.toString());
         case Type.OBJECT:
-            s = map(t.getInternalName());
-            return s != null ? Type.getObjectType(s) : t;
+            s = new StringBuilder(map(t.getInternalName()));
+            return s != null ? Type.getObjectType(s.toString()) : t;
         case Type.METHOD:
             return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
         }
@@ -119,8 +119,8 @@ public abstract class Remapper {
 
         Type[] args = Type.getArgumentTypes(desc);
         StringBuilder sb = new StringBuilder("(");
-        for (int i = 0; i < args.length; i++) {
-            sb.append(mapDesc(args[i].getDescriptor()));
+        for (Type arg : args) {
+            sb.append(mapDesc(arg.getDescriptor()));
         }
         Type returnType = Type.getReturnType(desc);
         if (returnType == Type.VOID_TYPE) {

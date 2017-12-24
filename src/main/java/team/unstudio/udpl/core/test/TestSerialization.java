@@ -1,11 +1,10 @@
 package team.unstudio.udpl.core.test;
 
-import java.util.Map;
-
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
 import team.unstudio.udpl.config.ConfigItem;
 import team.unstudio.udpl.config.SerializationHelper;
+
+import java.util.Map;
 
 public class TestSerialization implements ConfigurationSerializable{
 	

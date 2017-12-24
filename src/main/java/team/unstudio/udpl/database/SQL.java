@@ -11,35 +11,33 @@ public interface SQL {
 	/**
 	 * 获取数据库名称
 	 */
-	public String getDatabaseName();
+	String getDatabaseName();
 
 	/**
 	 * 是否已连接
 	 */
-	public boolean isConnected() throws SQLException;
+	boolean isConnected() throws SQLException;
 
 	/**
 	 * 断开连接
 	 */
-	public void disconnect() throws SQLException;
+	void disconnect() throws SQLException;
 
 	/**
 	 * 执行命令
 	 * 
 	 * @param statement 命令
 	 * @return ResultSet
-	 * @throws java.sql.SQLException
 	 */
-	public ResultSet executeQuery(String statement) throws SQLException;
+	ResultSet executeQuery(String statement) throws SQLException;
 
 	/**
 	 * 执行命令
 	 * 
 	 * @param statement 命令
 	 * @return Boolean
-	 * @throws java.sql.SQLException
 	 */
-	public boolean execute(String statement) throws SQLException;
+	boolean execute(String statement) throws SQLException;
 
 	/**
 	 * 执行命令
@@ -47,9 +45,8 @@ public interface SQL {
 	 * @param statement
 	 *            命令
 	 * @return int
-	 * @throws SQLException
 	 */
-	public int executeUpdate(String statement) throws SQLException;
+	int executeUpdate(String statement) throws SQLException;
 
 	/**
 	 * 添加数据
@@ -57,9 +54,8 @@ public interface SQL {
 	 * @param map
 	 *            数据
 	 * @return Boolean
-	 * @throws SQLException
 	 */
-	public boolean insert(HashMap<String, String> map) throws SQLException;
+	boolean insert(HashMap<String, String> map) throws SQLException;
 
 	/**
 	 * 更新符合条件数据
@@ -71,9 +67,8 @@ public interface SQL {
 	 * @param value
 	 *            值
 	 * @return int
-	 * @throws java.sql.SQLException
 	 */
-	public int update(String condition, String key, String value) throws SQLException;
+	int update(String condition, String key, String value) throws SQLException;
 
 	/**
 	 * 删除符合条件数据
@@ -83,9 +78,8 @@ public interface SQL {
 	 * @param value
 	 *            条件值
 	 * @return int
-	 * @throws SQLException
 	 */
-	public int delete(String key, String value) throws SQLException;
+	int delete(String key, String value) throws SQLException;
 
 	/**
 	 * 获取键中所有符合值
@@ -95,9 +89,8 @@ public interface SQL {
 	 * @param key
 	 *            键
 	 * @return List<Object>
-	 * @throws SQLException
 	 */
-	public ResultSet getValuesOfKey(String condition, String key) throws SQLException;
+	ResultSet getValuesOfKey(String condition, String key) throws SQLException;
 
 	/**
 	 * 获取键中所有符合值
@@ -107,9 +100,8 @@ public interface SQL {
 	 * @param key
 	 *            键
 	 * @return List<Object>
-	 * @throws SQLException
 	 */
-	public List<Object> getObjectsOfKey(String condition, String key) throws SQLException;
+	List<Object> getObjectsOfKey(String condition, String key) throws SQLException;
 
 	/**
 	 * 获取键中所有符合值
@@ -119,9 +111,8 @@ public interface SQL {
 	 * @param key
 	 *            键
 	 * @return List<Integer>
-	 * @throws SQLException
 	 */
-	public List<Integer> getIntegersOfKey(String condition, String key) throws SQLException;
+	List<Integer> getIntegersOfKey(String condition, String key) throws SQLException;
 
 	/**
 	 * 获取键中所有符合值
@@ -131,9 +122,8 @@ public interface SQL {
 	 * @param key
 	 *            键
 	 * @return List<String>
-	 * @throws SQLException
 	 */
-	public List<String> getStringsOfKey(String condition, String key) throws SQLException;
+	List<String> getStringsOfKey(String condition, String key) throws SQLException;
 
 	/**
 	 * 键是否存在
@@ -141,17 +131,15 @@ public interface SQL {
 	 * @param key
 	 *            键
 	 * @return Boolean
-	 * @throws java.sql.SQLException
 	 */
-	public boolean isKeyExist(String key) throws SQLException;
+	boolean isKeyExist(String key) throws SQLException;
 
 	/**
 	 * 获取现有键
 	 * 
 	 * @return List<String>
-	 * @throws SQLException
 	 */
-	public List<String> getKeys() throws SQLException;
+	List<String> getKeys() throws SQLException;
 
 	/**
 	 * 键是否拥有值
@@ -161,9 +149,8 @@ public interface SQL {
 	 * @param value
 	 *            值
 	 * @return Boolean
-	 * @throws SQLException
 	 */
-	public boolean isKeyHasValue(String key, String value) throws SQLException;
+	boolean isKeyHasValue(String key, String value) throws SQLException;
 
 	/**
 	 * 获取键信息
@@ -172,5 +159,5 @@ public interface SQL {
 	 *            键
 	 * @return ResultSet
 	 */
-	public ResultSet getKeyInfo(String key) throws SQLException;
+	ResultSet getKeyInfo(String key) throws SQLException;
 }

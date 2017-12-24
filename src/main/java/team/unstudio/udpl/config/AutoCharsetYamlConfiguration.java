@@ -2,6 +2,7 @@ package team.unstudio.udpl.config;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.InvalidConfigurationException;
+import team.unstudio.udpl.core.UDPLib;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,7 +35,7 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
          	config.charset = Charset.forName(EncodingDetect.getJavaEncode(file));
          	if (config.charset == null) 
             	config.charset = defaultCharset;
-         }catch(Exception e){}
+         }catch(Exception ignored){}
     }
     
     private static AutoCharsetYamlConfiguration loadFile(AutoCharsetYamlConfiguration config,File file) {
@@ -42,7 +43,7 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
 			config.load(file);
 			return config;
 		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
+            UDPLib.getLog().error(e);
 			return null;
 		}
     }

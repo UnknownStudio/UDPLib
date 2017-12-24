@@ -717,8 +717,8 @@ public class ASMifier extends Printer {
     public void visitTableSwitchInsn(final int min, final int max,
             final Label dflt, final Label... labels) {
         buf.setLength(0);
-        for (int i = 0; i < labels.length; ++i) {
-            declareLabel(labels[i]);
+        for (Label label : labels) {
+            declareLabel(label);
         }
         declareLabel(dflt);
 
@@ -738,8 +738,8 @@ public class ASMifier extends Printer {
     public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
             final Label[] labels) {
         buf.setLength(0);
-        for (int i = 0; i < labels.length; ++i) {
-            declareLabel(labels[i]);
+        for (Label label : labels) {
+            declareLabel(label);
         }
         declareLabel(dflt);
 
@@ -928,7 +928,7 @@ public class ASMifier extends Printer {
         buf.append("// ATTRIBUTE ").append(attr.type).append('\n');
         if (attr instanceof ASMifiable) {
             if (labelNames == null) {
-                labelNames = new HashMap<Label, String>();
+                labelNames = new HashMap<>();
             }
             buf.append("{\n");
             ((ASMifiable) attr).asmify(buf, "attr", labelNames);
@@ -1268,7 +1268,7 @@ public class ASMifier extends Printer {
      */
     protected void declareLabel(final Label l) {
         if (labelNames == null) {
-            labelNames = new HashMap<Label, String>();
+            labelNames = new HashMap<>();
         }
         String name = labelNames.get(l);
         if (name == null) {

@@ -159,9 +159,9 @@ public final class SAXClassAdapter extends ClassVisitor {
 
         sa.addStart("interfaces", new AttributesImpl());
         if (interfaces != null && interfaces.length > 0) {
-            for (int i = 0; i < interfaces.length; i++) {
+            for (String anInterface : interfaces) {
                 AttributesImpl att2 = new AttributesImpl();
-                att2.addAttribute("", "name", "name", "", interfaces[i]);
+                att2.addAttribute("", "name", "name", "", anInterface);
                 sa.addElement("interface", att2);
             }
         }
@@ -206,9 +206,9 @@ public final class SAXClassAdapter extends ClassVisitor {
 
         sa.addStart("exceptions", new AttributesImpl());
         if (exceptions != null && exceptions.length > 0) {
-            for (int i = 0; i < exceptions.length; i++) {
+            for (String exception : exceptions) {
                 AttributesImpl att2 = new AttributesImpl();
-                att2.addAttribute("", "name", "name", "", exceptions[i]);
+                att2.addAttribute("", "name", "name", "", exception);
                 sa.addElement("exception", att2);
             }
         }

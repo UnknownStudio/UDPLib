@@ -1,11 +1,10 @@
 package team.unstudio.udpl.core;
 
+import org.bukkit.entity.Player;
 import team.unstudio.udpl.i18n.YamlI18n;
 
 import java.io.File;
 import java.util.Locale;
-
-import org.bukkit.entity.Player;
 
 /**
  * UDPLib本体所需的国际化配置

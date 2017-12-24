@@ -1,11 +1,10 @@
 package team.unstudio.udpl.conversation;
 
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-
+import com.google.common.base.Strings;
 import org.bukkit.Bukkit;
 
-import com.google.common.base.Strings;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 
 public abstract class RequestBase<T> implements Request<T>{
 	

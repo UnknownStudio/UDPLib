@@ -1,17 +1,18 @@
 package team.unstudio.udpl;
 
+import org.junit.AfterClass;
+import org.junit.Test;
+import team.unstudio.udpl.config.EncodingDetect;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import team.unstudio.udpl.config.EncodingDetect;
+import static org.junit.Assert.fail;
 
 /**
  * Created by trychen on 17/7/29.
@@ -21,16 +22,16 @@ public class EncodingDetectTest {
 
     @Test
     public void guessingFileEncoding() throws IOException {
-        guess("UTF-8", Arrays.asList("Unicode"));
-        guess("UTF-16", Arrays.asList("Unicode"));
+        guess("UTF-8", Collections.singletonList("Unicode"));
+        guess("UTF-16", Collections.singletonList("Unicode"));
         guess("UTF-32", Arrays.asList("ASCII", "Unicode"));
-        guess("GB2312", Arrays.asList());
-        guess("GBK", Arrays.asList("GB2312"));
-        guess("GB18030", Arrays.asList("GB2312"));
-        guess("BIG5", Arrays.asList());
-        guess("ISO-8859-1", Arrays.asList("ASCII"));
-        guess("Unicode", Arrays.asList());
-        guess("CP1250", Arrays.asList("ASCII"));
+        guess("GB2312", Collections.emptyList());
+        guess("GBK", Collections.singletonList("GB2312"));
+        guess("GB18030", Collections.singletonList("GB2312"));
+        guess("BIG5", Collections.emptyList());
+        guess("ISO-8859-1", Collections.singletonList("ASCII"));
+        guess("Unicode", Collections.emptyList());
+        guess("CP1250", Collections.singletonList("ASCII"));
     }
 
     @AfterClass

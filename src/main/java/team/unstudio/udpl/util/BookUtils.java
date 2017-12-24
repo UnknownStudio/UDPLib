@@ -33,7 +33,6 @@ public interface BookUtils {
 	 *
 	 * @param player the player to open
 	 * @param book the book to open
-	 * @return
 	 */
 	static Result open(Player player, ItemStack book){
 		ItemStack held = player.getInventory().getItemInMainHand();
@@ -86,21 +85,14 @@ public interface BookUtils {
 
 	/**
 	 * Get all lines' {@link BaseComponent} of book
-	 * @param book
-	 * @return
 	 */
 	static Optional<BaseComponent[]> getPagesReturnBaseComponent(BookMeta book){
 		Optional<String[]> pages = getPages(book);
-		if(!pages.isPresent())
-			return Optional.empty();
-		
-		return Optional.of(Arrays.stream(pages.get()).map(ComponentSerializer::parse).toArray(BaseComponent[]::new));
+		return pages.map(strings -> Arrays.stream(strings).map(ComponentSerializer::parse).toArray(BaseComponent[]::new));
 	}
 
 	/**
 	 * Get all lines' String of book
-	 * @param book
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	static Optional<String[]> getPages(BookMeta book){

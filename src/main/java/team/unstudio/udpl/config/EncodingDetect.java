@@ -32,19 +32,17 @@ public class EncodingDetect {
 	 * @return 文件的编码
 	 */
 	public static String getJavaEncode(File file){
-		BytesEncodingDetect s = new BytesEncodingDetect(); 
-		String fileCode = BytesEncodingDetect.javaname[s.detectEncoding(file)];
-		return fileCode;
+		BytesEncodingDetect s = new BytesEncodingDetect();
+		return BytesEncodingDetect.javaname[s.detectEncoding(file)];
 	}
 	/**
 	 * 得到文件的编码
-	 * @param url
+	 * @param url 文件url
 	 * @return 文件的编码
 	 */
 	public static String getJavaEncode(URL url){
 		BytesEncodingDetect s = new BytesEncodingDetect();
-		String fileCode = BytesEncodingDetect.javaname[s.detectEncoding(url)];
-		return fileCode;
+		return BytesEncodingDetect.javaname[s.detectEncoding(url)];
 	}
 }
 
@@ -90,7 +88,7 @@ class BytesEncodingDetect extends Encoding {
 	    int i;
 	    sinodetector = new BytesEncodingDetect();
 	    for (i = 0; i < argc.length; i++) {
-	      if (argc[i].startsWith("http://") == true) {
+	      if (argc[i].startsWith("http://")) {
 	        try {
 	          result = sinodetector.detectEncoding(new URL(argc[i]));
 	        } catch (Exception e) {

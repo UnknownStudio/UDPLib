@@ -1,10 +1,6 @@
 package team.unstudio.udpl.ui;
 
-import java.util.Set;
-import java.util.function.BiConsumer;
-
-import javax.annotation.Nonnull;
-
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
@@ -18,10 +14,11 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.google.common.collect.Sets;
-
 import team.unstudio.udpl.core.UDPLib;
+
+import javax.annotation.Nonnull;
+import java.util.Set;
+import java.util.function.BiConsumer;
 
 /**
  * 界面的包装类

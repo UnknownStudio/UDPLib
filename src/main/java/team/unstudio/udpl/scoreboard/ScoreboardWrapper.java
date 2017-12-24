@@ -1,15 +1,15 @@
 package team.unstudio.udpl.scoreboard;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ScoreboardWrapper {
 	
@@ -53,7 +53,7 @@ public class ScoreboardWrapper {
 	}
 	
 	public void putAll(Map<String,Integer> map){
-		map.entrySet().forEach(entry->put(entry.getKey(), entry.getValue()));
+		map.forEach((key, value) -> put(key, value));
 	}
 	
 	public void remove(String key){

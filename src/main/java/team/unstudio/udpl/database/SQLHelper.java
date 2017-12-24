@@ -1,10 +1,10 @@
 package team.unstudio.udpl.database;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import team.unstudio.udpl.database.mysql.MySQL;
 import team.unstudio.udpl.database.sqlite.SQLite;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 @Deprecated
 public interface SQLHelper {

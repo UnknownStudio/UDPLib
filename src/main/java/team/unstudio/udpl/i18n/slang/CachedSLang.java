@@ -20,7 +20,6 @@ public class CachedSLang {
 
     /**
      * 通过语言初始化一个 CachedSLang
-     * @param locale
      */
     public CachedSLang(Locale locale) {
         this.locale = locale;
@@ -28,8 +27,6 @@ public class CachedSLang {
 
     /**
      * 获取本地化文本
-     * @param key
-     * @return
      */
     public String get(String key){
         String s = map.get(key);

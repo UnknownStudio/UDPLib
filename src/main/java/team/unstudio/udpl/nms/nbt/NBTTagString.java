@@ -1,8 +1,8 @@
 package team.unstudio.udpl.nms.nbt;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 public final class NBTTagString extends NBTBase {
 	private String value;

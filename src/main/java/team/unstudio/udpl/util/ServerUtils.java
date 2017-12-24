@@ -1,6 +1,7 @@
 package team.unstudio.udpl.util;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import team.unstudio.udpl.core.UDPLib;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,14 +17,14 @@ public interface ServerUtils {
 	 * get online players' name
 	 */
 	static String[] getOnlinePlayerNames(){
-		return Bukkit.getOnlinePlayers().stream().map(player->player.getName()).toArray(String[]::new);
+		return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toArray(String[]::new);
 	}
 
 	/**
 	 * get all online players' name with a filter
 	 */
 	static String[] getOnlinePlayerNamesWithFilter(Predicate<String> filter){
-		return Bukkit.getOnlinePlayers().stream().map(player->player.getName()).filter(filter).toArray(String[]::new);
+		return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).filter(filter).toArray(String[]::new);
 	}
 
 	/**

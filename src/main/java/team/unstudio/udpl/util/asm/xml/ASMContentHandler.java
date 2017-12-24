@@ -63,7 +63,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
     /**
      * Stack of the intermediate processing contexts.
      */
-    private final ArrayList<Object> stack = new ArrayList<Object>();
+    private final ArrayList<Object> stack = new ArrayList<>();
 
     /**
      * Complete name of the current element.
@@ -138,23 +138,23 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
         RULES.add("*/annotationValueArray", new AnnotationValueArrayRule());
     }
 
-    private static interface OpcodeGroup {
-        public static final int INSN = 0;
-        public static final int INSN_INT = 1;
-        public static final int INSN_VAR = 2;
-        public static final int INSN_TYPE = 3;
-        public static final int INSN_FIELD = 4;
-        public static final int INSN_METHOD = 5;
-        public static final int INSN_JUMP = 6;
-        public static final int INSN_LDC = 7;
-        public static final int INSN_IINC = 8;
-        public static final int INSN_MULTIANEWARRAY = 9;
+    private interface OpcodeGroup {
+        int INSN = 0;
+        int INSN_INT = 1;
+        int INSN_VAR = 2;
+        int INSN_TYPE = 3;
+        int INSN_FIELD = 4;
+        int INSN_METHOD = 5;
+        int INSN_JUMP = 6;
+        int INSN_LDC = 7;
+        int INSN_IINC = 8;
+        int INSN_MULTIANEWARRAY = 9;
     }
 
     /**
      * Map of the opcode names to opcode and opcode group
      */
-    static final HashMap<String, Opcode> OPCODES = new HashMap<String, Opcode>();
+    static final HashMap<String, Opcode> OPCODES = new HashMap<>();
     static {
         addOpcode("NOP", NOP, OpcodeGroup.INSN);
         addOpcode("ACONST_NULL", ACONST_NULL, OpcodeGroup.INSN);
@@ -317,7 +317,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
         OPCODES.put(operStr, new Opcode(oper, group));
     }
 
-    static final HashMap<String, Integer> TYPES = new HashMap<String, Integer>();
+    static final HashMap<String, Integer> TYPES = new HashMap<>();
     static {
         String[] types = SAXCodeAdapter.TYPES;
         for (int i = 0; i < types.length; i++) {
@@ -450,11 +450,11 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
 
     static final class RuleSet {
 
-        private final HashMap<String, Object> rules = new HashMap<String, Object>();
+        private final HashMap<String, Object> rules = new HashMap<>();
 
-        private final ArrayList<String> lpatterns = new ArrayList<String>();
+        private final ArrayList<String> lpatterns = new ArrayList<>();
 
-        private final ArrayList<String> rpatterns = new ArrayList<String>();
+        private final ArrayList<String> rpatterns = new ArrayList<>();
 
         public void add(final String path, final Object rule) {
             String pattern = path;
@@ -474,15 +474,13 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
             }
 
             int n = path.lastIndexOf('/');
-            for (Iterator<String> it = lpatterns.iterator(); it.hasNext();) {
-                String pattern = it.next();
+            for (String pattern : lpatterns) {
                 if (path.substring(n).endsWith(pattern)) {
                     return rules.get(pattern);
                 }
             }
 
-            for (Iterator<String> it = rpatterns.iterator(); it.hasNext();) {
-                String pattern = it.next();
+            for (String pattern : rpatterns) {
                 if (path.startsWith(pattern)) {
                     return rules.get(pattern);
                 }
@@ -601,12 +599,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
         }
 
         protected final Label getLabel(final Object label) {
-            Label lbl = labels.get(label);
-            if (lbl == null) {
-                lbl = new Label();
-                labels.put(label, lbl);
-            }
-            return lbl;
+            return labels.computeIfAbsent(label, k -> new Label());
         }
 
         // TODO verify move to stack
@@ -689,7 +682,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
         public final void begin(final String name, final Attributes attrs) {
             int major = Integer.parseInt(attrs.getValue("major"));
             int minor = Integer.parseInt(attrs.getValue("minor"));
-            HashMap<String, Object> vals = new HashMap<String, Object>();
+            HashMap<String, Object> vals = new HashMap<>();
             vals.put("version", minor << 16 | major);
             vals.put("access", attrs.getValue("access"));
             vals.put("name", attrs.getValue("name"));
@@ -803,8 +796,8 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
 
         @Override
         public final void begin(final String name, final Attributes attrs) {
-            labels = new HashMap<Object, Label>();
-            HashMap<String, Object> vals = new HashMap<String, Object>();
+            labels = new HashMap<>();
+            HashMap<String, Object> vals = new HashMap<>();
             vals.put("access", attrs.getValue("access"));
             vals.put("name", attrs.getValue("name"));
             vals.put("desc", attrs.getValue("desc"));
@@ -872,7 +865,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
 
         @Override
         public final void begin(final String name, final Attributes attrs) {
-            HashMap<String, Object> vals = new HashMap<String, Object>();
+            HashMap<String, Object> vals = new HashMap<>();
             vals.put("min", attrs.getValue("min"));
             vals.put("max", attrs.getValue("max"));
             vals.put("dflt", attrs.getValue("dflt"));
@@ -912,7 +905,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
 
         @Override
         public final void begin(final String name, final Attributes attrs) {
-            HashMap<String, Object> vals = new HashMap<String, Object>();
+            HashMap<String, Object> vals = new HashMap<>();
             vals.put("dflt", attrs.getValue("dflt"));
             vals.put("labels", new ArrayList<Label>());
             vals.put("keys", new ArrayList<String>());
@@ -957,9 +950,9 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
 
         @Override
         public void begin(final String name, final Attributes attrs) {
-            HashMap<String, Object> typeLists = new HashMap<String, Object>();
-            typeLists.put("local", new ArrayList<Object>());
-            typeLists.put("stack", new ArrayList<Object>());
+            HashMap<String, Object> typeLists = new HashMap<>();
+            typeLists.put("local", new ArrayList<>());
+            typeLists.put("stack", new ArrayList<>());
             push(attrs.getValue("type"));
             push(attrs.getValue("count") == null ? "0" : attrs
                     .getValue("count"));
@@ -1084,7 +1077,7 @@ public class ASMContentHandler extends DefaultHandler implements Opcodes {
             push(attrs.getValue("name"));
             push(attrs.getValue("desc"));
             push(decodeHandle(attrs.getValue("bsm")));
-            push(new ArrayList<Object>());
+            push(new ArrayList<>());
         }
 
         @Override

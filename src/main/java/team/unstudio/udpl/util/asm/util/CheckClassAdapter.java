@@ -215,17 +215,16 @@ public class CheckClassAdapter extends ClassVisitor {
                 .getObjectType(cn.superName);
         List<MethodNode> methods = cn.methods;
 
-        List<Type> interfaces = new ArrayList<Type>();
-        for (Iterator<String> i = cn.interfaces.iterator(); i.hasNext();) {
-            interfaces.add(Type.getObjectType(i.next()));
+        List<Type> interfaces = new ArrayList<>();
+        for (String anInterface : cn.interfaces) {
+            interfaces.add(Type.getObjectType(anInterface));
         }
 
-        for (int i = 0; i < methods.size(); ++i) {
-            MethodNode method = methods.get(i);
+        for (MethodNode method : methods) {
             SimpleVerifier verifier = new SimpleVerifier(
                     Type.getObjectType(cn.name), syperType, interfaces,
                     (cn.access & Opcodes.ACC_INTERFACE) != 0);
-            Analyzer<BasicValue> a = new Analyzer<BasicValue>(verifier);
+            Analyzer<BasicValue> a = new Analyzer<>(verifier);
             if (loader != null) {
                 verifier.setClassLoader(loader);
             }
@@ -357,7 +356,7 @@ public class CheckClassAdapter extends ClassVisitor {
     protected CheckClassAdapter(final int api, final ClassVisitor cv,
             final boolean checkDataFlow) {
         super(api, cv);
-        this.labels = new HashMap<Label, Integer>();
+        this.labels = new HashMap<>();
         this.checkDataFlow = checkDataFlow;
     }
 

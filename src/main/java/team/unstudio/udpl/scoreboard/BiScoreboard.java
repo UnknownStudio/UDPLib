@@ -1,12 +1,13 @@
 package team.unstudio.udpl.scoreboard;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import org.bukkit.Bukkit;
+import org.bukkit.scoreboard.DisplaySlot;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.DisplaySlot;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 
 /**
  * 一个名称与分数唯一对应的计分板
@@ -35,11 +36,11 @@ public class BiScoreboard extends ScoreboardWrapper {
 	}
 	
 	public void putAll(Map<String,Integer> map){
-		map.entrySet().forEach(entry->put(entry.getKey(), entry.getValue()));
+		map.forEach(this::put);
 	}
 	
 	public void putAllInverse(Map<Integer,String> map){
-		map.entrySet().forEach(entry->put(entry.getKey(),entry.getValue()));
+		map.forEach(this::put);
 	}
 
 	@Override

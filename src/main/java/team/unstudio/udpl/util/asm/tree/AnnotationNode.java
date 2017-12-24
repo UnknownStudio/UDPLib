@@ -109,63 +109,63 @@ public class AnnotationNode extends AnnotationVisitor {
     @Override
     public void visit(final String name, final Object value) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
         }
         if (value instanceof byte[]) {
             byte[] v = (byte[]) value;
-            ArrayList<Byte> l = new ArrayList<Byte>(v.length);
+            ArrayList<Byte> l = new ArrayList<>(v.length);
             for (byte b : v) {
                 l.add(b);
             }
             values.add(l);
         } else if (value instanceof boolean[]) {
             boolean[] v = (boolean[]) value;
-            ArrayList<Boolean> l = new ArrayList<Boolean>(v.length);
+            ArrayList<Boolean> l = new ArrayList<>(v.length);
             for (boolean b : v) {
                 l.add(b);
             }
             values.add(l);
         } else if (value instanceof short[]) {
             short[] v = (short[]) value;
-            ArrayList<Short> l = new ArrayList<Short>(v.length);
+            ArrayList<Short> l = new ArrayList<>(v.length);
             for (short s : v) {
                 l.add(s);
             }
             values.add(l);
         } else if (value instanceof char[]) {
             char[] v = (char[]) value;
-            ArrayList<Character> l = new ArrayList<Character>(v.length);
+            ArrayList<Character> l = new ArrayList<>(v.length);
             for (char c : v) {
                 l.add(c);
             }
             values.add(l);
         } else if (value instanceof int[]) {
             int[] v = (int[]) value;
-            ArrayList<Integer> l = new ArrayList<Integer>(v.length);
+            ArrayList<Integer> l = new ArrayList<>(v.length);
             for (int i : v) {
                 l.add(i);
             }
             values.add(l);
         } else if (value instanceof long[]) {
             long[] v = (long[]) value;
-            ArrayList<Long> l = new ArrayList<Long>(v.length);
+            ArrayList<Long> l = new ArrayList<>(v.length);
             for (long lng : v) {
                 l.add(lng);
             }
             values.add(l);
         } else if (value instanceof float[]) {
             float[] v = (float[]) value;
-            ArrayList<Float> l = new ArrayList<Float>(v.length);
+            ArrayList<Float> l = new ArrayList<>(v.length);
             for (float f : v) {
                 l.add(f);
             }
             values.add(l);
         } else if (value instanceof double[]) {
             double[] v = (double[]) value;
-            ArrayList<Double> l = new ArrayList<Double>(v.length);
+            ArrayList<Double> l = new ArrayList<>(v.length);
             for (double d : v) {
                 l.add(d);
             }
@@ -179,7 +179,7 @@ public class AnnotationNode extends AnnotationVisitor {
     public void visitEnum(final String name, final String desc,
             final String value) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
@@ -191,7 +191,7 @@ public class AnnotationNode extends AnnotationVisitor {
     public AnnotationVisitor visitAnnotation(final String name,
             final String desc) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
@@ -204,12 +204,12 @@ public class AnnotationNode extends AnnotationVisitor {
     @Override
     public AnnotationVisitor visitArray(final String name) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
         }
-        List<Object> array = new ArrayList<Object>();
+        List<Object> array = new ArrayList<>();
         values.add(array);
         return new AnnotationNode(array);
     }
@@ -278,8 +278,8 @@ public class AnnotationNode extends AnnotationVisitor {
                 AnnotationVisitor v = av.visitArray(name);
                 if (v != null) {
                     List<?> array = (List<?>) value;
-                    for (int j = 0; j < array.size(); ++j) {
-                        accept(v, null, array.get(j));
+                    for (Object anArray : array) {
+                        accept(v, null, anArray);
                     }
                     v.visitEnd();
                 }

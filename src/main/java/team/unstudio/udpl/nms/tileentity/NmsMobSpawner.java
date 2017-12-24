@@ -2,7 +2,6 @@ package team.unstudio.udpl.nms.tileentity;
 
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.Entity;
-
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.nbt.NBTTagList;

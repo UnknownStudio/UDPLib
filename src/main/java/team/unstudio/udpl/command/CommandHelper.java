@@ -7,13 +7,12 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.core.UDPLib;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.annotation.Nonnull;
 
 public interface CommandHelper {
 	
@@ -24,7 +23,6 @@ public interface CommandHelper {
 	 * 不安全的指令注册
 	 * @param name 指令名
 	 * @param plugin 插件主类实例
-	 * @return 
 	 */
 	static Optional<PluginCommand> unsafeRegisterCommand(@Nonnull String name, @Nonnull Plugin plugin){
 		Validate.notEmpty(name);

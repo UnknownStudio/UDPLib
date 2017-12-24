@@ -1,13 +1,13 @@
 package team.unstudio.udpl.util;
 
+import org.bukkit.Bukkit;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.bukkit.Bukkit;
 
 /**
  * <b>ReflectionUtils</b>
@@ -441,7 +441,7 @@ public interface ReflectionUtils {
 		DOUBLE(double.class, Double.class),
 		BOOLEAN(boolean.class, Boolean.class);
 
-		private static final Map<Class<?>, DataType> CLASS_MAP = new HashMap<Class<?>, DataType>();
+		private static final Map<Class<?>, DataType> CLASS_MAP = new HashMap<>();
 		private final Class<?> primitive;
 		private final Class<?> reference;
 

@@ -6,10 +6,6 @@ import org.junit.Test;
 import team.unstudio.udpl.util.FileUtils;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

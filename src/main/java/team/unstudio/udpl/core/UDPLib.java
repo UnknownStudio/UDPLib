@@ -49,7 +49,8 @@ public final class UDPLib extends JavaPlugin{
 		
 		saveDefaultConfig();
 		CONFIG = new UDPLConfiguration(new File(getDataFolder(), "config.yml"));
-		CONFIG.reload();
+		if (!CONFIG.reload())
+			UDPLib.getLog().error("Config not loaded, please check console.");
 		
 		setDebug(CONFIG.debug);
 		

@@ -105,8 +105,8 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
     public void visitCode() {
         mv.visitCode();
         if (constructor) {
-            stackFrame = new ArrayList<Object>();
-            branches = new HashMap<Label, List<Object>>();
+            stackFrame = new ArrayList<>();
+            branches = new HashMap<>();
         } else {
             superInitialized = true;
             onMethodEnter();
@@ -440,9 +440,9 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
         mv.visitMethodInsn(opcode, owner, name, desc, itf);
         if (constructor) {
             Type[] types = Type.getArgumentTypes(desc);
-            for (int i = 0; i < types.length; i++) {
+            for (Type type1 : types) {
                 popValue();
-                if (types[i].getSize() == 2) {
+                if (type1.getSize() == 2) {
                     popValue();
                 }
             }
@@ -481,9 +481,9 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
         mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
         if (constructor) {
             Type[] types = Type.getArgumentTypes(desc);
-            for (int i = 0; i < types.length; i++) {
+            for (Type type : types) {
                 popValue();
-                if (types[i].getSize() == 2) {
+                if (type.getSize() == 2) {
                     popValue();
                 }
             }
@@ -557,7 +557,7 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
             String type) {
         super.visitTryCatchBlock(start, end, handler, type);
         if (constructor && !branches.containsKey(handler)) {
-            List<Object> stackFrame = new ArrayList<Object>();
+            List<Object> stackFrame = new ArrayList<>();
             stackFrame.add(OTHER);
             branches.put(handler, stackFrame);
         }
@@ -565,8 +565,8 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
 
     private void addBranches(final Label dflt, final Label[] labels) {
         addBranch(dflt);
-        for (int i = 0; i < labels.length; i++) {
-            addBranch(labels[i]);
+        for (Label label : labels) {
+            addBranch(label);
         }
     }
 
@@ -574,7 +574,7 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
         if (branches.containsKey(label)) {
             return;
         }
-        branches.put(label, new ArrayList<Object>(stackFrame));
+        branches.put(label, new ArrayList<>(stackFrame));
     }
 
     private Object popValue() {

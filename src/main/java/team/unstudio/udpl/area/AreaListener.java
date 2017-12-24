@@ -1,22 +1,17 @@
 package team.unstudio.udpl.area;
 
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
+import org.bukkit.event.player.*;
 import team.unstudio.udpl.util.CacheUtils;
+
+import java.util.List;
+import java.util.Map;
 
 public final class AreaListener implements Listener{
 	
@@ -77,13 +72,7 @@ public final class AreaListener implements Listener{
 	}
 	
 	private boolean isMove(Location from,Location to) {
-		if(to.getX()!=from.getX())
-			return true;
-		if(to.getY()!=from.getY())
-			return true;
-		if(to.getZ()!=from.getZ())
-			return true;
-		return false;
+		return to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ();
 	}
 	
 	@Override

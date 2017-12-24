@@ -1,7 +1,5 @@
 package team.unstudio.udpl.util;
 
-import team.unstudio.udpl.config.EncodingDetect;
-
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,7 +15,6 @@ public interface FileUtils {
      * @param file 文件
      * @param list 要写入到的List
      * @param code 编码
-     * @throws Exception
      */
     static void readFile2List(File file, List<String> list, String code) throws Exception {
         BufferedReader fr;
@@ -27,14 +24,12 @@ public interface FileUtils {
                     file), myCode);
 
             fr = new BufferedReader(read);
-            String line = null;
+            String line;
             while ((line = fr.readLine()) != null && line.trim().length() > 0) {
                 list.add(line);
             }
             fr.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +41,7 @@ public interface FileUtils {
         InputStreamReader read = new InputStreamReader(in, code);
 
         BufferedReader fr = new BufferedReader(read);
-        String line = null;
+        String line;
         while ((line = fr.readLine()) != null && line.trim().length() > 0) {
             list.add(line);
         }
@@ -60,7 +55,6 @@ public interface FileUtils {
      * @param file 文件
      * @return 文件内容分行的数组
      * @param code 编码
-     * @throws Exception
      */
     static String[] readFile2Array(File file, String code) throws Exception {
         List<String> list = new ArrayList<>();
@@ -86,10 +80,6 @@ public interface FileUtils {
 
             writer.flush();
             writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,8 +1,8 @@
 package team.unstudio.udpl.util;
 
-import java.util.Objects;
-
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public final class IndexedItemStack {
 	
@@ -33,10 +33,11 @@ public final class IndexedItemStack {
 		IndexedItemStack value = (IndexedItemStack) obj;
 		if(getIndex() != value.getIndex())
 			return false;
-		
-		if(!getItemStack().equals(value.getIndex()))
+
+		//noinspection RedundantIfStatement
+		if(!getItemStack().equals(value.getItemStack()))
 			return false;
-		
+
 		return true;
 	}
 	

@@ -3,7 +3,6 @@ package team.unstudio.udpl.nms;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
-
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.core.nms.asm.AsmNmsManager;
 import team.unstudio.udpl.nms.entity.NmsEntity;
@@ -20,7 +19,6 @@ public final class NmsHelper {
 
 	/**
 	 * 获取 {@link net.minecraft.server} 与  {@link team.unstudio.udpl.nms.nbt} 的帮助类实例
-	 * @return
 	 */
 	public static NmsNBT getNmsNBT(){
 		return ASM_NMS_MANAGER.getNmsNBT();
@@ -29,8 +27,6 @@ public final class NmsHelper {
 	
 	/**
 	 * 创建一个{@link NmsItemStack}对象
-	 * @param itemStack
-	 * @return
 	 */
 	public static NmsItemStack createNmsItemStack(ItemStack itemStack){
 		return ASM_NMS_MANAGER.createNmsItemStack(itemStack);
@@ -38,8 +34,6 @@ public final class NmsHelper {
 	
 	/**
 	 * 创建一个{@link NmsEntity}对象
-	 * @param entity
-	 * @return
 	 */
 	public static NmsEntity createNmsEntity(Entity entity){
 		return ASM_NMS_MANAGER.createNmsEntity(entity);
@@ -47,8 +41,6 @@ public final class NmsHelper {
 	
 	/**
 	 * 创建一个{@link NmsTileEntity}对象
-	 * @param blockState
-	 * @return
 	 */
 	public static NmsTileEntity createNmsTileEntity(BlockState blockState){
 		return ASM_NMS_MANAGER.createNmsTileEntity(blockState);

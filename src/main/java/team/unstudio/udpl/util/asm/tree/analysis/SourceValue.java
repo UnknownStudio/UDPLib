@@ -29,9 +29,9 @@
  */
 package team.unstudio.udpl.util.asm.tree.analysis;
 
-import java.util.Set;
-
 import team.unstudio.udpl.util.asm.tree.AbstractInsnNode;
+
+import java.util.Set;
 
 /**
  * A {@link Value} that is represented by its type in a two types type system.
@@ -64,12 +64,12 @@ public class SourceValue implements Value {
     public final Set<AbstractInsnNode> insns;
 
     public SourceValue(final int size) {
-        this(size, SmallSet.<AbstractInsnNode> emptySet());
+        this(size, SmallSet.emptySet());
     }
 
     public SourceValue(final int size, final AbstractInsnNode insn) {
         this.size = size;
-        this.insns = new SmallSet<AbstractInsnNode>(insn, null);
+        this.insns = new SmallSet<>(insn, null);
     }
 
     public SourceValue(final int size, final Set<AbstractInsnNode> insns) {

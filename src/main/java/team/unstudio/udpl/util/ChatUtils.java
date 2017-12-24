@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 
 public interface ChatUtils {
 
-	static String SPLITTER = translateColorCodes("&l&m----------------------------------------------------------------");
-	static char DEFAULT_COLOR_CHAR = '&';
+	String SPLITTER = translateColorCodes("&l&m----------------------------------------------------------------");
+	char DEFAULT_COLOR_CHAR = '&';
 	
 	/**
 	 * 发送分割线

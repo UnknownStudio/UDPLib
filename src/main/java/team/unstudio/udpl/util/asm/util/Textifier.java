@@ -29,20 +29,13 @@
  */
 package team.unstudio.udpl.util.asm.util;
 
+import team.unstudio.udpl.util.asm.*;
+import team.unstudio.udpl.util.asm.signature.SignatureReader;
+
 import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-
-import team.unstudio.udpl.util.asm.Attribute;
-import team.unstudio.udpl.util.asm.ClassReader;
-import team.unstudio.udpl.util.asm.Handle;
-import team.unstudio.udpl.util.asm.Label;
-import team.unstudio.udpl.util.asm.Opcodes;
-import team.unstudio.udpl.util.asm.Type;
-import team.unstudio.udpl.util.asm.TypePath;
-import team.unstudio.udpl.util.asm.TypeReference;
-import team.unstudio.udpl.util.asm.signature.SignatureReader;
 
 /**
  * A {@link Printer} that prints a disassembled view of the classes it visits.
@@ -259,8 +252,8 @@ public class Textifier extends Printer {
         }
         if (interfaces != null && interfaces.length > 0) {
             buf.append(" implements ");
-            for (int i = 0; i < interfaces.length; ++i) {
-                appendDescriptor(INTERNAL_NAME, interfaces[i]);
+            for (String anInterface : interfaces) {
+                appendDescriptor(INTERNAL_NAME, anInterface);
                 buf.append(' ');
             }
         }
@@ -434,8 +427,8 @@ public class Textifier extends Printer {
         appendDescriptor(METHOD_DESCRIPTOR, desc);
         if (exceptions != null && exceptions.length > 0) {
             buf.append(" throws ");
-            for (int i = 0; i < exceptions.length; ++i) {
-                appendDescriptor(INTERNAL_NAME, exceptions[i]);
+            for (String exception : exceptions) {
+                appendDescriptor(INTERNAL_NAME, exception);
                 buf.append(' ');
             }
         }
@@ -859,14 +852,14 @@ public class Textifier extends Printer {
             buf.append(" none");
         } else {
             buf.append('\n');
-            for (int i = 0; i < bsmArgs.length; i++) {
+            for (Object bsmArg : bsmArgs) {
                 buf.append(tab3);
-                Object cst = bsmArgs[i];
+                Object cst = bsmArg;
                 if (cst instanceof String) {
                     Printer.appendString(buf, (String) cst);
                 } else if (cst instanceof Type) {
                     Type type = (Type) cst;
-                    if(type.getSort() == Type.METHOD){
+                    if (type.getSort() == Type.METHOD) {
                         appendDescriptor(METHOD_DESCRIPTOR, type.getDescriptor());
                     } else {
                         buf.append(type.getDescriptor()).append(".class");
@@ -1207,13 +1200,9 @@ public class Textifier extends Printer {
      */
     protected void appendLabel(final Label l) {
         if (labelNames == null) {
-            labelNames = new HashMap<Label, String>();
+            labelNames = new HashMap<>();
         }
-        String name = labelNames.get(l);
-        if (name == null) {
-            name = "L" + labelNames.size();
-            labelNames.put(l, name);
-        }
+        String name = labelNames.computeIfAbsent(l, k -> "L" + labelNames.size());
         buf.append(name);
     }
 

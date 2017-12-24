@@ -64,9 +64,7 @@ public interface SLangSpliter {
         CachedSLang[] newLangs;
         if (langs[0] == null) {
             newLangs = new CachedSLang[langs.length - 1];
-            for (int i = 1; i < langs.length; i++) {
-                newLangs[i - 1] = langs[i];
-            }
+            System.arraycopy(langs, 1, newLangs, 0, langs.length - 1);
         } else newLangs = langs;
 
         return newLangs;

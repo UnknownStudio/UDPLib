@@ -1,12 +1,12 @@
 package team.unstudio.udpl.command.anno;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.bukkit.command.CommandSender;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.bukkit.command.CommandSender;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * 标记一个指令执行方法<br>
@@ -15,8 +15,7 @@ import org.bukkit.command.CommandSender;
  * 最后一个参数可以为String[]<br>
  * 
  * 示例如下:
- * <p>
-	@Command(value = "example",senders = Player.class,permission = "example.send")
+ * <p>@Command(value = "example",senders = Player.class,permission = "example.send")
 	public boolean example(CommandSender sender,@Required Player target,@Optional("default") String message){
 		target.sendMessage(message);
 	}

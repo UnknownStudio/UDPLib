@@ -1,12 +1,11 @@
 package team.unstudio.udpl.config;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public interface ConfigurationHelper {
 	
@@ -21,7 +20,7 @@ public interface ConfigurationHelper {
         if (!file.exists())
 			try {
 				file.createNewFile();
-			} catch (IOException e) {}
+			} catch (IOException ignored) {}
         
 		return AutoCharsetYamlConfiguration.loadConfiguration(file);
     }

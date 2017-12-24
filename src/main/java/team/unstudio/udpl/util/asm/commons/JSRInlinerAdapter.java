@@ -69,7 +69,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
     /**
      * For each label that is jumped to by a JSR, we create a BitSet instance.
      */
-    private final Map<LabelNode, BitSet> subroutineHeads = new HashMap<LabelNode, BitSet>();
+    private final Map<LabelNode, BitSet> subroutineHeads = new HashMap<>();
 
     /**
      * This subroutine instance denotes the line of execution that is not
@@ -201,9 +201,8 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
 
         // Go through the head of each subroutine and find any nodes reachable
         // to that subroutine without following any JSR links.
-        for (Iterator<Map.Entry<LabelNode, BitSet>> it = subroutineHeads
-                .entrySet().iterator(); it.hasNext();) {
-            Map.Entry<LabelNode, BitSet> entry = it.next();
+        for (Map.Entry<LabelNode, BitSet> entry : subroutineHeads
+                .entrySet()) {
             LabelNode lab = entry.getKey();
             BitSet sub = entry.getValue();
             int index = instructions.indexOf(lab);
@@ -240,10 +239,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
         boolean loop = true;
         while (loop) {
             loop = false;
-            for (Iterator<TryCatchBlockNode> it = tryCatchBlocks.iterator(); it
-                    .hasNext();) {
-                TryCatchBlockNode trycatch = it.next();
-
+            for (TryCatchBlockNode trycatch : tryCatchBlocks) {
                 if (LOGGING) {
                     // TODO use of default toString().
                     log("Scanning try/catch " + trycatch);
@@ -376,7 +372,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
      * subroutine until the code is fully elaborated.
      */
     private void emitCode() {
-        LinkedList<Instantiation> worklist = new LinkedList<Instantiation>();
+        LinkedList<Instantiation> worklist = new LinkedList<>();
         // Create an instantiation of the "root" subroutine, which is just the
         // main routine
         worklist.add(new Instantiation(null, mainSubroutine));
@@ -384,8 +380,8 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
         // Emit instantiations of each subroutine we encounter, including the
         // main subroutine
         InsnList newInstructions = new InsnList();
-        List<TryCatchBlockNode> newTryCatchBlocks = new ArrayList<TryCatchBlockNode>();
-        List<LocalVariableNode> newLocalVariables = new ArrayList<LocalVariableNode>();
+        List<TryCatchBlockNode> newTryCatchBlocks = new ArrayList<>();
+        List<LocalVariableNode> newLocalVariables = new ArrayList<>();
         while (!worklist.isEmpty()) {
             Instantiation inst = worklist.removeFirst();
             emitSubroutine(inst, worklist, newInstructions, newTryCatchBlocks,
@@ -513,10 +509,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
         }
 
         // Emit try/catch blocks that are relevant to this method.
-        for (Iterator<TryCatchBlockNode> it = tryCatchBlocks.iterator(); it
-                .hasNext();) {
-            TryCatchBlockNode trycatch = it.next();
-
+        for (TryCatchBlockNode trycatch : tryCatchBlocks) {
             if (LOGGING) {
                 // TODO use of default toString().
                 log("try catch block original labels=" + trycatch.start + '-'
@@ -550,9 +543,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
                     trycatch.type));
         }
 
-        for (Iterator<LocalVariableNode> it = localVariables.iterator(); it
-                .hasNext();) {
-            LocalVariableNode lvnode = it.next();
+        for (LocalVariableNode lvnode : localVariables) {
             if (LOGGING) {
                 log("local var " + lvnode.name);
             }
@@ -608,7 +599,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
          * 
          * @see #findOwner(int)
          */
-        public final Map<LabelNode, LabelNode> rangeTable = new HashMap<LabelNode, LabelNode>();
+        public final Map<LabelNode, LabelNode> rangeTable = new HashMap<>();
 
         /**
          * All returns for this instantiation will be mapped to this label

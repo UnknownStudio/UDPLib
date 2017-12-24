@@ -1,13 +1,12 @@
 package team.unstudio.udpl.nms.mapping;
 
+import com.google.common.collect.Maps;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.common.collect.Maps;
 
 public final class MemberMapping {
 	

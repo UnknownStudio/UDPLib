@@ -1,16 +1,15 @@
 package team.unstudio.udpl.conversation.request;
 
-import java.util.Optional;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
+
+import java.util.Optional;
 
 public class RequestInteger extends RequestBase<Integer>{
 	
@@ -60,8 +59,7 @@ public class RequestInteger extends RequestBase<Integer>{
 				
 				result = invalidate;
 				Bukkit.getScheduler().runTask(getConversation().getPlugin(), () -> setCompleted(true));
-			}catch(NumberFormatException e){
-				return;
+			}catch(NumberFormatException ignored){
 			}
 		}
 		
@@ -80,8 +78,7 @@ public class RequestInteger extends RequestBase<Integer>{
 				
 				result = invalidate;
 				setCompleted(true);
-			}catch(NumberFormatException e){
-				return;
+			}catch(NumberFormatException ignored){
 			}
 		}
 	}

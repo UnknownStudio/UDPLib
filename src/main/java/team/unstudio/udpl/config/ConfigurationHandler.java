@@ -1,14 +1,16 @@
 package team.unstudio.udpl.config;
 
+import com.google.common.base.Strings;
+import org.bukkit.configuration.file.YamlConfiguration;
+import team.unstudio.udpl.core.UDPLib;
+
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.google.common.base.Strings;
 
 /**
  * 配置文件处理器。
@@ -78,7 +80,8 @@ public abstract class ConfigurationHandler{
 			putValue(key,f);
 		}
 	}
-	
+
+	@Nullable
 	private String getConfigItemKeyOrNull(Field f) {
 		if(!isGeneral(f))return null;
 		f.setAccessible(true);
@@ -98,7 +101,7 @@ public abstract class ConfigurationHandler{
 	private void putValue(String key,Field f) {
 		try {
 			defaults.put(key,f.get(this));
-		} catch (IllegalArgumentException | IllegalAccessException e) {}
+		} catch (IllegalArgumentException | IllegalAccessException ignored) {}
 	}
 
     /**
@@ -107,7 +110,7 @@ public abstract class ConfigurationHandler{
 	private void setFieldIfConfigValueExist(YamlConfiguration config,Field f,String key) {
 		try {
 			f.set(this, config.get(key,defaults.get(key)));
-		} catch (IllegalArgumentException | IllegalAccessException e) {}
+		} catch (IllegalArgumentException | IllegalAccessException ignored) {}
 	}
 	
 	/**
@@ -117,6 +120,9 @@ public abstract class ConfigurationHandler{
 	public boolean save(){
 		try{
 			YamlConfiguration config = ConfigurationHelper.loadConfiguration(file);
+
+			if (config == null)
+				return false;
 			
 			for(Field f:getClass().getDeclaredFields()){
 				if(!isGeneral(f))
@@ -140,7 +146,7 @@ public abstract class ConfigurationHandler{
 			
 			return true;
 		}catch(IOException e){
-			e.printStackTrace();
+			UDPLib.getLog().error(e);
 			return false;
 		}
 	}

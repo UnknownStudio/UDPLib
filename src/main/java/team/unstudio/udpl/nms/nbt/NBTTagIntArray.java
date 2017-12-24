@@ -1,10 +1,10 @@
 package team.unstudio.udpl.nms.nbt;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import java.util.List;
+import java.util.Map;
 
 public final class NBTTagIntArray extends NBTBase {
 	private int[] value;
@@ -27,8 +27,7 @@ public final class NBTTagIntArray extends NBTBase {
 
 	public String toString() {
 		StringBuilder builder = new StringBuilder("[I;");
-		for (int i = 0; i < value.length; ++i) 
-			builder.append(value[i]).append(',');
+        for (int aValue : value) builder.append(aValue).append(',');
 		
 		if(builder.charAt(builder.length()-1)==',')
 			builder.deleteCharAt(builder.length()-1);

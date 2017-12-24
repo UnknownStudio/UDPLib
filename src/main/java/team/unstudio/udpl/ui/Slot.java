@@ -1,9 +1,9 @@
 package team.unstudio.udpl.ui;
 
-import java.util.function.Consumer;
-
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.function.Consumer;
 
 /**
  * 界面槽
@@ -74,7 +74,6 @@ public class Slot implements Cloneable{
 	
 	/**
 	 * 设置物品
-	 * @param itemstack
 	 */
 	public void setItemStack(ItemStack itemstack) {
 		this.itemStack = itemstack;
@@ -83,7 +82,6 @@ public class Slot implements Cloneable{
 	
 	/**
 	 * 获取所在格子
-	 * @return
 	 */
 	public int getSlot() {
 		return slot;
@@ -91,7 +89,6 @@ public class Slot implements Cloneable{
 
 	/**
 	 * 获取父UI
-	 * @return
 	 */
 	public UI getParent() {
 		return parent;
@@ -99,7 +96,6 @@ public class Slot implements Cloneable{
 
 	/**
 	 * 设置父UI
-	 * @param parent
 	 */
 	public void setParent(UI parent) {
 		this.parent = parent;
@@ -108,7 +104,6 @@ public class Slot implements Cloneable{
 
 	/**
 	 * 是否可以操作
-	 * @return
 	 */
 	public boolean isOperable() {
 		return operable;
@@ -116,7 +111,6 @@ public class Slot implements Cloneable{
 
 	/**
 	 * 设置是否可以操作
-	 * @param operable
 	 */
 	public void setOperable(boolean operable) {
 		this.operable = operable;
@@ -182,8 +176,9 @@ public class Slot implements Cloneable{
 		if(parent!=null)
 			parent.getInventory().setItem(slot, itemStack);
 	}
-	
+
 	@Override
+	@SuppressWarnings("MethodDoesntCallSuperMethod")
 	public Slot clone(){
 		Slot newSlot = new Slot(getSlot());
 		newSlot.setItemStack(getItemStack());

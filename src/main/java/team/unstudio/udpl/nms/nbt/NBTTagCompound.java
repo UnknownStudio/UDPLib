@@ -1,14 +1,12 @@
 package team.unstudio.udpl.nms.nbt;
 
-import java.util.Map;
-import java.util.Set;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang.Validate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.apache.commons.lang.Validate;
-
-import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.Set;
 
 public final class NBTTagCompound extends NBTBase {
 	private final Map<String, NBTBase> map = Maps.newLinkedHashMap();
@@ -93,42 +91,42 @@ public final class NBTTagCompound extends NBTBase {
 	public byte getByte(String key) {
 		try {
 			return ((NBTNumber) this.map.get(key)).getByte();
-		} catch (ClassCastException e) {}
+		} catch (ClassCastException ignored) {}
 		return 0;
 	}
 
 	public short getShort(String key) {
 		try {
 			return ((NBTNumber) this.map.get(key)).getShort();
-		} catch (ClassCastException e) {}
+		} catch (ClassCastException ignored) {}
 		return 0;
 	}
 
 	public int getInt(String key) {
 		try {
 			return ((NBTNumber) this.map.get(key)).getInt();
-		} catch (ClassCastException e) {}
+		} catch (ClassCastException ignored) {}
 		return 0;
 	}
 
 	public long getLong(String key) {
 		try {
 			return ((NBTNumber) this.map.get(key)).getLong();
-		} catch (ClassCastException e) {}
+		} catch (ClassCastException ignored) {}
 		return 0;
 	}
 
 	public float getFloat(String key) {
 		try {
 			return ((NBTNumber) this.map.get(key)).getFloat();
-		} catch (ClassCastException e) {}
+		} catch (ClassCastException ignored) {}
 		return 0.0F;
 	}
 
 	public double getDouble(String key) {
 		try {
 			return ((NBTNumber) this.map.get(key)).getDouble();
-		} catch (ClassCastException e) {}
+		} catch (ClassCastException ignored) {}
 		return 0.0D;
 	}
 

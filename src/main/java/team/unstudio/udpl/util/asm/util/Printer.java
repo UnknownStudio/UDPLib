@@ -150,7 +150,7 @@ public abstract class Printer {
     protected Printer(final int api) {
         this.api = api;
         this.buf = new StringBuffer();
-        this.text = new ArrayList<Object>();
+        this.text = new ArrayList<>();
     }
 
     /**
@@ -1187,8 +1187,7 @@ public abstract class Printer {
      *            string lists, and so on recursively.
      */
     static void printList(final PrintWriter pw, final List<?> l) {
-        for (int i = 0; i < l.size(); ++i) {
-            Object o = l.get(i);
+        for (Object o : l) {
             if (o instanceof List) {
                 printList(pw, (List<?>) o);
             } else {

@@ -188,9 +188,9 @@ public class SerialVersionUIDAdder extends ClassVisitor {
      */
     protected SerialVersionUIDAdder(final int api, final ClassVisitor cv) {
         super(api, cv);
-        svuidFields = new ArrayList<Item>();
-        svuidConstructors = new ArrayList<Item>();
-        svuidMethods = new ArrayList<Item>();
+        svuidFields = new ArrayList<>();
+        svuidConstructors = new ArrayList<>();
+        svuidMethods = new ArrayList<>();
     }
 
     // ------------------------------------------------------------------------
@@ -381,8 +381,8 @@ public class SerialVersionUIDAdder extends ClassVisitor {
              * encoding.
              */
             Arrays.sort(interfaces);
-            for (int i = 0; i < interfaces.length; i++) {
-                dos.writeUTF(interfaces[i].replace('/', '.'));
+            for (String anInterface : interfaces) {
+                dos.writeUTF(anInterface.replace('/', '.'));
             }
 
             /*

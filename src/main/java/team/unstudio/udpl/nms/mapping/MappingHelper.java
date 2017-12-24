@@ -1,9 +1,9 @@
 package team.unstudio.udpl.nms.mapping;
 
-import java.io.IOException;
-
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.util.ServerUtils;
+
+import java.io.IOException;
 
 public final class MappingHelper {
 	

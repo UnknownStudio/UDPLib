@@ -1,8 +1,8 @@
 package team.unstudio.udpl.nms.nbt;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 public final class NBTTagByte extends NBTNumber {
 	private byte value;

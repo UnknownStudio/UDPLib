@@ -1,11 +1,7 @@
 package team.unstudio.udpl.ui;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -14,8 +10,10 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class Container implements Cloneable,ConfigurationSerializable{
 	
@@ -74,7 +72,7 @@ public class Container implements Cloneable,ConfigurationSerializable{
 		map.put("title", inventory.getTitle());
 		map.put("size", inventory.getSize());
 		List<ItemStack> items = Lists.newLinkedList();
-		Arrays.stream(inventory.getContents()).forEach(items::add);
+		items.addAll(Arrays.asList(inventory.getContents()));
 		map.put("items", items);
 		return map;
 	}

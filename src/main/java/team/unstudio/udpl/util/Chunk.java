@@ -42,7 +42,8 @@ public final class Chunk {
 		if(!world.equals(other.world)) return false;
 		
 		if(chunkX != other.chunkX) return false;
-		
+
+		//noinspection RedundantIfStatement
 		if(chunkZ != other.chunkZ) return false;
 		
 		return true;

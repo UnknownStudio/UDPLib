@@ -1,16 +1,14 @@
 package team.unstudio.udpl.config;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import javax.annotation.Nullable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Map;
 
 public interface SerializationHelper {
 

@@ -29,29 +29,16 @@
  */
 package team.unstudio.udpl.util.asm.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import team.unstudio.udpl.util.asm.AnnotationVisitor;
-import team.unstudio.udpl.util.asm.Attribute;
-import team.unstudio.udpl.util.asm.Handle;
-import team.unstudio.udpl.util.asm.Label;
-import team.unstudio.udpl.util.asm.MethodVisitor;
-import team.unstudio.udpl.util.asm.Opcodes;
-import team.unstudio.udpl.util.asm.Type;
-import team.unstudio.udpl.util.asm.TypePath;
-import team.unstudio.udpl.util.asm.TypeReference;
+import team.unstudio.udpl.util.asm.*;
 import team.unstudio.udpl.util.asm.tree.MethodNode;
 import team.unstudio.udpl.util.asm.tree.analysis.Analyzer;
 import team.unstudio.udpl.util.asm.tree.analysis.BasicValue;
 import team.unstudio.udpl.util.asm.tree.analysis.BasicVerifier;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * A {@link MethodVisitor} that checks that its methods are properly used. More
@@ -378,7 +365,7 @@ public class CheckMethodAdapter extends MethodVisitor {
      *            the method visitor to which this adapter must delegate calls.
      */
     public CheckMethodAdapter(final MethodVisitor mv) {
-        this(mv, new HashMap<Label, Integer>());
+        this(mv, new HashMap<>());
     }
 
     /**
@@ -420,8 +407,8 @@ public class CheckMethodAdapter extends MethodVisitor {
             final Map<Label, Integer> labels) {
         super(api, mv);
         this.labels = labels;
-        this.usedLabels = new HashSet<Label>();
-        this.handlers = new ArrayList<Label>();
+        this.usedLabels = new HashSet<>();
+        this.handlers = new ArrayList<>();
     }
 
     /**
@@ -447,7 +434,7 @@ public class CheckMethodAdapter extends MethodVisitor {
         this(new MethodNode(Opcodes.ASM5, access, name, desc, null, null) {
             @Override
             public void visitEnd() {
-                Analyzer<BasicValue> a = new Analyzer<BasicValue>(
+                Analyzer<BasicValue> a = new Analyzer<>(
                         new BasicVerifier());
                 try {
                     a.analyze("dummy", this);
@@ -755,8 +742,8 @@ public class CheckMethodAdapter extends MethodVisitor {
             throw new IllegalArgumentException("invalid handle tag "
                     + bsm.getTag());
         }
-        for (int i = 0; i < bsmArgs.length; i++) {
-            checkLDCConstant(bsmArgs[i]);
+        for (Object bsmArg : bsmArgs) {
+            checkLDCConstant(bsmArg);
         }
         super.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
         ++insnCount;
@@ -825,9 +812,7 @@ public class CheckMethodAdapter extends MethodVisitor {
             checkNonDebugLabel(labels[i]);
         }
         super.visitTableSwitchInsn(min, max, dflt, labels);
-        for (int i = 0; i < labels.length; ++i) {
-            usedLabels.add(labels[i]);
-        }
+        Collections.addAll(usedLabels, labels);
         ++insnCount;
     }
 
@@ -848,9 +833,7 @@ public class CheckMethodAdapter extends MethodVisitor {
         }
         super.visitLookupSwitchInsn(dflt, keys, labels);
         usedLabels.add(dflt);
-        for (int i = 0; i < labels.length; ++i) {
-            usedLabels.add(labels[i]);
-        }
+        Collections.addAll(usedLabels, labels);
         ++insnCount;
     }
 

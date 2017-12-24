@@ -1,12 +1,11 @@
 package team.unstudio.udpl.nms.nbt;
 
-import java.util.regex.Pattern;
-
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+
+import java.util.regex.Pattern;
 
 public final class NBTUtils {
 
@@ -106,7 +105,7 @@ public final class NBTUtils {
 					longs[i] = Long.parseLong(numbers[i]);
 				return new NBTTagLongArray(longs);
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException ignored) {
 		}
 		return new NBTTagString(value);
 	}

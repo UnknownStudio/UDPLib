@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import sun.misc.Unsafe;
 
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -32,7 +31,7 @@ public class BungeeChannel implements Listener {
     /**
      * the registered bungee channels
      */
-    private static WeakHashMap<Plugin, BungeeChannel> registeredInstances = new WeakHashMap<>();
+    private static final WeakHashMap<Plugin, BungeeChannel> registeredInstances = new WeakHashMap<>();
 
     /**
      * the plugin message listener
@@ -221,19 +220,21 @@ public class BungeeChannel implements Listener {
                 if (callback == null) return;
 
                 try {
-                    if (subchannel.equals("PlayerCount"))
-                        ((CompletableFuture<Integer>) callback).complete(Integer.valueOf(input.readInt()));
-
-                    else if (subchannel.equals("PlayerList"))
-                        ((CompletableFuture<List<String>>) callback).complete(Arrays.asList(input.readUTF().split(", ")));
-
-                    else if (subchannel.equals("UUIDOther"))
-                        ((CompletableFuture<String>) callback).complete(input.readUTF());
-
-                    else if (subchannel.equals("ServerIP")) {
-                        String ip = input.readUTF();
-                        int port = input.readUnsignedShort();
-                        ((CompletableFuture<InetSocketAddress>) callback).complete(new InetSocketAddress(ip, port));
+                    switch (subchannel) {
+                        case "PlayerCount":
+                            ((CompletableFuture<Integer>) callback).complete(Integer.valueOf(input.readInt()));
+                            break;
+                        case "PlayerList":
+                            ((CompletableFuture<List<String>>) callback).complete(Arrays.asList(input.readUTF().split(", ")));
+                            break;
+                        case "UUIDOther":
+                            ((CompletableFuture<String>) callback).complete(input.readUTF());
+                            break;
+                        case "ServerIP":
+                            String ip = input.readUTF();
+                            int port = input.readUnsignedShort();
+                            ((CompletableFuture<InetSocketAddress>) callback).complete(new InetSocketAddress(ip, port));
+                            break;
                     }
                 } catch (Exception ex) {
                     callback.completeExceptionally(ex);

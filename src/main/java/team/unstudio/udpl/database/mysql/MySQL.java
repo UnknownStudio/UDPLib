@@ -1,5 +1,8 @@
 package team.unstudio.udpl.database.mysql;
 
+import team.unstudio.udpl.database.Column;
+import team.unstudio.udpl.database.SQL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,9 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import team.unstudio.udpl.database.Column;
-import team.unstudio.udpl.database.SQL;
 
 /**
  * MySql支持类 直接面向MySql的操作，以后更改为HashMap读写
@@ -30,7 +30,6 @@ public class MySQL implements SQL {
 	 * 
 	 * @param schema
 	 *            数据库
-	 * @throws java.sql.SQLException
 	 */
 	public void setSchema(String schema) throws SQLException {
 		if (!connection.isClosed()) {
@@ -45,7 +44,6 @@ public class MySQL implements SQL {
 	 * <p>
 	 * 
 	 * @return Boolean
-	 * @throws SQLException
 	 */
 	public boolean hasSchema() throws SQLException {
 		int i = 0;
@@ -65,7 +63,6 @@ public class MySQL implements SQL {
 	 * 
 	 * @param table
 	 *            表
-	 * @throws java.sql.SQLException
 	 */
 	public void setTable(String table) throws SQLException {
 		if (!this.connection.isClosed()) {
@@ -80,7 +77,6 @@ public class MySQL implements SQL {
 	 * <p>
 	 * 
 	 * @return Boolean
-	 * @throws java.sql.SQLException
 	 */
 	public boolean hasTable() throws SQLException {
 		if (!this.connection.isClosed()) {
@@ -136,7 +132,6 @@ public class MySQL implements SQL {
 	 * @param name
 	 *            数据库名称
 	 * @return Boolean
-	 * @throws SQLException
 	 */
 	public synchronized boolean createSchema(String name) throws SQLException {
 		PreparedStatement sql = this.connection.prepareStatement("create database " + name);
@@ -152,7 +147,6 @@ public class MySQL implements SQL {
 	 * @param slots
 	 *            列
 	 * @return Boolean
-	 * @throws java.sql.SQLException
 	 */
 	public synchronized boolean createTable(String table, Column[] slots) throws SQLException {
 		if (this.isConnected()) {
@@ -283,7 +277,7 @@ public class MySQL implements SQL {
 	public synchronized List<Object> getObjectsOfKey(String condition, String key) throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
-				List<Object> values = new ArrayList<Object>();
+				List<Object> values = new ArrayList<>();
 
 				PreparedStatement sql = this.connection
 						.prepareStatement("SELECT " + key + " FROM " + this.table + " WHERE " + condition + ";");
@@ -302,7 +296,7 @@ public class MySQL implements SQL {
 
 	@Override
 	public synchronized List<Integer> getIntegersOfKey(String condition, String key) throws SQLException {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<>();
 		for (Object o : this.getObjectsOfKey(condition, key)) {
 			list.add((Integer) o);
 		}
@@ -312,7 +306,7 @@ public class MySQL implements SQL {
 
 	@Override
 	public synchronized List<String> getStringsOfKey(String condition, String key) throws SQLException {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (Object o : this.getObjectsOfKey(condition, key)) {
 			list.add((String) o);
 		}
@@ -343,7 +337,7 @@ public class MySQL implements SQL {
 	public synchronized List<String> getKeys() throws SQLException {
 		if (this.isConnected()) {
 			if (this.getTable() != null) {
-				List<String> keys = new ArrayList<String>();
+				List<String> keys = new ArrayList<>();
 				PreparedStatement sql = this.connection.prepareStatement(
 						"select COLUMN_NAME from information_schema.COLUMNS where table_name = '" + this.table + "';");
 				ResultSet result = sql.executeQuery();
@@ -361,8 +355,7 @@ public class MySQL implements SQL {
 
 	@Override
 	public synchronized boolean isKeyHasValue(String key, String value) throws SQLException {
-		return this.getObjectsOfKey(key + "='" + value + "'", key) == null ? false
-				: this.getObjectsOfKey(key + "='" + value + "'", key).size() > 0;
+		return (this.getObjectsOfKey(key + "='" + value + "'", key) != null) && (this.getObjectsOfKey(key + "='" + value + "'", key).size() > 0);
 	}
 
 	@Override

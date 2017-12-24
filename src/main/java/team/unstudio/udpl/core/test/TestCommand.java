@@ -1,10 +1,6 @@
 package team.unstudio.udpl.core.test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,41 +10,22 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
-
-import net.md_5.bungee.chat.ComponentSerializer;
 import team.unstudio.udpl.area.Area;
-import team.unstudio.udpl.command.anno.Alias;
-import team.unstudio.udpl.command.anno.Command;
-import team.unstudio.udpl.command.anno.Optional;
-import team.unstudio.udpl.command.anno.Required;
-import team.unstudio.udpl.command.anno.TabComplete;
+import team.unstudio.udpl.command.anno.*;
 import team.unstudio.udpl.config.ConfigurationHelper;
 import team.unstudio.udpl.conversation.Conversation;
-import team.unstudio.udpl.conversation.request.RequestBigDecimal;
-import team.unstudio.udpl.conversation.request.RequestBlock;
-import team.unstudio.udpl.conversation.request.RequestChoice;
-import team.unstudio.udpl.conversation.request.RequestChooseItemStack;
-import team.unstudio.udpl.conversation.request.RequestChooseItemStackLarge;
-import team.unstudio.udpl.conversation.request.RequestConfirm;
-import team.unstudio.udpl.conversation.request.RequestEntity;
-import team.unstudio.udpl.conversation.request.RequestMultiChoice;
-import team.unstudio.udpl.conversation.request.RequestMultiString;
-import team.unstudio.udpl.conversation.request.RequestString;
+import team.unstudio.udpl.conversation.request.*;
 import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
 import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
 import team.unstudio.udpl.scoreboard.BiScoreboard;
-import team.unstudio.udpl.util.ActionBar;
-import team.unstudio.udpl.util.BlockUtils;
-import team.unstudio.udpl.util.BookUtils;
-import team.unstudio.udpl.util.EntityUtils;
-import team.unstudio.udpl.util.PlayerUtils;
-import team.unstudio.udpl.util.PluginUtils;
-import team.unstudio.udpl.util.ReflectionUtils;
-import team.unstudio.udpl.util.ServerUtils;
-import team.unstudio.udpl.util.SignUtils;
-import team.unstudio.udpl.util.Title;
+import team.unstudio.udpl.util.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public final class TestCommand {
 	
@@ -195,6 +172,6 @@ public final class TestCommand {
 	
 	@TabComplete(value = "permission")
 	public List<String> tabComplete(String[] args){
-		return Arrays.asList("TabComplete");
+		return Collections.singletonList("TabComplete");
 	}
 }

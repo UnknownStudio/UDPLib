@@ -1,8 +1,8 @@
 package team.unstudio.udpl.util;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Strings;
+
+import javax.annotation.Nullable;
 
 public final class Result {
 

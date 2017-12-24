@@ -323,7 +323,7 @@ public class AreaManager {
 			while(!isSavingOrBackuping.compareAndSet(false, true)){
 				try {
 					Thread.sleep(1000);
-				} catch (InterruptedException e) {}
+				} catch (InterruptedException ignored) {}
 			}
 			backupAll();
 			isSavingOrBackuping.set(false);

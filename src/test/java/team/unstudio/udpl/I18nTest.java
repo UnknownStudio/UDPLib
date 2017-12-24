@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 
 import team.unstudio.udpl.i18n.SLangI18n;
 import team.unstudio.udpl.i18n.YamlI18n;
-import team.unstudio.udpl.i18n.slang.SLangAlignment;
 
 import java.util.Locale;
 

@@ -1,7 +1,6 @@
 package team.unstudio.udpl.nms.tileentity;
 
 import org.bukkit.block.BlockState;
-
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 

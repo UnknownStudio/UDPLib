@@ -1,15 +1,13 @@
 package team.unstudio.udpl.variable;
 
-import java.util.Map;
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.google.common.collect.Maps;
+import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.function.Function;
 
 public class SimpleVariableHandler implements VariableHandler{
 	

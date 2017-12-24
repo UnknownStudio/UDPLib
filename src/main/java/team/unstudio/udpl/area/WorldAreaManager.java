@@ -157,9 +157,6 @@ public final class WorldAreaManager{
 			return false;
 		
 		WorldAreaManager other = (WorldAreaManager) obj;
-		if (!getWorld().equals(other.getWorld()))
-			return false;
-		
-		return true;
+		return getWorld().equals(other.getWorld());
 	}
 }

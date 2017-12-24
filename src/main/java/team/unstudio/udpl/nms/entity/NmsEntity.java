@@ -1,7 +1,6 @@
 package team.unstudio.udpl.nms.entity;
 
 import org.bukkit.entity.Entity;
-
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 

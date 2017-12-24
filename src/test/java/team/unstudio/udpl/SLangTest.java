@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import team.unstudio.udpl.i18n.slang.CachedSLang;
-import team.unstudio.udpl.i18n.slang.SLangAlignment;
 import team.unstudio.udpl.i18n.slang.SLangSpliter;
 
 import java.util.Collection;

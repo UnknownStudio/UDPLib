@@ -1,8 +1,8 @@
 package team.unstudio.udpl.core.util;
 
-import java.io.File;
-
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.File;
 
 public class AutoUpdate extends BukkitRunnable{
 

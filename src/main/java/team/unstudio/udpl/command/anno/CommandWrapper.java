@@ -209,11 +209,9 @@ public class CommandWrapper {
 		
 		if(getPermission() == null || getPermission().isEmpty())
 			return true;
-		
-		if (sender.hasPermission(getPermission())) 
-			return true;
 
-		return false;
+		return sender.hasPermission(getPermission());
+
 	}
 
 	private Object transformParameter(Class<?> clazz,String value){
@@ -283,29 +281,28 @@ public class CommandWrapper {
 		List<Object> optionalDefaults = Lists.newLinkedList();
 		
 		Parameter[] parameters = method.getParameters();
-		for(int i=0;i<parameters.length;i++){
+		for (Parameter parameter : parameters) {
 			{
-				Required annoRequired = parameters[i].getAnnotation(Required.class);
-				if(annoRequired!=null){
-					requireds.add(parameters[i].getType());
+				Required annoRequired = parameter.getAnnotation(Required.class);
+				if (annoRequired != null) {
+					requireds.add(parameter.getType());
 					requiredNames.add(annoRequired.name() == null || annoRequired.name().isEmpty()
-							? parameters[i].getName() : annoRequired.name());
+							? parameter.getName() : annoRequired.name());
 					requiredUsages.add(annoRequired.usage());
 					requiredCompletes.add(ImmutableList.copyOf(annoRequired.complete()));
 					continue;
 				}
 			}
-			
+
 			{
-				Optional annoOptional = parameters[i].getAnnotation(Optional.class);
-				if(annoOptional!=null){
-					optionals.add(parameters[i].getType());
-					optionalNames.add(annoOptional.name() == null || annoOptional.name().isEmpty()
-							? parameters[i].getName() : annoOptional.name());
+				Optional annoOptional = parameter.getAnnotation(Optional.class);
+				if (annoOptional != null) {
+					optionals.add(parameter.getType());
+					optionalNames.add(annoOptional.name().isEmpty()
+							? parameter.getName() : annoOptional.name());
 					optionalUsages.add(annoOptional.usage());
-					optionalDefaults.add(transformParameter(parameters[i].getType(), annoOptional.value()));
+					optionalDefaults.add(transformParameter(parameter.getType(), annoOptional.value()));
 					optionalCompletes.add(ImmutableList.copyOf(annoOptional.complete()));
-					continue;
 				}
 			}
 		}

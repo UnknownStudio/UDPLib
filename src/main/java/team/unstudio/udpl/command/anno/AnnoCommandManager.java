@@ -205,9 +205,9 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		{
 			builder.append(ChatColor.WHITE);
 			String[] optionalNames = handler.getOptionalNames();
-			for (int i = 0, size = optionalNames.length; i < size; i++) {
-				builder.append(" [").append(localize(sender,optionalNames[i])).append("]");
-			}
+            for (String optionalName : optionalNames) {
+                builder.append(" [").append(localize(sender, optionalName)).append("]");
+            }
 		}
 		
 		if (sender instanceof Player)
@@ -274,7 +274,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	 * 参数转换
 	 * @param clazz 目标类型
 	 * @param value 参数
-	 * @return
 	 */
 	protected Object transformParameter(Class<?> clazz, String value) {
 		if (value == null)
@@ -301,9 +300,6 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	/**
 	 * 补全参数
-	 * @param clazz
-	 * @param value
-	 * @return
 	 */
 	protected List<String> tabCompleteParameter(Class<?> clazz, String value) {
 		if (value == null)
@@ -358,13 +354,13 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 	
 	public Optional<CommandWrapper> getCommandWrapper(String[] args){
 		CommandWrapper parent = defaultHandler;
-		for (int i = 0,size = args.length; i < size; i++) {
-			CommandWrapper wrapper = parent.getChildren().get(args[i].toLowerCase());
-			if(wrapper == null)
-				return Optional.empty();
-			
-			parent = wrapper;
-		}
+        for (String arg : args) {
+            CommandWrapper wrapper = parent.getChildren().get(arg.toLowerCase());
+            if (wrapper == null)
+                return Optional.empty();
+
+            parent = wrapper;
+        }
 		
 		return Optional.of(parent);
 	}
@@ -373,15 +369,15 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 		String[] toLowerCaseArgs = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 		
 		CommandWrapper parent = defaultHandler;
-		for (int i = 0,size = toLowerCaseArgs.length; i < size; i++) {
-			CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArgs[i]);
-			if(wrapper == null){
-				wrapper = new CommandWrapper(toLowerCaseArgs[i], this, parent);
-				parent.getChildren().put(wrapper.getNode(),wrapper);
-			}
-			
-			parent = wrapper;
-		}
+        for (String toLowerCaseArg : toLowerCaseArgs) {
+            CommandWrapper wrapper = parent.getChildren().get(toLowerCaseArg);
+            if (wrapper == null) {
+                wrapper = new CommandWrapper(toLowerCaseArg, this, parent);
+                parent.getChildren().put(wrapper.getNode(), wrapper);
+            }
+
+            parent = wrapper;
+        }
 		
 		return parent;
 	}

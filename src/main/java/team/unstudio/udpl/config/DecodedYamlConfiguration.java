@@ -3,11 +3,11 @@ package team.unstudio.udpl.config;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.*;
-import java.nio.charset.Charset;
+import team.unstudio.udpl.core.UDPLib;
 
 import javax.annotation.Nullable;
+import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * 可以指定编码的 YamlConfiguration， 如不指定编码，默认为UTF-8
@@ -34,7 +34,7 @@ public class DecodedYamlConfiguration extends YamlConfiguration {
 			config.load(file);
 			return config;
 		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
+            UDPLib.getLog().error(e);
 			return null;
 		}
     }
@@ -43,16 +43,13 @@ public class DecodedYamlConfiguration extends YamlConfiguration {
     public void save(File file) throws IOException {
         file.mkdirs();
         String data = this.saveToString();
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file), getCharset());
-        try {
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), getCharset())) {
             writer.write(data);
-        } finally {
-            writer.close();
         }
     }
 
     @Override
-    public void load(File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public void load(File file) throws IOException, InvalidConfigurationException {
         this.load(new InputStreamReader(new FileInputStream(file), getCharset()));
     }
 

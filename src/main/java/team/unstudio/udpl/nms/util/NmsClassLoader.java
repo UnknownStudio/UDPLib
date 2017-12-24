@@ -1,11 +1,11 @@
 package team.unstudio.udpl.nms.util;
 
+import team.unstudio.udpl.util.ReflectionUtils;
+import team.unstudio.udpl.util.ServerUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureClassLoader;
-
-import team.unstudio.udpl.util.ReflectionUtils;
-import team.unstudio.udpl.util.ServerUtils;
 
 public class NmsClassLoader extends SecureClassLoader {
 

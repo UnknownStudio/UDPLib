@@ -126,7 +126,7 @@ public class Analyzer<V extends Value> implements Opcodes {
             for (int j = begin; j < end; ++j) {
                 List<TryCatchBlockNode> insnHandlers = handlers[j];
                 if (insnHandlers == null) {
-                    insnHandlers = new ArrayList<TryCatchBlockNode>();
+                    insnHandlers = new ArrayList<>();
                     handlers[j] = insnHandlers;
                 }
                 insnHandlers.add(tcb);
@@ -135,8 +135,8 @@ public class Analyzer<V extends Value> implements Opcodes {
 
         // computes the subroutine for each instruction:
         Subroutine main = new Subroutine(null, m.maxLocals, null);
-        List<AbstractInsnNode> subroutineCalls = new ArrayList<AbstractInsnNode>();
-        Map<LabelNode, Subroutine> subroutineHeads = new HashMap<LabelNode, Subroutine>();
+        List<AbstractInsnNode> subroutineCalls = new ArrayList<>();
+        Map<LabelNode, Subroutine> subroutineHeads = new HashMap<>();
         findSubroutine(0, main, subroutineCalls);
         while (!subroutineCalls.isEmpty()) {
             JumpInsnNode jsr = (JumpInsnNode) subroutineCalls.remove(0);
@@ -165,9 +165,9 @@ public class Analyzer<V extends Value> implements Opcodes {
             Type ctype = Type.getObjectType(owner);
             current.setLocal(local++, interpreter.newValue(ctype));
         }
-        for (int i = 0; i < args.length; ++i) {
-            current.setLocal(local++, interpreter.newValue(args[i]));
-            if (args[i].getSize() == 2) {
+        for (Type arg : args) {
+            current.setLocal(local++, interpreter.newValue(arg));
+            if (arg.getSize() == 2) {
                 current.setLocal(local++, interpreter.newValue(null));
             }
         }
@@ -273,8 +273,7 @@ public class Analyzer<V extends Value> implements Opcodes {
 
                 List<TryCatchBlockNode> insnHandlers = handlers[insn];
                 if (insnHandlers != null) {
-                    for (int i = 0; i < insnHandlers.size(); ++i) {
-                        TryCatchBlockNode tcb = insnHandlers.get(i);
+                    for (TryCatchBlockNode tcb : insnHandlers) {
                         Type type;
                         if (tcb.type == null) {
                             type = Type.getObjectType("java/lang/Throwable");
@@ -343,8 +342,7 @@ public class Analyzer<V extends Value> implements Opcodes {
             // calls findSubroutine recursively on exception handler successors
             List<TryCatchBlockNode> insnHandlers = handlers[insn];
             if (insnHandlers != null) {
-                for (int i = 0; i < insnHandlers.size(); ++i) {
-                    TryCatchBlockNode tcb = insnHandlers.get(i);
+                for (TryCatchBlockNode tcb : insnHandlers) {
                     findSubroutine(insns.indexOf(tcb.handler), sub, calls);
                 }
             }
@@ -420,7 +418,7 @@ public class Analyzer<V extends Value> implements Opcodes {
      * @return the created frame.
      */
     protected Frame<V> newFrame(final int nLocals, final int nStack) {
-        return new Frame<V>(nLocals, nStack);
+        return new Frame<>(nLocals, nStack);
     }
 
     /**
@@ -431,7 +429,7 @@ public class Analyzer<V extends Value> implements Opcodes {
      * @return the created frame.
      */
     protected Frame<V> newFrame(final Frame<? extends V> src) {
-        return new Frame<V>(src);
+        return new Frame<>(src);
     }
 
     /**

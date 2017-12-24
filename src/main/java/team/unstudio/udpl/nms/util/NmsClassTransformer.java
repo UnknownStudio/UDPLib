@@ -1,15 +1,17 @@
 package team.unstudio.udpl.nms.util;
 
+import com.google.common.collect.Maps;
+import team.unstudio.udpl.nms.mapping.MemberMapping;
+import team.unstudio.udpl.util.asm.ClassReader;
+import team.unstudio.udpl.util.asm.ClassWriter;
+import team.unstudio.udpl.util.asm.Opcodes;
+import team.unstudio.udpl.util.asm.Type;
+import team.unstudio.udpl.util.asm.commons.ClassRemapper;
+import team.unstudio.udpl.util.asm.commons.Remapper;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
-
-import team.unstudio.udpl.nms.mapping.MemberMapping;
-import team.unstudio.udpl.util.asm.*;
-import team.unstudio.udpl.util.asm.commons.ClassRemapper;
-import team.unstudio.udpl.util.asm.commons.Remapper;
 
 public class NmsClassTransformer implements Opcodes{
 	
@@ -113,9 +115,9 @@ public class NmsClassTransformer implements Opcodes{
 
 	        Type[] args = Type.getArgumentTypes(desc);
 	        StringBuilder sb = new StringBuilder("(");
-	        for (int i = 0; i < args.length; i++) {
-	            sb.append(_getSimpleDesc(args[i].getDescriptor()));
-	        }
+            for (Type arg : args) {
+                sb.append(_getSimpleDesc(arg.getDescriptor()));
+            }
 	        Type returnType = Type.getReturnType(desc);
 	        if (returnType == Type.VOID_TYPE) {
 	            sb.append(")V");
@@ -129,11 +131,11 @@ public class NmsClassTransformer implements Opcodes{
 			 Type t = Type.getType(desc);
 		        switch (t.getSort()) {
 		        case Type.ARRAY:
-		            String s = _getSimpleDesc(t.getElementType().getDescriptor());
+		            StringBuilder s = new StringBuilder(_getSimpleDesc(t.getElementType().getDescriptor()));
 		            for (int i = 0; i < t.getDimensions(); ++i) {
-		                s = '[' + s;
+		                s.insert(0, '[');
 		            }
-		            return s;
+		            return s.toString();
 		        case Type.OBJECT:
 		            String newType = getClassSimpleName(transformPackage(t.getInternalName()));
 		            if (newType != null) {

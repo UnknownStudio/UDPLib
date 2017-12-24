@@ -1,14 +1,13 @@
 package team.unstudio.udpl.variable;
 
-import java.util.Set;
-import javax.annotation.Nonnull;
-
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
+import javax.annotation.Nonnull;
+import java.util.Set;
 
 public final class VariableHelper {
 
@@ -74,7 +73,7 @@ public final class VariableHelper {
 					continue;
 				
 				return value;
-			}catch(Exception e){}
+			}catch(Exception ignored){}
 		}
 		return null;
 	}

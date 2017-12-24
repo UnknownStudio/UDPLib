@@ -272,7 +272,7 @@ public class Processor {
                 XMLReader reader = XMLReaderFactory.createXMLReader();
                 reader.setContentHandler(handler);
                 reader.parse(new InputSource(
-                        singleInputDocument ? (InputStream) new ProtectedInputStream(
+                        singleInputDocument ? new ProtectedInputStream(
                                 zis) : new ByteArrayInputStream(readEntry(zis,
                                 ze))));
 
@@ -481,7 +481,7 @@ public class Processor {
      * {@link org.xml.sax.ContentHandler ContentHandler} instances for concrete
      * context.
      */
-    private static interface ContentHandlerFactory {
+    private interface ContentHandlerFactory {
 
         /**
          * Creates an instance of the content handler.
@@ -997,7 +997,7 @@ public class Processor {
 
     }
 
-    private static interface EntryElement {
+    private interface EntryElement {
 
         OutputStream openEntry(String name) throws IOException;
 

@@ -30,13 +30,12 @@
 
 package team.unstudio.udpl.util.asm.commons;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 import team.unstudio.udpl.util.asm.MethodVisitor;
 import team.unstudio.udpl.util.asm.Opcodes;
 import team.unstudio.udpl.util.asm.tree.MethodNode;
 import team.unstudio.udpl.util.asm.tree.TryCatchBlockNode;
+
+import java.util.Comparator;
 
 /**
  * A {@link MethodVisitor} adapter to sort the exception handlers. The handlers
@@ -84,7 +83,7 @@ public class TryCatchBlockSorter extends MethodNode {
                 return endidx - startidx;
             }
         };
-        Collections.sort(tryCatchBlocks, comp);
+        tryCatchBlocks.sort(comp);
         // Updates the 'target' of each try catch block annotation.
         for (int i = 0; i < tryCatchBlocks.size(); ++i) {
             tryCatchBlocks.get(i).updateIndex(i);

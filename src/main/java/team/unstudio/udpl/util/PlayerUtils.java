@@ -9,18 +9,16 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.events.PacketListener;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.core.UDPLib;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.annotation.Nullable;
 
 public interface PlayerUtils {
 	

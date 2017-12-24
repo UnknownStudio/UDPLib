@@ -170,9 +170,9 @@ public class AnalyzerAdapter extends MethodVisitor {
             final MethodVisitor mv) {
         super(api, mv);
         this.owner = owner;
-        locals = new ArrayList<Object>();
-        stack = new ArrayList<Object>();
-        uninitializedTypes = new HashMap<Object, Object>();
+        locals = new ArrayList<>();
+        stack = new ArrayList<>();
+        uninitializedTypes = new HashMap<>();
 
         if ((access & Opcodes.ACC_STATIC) == 0) {
             if ("<init>".equals(name)) {
@@ -182,33 +182,32 @@ public class AnalyzerAdapter extends MethodVisitor {
             }
         }
         Type[] types = Type.getArgumentTypes(desc);
-        for (int i = 0; i < types.length; ++i) {
-            Type type = types[i];
+        for (Type type : types) {
             switch (type.getSort()) {
-            case Type.BOOLEAN:
-            case Type.CHAR:
-            case Type.BYTE:
-            case Type.SHORT:
-            case Type.INT:
-                locals.add(Opcodes.INTEGER);
-                break;
-            case Type.FLOAT:
-                locals.add(Opcodes.FLOAT);
-                break;
-            case Type.LONG:
-                locals.add(Opcodes.LONG);
-                locals.add(Opcodes.TOP);
-                break;
-            case Type.DOUBLE:
-                locals.add(Opcodes.DOUBLE);
-                locals.add(Opcodes.TOP);
-                break;
-            case Type.ARRAY:
-                locals.add(types[i].getDescriptor());
-                break;
-            // case Type.OBJECT:
-            default:
-                locals.add(types[i].getInternalName());
+                case Type.BOOLEAN:
+                case Type.CHAR:
+                case Type.BYTE:
+                case Type.SHORT:
+                case Type.INT:
+                    locals.add(Opcodes.INTEGER);
+                    break;
+                case Type.FLOAT:
+                    locals.add(Opcodes.FLOAT);
+                    break;
+                case Type.LONG:
+                    locals.add(Opcodes.LONG);
+                    locals.add(Opcodes.TOP);
+                    break;
+                case Type.DOUBLE:
+                    locals.add(Opcodes.DOUBLE);
+                    locals.add(Opcodes.TOP);
+                    break;
+                case Type.ARRAY:
+                    locals.add(type.getDescriptor());
+                    break;
+                // case Type.OBJECT:
+                default:
+                    locals.add(type.getInternalName());
             }
         }
         maxLocals = locals.size();
@@ -230,8 +229,8 @@ public class AnalyzerAdapter extends MethodVisitor {
             this.locals.clear();
             this.stack.clear();
         } else {
-            this.locals = new ArrayList<Object>();
-            this.stack = new ArrayList<Object>();
+            this.locals = new ArrayList<>();
+            this.stack = new ArrayList<>();
         }
         visitFrameTypes(nLocal, local, this.locals);
         visitFrameTypes(nStack, stack, this.stack);
@@ -283,14 +282,14 @@ public class AnalyzerAdapter extends MethodVisitor {
         if (opcode == Opcodes.NEW) {
             if (labels == null) {
                 Label l = new Label();
-                labels = new ArrayList<Label>(3);
+                labels = new ArrayList<>(3);
                 labels.add(l);
                 if (mv != null) {
                     mv.visitLabel(l);
                 }
             }
-            for (int i = 0; i < labels.size(); ++i) {
-                uninitializedTypes.put(labels.get(i), type);
+            for (Label label : labels) {
+                uninitializedTypes.put(label, type);
             }
         }
         if (mv != null) {
@@ -398,7 +397,7 @@ public class AnalyzerAdapter extends MethodVisitor {
             mv.visitLabel(label);
         }
         if (labels == null) {
-            labels = new ArrayList<Label>(3);
+            labels = new ArrayList<>(3);
         }
         labels.add(label);
     }
@@ -565,8 +564,8 @@ public class AnalyzerAdapter extends MethodVisitor {
         if (c == '(') {
             int n = 0;
             Type[] types = Type.getArgumentTypes(desc);
-            for (int i = 0; i < types.length; ++i) {
-                n += types[i].getSize();
+            for (Type type : types) {
+                n += type.getSize();
             }
             pop(n);
         } else if (c == 'J' || c == 'D') {

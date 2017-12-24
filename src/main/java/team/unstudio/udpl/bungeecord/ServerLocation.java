@@ -1,13 +1,12 @@
 package team.unstudio.udpl.bungeecord;
 
+import com.google.common.collect.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
-
-import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -144,7 +143,7 @@ public class ServerLocation implements ConfigurationSerializable {
             return false;
         } else {
             ServerLocation other = (ServerLocation) obj;
-            return this.server == null || !this.server.equals(other.server) ? false : this.world == null || !this.world.equals(other.world) ? false : (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x) ? false : (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y) ? false : (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z) ? false : (Float.floatToIntBits(this.pitch) != Float.floatToIntBits(other.pitch) ? false : Float.floatToIntBits(this.yaw) == Float.floatToIntBits(other.yaw)))));
+            return this.server != null && this.server.equals(other.server) && (this.world != null && this.world.equals(other.world) && (Double.doubleToLongBits(this.x) == Double.doubleToLongBits(other.x) && (Double.doubleToLongBits(this.y) == Double.doubleToLongBits(other.y) && (Double.doubleToLongBits(this.z) == Double.doubleToLongBits(other.z) && (Float.floatToIntBits(this.pitch) == Float.floatToIntBits(other.pitch) && Float.floatToIntBits(this.yaw) == Float.floatToIntBits(other.yaw))))));
         }
     }
 
@@ -193,11 +192,11 @@ public class ServerLocation implements ConfigurationSerializable {
         data.put("==", getClass().getName());
         data.put("server", this.server);
         data.put("world", this.world);
-        data.put("x", Double.valueOf(this.x));
-        data.put("y", Double.valueOf(this.y));
-        data.put("z", Double.valueOf(this.z));
-        data.put("yaw", Float.valueOf(this.yaw));
-        data.put("pitch", Float.valueOf(this.pitch));
+        data.put("x", this.x);
+        data.put("y", this.y);
+        data.put("z", this.z);
+        data.put("yaw", this.yaw);
+        data.put("pitch", this.pitch);
         return data;
     }
 

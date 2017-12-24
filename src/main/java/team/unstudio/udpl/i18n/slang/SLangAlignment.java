@@ -86,6 +86,7 @@ public interface SLangAlignment {
             add(panel);
 
             new DropTarget(panel, DnDConstants.ACTION_COPY_OR_MOVE, new DropTargetAdapter() {
+                @SuppressWarnings("unchecked")
                 @Override
                 public void drop(DropTargetDropEvent dtde) {
                     try {

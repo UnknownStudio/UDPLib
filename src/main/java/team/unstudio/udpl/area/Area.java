@@ -92,6 +92,7 @@ public class Area implements ConfigurationSerializable {
 			return false;
 		if(getMaxLocation().getY()<location.getY())
 			return false;
+		//noinspection RedundantIfStatement
 		if(getMaxLocation().getZ()<location.getZ())
 			return false;
 
@@ -120,9 +121,10 @@ public class Area implements ConfigurationSerializable {
 			return false;
 		if(getMaxLocation().getY()<area.getMaxLocation().getY())
 			return false;
+		//noinspection RedundantIfStatement
 		if(getMaxLocation().getZ()<area.getMaxLocation().getZ())
 			return false;
-		
+
 		return true;
 	}
 	
@@ -142,10 +144,11 @@ public class Area implements ConfigurationSerializable {
 		
 		if(area.contain(getMinLocation()))
 			return true;
-		
+
+		//noinspection RedundantIfStatement
 		if(area.contain(getMaxLocation()))
 			return true;
-		
+
 		return false;
 	}
 
@@ -176,9 +179,10 @@ public class Area implements ConfigurationSerializable {
 		Area other = (Area) obj;
 		
 		if(!getMinLocation().equals(other.getMinLocation())) return false;
-		
+
+		//noinspection RedundantIfStatement
 		if(!getMaxLocation().equals(other.getMaxLocation())) return false;
-		
+
 		return true;
 	}
 	

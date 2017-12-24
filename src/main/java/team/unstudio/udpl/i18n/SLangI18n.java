@@ -10,7 +10,8 @@ import team.unstudio.udpl.util.FileUtils;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.Locale;
+import java.util.Map;
 
 public class SLangI18n implements I18n {
     private String[] data;
@@ -104,8 +105,7 @@ public class SLangI18n implements I18n {
 
     /**
      * Create Slang with separator "\\|"
-     * @param file
-     * @return
+     * @param file file to create
      */
     public static SLangI18n fromFile(@Nonnull File file) {
         return fromFile("\\|", file);

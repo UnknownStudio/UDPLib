@@ -239,7 +239,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     /**
      * Types of the local variables of the method visited by this adapter.
      */
-    private final List<Type> localTypes = new ArrayList<Type>();
+    private final List<Type> localTypes = new ArrayList<>();
 
     /**
      * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
@@ -1245,8 +1245,8 @@ public class GeneratorAdapter extends LocalVariablesSorter {
             if (useTable) {
                 Label[] labels = new Label[range];
                 Arrays.fill(labels, def);
-                for (int i = 0; i < len; ++i) {
-                    labels[keys[i] - min] = newLabel();
+                for (int key : keys) {
+                    labels[key - min] = newLabel();
                 }
                 mv.visitTableSwitchInsn(min, max, def, labels);
                 for (int i = 0; i < range; ++i) {

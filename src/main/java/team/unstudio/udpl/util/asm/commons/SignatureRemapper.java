@@ -46,7 +46,7 @@ public class SignatureRemapper extends SignatureVisitor {
 
     private final Remapper remapper;
 
-    private Stack<String> classNames = new Stack<String>();
+    private Stack<String> classNames = new Stack<>();
 
     public SignatureRemapper(final SignatureVisitor v, final Remapper remapper) {
         this(Opcodes.ASM5, v, remapper);
