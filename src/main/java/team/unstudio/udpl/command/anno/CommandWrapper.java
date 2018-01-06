@@ -38,12 +38,12 @@ public class CommandWrapper {
 	
 	private boolean hasStringArray;
 	
-	private Class<?>[] requireds;
+	private Class<?>[] requireds = new Class<?>[0];
 	private List<List<String>> requiredCompletes;
 	private String[] requiredNames;
 	private String[] requiredUsages;
 
-	private Class<?>[] optionals;
+	private Class<?>[] optionals = new Class<?>[0];
 	private String[] optionalNames;
 	private String[] optionalUsages;
 	private List<List<String>> optionalCompletes;
