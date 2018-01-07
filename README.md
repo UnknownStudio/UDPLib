@@ -34,7 +34,7 @@ Maven:
 	<dependency>
 	    <groupId>com.github.UnknownStudio</groupId>
 	    <artifactId>UDPLib</artifactId>
-	    <version>1.1.0-Release</version>
+	    <version>1.1.1</version>
 	</dependency>
 ```
 
