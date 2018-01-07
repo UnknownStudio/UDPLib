@@ -201,7 +201,8 @@ public class BungeeChannel implements Listener {
     /**
      * on receiving
      */
-    private void onPluginMessageReceived(String channel, Player player, byte[] message) {
+    @SuppressWarnings("unchecked")
+	private void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if (!channel.equalsIgnoreCase("BungeeCord")) return;
         ByteArrayDataInput input = ByteStreams.newDataInput(message);
 

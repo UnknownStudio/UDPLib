@@ -2,6 +2,8 @@ package team.unstudio.udpl.util;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,5 +47,24 @@ public interface PluginUtils {
 	
 	static void registerEvents(Listener listener, Plugin plugin){
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
+	}
+	
+	/**
+	 * Call event.
+	 */
+	static <T extends Event> T callEvent(T event) {
+		Bukkit.getPluginManager().callEvent(event);
+		return event;
+	}
+
+	/**
+	 * Call event.
+	 * 
+	 * @param event
+	 * @return <code>event.isCancelled()</code> or <code>false</code>
+	 */
+	static boolean callEventIsCancelled(Event event) {
+		Bukkit.getPluginManager().callEvent(event);
+		return event instanceof Cancellable ? ((Cancellable) event).isCancelled() : false;
 	}
 }
