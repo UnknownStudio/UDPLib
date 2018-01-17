@@ -52,6 +52,6 @@ Gradle:
 2. Add the dependency
 ```gradle
 	dependencies {
-	        compile 'com.github.UnknownStudio:UDPLib:1.1.0-Release'
+	        compile 'com.github.UnknownStudio:UDPLib:1.1.1'
 	}
 ```
