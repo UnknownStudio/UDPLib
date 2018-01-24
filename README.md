@@ -11,7 +11,7 @@ By using this lib, you can easily develop your plugin with the help of such feat
 * ....
 
 ## Usage
-[Github Wiki](https://github.com/UnknownStudio/UDPLib/wiki) 
+[Document](https://mccraft.cn/document/31/)、[Github Wiki](https://github.com/UnknownStudio/UDPLib/wiki) 
 
 
 ## Download
