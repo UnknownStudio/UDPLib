@@ -175,9 +175,9 @@ public class AnnoCommandManager implements CommandExecutor,TabCompleter{
 
 	protected void onUnknownCommand(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler) {
 		if (sender instanceof Player)
-			sender.sendMessage(UDPLI18n.format((Player) sender, "message.unknown_command"));
+			sender.sendMessage(UDPLI18n.format((Player) sender, "message.unknown_command", label));
 		else
-			sender.sendMessage(String.format(MESSAGE_UNKNOWN_COMMAND, label));
+			sender.sendMessage(UDPLI18n.format(MESSAGE_UNKNOWN_COMMAND, label));
 	}
 
 	protected void onNoPermission(CommandSender sender, Command command, String label, String[] args, CommandWrapper handler) {
