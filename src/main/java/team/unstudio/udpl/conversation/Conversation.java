@@ -8,6 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
+
+import team.unstudio.udpl.conversation.request.Request;
 import team.unstudio.udpl.util.PluginUtils;
 
 import javax.annotation.Nonnull;

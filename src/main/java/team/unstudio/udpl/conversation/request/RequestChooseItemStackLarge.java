@@ -13,7 +13,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.ui.Slot;
 import team.unstudio.udpl.ui.UI;
 import team.unstudio.udpl.util.IndexedItemStack;

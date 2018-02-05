@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestConfirm extends RequestBase<Boolean>{

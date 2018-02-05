@@ -9,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestPlayer extends RequestBase<Player>{

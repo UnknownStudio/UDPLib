@@ -20,7 +20,6 @@ import com.google.common.collect.Sets;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.ChatUtils;
 import team.unstudio.udpl.util.PluginUtils;
 

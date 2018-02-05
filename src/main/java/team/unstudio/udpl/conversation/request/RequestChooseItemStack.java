@@ -9,7 +9,6 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
-import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.ui.Slot;
 import team.unstudio.udpl.ui.UI;
 import team.unstudio.udpl.util.IndexedItemStack;

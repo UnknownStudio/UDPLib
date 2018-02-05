@@ -1,6 +1,9 @@
-package team.unstudio.udpl.conversation;
+package team.unstudio.udpl.conversation.request;
 
 import com.google.common.base.Strings;
+
+import team.unstudio.udpl.conversation.Conversation;
+
 import org.bukkit.Bukkit;
 
 import java.util.function.BiPredicate;

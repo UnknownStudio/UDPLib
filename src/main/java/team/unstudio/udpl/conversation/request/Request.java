@@ -1,8 +1,10 @@
-package team.unstudio.udpl.conversation;
+package team.unstudio.udpl.conversation.request;
 
 import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+
+import team.unstudio.udpl.conversation.Conversation;
 
 /**
  * 请求接口<br>

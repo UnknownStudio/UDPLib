@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.google.common.collect.Sets;
 
-import team.unstudio.udpl.conversation.RequestBase;
 import team.unstudio.udpl.util.PluginUtils;
 
 public class RequestMultiString extends RequestBase<Set<String>>{
