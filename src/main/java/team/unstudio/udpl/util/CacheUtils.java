@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import team.unstudio.udpl.annotation.Init;
@@ -70,7 +71,15 @@ public final class CacheUtils {
 
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onQuit(PlayerQuitEvent event) {
-			Player player = event.getPlayer();
+			remove(event.getPlayer());
+		}
+		
+		@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+		public void onKick(PlayerKickEvent event) {
+			remove(event.getPlayer());
+		}
+		
+		private void remove(Player player) {
 			PLAYER_MAP_CACHES.forEach(cache -> {
 				if (!cache.remove(player))
 					PLAYER_MAP_CACHES.remove(cache);
@@ -97,6 +106,8 @@ public final class CacheUtils {
 			Map<K, V> cache = this.cache.get();
 			if (cache == null)
 				return false;
+			if (!cache.containsKey(key))
+				return true;
 			V value = cache.get(key);
 			cache.remove(key);
 			if (listener != null)
@@ -124,7 +135,8 @@ public final class CacheUtils {
 			Collection<E> cache = this.cache.get();
 			if (cache == null)
 				return false;
-			cache.remove(element);
+			if (!cache.remove(element))
+				return true;
 			if (listener != null)
 				listener.onRemove(element);
 			return true;
