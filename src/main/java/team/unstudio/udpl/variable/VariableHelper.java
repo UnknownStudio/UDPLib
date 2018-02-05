@@ -22,7 +22,7 @@ public final class VariableHelper {
 	
 	public static void unregisterVariable(@Nonnull VariableHandler handler){
 		Validate.notNull(handler);
-		REGISTED_VARIABLE_HANDLERS.remove(handler.getName());
+		REGISTED_VARIABLE_HANDLERS.remove(handler);
 	}
 	
 	public static void unregisterVariable(@Nonnull String name){
