@@ -1,6 +1,7 @@
 package team.unstudio.udpl.util;
 
 import com.google.common.collect.Sets;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,49 +9,129 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import team.unstudio.udpl.annotation.Init;
 import team.unstudio.udpl.core.UDPLib;
 
-import javax.annotation.Nonnull;
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public interface CacheUtils {
-	
-	Set<Map<Player,?>> PLAYER_MAP_CACHES = Sets.newHashSet();
-	Set<Collection<Player>> PLAYER_COLLECTION_CACHES = Sets.newHashSet();
-	
-	static void initCacheUtils(){
+import javax.annotation.Nonnull;
+
+public final class CacheUtils {
+
+	private static final Set<MapCacheWrapper<Player, ?>> PLAYER_MAP_CACHES = Sets.newHashSet();
+	private static final Set<CollectionCacheWrapper<Player>> PLAYER_COLLECTION_CACHES = Sets.newHashSet();
+
+	@Init
+	public static void initCacheUtils() {
 		Bukkit.getPluginManager().registerEvents(new CacheListener(), UDPLib.getInstance());
 	}
-	
-	static void registerPlayerCache(@Nonnull Map<Player, ?> cache){
-		Validate.notNull(cache);
-		PLAYER_MAP_CACHES.add(cache);
+
+	public static <V> void registerPlayerCache(@Nonnull Map<Player, V> cache) {
+		PLAYER_MAP_CACHES.add(new MapCacheWrapper<>(cache, null));
+	}
+
+	public static void registerPlayerCache(@Nonnull Collection<Player> cache) {
+		PLAYER_COLLECTION_CACHES.add(new CollectionCacheWrapper<>(cache, null));
 	}
 	
-	static void registerPlayerCache(@Nonnull Collection<Player> cache){
-		Validate.notNull(cache);
-		PLAYER_COLLECTION_CACHES.add(cache);
+	public static <V> void registerPlayerCache(@Nonnull Map<Player, V> cache, MapRemoveListener<Player, V> listener) {
+		PLAYER_MAP_CACHES.add(new MapCacheWrapper<>(cache, listener));
+	}
+
+	public static void registerPlayerCache(@Nonnull Collection<Player> cache, CollectionRemoveListener<Player> listener) {
+		PLAYER_COLLECTION_CACHES.add(new CollectionCacheWrapper<>(cache, listener));
+	}
+
+	public static void unregisterPlayerCache(Map<Player, ?> cache) {
+		PLAYER_MAP_CACHES.removeIf(wrapper->cache == wrapper.getCache());
+	}
+
+	public static void unregisterPlayerCache(Collection<Player> cache) {
+		PLAYER_COLLECTION_CACHES.removeIf(wrapper->cache == wrapper.getCache());
+	}
+
+	@FunctionalInterface
+	public static interface MapRemoveListener<K, V> {
+
+		void onRemove(K key, V value);
 	}
 	
-	static void unregisterPlayerCache(@Nonnull Map<Player, ?> cache){
-		Validate.notNull(cache);
-		PLAYER_MAP_CACHES.remove(cache);
+	@FunctionalInterface
+	public static interface CollectionRemoveListener<E> {
+
+		void onRemove(E element);
 	}
-	
-	static void unregisterPlayerCache(@Nonnull Collection<Player> cache){
-		Validate.notNull(cache);
-		PLAYER_COLLECTION_CACHES.remove(cache);
-	}
-	
-	class CacheListener implements Listener{
-		
-		@EventHandler(priority=EventPriority.MONITOR)
-		public void onQuit(PlayerQuitEvent event){
+
+	private static class CacheListener implements Listener {
+
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onQuit(PlayerQuitEvent event) {
 			Player player = event.getPlayer();
-			PLAYER_MAP_CACHES.forEach(cache->cache.remove(player));
-			PLAYER_COLLECTION_CACHES.forEach(cache->cache.remove(player));
+			PLAYER_MAP_CACHES.forEach(cache -> {
+				if (!cache.remove(player))
+					PLAYER_MAP_CACHES.remove(cache);
+			});
+			PLAYER_COLLECTION_CACHES.forEach(cache -> {
+				if (!cache.remove(player))
+					PLAYER_COLLECTION_CACHES.remove(cache);
+			});
+		}
+	}
+	
+	private static class MapCacheWrapper<K, V> {
+
+		private final WeakReference<Map<K, V>> cache;
+		private final MapRemoveListener<K, V> listener;
+
+		public MapCacheWrapper(Map<K ,V> cache, MapRemoveListener<K, V> listener) {
+			Validate.notNull(cache);
+			this.cache = new WeakReference<>(cache);
+			this.listener = listener;
+		}
+
+		public boolean remove(K key) {
+			Map<K, V> cache = this.cache.get();
+			if (cache == null)
+				return false;
+			V value = cache.get(key);
+			cache.remove(key);
+			if (listener != null)
+				listener.onRemove(key, value);
+			return true;
+		}
+		
+		public Map<K, V> getCache() {
+			return cache.get();
+		}
+	}
+	
+	private static class CollectionCacheWrapper<E> {
+		
+		private final WeakReference<Collection<E>> cache;
+		private final CollectionRemoveListener<E> listener;
+
+		public CollectionCacheWrapper(Collection<E> cache, CollectionRemoveListener<E> listener) {
+			Validate.notNull(cache);
+			this.cache = new WeakReference<>(cache);
+			this.listener = listener;
+		}
+
+		public boolean remove(E element) {
+			Collection<E> cache = this.cache.get();
+			if (cache == null)
+				return false;
+			cache.remove(element);
+			if (listener != null)
+				listener.onRemove(element);
+			return true;
+		}
+		
+		public Collection<E> getCache() {
+			return cache.get();
 		}
 	}
 }
