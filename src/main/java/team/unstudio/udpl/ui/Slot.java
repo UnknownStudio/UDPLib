@@ -178,7 +178,6 @@ public class Slot implements Cloneable{
 	}
 
 	@Override
-	@SuppressWarnings("MethodDoesntCallSuperMethod")
 	public Slot clone(){
 		Slot newSlot = new Slot(getSlot());
 		newSlot.setItemStack(getItemStack());
