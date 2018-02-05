@@ -1,4 +1,4 @@
-package team.unstudio.udpl.api;
+package team.unstudio.udpl;
 
 import team.unstudio.udpl.core.UDPLI18n;
 import team.unstudio.udpl.i18n.I18n;
