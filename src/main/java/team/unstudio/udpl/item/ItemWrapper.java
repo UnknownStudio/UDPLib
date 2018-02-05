@@ -232,6 +232,12 @@ public class ItemWrapper {
 	public ItemMeta getItemMeta() {
 		return itemStack.getItemMeta();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends ItemMeta> Optional<T> getItemMeta(Class<T> clazz) {
+		ItemMeta itemMeta = getItemMeta();
+		return itemMeta != null && clazz.isAssignableFrom(itemMeta.getClass()) ? Optional.of((T)itemMeta) : Optional.empty();
+	}
 
 	public ItemWrapper setItemMeta(ItemMeta itemMeta) {
 		itemStack.setItemMeta(itemMeta);
