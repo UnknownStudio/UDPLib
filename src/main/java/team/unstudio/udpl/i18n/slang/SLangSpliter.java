@@ -11,7 +11,7 @@ public interface SLangSpliter {
     /**
      * 分隔符
      */
-    String separator = "|";
+    String DEFAULT_SPLITER = "|";
 
     /**
      * 使用默认的分割符号分割文本到 CachedSLang
@@ -19,7 +19,7 @@ public interface SLangSpliter {
      * @param list 要分割的文本
      */
     static CachedSLang[] split(String[] list) {
-        return split(separator, list);
+        return split(DEFAULT_SPLITER, list);
     }
 
     /**
@@ -42,7 +42,9 @@ public interface SLangSpliter {
         data[0] = locals;
 
         // init data array
-        for (int i = 1; i < list.length; i++) data[i] = list[i].split(separator);
+        for (int i = 1; i < list.length; i++)
+            data[i] = Arrays.stream(list[i].split(separator)).map(String::trim).toArray(String[]::new);
+
 
         // get the head key or locale
         CachedSLang[] langs = new CachedSLang[locals.length];
@@ -50,13 +52,11 @@ public interface SLangSpliter {
             if (!locals[i].trim().equalsIgnoreCase("key"))
                 langs[i] = new CachedSLang(Locale.forLanguageTag(locals[i].trim().replaceAll("_", "-")));
 
-
         for (int i = 1; i < data.length; i++)
             for (int j = 1; j < data[i].length; j++) {
                 // check if trim
                 String lang = data[i][j];
                 if (lang.endsWith("∞")) lang = lang.substring(0, lang.length() - 1);
-                 else lang = lang.trim();
                 langs[j].map.put(data[i][0], lang);
             }
 
