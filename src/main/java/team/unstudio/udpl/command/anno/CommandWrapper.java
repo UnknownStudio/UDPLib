@@ -1,77 +1,64 @@
 package team.unstudio.udpl.command.anno;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import static java.util.Objects.requireNonNull;
 
-import org.apache.commons.lang.Validate;
-import org.bukkit.command.CommandSender;
-import team.unstudio.udpl.command.CommandResult;
-
-import javax.annotation.Nullable;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import team.unstudio.udpl.core.command.PluginManager;
+import team.unstudio.udpl.core.command.UDPLCommand;
+import team.unstudio.udpl.core.test.TestCommand;
+
+import org.bukkit.command.Command;
 
 public class CommandWrapper {
-	
-	private final String node;
-	private final String fullCommand;
+	private final CommandNode node;
 	private final AnnoCommandManager manager;
-	private final Map<String,CommandWrapper> children = Maps.newHashMap();
-	private final CommandWrapper parent;
 	
-	private Object commandObject;
-	private Method command;
+	private final Object object;
+	private final Method method;
 	
-	private Object tabCompleterObject;
-	private Method tabCompleter;
+	private final String permission;
+	private final Class<? extends CommandSender>[] senders;
+	private final boolean allowOp;
+	private final boolean exactParameterMatching;
 	
-	private String permission;
-	private Class<? extends CommandSender>[] senders;
-	private String usage;
-	private String description;
-	private boolean allowOp;
-	private boolean exactParameterMatching;
+	private final String usage;
+	private final String description;
 	
 	private boolean hasStringArray;
 	
-	private Class<?>[] requireds = new Class<?>[0];
-	private List<List<String>> requiredCompletes;
-	private String[] requiredNames;
-	private String[] requiredUsages;
-
-	private Class<?>[] optionals = new Class<?>[0];
-	private String[] optionalNames;
-	private String[] optionalUsages;
-	private List<List<String>> optionalCompletes;
-	private Object[] optionalDefaults;
-
-	public CommandWrapper(String node, AnnoCommandManager manager, CommandWrapper parent) {
-		this.node = node.toLowerCase();
-		this.manager = manager;
-		this.parent = parent;
-		this.fullCommand = parent == null ? this.node : parent.getFullCommand() + " " + this.node;
-	}
+	private RequiredWrapper[] requireds;
+	private OptionalWrapper[] optionals;
 	
-	public String getNode() {
+	private CommandExecutor executor;
+	
+	public CommandWrapper(CommandNode node, AnnoCommandManager manager, Object object, Method method, team.unstudio.udpl.command.anno.Command command) {
+		this.node = requireNonNull(node);
+		this.manager = requireNonNull(manager);
+		
+		this.object = requireNonNull(object);
+		this.method = requireNonNull(method);
+		
+		requireNonNull(command);
+		permission = command.permission();
+		senders = command.senders();
+		allowOp = command.allowOp();
+		exactParameterMatching = command.exactParameterMatching();
+		
+		usage = command.usage();
+		description = command.description();
+	}
+
+	public CommandNode getNode() {
 		return node;
 	}
 
-	public Map<String, CommandWrapper> getChildren() {
-		return children;
+	public AnnoCommandManager getManager() {
+		return manager;
 	}
 	
-	public String getPermission() {
-		return permission;
-	}
-
-	public Class<? extends CommandSender>[] getSenders() {
-		return senders;
-	}
-
 	public String getUsage() {
 		return usage;
 	}
@@ -79,250 +66,139 @@ public class CommandWrapper {
 	public String getDescription() {
 		return description;
 	}
-
-	public boolean isAllowOp() {
-		return allowOp;
-	}
 	
-	@Nullable
-	public CommandWrapper getParent() {
-		return parent;
-	}
-	
-	public AnnoCommandManager getCommandManager() {
-		return manager;
-	}
-	
-	public String getFullCommand(){
-		return fullCommand;
-	}
-	
-	public String[] getRequiredNames() {
-		return requiredNames;
+	public String getPermission() {
+		return permission;
 	}
 
-	public String[] getOptionalNames() {
-		return optionalNames;
+	public boolean isExactParameterMatching() {
+		return exactParameterMatching;
 	}
 	
-	public String[] getRequiredUsages() {
-		return requiredUsages;
+	public boolean hasStringArray() {
+		return hasStringArray;
+	}
+	
+	public RequiredWrapper[] getRequireds() {
+		return requireds;
+	}
+	
+	public OptionalWrapper[] getOptionals() {
+		return optionals;
 	}
 
-	public String[] getOptionalUsages() {
-		return optionalUsages;
-	}
-
-	public boolean hasCommand(){
-		return command != null;
-	}
-	
-	public boolean hasTabComplete(){
-		return tabCompleter != null;
-	}
-	
-	public CommandResult onCommand(CommandSender sender,org.bukkit.command.Command command,String label,String[] args) {
-		if (!hasCommand())
-			return CommandResult.UNKNOWN_COMMAND;
+	public boolean checkPermission(CommandSender sender) {
+		if(permission == null || permission.isEmpty()) 
+			return true;
 		
-		if (!checkSender(sender))
-			return CommandResult.WRONG_SENDER;
-
-		if (!checkPermission(sender))
-			return CommandResult.NO_PERMISSION;
-
-		// 检查参数数量
-		if (requireds.length > args.length)
-			return CommandResult.NO_ENOUGH_PARAMETER;
+		if(allowOp && sender.isOp())
+			return true;
 		
-		// 精确参数匹配
-		if (exactParameterMatching && requireds.length + optionals.length < args.length)
-			return CommandResult.UNKNOWN_COMMAND;
+		return sender.hasPermission(permission);
+	}
 
-		// 转换参数
-		Object[] objs = new Object[this.command.getParameterTypes().length];
-		objs[0] = sender;
-		{
-			List<Integer> errorParameterIndexsList = Lists.newArrayList();
-
-			for (int i = 0, parameterLength = this.command.getParameterTypes().length
-					- (hasStringArray ? 2 : 1); i < parameterLength; i++) {
-				if (i < args.length)
-					try{
-						if (i < requireds.length)
-							objs[i + 1] = transformParameter(requireds[i], args[i]);
-						else
-							objs[i + 1] = transformParameter(optionals[i - requireds.length], args[i]);
-					}catch(Exception e){
-						errorParameterIndexsList.add(i);
-					}
-				else
-					objs[i + 1] = optionalDefaults[i - args.length];
-			}
-
-			int[] errorParameterIndexs = new int[errorParameterIndexsList.size()];
-			for(int i=0,size = errorParameterIndexsList.size() ; i < size;i++)
-				errorParameterIndexs[i] = errorParameterIndexsList.get(i);
-			
-			if (errorParameterIndexs.length!=0){
-				getCommandManager().onErrorParameter(sender, command, label, args, this, errorParameterIndexs);
-				return CommandResult.ERROR_PARAMETER;
-			}
-		}
-
-		if (hasStringArray){
-			if(requireds.length + optionals.length < args.length)
-				objs[objs.length - 1] = Arrays.copyOfRange(args, requireds.length + optionals.length, args.length);
-			else 
-				objs[objs.length - 1] = new String[0];
-		}
-		
-
-		// 执行指令
-		try {
-			if (this.command.getReturnType().equals(boolean.class))
-				return (boolean) this.command.invoke(commandObject, objs) ? CommandResult.SUCCESS : CommandResult.FAILURE;
-			else {
-				this.command.invoke(commandObject, objs);
-				return CommandResult.SUCCESS;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return CommandResult.FAILURE;
-		}
+	public boolean checkSender(CommandSender sender) {
+		return checkSender(sender.getClass());
 	}
 	
-	private boolean checkSender(CommandSender sender){
-		if(getSenders() == null)
-			return false;
-		
-		for (Class<? extends CommandSender> s : getSenders())
-			if (s.isAssignableFrom(sender.getClass()))
+	public boolean checkSender(Class<? extends CommandSender> sender) {
+		for (int i = 0; i < senders.length; i++)
+			if (senders[i].isAssignableFrom(sender))
 				return true;
 		
 		return false;
 	}
 	
-	private boolean checkPermission(CommandSender sender){
-		if (isAllowOp()&&sender.isOp())
-			return true;
-		
-		if(getPermission() == null || getPermission().isEmpty())
-			return true;
-
-		return sender.hasPermission(getPermission());
-
-	}
-
-	private Object transformParameter(Class<?> clazz,String value){
-		return getCommandManager().transformParameter(clazz, value);
+	public void invoke(CommandSender sender, Object args[]) {
+		executor.invoke(sender, args);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<String> onTabComplete(String[] args){
-		List<String> tabComplete = Lists.newArrayList();
-		int index = args.length-1;
+	public static class RequiredWrapper {
 		
-		if(index >= 0){
-			String prefix = args[index];
+		private final Class<?> type;
+		private final String name;
+		private final String usage;
+		private final String[] complete;
+				
+		public RequiredWrapper(Class<?> type, Required required) {
+			this.type = requireNonNull(type);
+			requireNonNull(required);
+			this.name = required.name();
+			this.usage = required.usage();
+			this.complete = required.complete();
+		}
+
+		public Class<?> getType() {
+			return type;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getUsage() {
+			return usage;
+		}
+
+		public String[] getComplete() {
+			return complete;
+		}
+	}
+	
+	public static class OptionalWrapper {
+		
+		private final Class<?> type;
+		private final String name;
+		private final String usage;
+		private final String[] complete;
+		private final String defaultValue;
+				
+		public OptionalWrapper(Class<?> type, Optional optional) {
+			this.type = requireNonNull(type);
+			requireNonNull(optional);
+			this.name = optional.name();
+			this.usage = optional.usage();
+			this.complete = optional.complete();
+			this.defaultValue = optional.value();
+		}
+
+		public Class<?> getType() {
+			return type;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getUsage() {
+			return usage;
+		}
+
+		public String[] getComplete() {
+			return complete;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+	}
+
+	public static interface CommandExecutor {
+		
+		void invoke(CommandSender sender, Object args[]);
+	}
+	
+	private static class Dynamic implements CommandExecutor {
+
+		TestCommand instance;
+		
+		@Override
+		public void invoke(CommandSender sender, Object[] args) {
+			onCommand(sender, args[0], args[1]);
+		}
+		
+		public void onCommand(CommandSender sender, Object arg1, Object arg2) {
 			
-			//Parameter
-			if (args.length <= requireds.length){
-				requiredCompletes.get(index).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
-				tabComplete.addAll(manager.tabCompleteParameter(requireds[index], prefix));
-			}else if (args.length <= requireds.length + optionals.length){
-				optionalCompletes.get(index - requireds.length).stream().filter(value->value.startsWith(prefix)).forEach(tabComplete::add);
-				tabComplete.addAll(manager.tabCompleteParameter(optionals[index - requireds.length], prefix));
-			}
-			
-			//Sub Command
-			getChildren().keySet().stream().filter(node->node.startsWith(prefix)).forEach(tabComplete::add);
 		}
-		
-		if(hasTabComplete()){
-			try {
-				List<String> completed = (List<String>) tabCompleter.invoke(tabCompleterObject, new Object[]{args});
-				if(completed != null)
-					tabComplete.addAll(completed);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return tabComplete;
-	}
-	
-	public void setCommandMethod(Object obj,Command anno,Method method){
-		Validate.notNull(obj);
-		Validate.notNull(anno);
-		Validate.notNull(method);
-		this.commandObject = obj;
-		this.command = method;
-		this.command.setAccessible(true);
-		this.permission = anno.permission();
-		this.senders = anno.senders();
-		this.usage = anno.usage();
-		this.description = anno.description();
-		this.allowOp = anno.allowOp();
-		this.exactParameterMatching = anno.exactParameterMatching();
-		
-		Class<?>[] parameterTypes = method.getParameterTypes();
-		this.hasStringArray = parameterTypes[parameterTypes.length-1].equals(String[].class);
-		
-		//参数载入
-		List<Class<?>> requireds = Lists.newLinkedList();
-		List<Class<?>> optionals = Lists.newLinkedList();
-		List<String> requiredNames = Lists.newLinkedList();
-		List<String> optionalNames = Lists.newLinkedList();
-		List<String> requiredUsages = Lists.newLinkedList();
-		List<String> optionalUsages = Lists.newLinkedList();
-		List<List<String>> requiredCompletes = Lists.newLinkedList();
-		List<List<String>> optionalCompletes = Lists.newLinkedList();
-		List<Object> optionalDefaults = Lists.newLinkedList();
-		
-		Parameter[] parameters = method.getParameters();
-		for (Parameter parameter : parameters) {
-			{
-				Required annoRequired = parameter.getAnnotation(Required.class);
-				if (annoRequired != null) {
-					requireds.add(parameter.getType());
-					requiredNames.add(annoRequired.name() == null || annoRequired.name().isEmpty()
-							? parameter.getName() : annoRequired.name());
-					requiredUsages.add(annoRequired.usage());
-					requiredCompletes.add(ImmutableList.copyOf(annoRequired.complete()));
-					continue;
-				}
-			}
-
-			{
-				Optional annoOptional = parameter.getAnnotation(Optional.class);
-				if (annoOptional != null) {
-					optionals.add(parameter.getType());
-					optionalNames.add(annoOptional.name().isEmpty()
-							? parameter.getName() : annoOptional.name());
-					optionalUsages.add(annoOptional.usage());
-					optionalDefaults.add(transformParameter(parameter.getType(), annoOptional.value()));
-					optionalCompletes.add(ImmutableList.copyOf(annoOptional.complete()));
-				}
-			}
-		}
-		
-		this.requireds = requireds.toArray(new Class<?>[requireds.size()]);
-		this.optionals = optionals.toArray(new Class<?>[optionals.size()]);
-		this.requiredNames = requiredNames.toArray(new String[requiredNames.size()]);
-		this.requiredUsages = requiredUsages.toArray(new String[requiredUsages.size()]);
-		this.requiredCompletes = ImmutableList.copyOf(requiredCompletes);
-		this.optionalNames = optionalNames.toArray(new String[optionalNames.size()]);
-		this.optionalUsages = optionalUsages.toArray(new String[optionalUsages.size()]);
-		this.optionalDefaults = optionalDefaults.toArray(new Object[optionalDefaults.size()]);
-		this.optionalCompletes = ImmutableList.copyOf(optionalCompletes);
-	}
-	
-	public void setTabCompleteMethod(Object object, TabComplete anno, Method tabComplete){
-		Validate.notNull(object);
-		Validate.notNull(anno);
-		Validate.notNull(tabComplete);
-		this.tabCompleterObject = object;
-		this.tabCompleter = tabComplete;
 	}
 }
