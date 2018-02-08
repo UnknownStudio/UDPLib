@@ -5,8 +5,10 @@ import org.bukkit.entity.HumanEntity;
 import team.unstudio.udpl.core.UDPLib;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Server util to quickly
@@ -16,15 +18,15 @@ public interface ServerUtils {
 	/**
 	 * get online players' name
 	 */
-	static String[] getOnlinePlayerNames(){
-		return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toArray(String[]::new);
+	static List<String> getOnlinePlayerNames(){
+		return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
 	}
 
 	/**
 	 * get all online players' name with a filter
 	 */
-	static String[] getOnlinePlayerNamesWithFilter(Predicate<String> filter){
-		return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).filter(filter).toArray(String[]::new);
+	static List<String> getOnlinePlayerNamesWithFilter(Predicate<String> filter){
+		return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).filter(filter).collect(Collectors.toList());
 	}
 
 	/**

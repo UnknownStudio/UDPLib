@@ -51,4 +51,12 @@ public class CommandNode {
 	public List<TabCompleteWrapper> getTabCompleters() {
 		return tabCompleters;
 	}
+	
+	public boolean hasCommand() {
+		return !commands.isEmpty();
+	}
+	
+	public boolean hasTabCompleter() {
+		return !tabCompleters.isEmpty();
+	}
 }

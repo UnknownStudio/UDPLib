@@ -2,15 +2,18 @@ package team.unstudio.udpl.command.anno;
 
 import static java.util.Objects.requireNonNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import team.unstudio.udpl.core.command.PluginManager;
-import team.unstudio.udpl.core.command.UDPLCommand;
-import team.unstudio.udpl.core.test.TestCommand;
+import com.google.common.base.Strings;
 
-import org.bukkit.command.Command;
+import team.unstudio.udpl.util.asm.*;
+import static team.unstudio.udpl.util.asm.Opcodes.*;
 
 public class CommandWrapper {
 	private final CommandNode node;
@@ -27,14 +30,14 @@ public class CommandWrapper {
 	private final String usage;
 	private final String description;
 	
-	private boolean hasStringArray;
+	private final boolean hasStringArray;
 	
-	private RequiredWrapper[] requireds;
-	private OptionalWrapper[] optionals;
+	private final RequiredWrapper[] requireds;
+	private final OptionalWrapper[] optionals;
 	
-	private CommandExecutor executor;
+	private final CommandExecutor executor;
 	
-	public CommandWrapper(CommandNode node, AnnoCommandManager manager, Object object, Method method, team.unstudio.udpl.command.anno.Command command) {
+	public CommandWrapper(CommandNode node, AnnoCommandManager manager, Object object, Method method, team.unstudio.udpl.command.anno.Command command) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		this.node = requireNonNull(node);
 		this.manager = requireNonNull(manager);
 		
@@ -49,6 +52,165 @@ public class CommandWrapper {
 		
 		usage = command.usage();
 		description = command.description();
+		
+		List<RequiredWrapper> requireds = new ArrayList<>();
+		List<OptionalWrapper> optionals = new ArrayList<>();
+		for(Parameter parameter : method.getParameters()) {
+			Required required = parameter.getAnnotation(Required.class);
+			if(required != null) {
+				requireds.add(new RequiredWrapper(parameter.getType(), required));
+				continue;
+			}
+			Optional optional = parameter.getAnnotation(Optional.class);
+			if(optional != null) {
+				optionals.add(new OptionalWrapper(parameter.getType(), optional));
+			}
+		}
+		this.requireds = requireds.toArray(new RequiredWrapper[requireds.size()]);
+		this.optionals = optionals.toArray(new OptionalWrapper[optionals.size()]);
+		
+		this.hasStringArray = method.getParameterTypes()[method.getParameterCount()-1].equals(String[].class);
+		
+		this.executor = loadExecutor(manager, object, method);
+	}
+	
+	private CommandExecutor loadExecutor(AnnoCommandManager manager, Object object, Method method) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		
+		boolean isStatic = Modifier.isStatic(method.getModifiers());
+		String className = getUniqueName(method);
+		String objectType = Type.getInternalName(object.getClass());
+		
+		ClassWriter cw = new ClassWriter(0);
+		FieldVisitor fv;
+		MethodVisitor mv;
+
+		cw.visit(V1_8, ACC_PUBLIC + ACC_SUPER, className, null,
+				"java/lang/Object",
+				new String[] { "team/unstudio/udpl/command/anno/CommandWrapper$CommandExecutor" });
+
+		cw.visitSource(".dynamic", null);
+
+		cw.visitInnerClass("team/unstudio/udpl/command/anno/CommandWrapper$CommandExecutor",
+				"team/unstudio/udpl/command/anno/CommandWrapper", "CommandExecutor",
+				ACC_PUBLIC + ACC_STATIC + ACC_ABSTRACT + ACC_INTERFACE);
+
+		if (!isStatic) {
+			fv = cw.visitField(ACC_PRIVATE + ACC_FINAL, "instance", "Ljava/lang/Object;", null, null);
+			fv.visitEnd();
+		}
+		
+		{
+			mv = cw.visitMethod(ACC_PUBLIC, "<init>", isStatic ? "()V" : "(Ljava/lang/Object;)V", null, null);
+			mv.visitCode();
+			mv.visitVarInsn(ALOAD, 0);
+			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+			if (!isStatic) {
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitFieldInsn(PUTFIELD, className, "instance", "Ljava/lang/Object;");
+			}
+			mv.visitInsn(RETURN);
+			mv.visitMaxs(2, 2);
+			mv.visitEnd();
+		}
+		{
+			mv = cw.visitMethod(ACC_PUBLIC, "invoke",
+					"(Lorg/bukkit/command/CommandSender;[Ljava/lang/Object;[Ljava/lang/Object;[Ljava/lang/String;)V",
+					null, null);
+			mv.visitCode();
+			mv.visitVarInsn(ALOAD, 0);
+			if(!isStatic) {
+				mv.visitFieldInsn(GETFIELD, className, "instance", "Ljava/lang/Object;");
+				mv.visitTypeInsn(CHECKCAST, objectType);
+			}
+			
+			int requiredCount = 0, optionalCount = 0;
+			for(Parameter parameter : method.getParameters()) {
+				if(parameter.getAnnotation(Required.class) != null) {
+					visitArray(mv, 2, requiredCount++, parameter.getClass());
+				}else if(parameter.getAnnotation(Optional.class) != null) {
+					visitArray(mv, 3, optionalCount++, parameter.getClass());
+				}else if(CommandSender.class.isAssignableFrom(parameter.getClass())) {
+					mv.visitVarInsn(ALOAD, 1);
+					mv.visitTypeInsn(CHECKCAST, Type.getInternalName(parameter.getType()));
+				}else if(parameter.getType().equals(String[].class)) {
+					mv.visitVarInsn(ALOAD, 4);
+				}
+			}
+			
+			mv.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, objectType,
+					method.getName(), Type.getMethodDescriptor(method), false);
+			mv.visitInsn(RETURN);
+			mv.visitMaxs(method.getParameterCount() + 2, 5);
+			mv.visitEnd();
+		}
+		cw.visitEnd();
+
+		Class<?> clazz = manager.getClassLoader().loadClass(cw.toByteArray());
+		return (CommandExecutor)(isStatic ? clazz.newInstance() : clazz.getDeclaredConstructor(Object.class).newInstance(object));
+	}
+	
+	private static int id = 0;
+	private String getUniqueName(Method method) {
+		return String.format("Command_%d_%s_%s", id++, method.getDeclaringClass().getSimpleName(), method.getName());
+	}
+	
+	private void visitArray(MethodVisitor mv, int varIndex, int arrayIndex, Class<?> targetClass) {
+		String targetType = Type.getInternalName(targetClass);
+		mv.visitVarInsn(ALOAD, varIndex);
+		switch (arrayIndex) {
+		case 0:
+			mv.visitInsn(ICONST_0);
+			break;
+		case 1:
+			mv.visitInsn(ICONST_1);
+			break;
+		case 2:
+			mv.visitInsn(ICONST_2);
+			break;
+		case 3:
+			mv.visitInsn(ICONST_3);
+			break;
+		case 4:
+			mv.visitInsn(ICONST_4);
+			break;
+		case 5:
+			mv.visitInsn(ICONST_5);
+			break;
+		default:
+			mv.visitIntInsn(SIPUSH, arrayIndex);
+			break;
+		}
+		mv.visitInsn(AALOAD);
+		if(targetClass.isPrimitive()) {
+			if (targetClass == int.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
+			} else if (targetClass == double.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
+			} else if (targetClass == float.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Float");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
+			} else if (targetClass == long.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Long");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
+			} else if (targetClass == short.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Short");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
+			} else if (targetClass == byte.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Byte");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
+			} else if (targetClass == boolean.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+			} else if (targetClass == char.class) {
+				mv.visitTypeInsn(CHECKCAST, "java/lang/Character");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
+			}
+		} else {
+			mv.visitTypeInsn(CHECKCAST, targetType);
+		}
 	}
 
 	public CommandNode getNode() {
@@ -57,6 +219,14 @@ public class CommandWrapper {
 
 	public AnnoCommandManager getManager() {
 		return manager;
+	}
+	
+	public Object getObject() {
+		return object;
+	}
+
+	public Method getMethod() {
+		return method;
 	}
 	
 	public String getUsage() {
@@ -109,10 +279,10 @@ public class CommandWrapper {
 		return false;
 	}
 	
-	public void invoke(CommandSender sender, Object args[]) {
-		executor.invoke(sender, args);
+	public void invoke(CommandSender sender, Object[] requireds, Object[] optionals, String[] args) {
+		executor.invoke(sender, requireds, optionals, args);
 	}
-	
+
 	public static class RequiredWrapper {
 		
 		private final Class<?> type;
@@ -123,8 +293,8 @@ public class CommandWrapper {
 		public RequiredWrapper(Class<?> type, Required required) {
 			this.type = requireNonNull(type);
 			requireNonNull(required);
-			this.name = required.name();
-			this.usage = required.usage();
+			this.name = Strings.nullToEmpty(required.name());
+			this.usage = Strings.nullToEmpty(required.usage());
 			this.complete = required.complete();
 		}
 
@@ -156,10 +326,10 @@ public class CommandWrapper {
 		public OptionalWrapper(Class<?> type, Optional optional) {
 			this.type = requireNonNull(type);
 			requireNonNull(optional);
-			this.name = optional.name();
-			this.usage = optional.usage();
+			this.name = Strings.nullToEmpty(optional.name());
+			this.usage = Strings.nullToEmpty(optional.usage());
 			this.complete = optional.complete();
-			this.defaultValue = optional.value();
+			this.defaultValue = Strings.nullToEmpty(optional.value());
 		}
 
 		public Class<?> getType() {
@@ -185,20 +355,6 @@ public class CommandWrapper {
 
 	public static interface CommandExecutor {
 		
-		void invoke(CommandSender sender, Object args[]);
-	}
-	
-	private static class Dynamic implements CommandExecutor {
-
-		TestCommand instance;
-		
-		@Override
-		public void invoke(CommandSender sender, Object[] args) {
-			onCommand(sender, args[0], args[1]);
-		}
-		
-		public void onCommand(CommandSender sender, Object arg1, Object arg2) {
-			
-		}
+		void invoke(CommandSender sender, Object[] requireds, Object[] optionals, String[] args);
 	}
 }

@@ -2,8 +2,6 @@ package team.unstudio.udpl.example;
 
 import java.io.File;
 
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
@@ -41,7 +39,7 @@ public class ExamplePlugin extends JavaPlugin{
 				.builder()
 				.name("example") // 命令名
 				.plugin(this) // 插件主类
-				.parameterHandler(Material.class, new MaterialParameterHandler()) // 参数处理器
+				.parameterHandler(new MaterialParameterHandler()) // 参数处理器
 				.build() // 构建 CommandManager
 				.addHandler(new ExampleCommand()) // 设置命令处理器
 				.registerCommand(); // 注册命令

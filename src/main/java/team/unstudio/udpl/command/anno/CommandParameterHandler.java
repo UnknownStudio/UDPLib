@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -14,20 +16,16 @@ import com.google.common.collect.ImmutableList;
 import team.unstudio.udpl.util.ServerUtils;
 
 public interface CommandParameterHandler {
+	
+	Class<?> getType();
 
 	/**
 	 * 参数转换
-	 * 
-	 * @param value
-	 * @return
 	 */
 	Object transform(String value);
 
 	/**
 	 * 参数自动补全
-	 * 
-	 * @param value
-	 * @return
 	 */
 	default List<String> tabComplete(String value) {
 		return Collections.emptyList();
@@ -48,6 +46,11 @@ public interface CommandParameterHandler {
 			return BOOLEANS.stream().filter(str -> str.startsWith(prefix)).collect(Collectors.toList());
 		}
 
+		@Override
+		public Class<?> getType() {
+			return boolean.class;
+		}
+
 	}
 
 	public static class PlayerHandler implements CommandParameterHandler {
@@ -60,7 +63,12 @@ public interface CommandParameterHandler {
 		@Override
 		public List<String> tabComplete(String value) {
 			String prefix = Strings.nullToEmpty(value);
-			return Arrays.asList(ServerUtils.getOnlinePlayerNamesWithFilter(name -> name.startsWith(prefix)));
+			return ServerUtils.getOnlinePlayerNamesWithFilter(name -> name.startsWith(prefix));
+		}
+
+		@Override
+		public Class<?> getType() {
+			return Player.class;
 		}
 	}
 
@@ -70,6 +78,11 @@ public interface CommandParameterHandler {
 		@Override
 		public Object transform(String value) {
 			return Bukkit.getOfflinePlayer(value);
+		}
+
+		@Override
+		public Class<?> getType() {
+			return OfflinePlayer.class;
 		}
 	}
 
@@ -92,6 +105,11 @@ public interface CommandParameterHandler {
 					+ "))" + "[fFdD]?))" + "[\\x00-\\x20]*");
 			return Pattern.compile(fpRegex);
 		}
+
+		@Override
+		public Class<?> getType() {
+			return Number.class;
+		}
 	}
 	
 	static <E extends Enum<E>> CommandParameterHandler createEnumHandler(Class<E> clazz) {
@@ -108,6 +126,11 @@ public interface CommandParameterHandler {
 			public List<String> tabComplete(String value) {
 				String prefix = Strings.nullToEmpty(value);
 				return elements.stream().filter(e->e.startsWith(prefix)).collect(Collectors.toList());
+			}
+
+			@Override
+			public Class<?> getType() {
+				return clazz;
 			}
 		};
 	}

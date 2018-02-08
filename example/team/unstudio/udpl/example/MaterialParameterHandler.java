@@ -25,4 +25,9 @@ public class MaterialParameterHandler implements CommandParameterHandler{
 				.filter(material->material.startsWith(value))
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public Class<?> getType() {
+		return Material.class;
+	}
 }
