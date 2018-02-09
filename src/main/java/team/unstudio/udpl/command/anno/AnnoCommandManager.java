@@ -310,10 +310,10 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) { // TODO:
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		CommandNode node = root;
-		List<String> tabComplete = new ArrayList<>();
 		String prefix = args[args.length - 1];
+		List<String> tabComplete = new LinkedList<>();
 
 		int i, size;
 		for (i = 0, size = args.length - 1 ; i < size; i++) {
@@ -324,47 +324,53 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 			node = child;
 		}
 		
-		for (CommandNode n : node.getChildren())
-			if (n.getName().startsWith(prefix) && getCommand(n, sender) != null)
-				tabComplete.add(n.getName());
+		//Children
+		for (CommandNode n : node.getChildren()) {
+			if (n.getName().startsWith(prefix)) {
+				CommandWrapper c = getCommand(n, sender);
+				if (c != null && c.checkPermission(sender)) {
+					tabComplete.add(n.getName());
+				}
+			}
+		}
 		
+		//TabCompleter
 		CommandNode tabCompleterNode = node;
 		int tabCompleterNodeIndex = i;
 		while(!tabCompleterNode.hasTabCompleter()) {
 			tabCompleterNode = tabCompleterNode.getParent();
 			tabCompleterNodeIndex--;
 		}
-
-		List<String> tabCompleterResult = handleTabComplete(tabCompleterNode, sender, Arrays.copyOfRange(args, tabCompleterNodeIndex, args.length));
-		if(tabCompleterResult != null)
-			tabComplete.addAll(tabCompleterResult);
+			
+		tabComplete.addAll(handleTabComplete(tabCompleterNode, sender, Arrays.copyOfRange(args, tabCompleterNodeIndex, args.length)));
 		
+		//CommandComplete
 		CommandNode commandNode = node;
 		int commandNodeIndex = i;
 		while(!commandNode.hasCommand()) {
 			commandNode = commandNode.getParent();
 			commandNodeIndex--;
 		}
-		
+
 		CommandWrapper commandWrapper = getCommand(commandNode, sender);
 		if (commandWrapper != null && commandWrapper.checkPermission(sender)) {
 			int tabCompleteIndex = args.length - commandNodeIndex;
 			RequiredWrapper[] requireds = commandWrapper.getRequireds();
 			OptionalWrapper[] optionals = commandWrapper.getOptionals();
-			if (tabCompleteIndex < requireds.length) {
-				List<String> typeResult = getParameterManager().tabComplete(requireds[tabCompleteIndex].getType(),
-						prefix);
+			if (tabCompleteIndex < requireds.length + optionals.length) {
+				List<String> typeResult;
+				String[] complete;
+				if (tabCompleteIndex < requireds.length) {
+					typeResult = getParameterManager().tabComplete(requireds[tabCompleteIndex].getType(), prefix);
+					complete = requireds[tabCompleteIndex].getComplete();
+				} else {
+					typeResult = getParameterManager()
+							.tabComplete(optionals[tabCompleteIndex - requireds.length].getType(), prefix);
+					complete = optionals[tabCompleteIndex - requireds.length].getComplete();
+				}
 				if (typeResult != null)
 					tabComplete.addAll(typeResult);
-				for (String s : requireds[tabCompleteIndex].getComplete())
-					if (s.startsWith(prefix))
-						tabComplete.add(s);
-			} else if (tabCompleteIndex < requireds.length + optionals.length) {
-				List<String> typeResult = getParameterManager()
-						.tabComplete(requireds[tabCompleteIndex - requireds.length].getType(), prefix);
-				if (typeResult != null)
-					tabComplete.addAll(typeResult);
-				for (String s : requireds[tabCompleteIndex - requireds.length].getComplete())
+				for (String s : complete)
 					if (s.startsWith(prefix))
 						tabComplete.add(s);
 			}
@@ -382,7 +388,8 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 			return Collections.emptyList();
 
 		try {
-			return tabComplete.invoke(sender, args);
+			List<String> result = tabComplete.invoke(sender, args);
+			return result != null ? result : Collections.emptyList();
 		} catch(Exception e) {
 			getPlugin().getLogger().log(Level.WARNING, e.getMessage(), e);
 			return Collections.emptyList();
