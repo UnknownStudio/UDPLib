@@ -295,7 +295,7 @@ public class CommandWrapper {
 			requireNonNull(required);
 			this.name = Strings.nullToEmpty(required.name());
 			this.usage = Strings.nullToEmpty(required.usage());
-			this.complete = required.complete();
+			this.complete = required.complete() != null ? required.complete() : new String[0];
 		}
 
 		public Class<?> getType() {
@@ -328,7 +328,7 @@ public class CommandWrapper {
 			requireNonNull(optional);
 			this.name = Strings.nullToEmpty(optional.name());
 			this.usage = Strings.nullToEmpty(optional.usage());
-			this.complete = optional.complete();
+			this.complete = optional.complete() != null ? optional.complete() : new String[0];
 			this.defaultValue = Strings.nullToEmpty(optional.value());
 		}
 

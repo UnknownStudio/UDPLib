@@ -14,12 +14,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * 该方法第一个参数应为CommandSender或其子类，其他参数应先@Required参数再@Optional参数<br>
  * 最后一个参数可以为String[]来接收额外输入的参数<br>
  * 
- * 示例如下:
- * <p>@Command(value = "example",senders = Player.class,permission = "example.send")
-	public void example(CommandSender sender,@Required Player target,@Optional("default") String message){
-		target.sendMessage(message);
-	}
- * </p>
+ * 示例如下:<br>
+ * <pre>
+ * @Command(value = "example",senders = Player.class,permission = "example.send")
+ * public void example(CommandSender sender,@Required Player target,@Optional("default") String message){
+ * 	target.sendMessage(message);
+ * }
+ * </pre>
  */
 @Retention(RUNTIME)
 @Target(METHOD)
