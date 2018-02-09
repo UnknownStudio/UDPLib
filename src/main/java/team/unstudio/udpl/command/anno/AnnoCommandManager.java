@@ -313,15 +313,20 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) { // TODO:
 		CommandNode node = root;
 		List<String> tabComplete = new ArrayList<>();
+		String prefix = args[args.length - 1];
 
 		int i, size;
-		for (i = 0, size = args.length; i < size; i++) {
+		for (i = 0, size = args.length - 1 ; i < size; i++) {
 			CommandNode child = node.getChild(args[i]);
 			if (child == null)
 				break;
 
 			node = child;
 		}
+		
+		for (CommandNode n : node.getChildren())
+			if (n.getName().startsWith(prefix) && getCommand(n, sender) != null)
+				tabComplete.add(n.getName());
 		
 		CommandNode tabCompleterNode = node;
 		int tabCompleterNodeIndex = i;
@@ -343,7 +348,6 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		
 		CommandWrapper commandWrapper = getCommand(commandNode, sender);
 		if (commandWrapper != null && commandWrapper.checkPermission(sender)) {
-			String prefix = args[args.length - 1];
 			int tabCompleteIndex = args.length - commandNodeIndex;
 			RequiredWrapper[] requireds = commandWrapper.getRequireds();
 			OptionalWrapper[] optionals = commandWrapper.getOptionals();

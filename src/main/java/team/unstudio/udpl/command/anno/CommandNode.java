@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import static java.util.Objects.*;
+
+import java.util.Collection;
 
 public class CommandNode {
 
@@ -42,6 +43,10 @@ public class CommandNode {
 	
 	public void addChild(CommandNode node) {
 		children.put(node.getName(), node);
+	}
+	
+	public Collection<CommandNode> getChildren() {
+		return children.values();
 	}
 
 	public List<CommandWrapper> getCommands() {

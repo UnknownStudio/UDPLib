@@ -50,8 +50,8 @@ public class CommandWrapper {
 		allowOp = command.allowOp();
 		exactParameterMatching = command.exactParameterMatching();
 		
-		usage = command.usage();
-		description = command.description();
+		usage = Strings.nullToEmpty(command.usage());
+		description = Strings.nullToEmpty(command.description());
 		
 		List<RequiredWrapper> requireds = new ArrayList<>();
 		List<OptionalWrapper> optionals = new ArrayList<>();
