@@ -1,10 +1,10 @@
 package team.unstudio.udpl.util;
 
-import team.unstudio.udpl.core.UDPLib;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +13,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public interface ZipUtils {
-	static boolean zip(File zipFile, File... inputFiles) {
+	static boolean zip(File zipFile, File... inputFiles) throws FileNotFoundException, IOException  {
 		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile))) {
 			for (File file : inputFiles) {
 				if (file.isDirectory())
@@ -22,13 +22,10 @@ public interface ZipUtils {
 					zip(out, file, file.getName());
 			}
 			return true;
-		} catch (Exception e) {
-            UDPLib.getLog().error("Cannot compress zip file!", e);
-			return false;
 		}
 	}
 
-	static boolean zip(Path zipFile, Path... inputFiles) {
+	static boolean zip(Path zipFile, Path... inputFiles) throws IOException {
 		try (ZipOutputStream out = new ZipOutputStream(Files.newOutputStream(zipFile))) {
             for (Path file : inputFiles) {
                 if (Files.isDirectory(file))
@@ -37,13 +34,10 @@ public interface ZipUtils {
                     zip(out, file, file.toString());
             }
 		    return true;
-		} catch (Exception e) {
-            UDPLib.getLog().error("Cannot compress zip file!", e);
-            return false;
 		}
 	}
 
-    static void zip(ZipOutputStream out, Path f, String base) throws Exception {
+    static void zip(ZipOutputStream out, Path f, String base) throws IOException {
         if (Files.isDirectory(f)) {
             if (!base.isEmpty()) {
                 out.putNextEntry(new ZipEntry(base + "/"));
@@ -62,7 +56,7 @@ public interface ZipUtils {
         }
     }
 
-	static void zip(ZipOutputStream out, File f, String base) throws Exception {
+	static void zip(ZipOutputStream out, File f, String base) throws IOException {
 		if (f.isDirectory()) {
 			if (!base.isEmpty()) {
 				out.putNextEntry(new ZipEntry(base + "/"));

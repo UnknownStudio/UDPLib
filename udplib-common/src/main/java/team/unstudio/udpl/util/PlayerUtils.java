@@ -13,7 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
+import team.unstudio.udpl.annotation.Init;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
@@ -25,6 +26,7 @@ public interface PlayerUtils {
 	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 	Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
 	
+	@Init
 	static void initPlayerUtils(){
 		protocolManager.addPacketListener(new PacketListener() {
 			
@@ -55,7 +57,7 @@ public interface PlayerUtils {
 			
 			@Override
 			public Plugin getPlugin() {
-				return UDPLib.getInstance();
+				return UDPLib.getPlugin();
 			}
 		});
 	}

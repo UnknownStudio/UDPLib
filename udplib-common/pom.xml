@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>team.unstudio</groupId>
 		<artifactId>udplib</artifactId>
-		<version>1.2.0</version>
+		<version>${udplib.version}</version>
 	</parent>
 	<artifactId>udplib-common</artifactId>
 	<name>UDPLib-common</name>

@@ -1,9 +1,9 @@
 package team.unstudio.udpl.config;
 
 import com.google.common.base.Strings;
-import org.bukkit.configuration.file.YamlConfiguration;
-import team.unstudio.udpl.core.UDPLib;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * 配置文件处理器。
@@ -146,7 +147,7 @@ public abstract class ConfigurationHandler{
 			
 			return true;
 		}catch(IOException e){
-			UDPLib.getLog().error(e);
+			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, e);
 			return false;
 		}
 	}

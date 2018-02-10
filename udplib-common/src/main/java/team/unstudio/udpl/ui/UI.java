@@ -1,6 +1,9 @@
 package team.unstudio.udpl.ui;
 
 import com.google.common.collect.Sets;
+
+import team.unstudio.udpl.UDPLib;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
@@ -14,7 +17,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import team.unstudio.udpl.core.UDPLib;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
@@ -276,7 +278,7 @@ public class UI implements Cloneable{
 				return;
 			
 			registedListener = true;
-			Bukkit.getPluginManager().registerEvents(this, UDPLib.getInstance());
+			Bukkit.getPluginManager().registerEvents(this, UDPLib.getPlugin());
 		}
 
 		private void unregisterListener(){

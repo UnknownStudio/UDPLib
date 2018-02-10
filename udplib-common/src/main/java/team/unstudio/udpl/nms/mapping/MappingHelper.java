@@ -1,6 +1,6 @@
 package team.unstudio.udpl.nms.mapping;
 
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.util.ServerUtils;
 
 import java.io.IOException;
@@ -22,11 +22,11 @@ public final class MappingHelper {
 	private static void loadMapping(String version){
 		try {
 			memberMapping = new MemberMapping(version);
-			UDPLib.getLog().info("Loaded mapping "+version);
+			UDPLib.getLogger().info("Loaded mapping "+version);
 		} catch (IOException e) {
 			UDPLib.debug(e);
 			memberMapping = null;
-			UDPLib.getLog().warn("Loaded mapping "+version+" failure.");
+			UDPLib.getLogger().warn("Loaded mapping "+version+" failure.");
 		}
 	}
 }

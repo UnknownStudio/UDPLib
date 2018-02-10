@@ -17,7 +17,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
+import team.unstudio.udpl.annotation.Init;
 import team.unstudio.udpl.event.FakeSignUpdateEvent;
 
 import java.lang.reflect.InvocationTargetException;
@@ -32,6 +33,7 @@ public interface SignUtils {
     
      Set<Player> OPENED_FAKE_SIGN_PLAYERS = Sets.newHashSet();
     
+     @Init
      static void initSignUtils(){
          CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
          manager.addPacketListener(new PacketListener() {
@@ -53,7 +55,7 @@ public interface SignUtils {
                  String line2 = container.getStrings().read(1);
                  String line3 = container.getStrings().read(2);
                  String line4 = container.getStrings().read(3);
-                 Bukkit.getScheduler().runTask(UDPLib.getInstance(), ()->Bukkit.getPluginManager()
+                 Bukkit.getScheduler().runTask(UDPLib.getPlugin(), ()->Bukkit.getPluginManager()
                          .callEvent(new FakeSignUpdateEvent(player, new String[] { line1, line2, line3, line4 })));
              }
 
@@ -69,7 +71,7 @@ public interface SignUtils {
 
              @Override
              public Plugin getPlugin() {
-                 return UDPLib.getInstance();
+                 return UDPLib.getPlugin();
              }
         });
     }

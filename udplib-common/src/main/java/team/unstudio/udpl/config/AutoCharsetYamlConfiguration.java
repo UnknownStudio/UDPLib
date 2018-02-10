@@ -1,14 +1,15 @@
 package team.unstudio.udpl.config;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
-import team.unstudio.udpl.core.UDPLib;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 
 /**
  * 本类使用了 cpDetector，以达到自动识别文件编码的
@@ -38,14 +39,13 @@ public class AutoCharsetYamlConfiguration extends DecodedYamlConfiguration {
          }catch(Exception ignored){}
     }
     
-    private static AutoCharsetYamlConfiguration loadFile(AutoCharsetYamlConfiguration config,File file) {
+    private static AutoCharsetYamlConfiguration loadFile(AutoCharsetYamlConfiguration config, File file) {
     	try {
 			config.load(file);
-			return config;
 		} catch (IOException | InvalidConfigurationException e) {
-            UDPLib.getLog().error(e);
-			return null;
+			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, e);
 		}
+    	return config;
     }
     
 }

@@ -2,16 +2,19 @@ package team.unstudio.udpl.i18n;
 
 import com.google.common.collect.Maps;
 import team.unstudio.udpl.config.EncodingDetect;
-import team.unstudio.udpl.core.UDPLib;
 import team.unstudio.udpl.i18n.slang.CachedSLang;
 import team.unstudio.udpl.i18n.slang.SLangSpliter;
 import team.unstudio.udpl.util.FileUtils;
 
 import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+
 import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class SLangI18n implements I18n {
     private String[] data;
@@ -89,7 +92,7 @@ public class SLangI18n implements I18n {
 
             return new SLangI18n(FileUtils.readFile2Array(url, EncodingDetect.getJavaEncode(url)), separator);
         } catch (Exception e) {
-            UDPLib.getLog().error("Cannot read language file from class path", e);
+        	Bukkit.getLogger().log(Level.SEVERE, "Cannot read language file from class path", e);
         }
         return null;
     }
@@ -98,7 +101,7 @@ public class SLangI18n implements I18n {
         try {
             return new SLangI18n(FileUtils.readFile2Array(file, EncodingDetect.getJavaEncode(file)), separator);
         } catch (Exception e) {
-            UDPLib.getLog().error("Cannot read language file from file", e);
+        	Bukkit.getLogger().log(Level.SEVERE, "Cannot read language file from file", e);
         }
         return null;
     }

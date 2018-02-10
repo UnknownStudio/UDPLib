@@ -24,7 +24,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Sets;
 
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
 
 public final class Tab {
 	

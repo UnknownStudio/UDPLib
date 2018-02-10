@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import team.unstudio.udpl.annotation.Init;
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
@@ -28,7 +28,7 @@ public final class CacheUtils {
 
 	@Init
 	public static void initCacheUtils() {
-		Bukkit.getPluginManager().registerEvents(new CacheListener(), UDPLib.getInstance());
+		Bukkit.getPluginManager().registerEvents(new CacheListener(), UDPLib.getPlugin());
 	}
 
 	public static <V> void registerPlayerCache(@Nonnull Map<Player, V> cache) {

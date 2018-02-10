@@ -10,19 +10,22 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.area.function.PlayerEnterAreaCallback;
 import team.unstudio.udpl.area.function.PlayerLeaveAreaCallback;
-import team.unstudio.udpl.core.UDPLI18n;
 import team.unstudio.udpl.util.Chunk;
 import team.unstudio.udpl.util.ZipUtils;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
 /**
  * 区域管理器，对 WorldAreaManager 的封装。
@@ -163,25 +166,25 @@ public class AreaManager {
 	}
 	
 	public void loadAll(){
-		plugin.getLogger().info(UDPLI18n.format("debug.area.load"));
+		plugin.getLogger().info(UDPLib.getI18n().format("debug.area.load"));
 		managers.clear();
 		for(World world:Bukkit.getWorlds()){
 			WorldAreaManager a = new WorldAreaManager(world,areaPath);
 			a.load();
 			managers.put(world, a);
 		}
-		plugin.getLogger().info(UDPLI18n.format("debug.area.loaded", managers.size()));
+		plugin.getLogger().info(UDPLib.getI18n().format("debug.area.loaded", managers.size()));
 	}
 	
 	public void saveAll(){
-		plugin.getLogger().info(UDPLI18n.format("debug.area.save"));
+		plugin.getLogger().info(UDPLib.getI18n().format("debug.area.save"));
 		for(WorldAreaManager a:managers.values()) 
 			a.save();
-		plugin.getLogger().info(UDPLI18n.format("debug.area.saved", managers.size()));
+		plugin.getLogger().info(UDPLib.getI18n().format("debug.area.saved", managers.size()));
 	}
 	
 	public synchronized void backupAll(){
-		plugin.getLogger().info(UDPLI18n.format("debug.area.backup"));
+		plugin.getLogger().info(UDPLib.getI18n().format("debug.area.backup"));
 		File backupPath = this.backupPath != null ? this.backupPath : new File(areaPath, "backup");
 		if(!backupPath.exists())
 			backupPath.mkdirs();
@@ -189,8 +192,12 @@ public class AreaManager {
 		String date = dateFormat.format(new Date());
 		File backupFile = new File(backupPath,"backup-"+date+".zip");
 		File[] files = (File[]) ArrayUtils.nullToEmpty(areaPath.listFiles((dir, name)->name.endsWith(".yml")));
-		ZipUtils.zip(backupFile, files);
-		plugin.getLogger().info(UDPLI18n.format("debug.area.backuped", files.length));
+		try {
+			ZipUtils.zip(backupFile, files);
+			plugin.getLogger().info(UDPLib.getI18n().format("debug.area.backuped", files.length));
+		} catch (IOException e) {
+			plugin.getLogger().log(Level.SEVERE, "Can't backup area.", e);
+		}
 	}
 	
 	public void addPlayerEnterAreaCallback(PlayerEnterAreaCallback callback){

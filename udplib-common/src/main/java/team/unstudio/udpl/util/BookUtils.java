@@ -12,7 +12,7 @@ import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.util.ReflectionUtils.PackageType;
 
 import java.lang.reflect.InvocationTargetException;
@@ -49,8 +49,7 @@ public interface BookUtils {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
 			return Result.success();
 		} catch (InvocationTargetException e) {
-			if (UDPLib.isDebug())
-				e.printStackTrace();
+			UDPLib.debug(e);
 			return Result.failure(e);
 		} finally {
 			player.getInventory().setItemInMainHand(held);

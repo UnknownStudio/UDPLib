@@ -1,13 +1,14 @@
 package team.unstudio.udpl.config;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import team.unstudio.udpl.core.UDPLib;
 
 import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 
 /**
  * 可以指定编码的 YamlConfiguration， 如不指定编码，默认为UTF-8
@@ -30,13 +31,12 @@ public class DecodedYamlConfiguration extends YamlConfiguration {
     public static DecodedYamlConfiguration loadConfiguration(File file){
         Validate.notNull(file, "File cannot be null");
         DecodedYamlConfiguration config = new DecodedYamlConfiguration();
-        try {
+		try {
 			config.load(file);
-			return config;
 		} catch (IOException | InvalidConfigurationException e) {
-            UDPLib.getLog().error(e);
-			return null;
+			 Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, e);
 		}
+		return config;
     }
 
     @Override

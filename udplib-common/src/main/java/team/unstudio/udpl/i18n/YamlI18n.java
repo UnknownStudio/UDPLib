@@ -1,10 +1,9 @@
 package team.unstudio.udpl.i18n;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import team.unstudio.udpl.config.ConfigurationHelper;
-import team.unstudio.udpl.core.UDPLib;
-
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.net.URL;
@@ -12,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class YamlI18n implements I18n{
 	protected final Map<Locale,Configuration> cache;
@@ -99,7 +99,7 @@ public class YamlI18n implements I18n{
 				}
 			}
 		} catch (Exception e) {
-			UDPLib.getLog().error("Cannot read language file from class path", e);
+			Bukkit.getLogger().log(Level.SEVERE, "Cannot read language file from class path", e);
 		}
 
 		return new YamlI18n(map);
