@@ -1,0 +1,56 @@
+package team.unstudio.udpl.nms;
+
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack;
+import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.core.nms.asm.AsmNmsManager;
+import team.unstudio.udpl.nms.entity.NmsEntity;
+import team.unstudio.udpl.nms.inventory.NmsItemStack;
+import team.unstudio.udpl.nms.nbt.NmsNBT;
+import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
+import team.unstudio.udpl.util.ReflectionUtils;
+
+public final class NmsHelper {
+	
+	private NmsHelper(){}
+	
+	private static AsmNmsManager ASM_NMS_MANAGER;
+
+	/**
+	 * 获取 {@link net.minecraft.server} 与  {@link team.unstudio.udpl.nms.nbt} 的帮助类实例
+	 */
+	public static NmsNBT getNmsNBT(){
+		return ASM_NMS_MANAGER.getNmsNBT();
+	}
+	
+	
+	/**
+	 * 创建一个{@link NmsItemStack}对象
+	 */
+	public static NmsItemStack createNmsItemStack(ItemStack itemStack){
+		return ASM_NMS_MANAGER.createNmsItemStack(itemStack);
+	}
+	
+	/**
+	 * 创建一个{@link NmsEntity}对象
+	 */
+	public static NmsEntity createNmsEntity(Entity entity){
+		return ASM_NMS_MANAGER.createNmsEntity(entity);
+	}
+	
+	/**
+	 * 创建一个{@link NmsTileEntity}对象
+	 */
+	public static NmsTileEntity createNmsTileEntity(BlockState blockState){
+		return ASM_NMS_MANAGER.createNmsTileEntity(blockState);
+	}
+	
+	/**
+	 * inner method
+	 */
+	public static void loadNmsHelper(){
+		ASM_NMS_MANAGER = new AsmNmsManager();
+		UDPLib.getLog().info("Loaded nms helper. Version: " + ReflectionUtils.PackageType.getServerVersion());
+	}
+}
