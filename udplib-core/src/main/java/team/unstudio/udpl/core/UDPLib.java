@@ -1,12 +1,14 @@
 package team.unstudio.udpl.core;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.google.common.base.Strings;
+
 import team.unstudio.udpl.area.Area;
 import team.unstudio.udpl.area.AreaDataContainer;
 import team.unstudio.udpl.bungeecord.ServerLocation;
@@ -15,7 +17,6 @@ import team.unstudio.udpl.core.command.PluginManager;
 import team.unstudio.udpl.core.command.UDPLCommand;
 import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.core.util.VersionCheck;
-import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.mapping.MappingHelper;
 import team.unstudio.udpl.nms.nbt.NBTUtils;
 import team.unstudio.udpl.ui.Container;
@@ -29,7 +30,6 @@ import java.io.File;
 public final class UDPLib extends JavaPlugin{
 
 	private static UDPLib INSTANCE;
-	private static boolean DEBUG;
 	private static UDPLConfiguration CONFIG;
 	private static Logger LOGGER = LogManager.getLogger("UDPLib");
 	private static VersionCheck VERSION_CHECK;
@@ -52,15 +52,14 @@ public final class UDPLib extends JavaPlugin{
 		if (!CONFIG.reload())
 			UDPLib.getLog().error("Config not loaded, please check console.");
 		
-		setDebug(CONFIG.debug);
+		team.unstudio.udpl.UDPLib.setDebug(CONFIG.debug);
 		
 		PluginUtils.saveDirectory(getInstance(), "lang", false);
 		
-		if (StringUtils.isNotEmpty(CONFIG.language))
+		if (Strings.isNullOrEmpty(CONFIG.language))
 			UDPLI18n.setLocale(CONFIG.language);
 		
 		MappingHelper.loadMapping();
-		NmsHelper.loadNmsHelper();
 		
 		SignUtils.initSignUtils();
 		PlayerUtils.initPlayerUtils();
@@ -103,11 +102,7 @@ public final class UDPLib extends JavaPlugin{
 	}
 	
 	public static boolean isDebug(){
-		return DEBUG;
-	}
-	
-	public static void setDebug(boolean debug){
-		DEBUG = debug;
+		return team.unstudio.udpl.UDPLib.isDebug();
 	}
 
 	public static Logger getLog() {

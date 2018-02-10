@@ -1,6 +1,7 @@
 package team.unstudio.udpl.nms.mapping;
 
 import team.unstudio.udpl.UDPLib;
+import team.unstudio.udpl.annotation.Init;
 import team.unstudio.udpl.util.ServerUtils;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ public final class MappingHelper {
 		return memberMapping;
 	}
 	
+	@Init
 	public static void loadMapping(){
 		loadMapping(ServerUtils.getMinecraftVersion());
 	}

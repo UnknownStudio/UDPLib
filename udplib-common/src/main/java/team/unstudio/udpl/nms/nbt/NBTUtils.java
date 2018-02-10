@@ -3,6 +3,9 @@ package team.unstudio.udpl.nms.nbt;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import team.unstudio.udpl.annotation.Init;
+
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
 import java.util.regex.Pattern;
@@ -16,7 +19,7 @@ public final class NBTUtils {
 	private static final Pattern INT_ARRAY_PATTERN = Pattern.compile("\\[[I|i];([-+]?[0-9]+)?(,[-+]?[0-9]+)*]");
 	private static final Pattern BYTE_ARRAY_PATTERN = Pattern.compile("\\[[B|b];([-+]?[0-9]+)?(,[-+]?[0-9]+)*]");
 	private static final Pattern LONG_ARRAY_PATTERN = Pattern.compile("\\[[L|l];([-+]?[0-9]+)?(,[-+]?[0-9]+)*]");
-	private static final Pattern DOUBLE_PATTERN = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+([E|e][0-9]+)?[d|D]");
+	private static final Pattern DOUBLE_PATTERN = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+([E|e][0-9]+)?[d|D]"); //TODO: Fix double pattern
 	private static final Pattern UNIDENTIFIED_DOUBLE_PATTERN = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+([E|e][0-9]+)?");
 	private static final Pattern FLOAT_PATTERN = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+([E|e][0-9]+)?[f|F]");
 	private static final Pattern LONG_PATTERN = Pattern.compile("[-+]?[0-9]+[l|L]");
@@ -113,6 +116,7 @@ public final class NBTUtils {
 	/**
 	 * inner method.
 	 */
+	@Init
 	public static void registerAllNBTSerilizable() {
 		ConfigurationSerialization.registerClass(NBTTagByte.class);
 		ConfigurationSerialization.registerClass(NBTTagByteArray.class);

@@ -3,29 +3,38 @@ package team.unstudio.udpl;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import team.unstudio.udpl.core.UDPLI18n;
+import team.unstudio.udpl.annotation.Init;
 import team.unstudio.udpl.i18n.I18n;
 
-public interface UDPLib {
+public final class UDPLib {
+	
+	@Init("core_i18n")
+	private static I18n CORE_I18N;
+	
+	private static boolean DEBUG;
 
-	static I18n getI18n(){
-		return UDPLI18n.I18N;
+	public static I18n getI18n(){
+		return CORE_I18N;
 	}
 	
-	static boolean isDebug(){
-		return team.unstudio.udpl.core.UDPLib.isDebug();
+	public static boolean isDebug(){
+		return DEBUG;
 	}
 	
-	static void debug(Throwable e) {
+	public static void setDebug(boolean debug) {
+		DEBUG = debug;
+	}
+	
+	public static void debug(Throwable e) {
 		if(isDebug())
 			getLogger().debug(e);
 	}
 	
-	static Logger getLogger() {
+	public static Logger getLogger() {
 		return null;
 	}
 	
-	static JavaPlugin getPlugin() {
+	public static JavaPlugin getPlugin() {
 		return null;
 	}
 }

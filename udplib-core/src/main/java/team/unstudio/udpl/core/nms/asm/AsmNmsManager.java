@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.nms.NmsManager;
 import team.unstudio.udpl.nms.entity.NmsEntity;
 import team.unstudio.udpl.nms.entity.NmsPlayer;
 import team.unstudio.udpl.nms.inventory.NmsItemStack;
@@ -20,7 +21,7 @@ import team.unstudio.udpl.nms.tileentity.NmsMobSpawner;
 import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
 import team.unstudio.udpl.nms.util.NmsClassLoader;
 
-public final class AsmNmsManager {
+public final class AsmNmsManager implements NmsManager{
 	
 	public static final String V1_11_R1 = "v1_11_R1";
 	public static final String V1_11_2 = "1.11.2";
