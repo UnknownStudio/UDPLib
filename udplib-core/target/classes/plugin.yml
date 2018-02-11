@@ -1,9 +1,0 @@
-name: UDPLib
-main: team.unstudio.udpl.core.UDPLib
-version: 1.1.1
-authors: [Mouse,UnknownDomain]
-description: Unknown Domain Spigot plugin library.
-depend: [ProtocolLib]
-commands:
-  pm:
-  udpl:
