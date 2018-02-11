@@ -16,7 +16,6 @@
 		<dependency>
 			<groupId>team.unstudio</groupId>
 			<artifactId>udplib-common</artifactId>
-			<version>${udplib.version}</version>
 		</dependency>
 	</dependencies>
 </project>
