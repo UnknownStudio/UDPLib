@@ -38,6 +38,21 @@
 			</repository> -->
 	</repositories>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>team.unstudio</groupId>
+				<artifactId>udplib-common</artifactId>
+				<version>${udplib.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>team.unstudio</groupId>
+				<artifactId>udplib-core</artifactId>
+				<version>${udplib.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
 		<!--<dependency> <groupId>org.spigotmc</groupId> <artifactId>spigot-api</artifactId> 
 			<version>1.10.2-R0.1-SNAPSHOT</version> <scope>provided</scope> </dependency> 
