@@ -30,14 +30,12 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: mvn dependency:go-offline
+      - run: mvn clean install package
 
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      
-      - run: mvn clean install package
           
       - store_artifacts:
           path: /home/circleci/repo/target
