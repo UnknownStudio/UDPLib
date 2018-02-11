@@ -8,7 +8,7 @@ import org.bukkit.block.CreatureSpawner;
 import net.minecraft.server.v1_11_R1.MobSpawnerAbstract;
 import net.minecraft.server.v1_11_R1.MobSpawnerData;
 import net.minecraft.server.v1_11_R1.TileEntityMobSpawner;
-import team.unstudio.udpl.core.UDPLib;
+import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.nms.NmsException;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.nbt.NBTTagList;
