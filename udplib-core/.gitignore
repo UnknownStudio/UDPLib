@@ -1,5 +1,5 @@
-/.project
-/.settings
-/target
-/.classpath
-/file_utils_tester
+/*
+
+!.gitignore
+!src/
+!pom.xml
