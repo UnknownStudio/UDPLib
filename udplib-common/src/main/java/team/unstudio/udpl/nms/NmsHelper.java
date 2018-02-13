@@ -14,7 +14,7 @@ public final class NmsHelper {
 	
 	private NmsHelper(){}
 	
-	@Init
+	@Init("nms_manager")
 	private static NmsManager NMS_MANAGER;
 
 	/**
