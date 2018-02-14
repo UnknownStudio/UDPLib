@@ -10,8 +10,6 @@
 	</parent>
 	<artifactId>udplib-core</artifactId>
 	<name>UDPLib-core</name>
-	<properties>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>team.unstudio</groupId>
@@ -22,4 +20,32 @@
 			<artifactId>udplib-common</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<createSourcesJar>false</createSourcesJar>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+							<artifactSet>
+								<includes>
+									<include>team.unstudio:udplib-nms1_11_R1</include>
+									<include>team.unstudio:udplib-common</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
