@@ -68,6 +68,7 @@ public final class UDPLib extends JavaPlugin{
 		injector.addClass(MappingHelper.class);
 		injector.addClass(SignUtils.class);
 		injector.addClass(PlayerUtils.class);
+		injector.addClass(CacheUtils.class);
 		injector.addClass(team.unstudio.udpl.UDPLib.class);
 		injector.addClass(NmsHelper.class);
 		injector.inject();
