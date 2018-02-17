@@ -40,7 +40,7 @@ public final class TestCommand {
 	
 	@Command(value = "area", senders = Player.class)
 	public void area(Player sender,
-						@Required int x1,
+						@Required(complete= {"a","b"}) int x1,
 						@Required int y1,
 						@Required int z1,
 						@Required int x2,

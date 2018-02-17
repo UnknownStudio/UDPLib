@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -44,6 +45,7 @@ public class TabCompleteWrapper {
 		String className = getUniqueName(method);
 		String objectType = Type.getInternalName(object.getClass());
 		String senderType = Type.getInternalName(method.getParameterTypes()[0]);
+		System.out.println(senderType);
 		
 		ClassWriter cw = new ClassWriter(0);
 		FieldVisitor fv;
@@ -89,13 +91,18 @@ public class TabCompleteWrapper {
 				mv.visitFieldInsn(GETFIELD, className, "instance", "Ljava/lang/Object;");
 				mv.visitTypeInsn(CHECKCAST, objectType);
 			}
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, senderType);
-			mv.visitVarInsn(ALOAD, 2);
+			for(Parameter parameter : method.getParameters()) {
+				if(CommandSender.class.isAssignableFrom(parameter.getType())) {
+					mv.visitVarInsn(ALOAD, 1);
+					mv.visitTypeInsn(CHECKCAST, Type.getInternalName(parameter.getType()));
+				}else if(parameter.getType().equals(String[].class)) {
+					mv.visitVarInsn(ALOAD, 2);
+				}
+			}
 			mv.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, objectType,
 					method.getName(), Type.getMethodDescriptor(method), false);
 			mv.visitInsn(ARETURN);
-			mv.visitMaxs(3, 3);
+			mv.visitMaxs(method.getParameterCount() + 1, 3);
 			mv.visitEnd();
 		}
 		cw.visitEnd();
@@ -136,13 +143,13 @@ public class TabCompleteWrapper {
 		return false;
 	}
 	
-	public List<String> invoke(CommandSender sender, String args[]) {
+	public List<String> invoke(CommandSender sender, String[] args) {
 		return executor.invoke(sender, args);
 	}
 	
 	public static interface TabCompleteExecutor {
 		
-		List<String> invoke(CommandSender sender, String args[]);
+		List<String> invoke(CommandSender sender, String[] args);
 	}
 
 }

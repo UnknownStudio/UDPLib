@@ -10,6 +10,10 @@ public final class UDPLib {
 	
 	@Init("core_i18n")
 	private static I18n CORE_I18N;
+	@Init("core_instance")
+	private static JavaPlugin instance;
+	@Init("core_logger")
+	private static Logger logger;
 	
 	private static boolean DEBUG;
 
@@ -27,14 +31,14 @@ public final class UDPLib {
 	
 	public static void debug(Throwable e) {
 		if(isDebug())
-			getLogger().debug(e);
+			getLogger().warn(e.getMessage(), e);
 	}
 	
 	public static Logger getLogger() {
-		return null;
+		return logger;
 	}
 	
 	public static JavaPlugin getPlugin() {
-		return null;
+		return instance;
 	}
 }

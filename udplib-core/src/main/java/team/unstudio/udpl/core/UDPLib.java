@@ -62,8 +62,16 @@ public final class UDPLib extends JavaPlugin{
 		if (Strings.isNullOrEmpty(CONFIG.language))
 			UDPLI18n.setLocale(CONFIG.language);
 		
+		if(CONFIG.enableTest)
+			TestLoader.INSTANCE.onLoad();
+	}
+
+	@Override
+	public void onEnable() {
 		Injector injector = new Injector();
 		injector.addInjectObject("core_i18n", UDPLI18n.I18N);
+		injector.addInjectObject("core_instance", this);
+		injector.addInjectObject("core_logger", LOGGER);
 		injector.addInjectObject("nms_manager", new AsmNmsManager());
 		injector.addClass(MappingHelper.class);
 		injector.addClass(SignUtils.class);
@@ -73,17 +81,9 @@ public final class UDPLib extends JavaPlugin{
 		injector.addClass(NmsHelper.class);
 		injector.inject();
 		
-		if(CONFIG.enableTest)
-			TestLoader.INSTANCE.onLoad();
-	}
-
-	@Override
-	public void onEnable() {
-		CacheUtils.initCacheUtils();
-		
 		loadPluginManager();
 		
-		new AnnoCommandManager("udpl").addHandler(new UDPLCommand()).registerCommand();
+		new AnnoCommandManager("udpl", this).addHandler(new UDPLCommand()).registerCommand();
 		
 		if(CONFIG.enableTest)
 			TestLoader.INSTANCE.onEnable();
@@ -99,7 +99,7 @@ public final class UDPLib extends JavaPlugin{
 	}
 	
 	private void loadPluginManager(){
-		new AnnoCommandManager("pm").addHandler(new PluginManager()).registerCommand();
+		new AnnoCommandManager("pm", this).addHandler(new PluginManager()).registerCommand();
 	}
 
 	public static UDPLConfiguration getUDPLConfig(){

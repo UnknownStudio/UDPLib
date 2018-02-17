@@ -14,7 +14,7 @@ public final class PluginManager {
 	private static final File PLUGIN_PATH = new File("plugins");
 
 	@Command(value = { "enable" }, permission = "udpl.pluginmanager.enable")
-	public void enable(CommandSender sender, @Required String plugin) {
+	public void enable(CommandSender sender, @Required(name="Plugin") String plugin) {
 		if (!plugin.endsWith(".jar"))
 			plugin = plugin + ".jar";
 		try {
@@ -26,15 +26,16 @@ public final class PluginManager {
 	}
 
 	@Command(value = { "disable" }, permission = "udpl.pluginmanager.disable")
-	public void disable(CommandSender sender, @Required String plugin) {
+	public void disable(CommandSender sender, @Required(name="Plugin") String plugin) {
 		Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin(plugin));
 		sender.sendMessage("[PluginManager]卸载插件成功: " + plugin);
 	}
 
 	@Command(value = { "plugins" }, permission = "udpl.pluginmanager.plugins")
-	public void plugins(CommandSender sender, @Required String plugin) {
+	public void plugins(CommandSender sender) {
 		StringBuilder b = new StringBuilder("[PluginManager]Plugins: ");
 		for (Plugin p : Bukkit.getPluginManager().getPlugins())
 			b.append(p.isEnabled() ? ChatColor.GREEN : ChatColor.RED).append(p.getName()).append(" ");
+		sender.sendMessage(b.toString());
 	}
 }

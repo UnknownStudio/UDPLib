@@ -127,10 +127,10 @@ public class CommandWrapper {
 			int requiredCount = 0, optionalCount = 0;
 			for(Parameter parameter : method.getParameters()) {
 				if(parameter.getAnnotation(Required.class) != null) {
-					visitArray(mv, 2, requiredCount++, parameter.getClass());
+					visitArray(mv, 2, requiredCount++, parameter.getType());
 				}else if(parameter.getAnnotation(Optional.class) != null) {
-					visitArray(mv, 3, optionalCount++, parameter.getClass());
-				}else if(CommandSender.class.isAssignableFrom(parameter.getClass())) {
+					visitArray(mv, 3, optionalCount++, parameter.getType());
+				}else if(CommandSender.class.isAssignableFrom(parameter.getType())) {
 					mv.visitVarInsn(ALOAD, 1);
 					mv.visitTypeInsn(CHECKCAST, Type.getInternalName(parameter.getType()));
 				}else if(parameter.getType().equals(String[].class)) {

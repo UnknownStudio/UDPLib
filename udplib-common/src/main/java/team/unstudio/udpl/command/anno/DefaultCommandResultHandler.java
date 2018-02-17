@@ -14,12 +14,12 @@ import team.unstudio.udpl.i18n.I18n;
 
 public class DefaultCommandResultHandler implements CommandResultHandler {
 
-	private static final String MESSAGE_UNKNOWN_COMMAND = UDPLib.getI18n().format("message.unknown_command");
-	private static final String MESSAGE_NO_PERMISSION = UDPLib.getI18n().format("message.no_permission");
-	private static final String MESSAGE_NO_ENOUGH_PARAMETER = UDPLib.getI18n().format("message.no_enough_parameter");
-	private static final String MESSAGE_WRONG_SENDER = UDPLib.getI18n().format("message.wrong_sender");
-	private static final String MESSAGE_WRONG_PARAMETER = UDPLib.getI18n().format("message.wrong_parameter");
-	private static final String MESSAGE_FAILURE = UDPLib.getI18n().format("message.failure");
+	private static final String MESSAGE_UNKNOWN_COMMAND = UDPLib.getI18n().localize("message.unknown_command");
+	private static final String MESSAGE_NO_PERMISSION = UDPLib.getI18n().localize("message.no_permission");
+	private static final String MESSAGE_NO_ENOUGH_PARAMETER = UDPLib.getI18n().localize("message.no_enough_parameter");
+	private static final String MESSAGE_WRONG_SENDER = UDPLib.getI18n().localize("message.wrong_sender");
+	private static final String MESSAGE_WRONG_PARAMETER = UDPLib.getI18n().localize("message.wrong_parameter");
+	private static final String MESSAGE_FAILURE = UDPLib.getI18n().localize("message.failure");
 
 	protected AnnoCommandManager commandManager;
 
@@ -39,7 +39,7 @@ public class DefaultCommandResultHandler implements CommandResultHandler {
 	@Override
 	public void onWrongSender(CommandNode node, CommandSender sender, String[] args) {
 		if (sender instanceof Player)
-			sender.sendMessage(UDPLib.getI18n().format((Player) sender, "message.wrong_sender"));
+			sender.sendMessage(UDPLib.getI18n().localize((Player) sender, "message.wrong_sender"));
 		else
 			sender.sendMessage(MESSAGE_WRONG_SENDER);
 	}
@@ -78,8 +78,7 @@ public class DefaultCommandResultHandler implements CommandResultHandler {
 		}
 
 		if (sender instanceof Player)
-			sender.sendMessage(
-					String.format(UDPLib.getI18n().format((Player) sender, "message.no_enough_parameter"), builder.toString()));
+			sender.sendMessage(UDPLib.getI18n().format((Player) sender, "message.no_enough_parameter", builder.toString()));
 		else
 			sender.sendMessage(String.format(MESSAGE_NO_ENOUGH_PARAMETER, builder.toString()));
 	}
@@ -103,8 +102,7 @@ public class DefaultCommandResultHandler implements CommandResultHandler {
 		}
 
 		if (sender instanceof Player)
-			sender.sendMessage(
-					String.format(UDPLib.getI18n().format((Player) sender, "message.wrong_parameter"), builder.toString()));
+			sender.sendMessage(UDPLib.getI18n().format((Player) sender, "message.wrong_parameter", builder.toString()));
 		else
 			sender.sendMessage(String.format(MESSAGE_WRONG_PARAMETER, builder.toString()));
 	}

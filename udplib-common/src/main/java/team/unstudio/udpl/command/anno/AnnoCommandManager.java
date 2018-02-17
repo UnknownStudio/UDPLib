@@ -28,8 +28,8 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	
 	private final ASMClassLoader classLoader;
 
-	private CommandResultHandler resultHandler = new DefaultCommandResultHandler();
-	private CommandParameterManager parameterManager = new DefaultCommandParameterManager();
+	private CommandResultHandler resultHandler;
+	private CommandParameterManager parameterManager;
 
 	private I18n i18n;
 	private String usage;
@@ -58,6 +58,8 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		this.plugin = Objects.requireNonNull(plugin);
 		this.root = new CommandNode(name, null);
 		this.classLoader = new ASMClassLoader(plugin.getClass().getClassLoader());
+		setResultHandler(new DefaultCommandResultHandler());
+		setParameterManager(new DefaultCommandParameterManager());
 	}
 
 	public JavaPlugin getPlugin() {
@@ -97,6 +99,7 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	}
 
 	public void setResultHandler(CommandResultHandler resultHandler) {
+		resultHandler.setCommandManager(this);
 		this.resultHandler = resultHandler;
 	}
 
@@ -104,7 +107,7 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		return parameterManager;
 	}
 
-	public void setParameterManager(DefaultCommandParameterManager parameterManager) {
+	public void setParameterManager(CommandParameterManager parameterManager) {
 		this.parameterManager = parameterManager;
 	}
 
@@ -228,11 +231,16 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 			node = child;
 		}
 		
-		while(!node.hasCommand()) {
+		while (node != null && !node.hasCommand()) {
 			node = node.getParent();
 			i--;
 		}
 
+		if(node == null || !node.hasCommand()) {
+			getResultHandler().onUnknownCommand(sender, args);
+			return true;
+		}
+		
 		handleCommand(node, sender, Arrays.copyOfRange(args, i, args.length));
 		return true;
 	}
@@ -316,14 +324,14 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		List<String> tabComplete = new LinkedList<>();
 
 		int i, size;
-		for (i = 0, size = args.length - 1 ; i < size; i++) {
+		for (i = 0, size = args.length - 1; i < size; i++) {
 			CommandNode child = node.getChild(args[i]);
 			if (child == null)
 				break;
 
 			node = child;
 		}
-		
+
 		//Children
 		for (CommandNode n : node.getChildren()) {
 			if (n.getName().startsWith(prefix)) {
@@ -337,17 +345,18 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		//TabCompleter
 		CommandNode tabCompleterNode = node;
 		int tabCompleterNodeIndex = i;
-		while(!tabCompleterNode.hasTabCompleter()) {
+		while (tabCompleterNode != null && !tabCompleterNode.hasTabCompleter()) {
 			tabCompleterNode = tabCompleterNode.getParent();
 			tabCompleterNodeIndex--;
 		}
-			
-		tabComplete.addAll(handleTabComplete(tabCompleterNode, sender, Arrays.copyOfRange(args, tabCompleterNodeIndex, args.length)));
+		
+		if(tabCompleterNode != null)
+			tabComplete.addAll(handleTabComplete(tabCompleterNode, sender, Arrays.copyOfRange(args, tabCompleterNodeIndex, args.length)));
 		
 		//CommandComplete
 		CommandNode commandNode = node;
 		int commandNodeIndex = i;
-		while(!commandNode.hasCommand()) {
+		while(tabCompleterNode != null && !commandNode.hasCommand()) {
 			commandNode = commandNode.getParent();
 			commandNodeIndex--;
 		}
