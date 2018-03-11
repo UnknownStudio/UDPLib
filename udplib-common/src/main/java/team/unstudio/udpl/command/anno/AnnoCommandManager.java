@@ -34,6 +34,8 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	private I18n i18n;
 	private String usage;
 	private String description;
+	
+	private final List<String> aliases = new ArrayList<>();
 
 	/**
 	 * 创建指令管理者
@@ -114,6 +116,10 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	public ASMClassLoader getClassLoader() {
 		return classLoader;
 	}
+	
+	public List<String> getAliases() {
+		return aliases;
+	}
 
 	/**
 	 * 注册指令
@@ -122,6 +128,7 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		PluginCommand command = getPlugin().getCommand(getName());
 		command.setExecutor(this);
 		command.setTabCompleter(this);
+		command.getAliases().addAll(aliases);
 		getPlugin().getLogger().info("Register command \"" + getName() + "\" successful.");
 		return this;
 	}
@@ -134,6 +141,7 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		if (command.isPresent()) {
 			command.get().setExecutor(this);
 			command.get().setTabCompleter(this);
+			command.get().getAliases().addAll(aliases);
 			getPlugin().getLogger().info("Unsafe register command \"" + getName() + "\" successful.");
 		} else {
 			getPlugin().getLogger().warning("Unsafe register command \"" + getName() + "\" failure.");
@@ -420,11 +428,12 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 	public static class Builder {
 		private String name;
 		private JavaPlugin plugin;
-		private List<CommandParameterHandler> parameterHandlers = new ArrayList<>();
+		private final List<CommandParameterHandler> parameterHandlers = new ArrayList<>();
 		private I18n i18n;
 		private String usage;
 		private String description;
 		private CommandResultHandler resultHandler;
+		private final List<String> aliases = new ArrayList<>();
 
 		public Builder name(String name) {
 			this.name = name;
@@ -458,6 +467,16 @@ public class AnnoCommandManager implements CommandExecutor, TabCompleter {
 		
 		public Builder resultHandler(CommandResultHandler handler) {
 			resultHandler = handler;
+			return this;
+		}
+		
+		public Builder alias(String alias) {
+			aliases.add(alias);
+			return this;
+		}
+		
+		public Builder aliases(String... aliases) {
+			Collections.addAll(this.aliases, aliases);
 			return this;
 		}
 
