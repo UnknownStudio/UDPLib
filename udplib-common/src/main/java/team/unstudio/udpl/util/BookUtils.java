@@ -13,13 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import team.unstudio.udpl.UDPLib;
-import team.unstudio.udpl.util.ReflectionUtils.PackageType;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *  An util worked with ProtocolLib can help you edit & open book easily
@@ -27,6 +26,8 @@ import java.util.Optional;
 public interface BookUtils {
 	
 	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
+	
+	AtomicReference<PacketContainer> BOOK_OPEN_PACKET = new AtomicReference<>();
 
 	/**
 	 * Open book from {@link ItemStack}, needn't the item in player's inventory
@@ -38,12 +39,16 @@ public interface BookUtils {
 		ItemStack held = player.getInventory().getItemInMainHand();
 		player.getInventory().setItemInMainHand(book);
 		
-		PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CUSTOM_PAYLOAD);
-		container.getStrings().write(0, "MC|BOpen");
-		ByteBuf byteBuf = Unpooled.buffer();
-		byteBuf.writeByte(0);
-		Object serializer = MinecraftReflection.getPacketDataSerializer(byteBuf);
-		container.getModifier().withType(ByteBuf.class).write(0, serializer);
+		PacketContainer container = BOOK_OPEN_PACKET.get();
+		if(container == null) {
+			container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CUSTOM_PAYLOAD);
+			container.getStrings().write(0, "MC|BOpen");
+			ByteBuf byteBuf = Unpooled.buffer();
+			byteBuf.writeByte(0); // Main Hand.
+			Object serializer = MinecraftReflection.getPacketDataSerializer(byteBuf);
+			container.getModifier().withType(ByteBuf.class).write(0, serializer);
+			BOOK_OPEN_PACKET.set(container);
+		}
 
 		try {
 			PROTOCOL_MANAGER.sendServerPacket(player, container);
@@ -69,14 +74,12 @@ public interface BookUtils {
 	@SuppressWarnings("unchecked")
 	static Result setPages(BookMeta book, String... pages){
 		try {
-			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
-			Object ChatSerializer = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("IChatBaseComponent$ChatSerializer").newInstance();
-			Method ChatSerializer_a = ReflectionUtils.getMethod(ReflectionUtils.PackageType.MINECRAFT_SERVER
-						.getClass("IChatBaseComponent$ChatSerializer"), "a", String.class);
+			List<Object> listPages = (List<Object>) NMSReflectionUtils.getCraftMetaBookPages().get(book);
+			Method ChatSerializer_a = NMSReflectionUtils.getIChatBaseComponent$ChatSerializer$a();
 			for (String page : pages)
-				listPages.add(ChatSerializer_a.invoke(ChatSerializer, page));
+				listPages.add(ChatSerializer_a.invoke(null, page));
 			return Result.success();
-		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
+		} catch (ReflectiveOperationException  e) {
 			UDPLib.debug(e);
 			return Result.failure(e);
 		}
@@ -96,9 +99,9 @@ public interface BookUtils {
 	@SuppressWarnings("unchecked")
 	static Optional<String[]> getPages(BookMeta book){
 		try {
-			List<Object> listPages = (List<Object>) ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages").get(book);
+			List<Object> listPages = (List<Object>) NMSReflectionUtils.getCraftMetaBookPages().get(book);
 			return Optional.of(listPages.stream().map(Object::toString).toArray(String[]::new));
-		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (ReflectiveOperationException e) {
 			UDPLib.debug(e);
 		}
 		return Optional.empty();
