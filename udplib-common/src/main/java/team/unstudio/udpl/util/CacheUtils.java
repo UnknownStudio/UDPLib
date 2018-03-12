@@ -27,7 +27,7 @@ public final class CacheUtils {
 	private static final Set<CollectionCacheWrapper<Player>> PLAYER_COLLECTION_CACHES = Sets.newHashSet();
 
 	@Init
-	public static void initCacheUtils() {
+	private static void initCacheUtils() {
 		Bukkit.getPluginManager().registerEvents(new CacheListener(), UDPLib.getPlugin());
 	}
 
