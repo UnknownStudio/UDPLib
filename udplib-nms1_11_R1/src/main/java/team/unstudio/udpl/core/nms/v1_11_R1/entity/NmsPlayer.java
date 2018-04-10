@@ -2,35 +2,24 @@ package team.unstudio.udpl.core.nms.v1_11_R1.entity;
 
 import java.util.Locale;
 
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_11_R1.CraftParticle;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_11_R1.util.CraftChatMessage;
 import org.bukkit.entity.Player;
+
+import net.minecraft.server.v1_11_R1.EntityPlayer;
 import net.minecraft.server.v1_11_R1.IChatBaseComponent;
 import net.minecraft.server.v1_11_R1.Packet;
 import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_11_R1.PacketPlayOutTitle;
-import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
 
-public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entity.NmsPlayer{
+public class NmsPlayer extends NmsEntity<Player, EntityPlayer> implements team.unstudio.udpl.nms.entity.NmsPlayer{
 	
-	private final Player player;
-
 	public NmsPlayer(Player player) {
 		super(player);
-		this.player = player;
-	}
-
-	@Override
-	public Player getBukkitEntity() {
-		return player;
 	}
 	
 	@Override
 	public Locale getLocale() {
-		return Locale.forLanguageTag(normalizeLanguageTag(((CraftPlayer)player).getHandle().locale));
+		return Locale.forLanguageTag(normalizeLanguageTag(getNmsEntity().locale));
 	}
 	
 	private String normalizeLanguageTag(String languageTag){
@@ -48,8 +37,12 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 	@Override
 	public void sendPacket(Object packet){
 		if(!(packet instanceof Packet))
-			throw new IllegalArgumentException("Parameter packet isn't net.minecraft.server.Packet");
-		((CraftPlayer)player).getHandle().playerConnection.sendPacket((Packet<?>) packet);
+			throw new IllegalArgumentException("Packet isn't net.minecraft.server.Packet");
+		sendPacket((Packet<?>) packet);
+	}
+	
+	public <P extends Packet<?>> void sendPacket(P packet) {
+		getNmsEntity().playerConnection.sendPacket(packet);
 	}
 	
 	@Override
@@ -70,72 +63,7 @@ public class NmsPlayer extends NmsEntity implements team.unstudio.udpl.nms.entit
 	@Override
 	public void resetTitle() {
 		PacketPlayOutTitle packetReset = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.RESET, null);
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetReset);
-	}
-	
-	public void spawnParticle(Particle particle, Location location, int count) {
-		spawnParticle(particle, location.getX(), location.getY(), location.getZ(), count);
-	}
-
-	public void spawnParticle(Particle particle, double x, double y, double z, int count) {
-		spawnParticle(particle, x, y, z, count, null);
-	}
-
-	public <T> void spawnParticle(Particle particle, Location location, int count, T data) {
-		spawnParticle(particle, location.getX(), location.getY(), location.getZ(), count, data);
-	}
-
-	public <T> void spawnParticle(Particle particle, double x, double y, double z, int count, T data) {
-		spawnParticle(particle, x, y, z, count, 0.0D, 0.0D, 0.0D, data);
-	}
-
-	public void spawnParticle(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ) {
-		spawnParticle(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ);
-	}
-
-	public void spawnParticle(Particle particle, double x, double y, double z, int count, double offsetX,
-			double offsetY, double offsetZ) {
-		spawnParticle(particle, x, y, z, count, offsetX, offsetY, offsetZ, null);
-	}
-
-	public <T> void spawnParticle(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ, T data) {
-		spawnParticle(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ,
-				data);
-	}
-
-	public <T> void spawnParticle(Particle particle, double x, double y, double z, int count, double offsetX,
-			double offsetY, double offsetZ, T data) {
-		spawnParticle(particle, x, y, z, count, offsetX, offsetY, offsetZ, 1.0D, data);
-	}
-
-	public void spawnParticle(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ, double extra) {
-		spawnParticle(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ,
-				extra);
-	}
-
-	public void spawnParticle(Particle particle, double x, double y, double z, int count, double offsetX,
-			double offsetY, double offsetZ, double extra) {
-		spawnParticle(particle, x, y, z, count, offsetX, offsetY, offsetZ, extra, null);
-	}
-
-	public <T> void spawnParticle(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ, double extra, T data) {
-		spawnParticle(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ,
-				extra, data);
-	}
-
-	public <T> void spawnParticle(Particle particle, double x, double y, double z, int count, double offsetX,
-			double offsetY, double offsetZ, double extra, T data) {
-		if ((data != null) && (!particle.getDataType().isInstance(data))) {
-			throw new IllegalArgumentException("data should be " + particle.getDataType() + " got " + data.getClass());
-		}
-		PacketPlayOutWorldParticles packetplayoutworldparticles = new PacketPlayOutWorldParticles(
-				CraftParticle.toNMS(particle), true, (float) x, (float) y, (float) z, (float) offsetX, (float) offsetY,
-				(float) offsetZ, (float) extra, count, CraftParticle.toData(particle, data));
-		sendPacket(packetplayoutworldparticles);
+		sendPacket(packetReset);
 	}
 	
 	@Override

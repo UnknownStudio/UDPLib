@@ -6,17 +6,24 @@ import org.bukkit.entity.Entity;
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
 import team.unstudio.udpl.nms.NmsHelper;
 
-public class NmsEntity implements team.unstudio.udpl.nms.entity.NmsEntity{
+public class NmsEntity<E extends Entity, N extends net.minecraft.server.v1_11_R1.Entity> implements team.unstudio.udpl.nms.entity.NmsEntity{
 	
-	private final Entity entity;
+	private final E entity;
+	private final N nmsEntity;
 	
-	public NmsEntity(Entity entity) {
+	@SuppressWarnings("unchecked")
+	public NmsEntity(E entity) {
 		this.entity = entity;
+		nmsEntity = (N) ((CraftEntity) entity).getHandle();
 	}
 
 	@Override
-	public Entity getBukkitEntity() {
+	public E getBukkitEntity() {
 		return entity;
+	}
+	
+	protected N getNmsEntity() {
+		return nmsEntity;
 	}
 
 	@Override

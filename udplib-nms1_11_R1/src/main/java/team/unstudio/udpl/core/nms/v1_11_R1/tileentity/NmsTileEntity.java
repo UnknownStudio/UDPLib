@@ -6,21 +6,23 @@ import net.minecraft.server.v1_11_R1.TileEntity;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 
-public class NmsTileEntity implements team.unstudio.udpl.nms.tileentity.NmsTileEntity{
+public class NmsTileEntity<B extends BlockState, T extends TileEntity> implements team.unstudio.udpl.nms.tileentity.NmsTileEntity{
 	
-	private final TileEntity tileEntity;
+	private final T tileEntity;
 	
+	@SuppressWarnings("unchecked")
 	public NmsTileEntity(BlockState blockState) {
-		this.tileEntity = ((CraftBlockState)blockState).getTileEntity();
+		this.tileEntity = (T) ((CraftBlockState)blockState).getTileEntity();
 	}
 	
-	protected TileEntity getTileEntity(){
+	protected T getTileEntity(){
 		return tileEntity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public BlockState getBukkitBlockState() {
-		return CraftBlockState.getBlockState(tileEntity.getWorld(), tileEntity.getPosition().getX(), tileEntity.getPosition().getY(), tileEntity.getPosition().getZ());
+	public B getBukkitBlockState() {
+		return (B) CraftBlockState.getBlockState(tileEntity.getWorld(), tileEntity.getPosition().getX(), tileEntity.getPosition().getY(), tileEntity.getPosition().getZ());
 	}
 	
 	@Override

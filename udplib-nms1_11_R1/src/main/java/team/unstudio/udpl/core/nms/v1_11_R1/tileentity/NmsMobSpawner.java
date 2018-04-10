@@ -14,7 +14,7 @@ import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.nbt.NBTTagList;
 import team.unstudio.udpl.nms.nbt.NmsNBT;
 
-public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.nms.tileentity.NmsMobSpawner{
+public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobSpawner> implements team.unstudio.udpl.nms.tileentity.NmsMobSpawner{
 	
 	private static Field mobs;
 	private static Field spawnData;
@@ -50,16 +50,6 @@ public class NmsMobSpawner extends NmsTileEntity implements team.unstudio.udpl.n
 
 	public NmsMobSpawner(CreatureSpawner spawner) {
 		super(spawner);
-	}
-	
-	@Override
-	public CreatureSpawner getBukkitBlockState() {
-		return (CreatureSpawner) super.getBukkitBlockState();
-	}
-
-	@Override
-	protected TileEntityMobSpawner getTileEntity() {
-		return (TileEntityMobSpawner) super.getTileEntity();
 	}
 
 	@SuppressWarnings("unchecked")
