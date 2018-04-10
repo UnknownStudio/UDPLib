@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.annotation.Init;
+import team.unstudio.udpl.util.extra.NMSReflectionUtils;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;

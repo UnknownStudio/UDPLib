@@ -3,7 +3,8 @@ package team.unstudio.udpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import team.unstudio.udpl.util.FileUtils;
+
+import team.unstudio.udpl.util.extra.FileUtils;
 
 import java.io.*;
 

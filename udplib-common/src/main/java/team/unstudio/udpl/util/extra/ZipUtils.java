@@ -1,4 +1,4 @@
-package team.unstudio.udpl.util;
+package team.unstudio.udpl.util.extra;
 
 import java.io.File;
 import java.io.FileInputStream;

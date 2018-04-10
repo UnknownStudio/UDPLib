@@ -15,7 +15,7 @@ import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.area.function.PlayerEnterAreaCallback;
 import team.unstudio.udpl.area.function.PlayerLeaveAreaCallback;
 import team.unstudio.udpl.util.Chunk;
-import team.unstudio.udpl.util.ZipUtils;
+import team.unstudio.udpl.util.extra.ZipUtils;
 
 import javax.annotation.Nonnull;
 import java.io.File;

@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import team.unstudio.udpl.config.EncodingDetect;
 import team.unstudio.udpl.i18n.slang.CachedSLang;
 import team.unstudio.udpl.i18n.slang.SLangSpliter;
-import team.unstudio.udpl.util.FileUtils;
+import team.unstudio.udpl.util.extra.FileUtils;
 
 import javax.annotation.Nonnull;
 

@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import team.unstudio.udpl.ui.Slot;
 import team.unstudio.udpl.ui.UI;
-import team.unstudio.udpl.util.IndexedItemStack;
+import team.unstudio.udpl.util.extra.IndexedItemStack;
 
 public class RequestChooseItemStack extends RequestBase<IndexedItemStack>{
 	

@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 
 import team.unstudio.udpl.ui.Slot;
 import team.unstudio.udpl.ui.UI;
-import team.unstudio.udpl.util.IndexedItemStack;
+import team.unstudio.udpl.util.extra.IndexedItemStack;
 
 public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 	

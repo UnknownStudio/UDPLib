@@ -1,7 +1,7 @@
 package team.unstudio.udpl.i18n.slang;
 
 import team.unstudio.udpl.config.EncodingDetect;
-import team.unstudio.udpl.util.FileUtils;
+import team.unstudio.udpl.util.extra.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;

@@ -11,7 +11,7 @@ import team.unstudio.udpl.command.CommandHelper;
 import team.unstudio.udpl.command.anno.CommandWrapper.OptionalWrapper;
 import team.unstudio.udpl.command.anno.CommandWrapper.RequiredWrapper;
 import team.unstudio.udpl.i18n.I18n;
-import team.unstudio.udpl.util.ASMClassLoader;
+import team.unstudio.udpl.util.extra.ASMClassLoader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
