@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Locale;
 
-public interface NmsPlayer extends NmsEntity{
+public interface NmsPlayer extends NmsLivingEntity{
 
 	Player getBukkitEntity();
 	

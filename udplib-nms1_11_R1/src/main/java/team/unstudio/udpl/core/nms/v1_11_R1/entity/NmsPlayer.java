@@ -11,7 +11,7 @@ import net.minecraft.server.v1_11_R1.Packet;
 import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_11_R1.PacketPlayOutTitle;
 
-public class NmsPlayer extends NmsEntity<Player, EntityPlayer> implements team.unstudio.udpl.nms.entity.NmsPlayer{
+public class NmsPlayer extends NmsLivingEntity<Player, EntityPlayer> implements team.unstudio.udpl.nms.entity.NmsPlayer{
 	
 	public NmsPlayer(Player player) {
 		super(player);

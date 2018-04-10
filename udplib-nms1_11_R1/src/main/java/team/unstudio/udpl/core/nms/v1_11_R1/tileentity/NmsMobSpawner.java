@@ -57,9 +57,8 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 	public NBTTagList getSpawnEntities() {
 		NBTTagList spawnEntitiesNbt = new NBTTagList();
 		try {
-			((List<MobSpawnerData>) mobs.get(getTileEntity().getSpawner())).stream()
-			.map(data->NmsNBT.getInstance().toCompound(data.a()))
-			.forEach(spawnEntitiesNbt::add);
+			for (MobSpawnerData data : (List<MobSpawnerData>) mobs.get(getTileEntity().getSpawner()))
+				spawnEntitiesNbt.add(NmsNBT.getInstance().toCompound(data.a()));
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new NmsException(e);
 		}
