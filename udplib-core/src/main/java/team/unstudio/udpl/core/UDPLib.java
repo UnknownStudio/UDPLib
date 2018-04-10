@@ -16,7 +16,7 @@ import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.command.PluginManager;
 import team.unstudio.udpl.core.command.UDPLCommand;
 import team.unstudio.udpl.core.inject.Injector;
-import team.unstudio.udpl.core.nms.asm.AsmNmsManager;
+import team.unstudio.udpl.nms.NmsManager;
 import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.core.util.VersionCheck;
 import team.unstudio.udpl.nms.NmsHelper;
@@ -72,7 +72,7 @@ public final class UDPLib extends JavaPlugin{
 		injector.addInjectObject("core_i18n", UDPLI18n.I18N);
 		injector.addInjectObject("core_instance", this);
 		injector.addInjectObject("core_logger", LOGGER);
-		injector.addInjectObject("nms_manager", new AsmNmsManager());
+		injector.addInjectObject("nms_manager", createNmsManager());
 		injector.addClass(MappingHelper.class);
 		injector.addClass(SignUtils.class);
 		injector.addClass(PlayerUtils.class);
@@ -128,14 +128,19 @@ public final class UDPLib extends JavaPlugin{
 			e.printStackTrace();
 	}
 	
-	public static VersionCheck getVersionCheck(){
-		return VERSION_CHECK;
-	}
-	
-	public static void runVersionCheck(){
+	private static void runVersionCheck(){
 		if(VERSION_CHECK == null){
 			VERSION_CHECK = new VersionCheck();
 		}
 		VERSION_CHECK.runTaskAsynchronously(getInstance());
+	}
+	
+	private static NmsManager createNmsManager() {
+		try {
+			return new team.unstudio.udpl.core.nms.v1_11_R1.NmsManager();
+		} catch (Exception e) {
+			debug(e);
+		}
+		return null;
 	}
 }
