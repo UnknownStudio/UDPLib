@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import team.unstudio.udpl.UDPLib;
-import team.unstudio.udpl.util.extra.NMSReflectionUtils;
+import team.unstudio.udpl.util.reflect.NMSReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
