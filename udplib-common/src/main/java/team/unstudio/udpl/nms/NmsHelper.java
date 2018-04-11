@@ -45,4 +45,11 @@ public final class NmsHelper {
 	public static NmsTileEntity createNmsTileEntity(BlockState blockState){
 		return NMS_MANAGER.createNmsTileEntity(blockState);
 	}
+	
+	/**
+	 * 获取是否支持Nms操作
+	 */
+	public static boolean isNmsSupported() {
+		return NMS_MANAGER != null;
+	}
 }
