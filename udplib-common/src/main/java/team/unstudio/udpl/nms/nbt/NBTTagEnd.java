@@ -5,8 +5,10 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 public class NBTTagEnd extends NBTBase {
+	
+	public static final NBTTagEnd INSTANCE = new NBTTagEnd();
 
-	public NBTTagEnd() {
+	private NBTTagEnd() {
 		super(NBTBaseType.END);
 	}
 
@@ -22,6 +24,6 @@ public class NBTTagEnd extends NBTBase {
 	}
 	
 	public static NBTTagEnd deserialize(Map<String, Object> map){
-		return new NBTTagEnd();
+		return INSTANCE;
 	}
 }

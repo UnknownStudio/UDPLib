@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import team.unstudio.udpl.annotation.Init;
-
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
 import java.util.regex.Pattern;
@@ -116,7 +114,6 @@ public final class NBTUtils {
 	/**
 	 * inner method.
 	 */
-	@Init
 	public static void registerAllNBTSerilizable() {
 		ConfigurationSerialization.registerClass(NBTTagByte.class);
 		ConfigurationSerialization.registerClass(NBTTagByteArray.class);
