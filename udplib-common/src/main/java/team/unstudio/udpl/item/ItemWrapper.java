@@ -243,51 +243,7 @@ public class ItemWrapper {
 		itemStack.setItemMeta(itemMeta);
 		return this;
 	}
-
-	public BannerMeta getBannerMeta() {
-		return (BannerMeta) getItemMeta();
-	}
-
-	public BlockStateMeta getBlockStateMeta() {
-		return (BlockStateMeta) getItemMeta();
-	}
-
-	public BookMeta getBookMeta() {
-		return (BookMeta) getItemMeta();
-	}
-
-	public EnchantmentStorageMeta getEnchantmentStorageMeta() {
-		return (EnchantmentStorageMeta) getItemMeta();
-	}
-
-	public FireworkEffectMeta getFireworkEffectMeta() {
-		return (FireworkEffectMeta) getItemMeta();
-	}
-
-	public FireworkMeta getFireworkMeta() {
-		return (FireworkMeta) getItemMeta();
-	}
-
-	public LeatherArmorMeta getLeatherArmorMeta() {
-		return (LeatherArmorMeta) getItemMeta();
-	}
-
-	public MapMeta getMapMeta() {
-		return (MapMeta) getItemMeta();
-	}
-
-	public PotionMeta getPotionMeta() {
-		return (PotionMeta) getItemMeta();
-	}
-
-	public SkullMeta getSkullMeta() {
-		return (SkullMeta) getItemMeta();
-	}
-
-	public SpawnEggMeta getSpawnEggMeta() {
-		return (SpawnEggMeta) getItemMeta();
-	}
-
+	
 	public ItemStack get() {
 		return itemStack.clone();
 	}
