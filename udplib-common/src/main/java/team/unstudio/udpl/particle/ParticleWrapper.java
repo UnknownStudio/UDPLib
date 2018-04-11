@@ -10,9 +10,6 @@ import org.bukkit.entity.Player;
 public class ParticleWrapper implements Cloneable {
 
 	private Particle particle;
-	private double x;
-	private double y;
-	private double z;
 	private int count;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -20,64 +17,29 @@ public class ParticleWrapper implements Cloneable {
 	private double extra = 1;
 	private Object data = null;
 
-	public ParticleWrapper(Particle particle, Location location, int count) {
-		this(particle, location.getX(), location.getY(), location.getZ(), count);
+	public ParticleWrapper(Particle particle, int count) {
+		this(particle, count, 0, 0, 0, null);
 	}
 
-	public ParticleWrapper(Particle particle, double x, double y, double z, int count) {
-		this(particle, x, y, z, count, 0, 0, 0, null);
+	public ParticleWrapper(Particle particle, int count, Object data) {
+		this(particle, count, 0, 0, 0, data);
 	}
 
-	public ParticleWrapper(Particle particle, Location location, int count, Object data) {
-		this(particle, location.getX(), location.getY(), location.getZ(), count, data);
+	public ParticleWrapper(Particle particle, int count, double offsetX, double offsetY, double offsetZ) {
+		this(particle, count, offsetX, offsetY, offsetZ, null);
 	}
 
-	public ParticleWrapper(Particle particle, double x, double y, double z, int count, Object data) {
-		this(particle, x, y, z, count, 0, 0, 0, data);
+	public ParticleWrapper(Particle particle, int count, double offsetX, double offsetY, double offsetZ, Object data) {
+		this(particle, count, offsetX, offsetY, offsetZ, 1, data);
 	}
 
-	public ParticleWrapper(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ) {
-		this(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ);
+	public ParticleWrapper(Particle particle, int count, double offsetX, double offsetY, double offsetZ, double extra) {
+		this(particle, count, offsetX, offsetY, offsetZ, extra, null);
 	}
 
-	public ParticleWrapper(Particle particle, double x, double y, double z, int count, double offsetX, double offsetY,
-			double offsetZ) {
-		this(particle, x, y, z, count, offsetX, offsetY, offsetZ, null);
-	}
-
-	public ParticleWrapper(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ, Object data) {
-		this(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ, data);
-	}
-
-	public ParticleWrapper(Particle particle, double x, double y, double z, int count, double offsetX, double offsetY,
-			double offsetZ, Object data) {
-		this(particle, x, y, z, count, offsetX, offsetY, offsetZ, 1, data);
-	}
-
-	public ParticleWrapper(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ, double extra) {
-		this(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ, extra);
-	}
-
-	public ParticleWrapper(Particle particle, double x, double y, double z, int count, double offsetX, double offsetY,
-			double offsetZ, double extra) {
-		this(particle, x, y, z, count, offsetX, offsetY, offsetZ, extra, null);
-	}
-
-	public ParticleWrapper(Particle particle, Location location, int count, double offsetX, double offsetY,
-			double offsetZ, double extra, Object data) {
-		this(particle, location.getX(), location.getY(), location.getZ(), count, offsetX, offsetY, offsetZ, extra,
-				data);
-	}
-
-	public ParticleWrapper(Particle particle, double x, double y, double z, int count, double offsetX, double offsetY,
-			double offsetZ, double extra, Object data) {
+	public ParticleWrapper(Particle particle, int count, double offsetX, double offsetY, double offsetZ, double extra,
+			Object data) {
 		setParticle(particle);
-		setX(x);
-		setY(y);
-		setZ(z);
 		setCount(count);
 		setOffsetX(offsetX);
 		setOffsetY(offsetY);
@@ -92,36 +54,6 @@ public class ParticleWrapper implements Cloneable {
 
 	public void setParticle(Particle particle) {
 		this.particle = Objects.requireNonNull(particle);
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getZ() {
-		return z;
-	}
-
-	public void setZ(double z) {
-		this.z = z;
-	}
-
-	public void setLocation(Location location) {
-		setX(location.getX());
-		setY(location.getY());
-		setZ(location.getZ());
 	}
 
 	public int getCount() {
@@ -175,16 +107,24 @@ public class ParticleWrapper implements Cloneable {
 		this.data = data;
 	}
 
-	public void spawnParticle(Player player) {
-		player.spawnParticle(getParticle(), getX(), getY(), getZ(), getCount(), getOffsetX(), getOffsetY(),
-				getOffsetZ(), getExtra(), getData());
+	public void spawnParticle(Player player, Location location) {
+		spawnParticle(player, location.getX(), location.getY(), location.getZ());
 	}
 
-	public void spawnParticle(World world) {
-		world.spawnParticle(getParticle(), getX(), getY(), getZ(), getCount(), getOffsetX(), getOffsetY(), getOffsetZ(),
-				getExtra(), getData());
+	public void spawnParticle(Player player, double x, double y, double z) {
+		player.spawnParticle(getParticle(), x, y, z, getCount(), getOffsetX(), getOffsetY(), getOffsetZ(), getExtra(),
+				getData());
 	}
-	
+
+	public void spawnParticle(Location location) {
+		spawnParticle(location.getWorld(), location.getX(), location.getY(), location.getZ());
+	}
+
+	public void spawnParticle(World world, double x, double y, double z) {
+		world.spawnParticle(getParticle(), x, y, z, getCount(), getOffsetX(), getOffsetY(), getOffsetZ(), getExtra(),
+				getData());
+	}
+
 	@Override
 	public ParticleWrapper clone() {
 		ParticleWrapper particle = null;
