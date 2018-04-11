@@ -9,7 +9,6 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.command.CommandSender;
-
 import com.google.common.base.Strings;
 
 import team.unstudio.udpl.util.asm.*;
@@ -80,7 +79,7 @@ public class CommandWrapper {
 		String className = getUniqueName(method);
 		String objectType = Type.getInternalName(object.getClass());
 		
-		ClassWriter cw = new ClassWriter(0);
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
 		FieldVisitor fv;
 		MethodVisitor mv;
 
@@ -110,7 +109,6 @@ public class CommandWrapper {
 				mv.visitFieldInsn(PUTFIELD, className, "instance", "Ljava/lang/Object;");
 			}
 			mv.visitInsn(RETURN);
-			mv.visitMaxs(2, 2);
 			mv.visitEnd();
 		}
 		{
@@ -141,7 +139,6 @@ public class CommandWrapper {
 			mv.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, objectType,
 					method.getName(), Type.getMethodDescriptor(method), false);
 			mv.visitInsn(RETURN);
-			mv.visitMaxs(method.getParameterCount() + 2, 5);
 			mv.visitEnd();
 		}
 		cw.visitEnd();
