@@ -1,5 +1,7 @@
 package team.unstudio.udpl.core.nms.v1_11_R1.entity;
 
+import java.util.Set;
+
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
@@ -28,12 +30,26 @@ public class NmsEntity<E extends Entity, N extends net.minecraft.server.v1_11_R1
 
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagCompound save(){
-		return NmsHelper.getNmsNBT().toCompound(((CraftEntity)entity).getHandle().e(new NBTTagCompound()));
+		return NmsHelper.getNmsNBT().toCompound(getNmsEntity().e(new NBTTagCompound()));
 	}
 
 	@Override
 	public void load(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt){
-		((CraftEntity)entity).getHandle().f((NBTTagCompound)NmsHelper.getNmsNBT().toNmsNBT(nbt));
+		getNmsEntity().f((NBTTagCompound)NmsHelper.getNmsNBT().toNmsNBT(nbt));
 	}
 
+	@Override
+	public Set<String> getScoreboardTags() {
+		return getNmsEntity().P();
+	}
+
+	@Override
+	public boolean addScoreboardTag(String tag) {
+		return getScoreboardTags().add(tag);
+	}
+
+	@Override
+	public boolean removeScoreboardTag(String tag) {
+		return getScoreboardTags().remove(tag);
+	}
 }
