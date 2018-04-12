@@ -155,29 +155,15 @@ public class CommandWrapper {
 	private void visitArray(MethodVisitor mv, int varIndex, int arrayIndex, Class<?> targetClass) {
 		String targetType = Type.getInternalName(targetClass);
 		mv.visitVarInsn(ALOAD, varIndex);
-		switch (arrayIndex) {
-		case 0:
-			mv.visitInsn(ICONST_0);
-			break;
-		case 1:
-			mv.visitInsn(ICONST_1);
-			break;
-		case 2:
-			mv.visitInsn(ICONST_2);
-			break;
-		case 3:
-			mv.visitInsn(ICONST_3);
-			break;
-		case 4:
-			mv.visitInsn(ICONST_4);
-			break;
-		case 5:
-			mv.visitInsn(ICONST_5);
-			break;
-		default:
-			mv.visitIntInsn(SIPUSH, arrayIndex);
-			break;
-		}
+        if (arrayIndex >= -1 && arrayIndex <= 5) {
+            mv.visitInsn(Opcodes.ICONST_0 + arrayIndex);
+        } else if (arrayIndex >= Byte.MIN_VALUE && arrayIndex <= Byte.MAX_VALUE) {
+            mv.visitIntInsn(Opcodes.BIPUSH, arrayIndex);
+        } else if (arrayIndex >= Short.MIN_VALUE && arrayIndex <= Short.MAX_VALUE) {
+            mv.visitIntInsn(Opcodes.SIPUSH, arrayIndex);
+        } else {
+            mv.visitLdcInsn(arrayIndex);
+        }
 		mv.visitInsn(AALOAD);
 		if(targetClass.isPrimitive()) {
 			if (targetClass == int.class) {
