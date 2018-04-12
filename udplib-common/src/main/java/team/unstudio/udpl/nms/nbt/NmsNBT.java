@@ -72,6 +72,16 @@ public interface NmsNBT {
 	 */
 	Object toNmsNBT(NBTBase nbt);
 	
+	/**
+	 * 转换为NBT的Json格式
+	 */
+	String toNBTJson(NBTTagCompound nbt);
+	
+	/**
+	 * 从NBT的Json格式读取
+	 */
+	NBTTagCompound parseNBTJson(String json);
+	
 	static NmsNBT getInstance(){
 		return NmsHelper.getNmsNBT();
 	}

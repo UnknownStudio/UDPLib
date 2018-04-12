@@ -1,5 +1,7 @@
 package team.unstudio.udpl.core.nms.v1_11_R1.nbt;
 
+import net.minecraft.server.v1_11_R1.MojangsonParseException;
+import net.minecraft.server.v1_11_R1.MojangsonParser;
 import net.minecraft.server.v1_11_R1.NBTBase;
 import net.minecraft.server.v1_11_R1.NBTTagByte;
 import net.minecraft.server.v1_11_R1.NBTTagByteArray;
@@ -12,6 +14,7 @@ import net.minecraft.server.v1_11_R1.NBTTagList;
 import net.minecraft.server.v1_11_R1.NBTTagLong;
 import net.minecraft.server.v1_11_R1.NBTTagShort;
 import net.minecraft.server.v1_11_R1.NBTTagString;
+import team.unstudio.udpl.nms.NmsException;
 
 public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 	
@@ -167,6 +170,20 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 			return nmsMap;
 		default:
 			return null;
+		}
+	}
+
+	@Override
+	public String toNBTJson(team.unstudio.udpl.nms.nbt.NBTTagCompound nbt) {
+		return toNmsNBT(nbt).toString();
+	}
+
+	@Override
+	public team.unstudio.udpl.nms.nbt.NBTTagCompound parseNBTJson(String json) {
+		try {
+			return toCompound(MojangsonParser.parse(json));
+		} catch (MojangsonParseException e) {
+			throw new NmsException(e);
 		}
 	}
 }
