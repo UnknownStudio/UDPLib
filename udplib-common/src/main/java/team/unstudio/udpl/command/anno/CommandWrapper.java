@@ -89,10 +89,6 @@ public class CommandWrapper {
 
 		cw.visitSource(".dynamic", null);
 
-		cw.visitInnerClass("team/unstudio/udpl/command/anno/CommandWrapper$CommandExecutor",
-				"team/unstudio/udpl/command/anno/CommandWrapper", "CommandExecutor",
-				ACC_PUBLIC + ACC_STATIC + ACC_ABSTRACT + ACC_INTERFACE);
-
 		if (!isStatic) {
 			fv = cw.visitField(ACC_PRIVATE + ACC_FINAL, "instance", "Ljava/lang/Object;", null, null);
 			fv.visitEnd();
@@ -109,6 +105,7 @@ public class CommandWrapper {
 				mv.visitFieldInsn(PUTFIELD, className, "instance", "Ljava/lang/Object;");
 			}
 			mv.visitInsn(RETURN);
+			mv.visitMaxs(0, 0);
 			mv.visitEnd();
 		}
 		{
@@ -139,6 +136,7 @@ public class CommandWrapper {
 			mv.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, objectType,
 					method.getName(), Type.getMethodDescriptor(method), false);
 			mv.visitInsn(RETURN);
+			mv.visitMaxs(0, 0);
 			mv.visitEnd();
 		}
 		cw.visitEnd();
