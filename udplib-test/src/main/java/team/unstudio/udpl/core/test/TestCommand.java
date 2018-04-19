@@ -1,4 +1,4 @@
-package team.unstudio.udplib.core.test;
+package team.unstudio.udpl.core.test;
 
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.ChatColor;

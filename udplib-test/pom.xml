@@ -9,7 +9,7 @@
 		<version>${udplib.version}</version>
 	</parent>
 	<artifactId>udplib-test</artifactId>
-	<name>UDPLib-Test</name>
+	<name>UDPLib-test</name>
 	<dependencies>
 		<dependency>
 			<groupId>team.unstudio</groupId>

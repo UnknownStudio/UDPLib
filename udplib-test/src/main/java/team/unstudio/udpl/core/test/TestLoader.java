@@ -1,4 +1,4 @@
-package team.unstudio.udplib.core.test;
+package team.unstudio.udpl.core.test;
 
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import team.unstudio.udpl.area.AreaManager;
