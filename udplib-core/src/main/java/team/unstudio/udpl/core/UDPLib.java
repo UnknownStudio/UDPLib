@@ -144,7 +144,7 @@ public final class UDPLib extends JavaPlugin{
 	
 	private static void onLoadTest() {
 		try {
-			Class.forName("team.unstudio.udplib.core.test.TestLoader")
+			Class.forName("team.unstudio.udpl.core.test.TestLoader")
 			.getDeclaredMethod("onLoad")
 			.invoke(null);
 		} catch (Exception ignored) {
@@ -153,7 +153,7 @@ public final class UDPLib extends JavaPlugin{
 	
 	private static void onEnableTest() {
 		try {
-			Class.forName("team.unstudio.udplib.core.test.TestLoader")
+			Class.forName("team.unstudio.udpl.core.test.TestLoader")
 			.getDeclaredMethod("onEnable")
 			.invoke(null);
 		} catch (Exception ignored) {
