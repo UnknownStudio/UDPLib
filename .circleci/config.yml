@@ -38,5 +38,5 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
           
       - store_artifacts:
-          path: /home/circleci/repo/udplib-core/target
+          path: /home/circleci/repo/udplib-test/target
           destination: udplib

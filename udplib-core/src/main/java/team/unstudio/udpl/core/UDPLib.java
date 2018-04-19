@@ -17,7 +17,6 @@ import team.unstudio.udpl.core.command.PluginManager;
 import team.unstudio.udpl.core.command.UDPLCommand;
 import team.unstudio.udpl.core.inject.Injector;
 import team.unstudio.udpl.nms.NmsManager;
-import team.unstudio.udpl.core.test.TestLoader;
 import team.unstudio.udpl.core.util.VersionCheck;
 import team.unstudio.udpl.nms.NmsHelper;
 import team.unstudio.udpl.nms.mapping.MappingHelper;
@@ -27,7 +26,6 @@ import team.unstudio.udpl.util.CacheUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.PluginUtils;
 import team.unstudio.udpl.util.SignUtils;
-
 import java.io.File;
 
 public final class UDPLib extends JavaPlugin{
@@ -63,7 +61,7 @@ public final class UDPLib extends JavaPlugin{
 			UDPLI18n.setLocale(CONFIG.language);
 		
 		if(CONFIG.enableTest)
-			TestLoader.INSTANCE.onLoad();
+			onLoadTest();
 	}
 
 	@Override
@@ -86,7 +84,7 @@ public final class UDPLib extends JavaPlugin{
 		new AnnoCommandManager("udpl", this).addHandler(new UDPLCommand()).registerCommand();
 		
 		if(CONFIG.enableTest)
-			TestLoader.INSTANCE.onEnable();
+			onEnableTest();
 		
 		runVersionCheck();
 	}
@@ -142,5 +140,23 @@ public final class UDPLib extends JavaPlugin{
 			debug(e);
 		}
 		return null;
+	}
+	
+	private static void onLoadTest() {
+		try {
+			Class.forName("team.unstudio.udplib.core.test.TestLoader")
+			.getDeclaredMethod("onLoad")
+			.invoke(null);
+		} catch (Exception ignored) {
+		}
+	}
+	
+	private static void onEnableTest() {
+		try {
+			Class.forName("team.unstudio.udplib.core.test.TestLoader")
+			.getDeclaredMethod("onEnable")
+			.invoke(null);
+		} catch (Exception ignored) {
+		}
 	}
 }

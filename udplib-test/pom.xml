@@ -9,8 +9,7 @@
 		<version>${udplib.version}</version>
 	</parent>
 	<artifactId>udplib-test</artifactId>
-	<name>udplib-test</name>
-	<url>http://maven.apache.org</url>
+	<name>UDPLib-Test</name>
 	<dependencies>
 		<dependency>
 			<groupId>team.unstudio</groupId>

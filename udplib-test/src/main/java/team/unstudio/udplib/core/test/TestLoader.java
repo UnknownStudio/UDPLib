@@ -1,21 +1,20 @@
-package team.unstudio.udpl.core.test;
+package team.unstudio.udplib.core.test;
 
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import team.unstudio.udpl.area.AreaManager;
 import team.unstudio.udpl.command.anno.AnnoCommandManager;
 import team.unstudio.udpl.core.UDPLib;
 
-public enum TestLoader {
-	INSTANCE;
-
+public class TestLoader {
+	
 	public static AreaManager areaManager;
 	
-	public void onLoad(){
+	public static void onLoad(){
 		ConfigurationSerialization.registerClass(TestSerialization.class);
 		UDPLib.getLog().info("Loaded test.");
 	}
 	
-	public void onEnable(){
+	public static void onEnable(){
 		areaManager = new AreaManager(UDPLib.getInstance());
 		areaManager.addPlayerEnterAreaCallback((player,area)->player.sendMessage("Entered Area."));
 		areaManager.addPlayerLeaveAreaCallback((player,area)->player.sendMessage("Leaved Area."));

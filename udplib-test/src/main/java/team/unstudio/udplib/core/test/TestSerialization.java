@@ -1,4 +1,4 @@
-package team.unstudio.udpl.core.test;
+package team.unstudio.udplib.core.test;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import team.unstudio.udpl.config.ConfigItem;
