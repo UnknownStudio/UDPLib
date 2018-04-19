@@ -40,12 +40,9 @@ public class TabCompleteWrapper {
 	}
 	
 	private TabCompleteExecutor loadExecutor(AnnoCommandManager manager, Object object, Method method) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
 		boolean isStatic = Modifier.isStatic(method.getModifiers());
 		String className = getUniqueName(method);
 		String objectType = Type.getInternalName(object.getClass());
-		String senderType = Type.getInternalName(method.getParameterTypes()[0]);
-		System.out.println(senderType);
 		
 		ClassWriter cw = new ClassWriter(0);
 		FieldVisitor fv;
