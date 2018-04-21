@@ -58,6 +58,11 @@ public class RequestMultiString extends RequestBase<Set<String>>{
 			return Optional.empty();
 		return Optional.of(result);
 	}
+	
+	@Override
+	public void reset() {
+		result.clear();
+	}
 
 	private class RequestListener implements Listener{
 		@EventHandler(priority = EventPriority.LOWEST)

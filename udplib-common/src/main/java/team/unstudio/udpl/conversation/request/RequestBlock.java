@@ -33,6 +33,11 @@ public class RequestBlock extends RequestBase<Block>{
 		super.dispose();
 		PlayerInteractEvent.getHandlerList().unregister(listener);
 	}
+	
+	@Override
+	public void reset() {
+		result = null;
+	}
 
 	@Override
 	public Optional<Block> getResult() {

@@ -84,6 +84,11 @@ public class RequestMultiChoice extends RequestBase<Set<Integer>>{
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
 		PlayerCommandPreprocessEvent.getHandlerList().unregister(listener);
 	}
+	
+	@Override
+	public void reset() {
+		result.clear();
+	}
 
 	@Override
 	public Optional<Set<Integer>> getResult() {

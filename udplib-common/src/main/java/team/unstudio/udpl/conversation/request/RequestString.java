@@ -35,6 +35,11 @@ public class RequestString extends RequestBase<String>{
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
 		PlayerCommandPreprocessEvent.getHandlerList().unregister(listener);
 	}
+	
+	@Override
+	public void reset() {
+		result = null;
+	}
 
 	@Override
 	public Optional<String> getResult() {
