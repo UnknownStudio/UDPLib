@@ -130,7 +130,7 @@ public final class TestCommand {
 	
 	@Command(value = "conversation", senders = Player.class)
 	public void conversation(Player sender){
-		new Conversation(UDPLib.getInstance(), sender)
+		new Conversation(UDPLib.getInstance())
 				.addRequest(RequestString.newRequestString().setPrompt("请在聊天框输入一个消息."))
 				.addRequest(RequestBlock.newRequestBlock().setPrompt("请点击一个方块."))
 				.addRequest(RequestEntity.newRequestEntity().setPrompt("请点击一个实体."))
@@ -152,7 +152,7 @@ public final class TestCommand {
 					con.getPlayer().sendMessage(con.getRequest(7).getResult().get().toString());
 					con.getPlayer().sendMessage(con.getRequest(8).getResult().get().toString());
 					con.getPlayer().sendMessage(con.getRequest(9).getResult().get().toString());
-				}).start();
+				}).start(sender);
 	}
 	
 	@Command("serialize")

@@ -43,6 +43,11 @@ public class RequestEntity extends RequestBase<Entity>{
 		return Optional.of(result);
 	}
 	
+	@Override
+	public void reset() {
+		result = null;
+	}
+	
 	private class RequestListener implements Listener{
 		
 		@EventHandler(priority = EventPriority.LOWEST)

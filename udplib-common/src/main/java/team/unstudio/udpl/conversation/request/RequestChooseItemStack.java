@@ -106,6 +106,11 @@ public class RequestChooseItemStack extends RequestBase<IndexedItemStack>{
 		super.dispose();
 		ui.close(getConversation().getPlayer());
 	}
+	
+	@Override
+	public void reset() {
+		result = null;
+	}
 
 	@Override
 	public Optional<IndexedItemStack> getResult() {

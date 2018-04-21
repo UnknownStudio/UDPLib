@@ -36,6 +36,11 @@ public class RequestBigInteger extends RequestBase<BigInteger>{
 		AsyncPlayerChatEvent.getHandlerList().unregister(listener);
 		PlayerCommandPreprocessEvent.getHandlerList().unregister(listener);
 	}
+	
+	@Override
+	public void reset() {
+		result = null;
+	}
 
 	@Override
 	public Optional<BigInteger> getResult() {

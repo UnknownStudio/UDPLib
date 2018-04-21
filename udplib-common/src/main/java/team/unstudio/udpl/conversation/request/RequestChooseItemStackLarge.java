@@ -152,6 +152,11 @@ public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 		super.dispose();
 		getConversation().getPlayer().closeInventory();
 	}
+	
+	@Override
+	public void reset() {
+		result = null;
+	}
 
 	@Override
 	public Optional<IndexedItemStack> getResult() {

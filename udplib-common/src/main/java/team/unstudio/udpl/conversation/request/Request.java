@@ -16,14 +16,23 @@ public interface Request<T> {
 	/**
 	 * 开始请求<br>
 	 * 注：内部方法，不建议直接调用<br>
+	 * PS: inner method
 	 */
 	void start();
 	
 	/**
 	 * 卸载请求<br>
 	 * 注：内部方法，不建议直接调用<br>
+	 * PS: inner method
 	 */
 	void dispose();
+	
+	/**
+	 * 重置请求<br>
+	 * 注：内部方法，不建议直接调用<br>
+	 * PS: inner method
+	 */
+	void reset();
 	
 	/**
 	 * 请求是否开始

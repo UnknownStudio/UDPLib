@@ -19,12 +19,11 @@ import java.util.function.Consumer;
 
 public class Conversation {
 
-	public static Conversation newConversation(@Nonnull Plugin plugin, @Nonnull Player player) {
-		return new Conversation(plugin, player);
+	public static Conversation newConversation(@Nonnull Plugin plugin) {
+		return new Conversation(plugin);
 	}
 
 	private final Plugin plugin;
-	private final Player player;
 
 	private final List<Request<?>> requests = Lists.newLinkedList();
 
@@ -32,17 +31,17 @@ public class Conversation {
 
 	private ConversationState state = ConversationState.UNSTARTED;
 
+	private Player player;
+	
 	private Request<?> currentRequest;
 	private int currentRequestIndex = 0;
 
 	private Consumer<Conversation> onCancel;
 	private Consumer<Conversation> onComplete;
 
-	public Conversation(@Nonnull Plugin plugin, @Nonnull Player player) {
+	public Conversation(@Nonnull Plugin plugin) {
 		Validate.notNull(plugin);
-		Validate.notNull(player);
 		this.plugin = plugin;
-		this.player = player;
 	}
 
 	@Nonnull
@@ -50,7 +49,7 @@ public class Conversation {
 		return plugin;
 	}
 
-	@Nonnull
+	@Nullable
 	public final Player getPlayer() {
 		return player;
 	}
@@ -104,16 +103,22 @@ public class Conversation {
 	/**
 	 * 开始交流
 	 */
-	public Conversation start() {
+	public Conversation start(@Nonnull Player player) {
 		if (isStarted())
 			return this;
 
 		if (isEmpty())
 			return this;
 
+		Validate.notNull(player);
+		this.player = player;
+		
 		if (!player.isOnline())
 			return this;
 
+		if (isCompleted() || isCancelled())
+			reset();
+		
 		state = ConversationState.STARTED;
 
 		PluginUtils.registerEvents(listener, getPlugin());
@@ -140,6 +145,18 @@ public class Conversation {
 		dispose();
 		if (onCancel != null)
 			onCancel.accept(this);
+	}
+	
+	/**
+	 * 重置交流
+	 */
+	public void reset() {
+		cancel();
+		
+		state = ConversationState.UNSTARTED;
+		
+		for(Request<?> request: requests)
+			request.reset();
 	}
 
 	/**

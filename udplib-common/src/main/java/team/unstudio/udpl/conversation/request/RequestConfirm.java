@@ -43,6 +43,11 @@ public class RequestConfirm extends RequestBase<Boolean>{
 		return Optional.of(result);
 	}
 	
+	@Override
+	public void reset() {
+		result = false;
+	}
+	
 	private class RequestListener implements Listener{
 		@EventHandler(priority = EventPriority.LOWEST)
 		public void onChat(AsyncPlayerChatEvent event) {
