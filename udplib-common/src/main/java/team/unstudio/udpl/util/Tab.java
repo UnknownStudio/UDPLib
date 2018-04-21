@@ -40,35 +40,12 @@ public final class Tab {
 		this.receivers = Sets.newHashSet();
 		this.items = HashBiMap.create();
 		this.size = size;
-		protocolManager.addPacketListener(new PacketListener() {
-			
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				PacketContainer container = event.getPacket();
-				if(container.getPlayerInfoAction().read(0)!=PlayerInfoAction.ADD_PLAYER)
-					return;
-				
-			}
-			
-			@Override
-			public void onPacketReceiving(PacketEvent event) {}
-			
-			@Override
-			public ListeningWhitelist getSendingWhitelist() {
-				return ListeningWhitelist.newBuilder().types(PacketType.Play.Server.PLAYER_INFO).build();
-			}
-			
-			@Override
-			public ListeningWhitelist getReceivingWhitelist() {
-				return ListeningWhitelist.EMPTY_WHITELIST;
-			}
-			
-			@Override
-			public Plugin getPlugin() {
-				// TODO 自动生成的方法存根
-				return null;
-			}
-		});
+
+		ProtocolLibUtils.listenOnPacketSending(event -> {
+			PacketContainer container = event.getPacket();
+			if(container.getPlayerInfoAction().read(0)!=PlayerInfoAction.ADD_PLAYER)
+				return;
+		}, PacketType.Play.Server.PLAYER_INFO);
 	}
 	
 	public int getSize() {

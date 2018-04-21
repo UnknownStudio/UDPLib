@@ -29,38 +29,16 @@ public interface PlayerUtils {
 	
 	@Init
 	static void initPlayerUtils(){
-		protocolManager.addPacketListener(new PacketListener() {
-			
-			@Override
-			public void onPacketSending(PacketEvent arg0) {}
-			
-			@Override
-			public void onPacketReceiving(PacketEvent arg0) {
-				Player player = arg0.getPlayer();
-				PacketContainer container = arg0.getPacket();
-				String languageTag = container.getStrings().read(0);
-				String nomalizedLanguageTag = normalizeLanguageTag(languageTag);
-				Locale locale = Locale.forLanguageTag(nomalizedLanguageTag);
-				if(locale == Locale.ROOT)
-					return;
-				PLAYER_LANGUAGE_CACHE.put(player, locale);
-			}
-			
-			@Override
-			public ListeningWhitelist getSendingWhitelist() {
-				return ListeningWhitelist.EMPTY_WHITELIST;
-			}
-			
-			@Override
-			public ListeningWhitelist getReceivingWhitelist() {
-				return ListeningWhitelist.newBuilder().lowest().types(PacketType.Play.Client.SETTINGS).build();
-			}
-			
-			@Override
-			public Plugin getPlugin() {
-				return UDPLib.getPlugin();
-			}
-		});
+		ProtocolLibUtils.listenOnPacketReceiving(event -> {
+			Player player = event.getPlayer();
+			PacketContainer container = event.getPacket();
+			String languageTag = container.getStrings().read(0);
+			String normalizedLanguageTag = normalizeLanguageTag(languageTag);
+			Locale locale = Locale.forLanguageTag(normalizedLanguageTag);
+			if(locale == Locale.ROOT)
+				return;
+			PLAYER_LANGUAGE_CACHE.put(player, locale);
+		}, PacketType.Play.Client.SETTINGS);
 	}
 	
 	Locale DEFAULT_LANGUAGE = Locale.US;
