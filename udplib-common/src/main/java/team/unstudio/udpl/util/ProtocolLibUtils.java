@@ -4,11 +4,18 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListeningWhitelist;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.events.PacketListener;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.nbt.NbtBase;
+import com.comphenix.protocol.wrappers.nbt.NbtCompound;
+import com.comphenix.protocol.wrappers.nbt.NbtFactory;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.UDPLib;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 public interface ProtocolLibUtils {
@@ -16,6 +23,15 @@ public interface ProtocolLibUtils {
 
     static ProtocolManager getManager() {
         return PROTOCOL_MANAGER;
+    }
+
+    static Result send(Player player, PacketContainer packet){
+        try {
+            PROTOCOL_MANAGER.sendServerPacket(player, packet);
+        } catch (InvocationTargetException e) {
+            return Result.failure(e);
+        }
+        return Result.success();
     }
 
     /**
@@ -85,5 +101,21 @@ public interface ProtocolLibUtils {
                 return UDPLib.getPlugin();
             }
         });
+    }
+
+    static NbtCompound buildStringsNBTBase(String[] lines) {
+        NbtCompound nbt = NbtFactory.ofCompound("");
+        for (int i = 0; i < 4; i++) {
+            nbt.put("text" + (i + 1), lines[i]);
+        }
+        return nbt;
+    }
+
+    static WrappedChatComponent[] buildChatComponentArray(String... components) {
+        WrappedChatComponent[] cs = new WrappedChatComponent[components.length];
+        for (int i = 0; i < components.length; i++) {
+            cs[i] = WrappedChatComponent.fromText(components[i]);
+        }
+        return cs;
     }
 }
