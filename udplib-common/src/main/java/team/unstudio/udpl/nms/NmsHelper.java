@@ -21,6 +21,7 @@ public final class NmsHelper {
 	 * 获取 {@link net.minecraft.server} 与  {@link team.unstudio.udpl.nms.nbt} 的帮助类实例
 	 */
 	public static NmsNBT getNmsNBT(){
+		checkNmsSupported();
 		return NMS_MANAGER.getNmsNBT();
 	}
 	
@@ -29,6 +30,7 @@ public final class NmsHelper {
 	 * 创建一个{@link NmsItemStack}对象
 	 */
 	public static NmsItemStack createNmsItemStack(ItemStack itemStack){
+		checkNmsSupported();
 		return NMS_MANAGER.createNmsItemStack(itemStack);
 	}
 	
@@ -36,6 +38,7 @@ public final class NmsHelper {
 	 * 创建一个{@link NmsEntity}对象
 	 */
 	public static NmsEntity createNmsEntity(Entity entity){
+		checkNmsSupported();
 		return NMS_MANAGER.createNmsEntity(entity);
 	}
 	
@@ -43,6 +46,7 @@ public final class NmsHelper {
 	 * 创建一个{@link NmsTileEntity}对象
 	 */
 	public static NmsTileEntity createNmsTileEntity(BlockState blockState){
+		checkNmsSupported();
 		return NMS_MANAGER.createNmsTileEntity(blockState);
 	}
 	
@@ -51,5 +55,10 @@ public final class NmsHelper {
 	 */
 	public static boolean isNmsSupported() {
 		return NMS_MANAGER != null;
+	}
+	
+	private static void checkNmsSupported() {
+		if(!isNmsSupported())
+			throw new NmsException("Unsupported Nms.");
 	}
 }

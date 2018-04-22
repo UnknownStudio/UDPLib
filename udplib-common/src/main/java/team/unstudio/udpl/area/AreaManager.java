@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.area.function.PlayerEnterAreaCallback;
 import team.unstudio.udpl.area.function.PlayerLeaveAreaCallback;
-import team.unstudio.udpl.util.Chunk;
+import team.unstudio.udpl.util.extra.Chunk;
 import team.unstudio.udpl.util.extra.ZipUtils;
 
 import javax.annotation.Nonnull;

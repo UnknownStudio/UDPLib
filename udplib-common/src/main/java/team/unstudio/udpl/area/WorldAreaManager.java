@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import team.unstudio.udpl.config.ConfigurationHelper;
-import team.unstudio.udpl.util.Chunk;
+import team.unstudio.udpl.util.extra.Chunk;
 
 import javax.annotation.Nonnull;
 import java.io.File;
