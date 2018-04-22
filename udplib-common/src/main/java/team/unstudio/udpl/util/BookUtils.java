@@ -76,8 +76,8 @@ public interface BookUtils {
 	@SuppressWarnings("unchecked")
 	static Result setPages(BookMeta book, String... pages){
 		try {
-			List<Object> listPages = (List<Object>) NMSReflectionUtils.getCraftMetaBookPages().get(book);
-			Method ChatSerializer_a = NMSReflectionUtils.getIChatBaseComponent$ChatSerializer$a();
+			List<Object> listPages = (List<Object>) NMSReflectionUtils.CraftMetaBook$pages().get(book);
+			Method ChatSerializer_a = NMSReflectionUtils.IChatBaseComponent$ChatSerializer$a();
 			for (String page : pages)
 				listPages.add(ChatSerializer_a.invoke(null, page));
 			return Result.success();
@@ -101,7 +101,7 @@ public interface BookUtils {
 	@SuppressWarnings("unchecked")
 	static Optional<String[]> getPages(BookMeta book){
 		try {
-			List<Object> listPages = (List<Object>) NMSReflectionUtils.getCraftMetaBookPages().get(book);
+			List<Object> listPages = (List<Object>) NMSReflectionUtils.CraftMetaBook$pages().get(book);
 			return Optional.of(listPages.stream().map(Object::toString).toArray(String[]::new));
 		} catch (ReflectiveOperationException e) {
 			UDPLib.debug(e);

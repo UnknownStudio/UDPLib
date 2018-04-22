@@ -1,63 +1,76 @@
 package team.unstudio.udpl.util.reflect;
 
-import team.unstudio.udpl.util.ReflectionUtils;
-import team.unstudio.udpl.util.ReflectionUtils.PackageType;
+import team.unstudio.udpl.UDPLib;
+import team.unstudio.udpl.annotation.Init;
+import team.unstudio.udpl.util.reflect.ReflectionUtils.PackageType;
 
+import static team.unstudio.udpl.util.reflect.ReflectionUtils.getField;
+import static team.unstudio.udpl.util.reflect.ReflectionUtils.getMethod;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.concurrent.atomic.AtomicReference;
 
-import static team.unstudio.udpl.util.ReflectionUtils.getField;
-import static team.unstudio.udpl.util.ReflectionUtils.getMethod;
+import org.bukkit.inventory.ItemStack;
 
-public interface NMSReflectionUtils {
+public final class NMSReflectionUtils {
 
-	AtomicReference<Method> CRAFT_PLAYER_GET_HANDLE = new AtomicReference<>();
-	static Method getHandleNMS(){
-		if(CRAFT_PLAYER_GET_HANDLE.get() ==null) {
-			try {
-				CRAFT_PLAYER_GET_HANDLE.set(getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle"));
-			} catch (NoSuchMethodException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		return CRAFT_PLAYER_GET_HANDLE.get();
+	private static Method CraftPlayer$getHandle;
+	private static Field EntityPlayer$locale;
+	private static Field CraftMetaBoox$pages;
+	private static Method IChatBaseComponent$ChatSerializer$a;
+	private static Method CraftItemStack$asNMSCopy;
+	private static Method ItemStack$save;
+	private static Class<?> NBTTagCompound;
+	private static Constructor<?> NBTTagCompound$init;
+
+	public static Method CraftPlayer$getHandle() {
+		return CraftPlayer$getHandle;
+	}
+
+	public static Field EntityPlayer$locale() {
+		return EntityPlayer$locale;
+	}
+
+	public static Field CraftMetaBook$pages() {
+		return CraftMetaBoox$pages;
+	}
+
+	public static Method IChatBaseComponent$ChatSerializer$a() {
+		return IChatBaseComponent$ChatSerializer$a;
+	}
+
+	public static Method CraftItemStack$asNMSCopy() {
+		return CraftItemStack$asNMSCopy;
 	}
 	
-	AtomicReference<Field> ENTITY_PLAYER_LOCALE = new AtomicReference<>();
-	static Field getLocaleNMS() {
-		if(ENTITY_PLAYER_LOCALE.get() == null){
-			try {
-				ENTITY_PLAYER_LOCALE.set(getField(PackageType.MINECRAFT_SERVER.getClass("EntityPlayer"), true, "locale"));
-			} catch (NoSuchFieldException | SecurityException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		return ENTITY_PLAYER_LOCALE.get();
+	public static Method ItemStack$save() {
+		return ItemStack$save;
 	}
 	
-	AtomicReference<Field> CRAFT_META_BOOK_PAGES = new AtomicReference<>();
-	static Field getCraftMetaBookPages() {
-		if(CRAFT_META_BOOK_PAGES.get() == null) {
-			try {
-				CRAFT_META_BOOK_PAGES.set(ReflectionUtils.getField(PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"),true,"pages"));
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-		}
-		return CRAFT_META_BOOK_PAGES.get();
+	public static Class<?> NBTTagCompound() {
+		return NBTTagCompound;
 	}
 	
-	AtomicReference<Method> IChatBaseComponent$ChatSerializer$a = new AtomicReference<>();
-	static Method getIChatBaseComponent$ChatSerializer$a() {
-		if(IChatBaseComponent$ChatSerializer$a.get() == null) {
-			try {
-				IChatBaseComponent$ChatSerializer$a.set(ReflectionUtils.getMethod(ReflectionUtils.PackageType.MINECRAFT_SERVER
-						.getClass("IChatBaseComponent$ChatSerializer"), "a", String.class));
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
+	public static Constructor<?> NBTTagCompound$init() {
+		return NBTTagCompound$init;
+	}
+
+	@Init
+	private static void init() {
+		try {
+			CraftPlayer$getHandle = getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle", true);
+			EntityPlayer$locale = getField("EntityPlayer", PackageType.MINECRAFT_SERVER, true, "locale");
+			CraftMetaBoox$pages = getField("CraftMetaBook", PackageType.CRAFTBUKKIT_INVENTORY, true, "pages");
+			IChatBaseComponent$ChatSerializer$a = getMethod("IChatBaseComponent$ChatSerializer",
+					ReflectionUtils.PackageType.MINECRAFT_SERVER, "a", true, String.class);
+			CraftItemStack$asNMSCopy = getMethod("CraftItemStack", PackageType.CRAFTBUKKIT_INVENTORY, "asNMSCopy", true,
+					ItemStack.class);
+			NBTTagCompound = PackageType.MINECRAFT_SERVER.getClass("NBTTagCompound");
+			NBTTagCompound$init = NBTTagCompound.getConstructor();
+			ItemStack$save = getMethod("ItemStack", PackageType.MINECRAFT_SERVER, "save", true, NBTTagCompound);
+		} catch (ReflectiveOperationException e) {
+			UDPLib.debug(e);
 		}
-		return IChatBaseComponent$ChatSerializer$a.get();
 	}
 }

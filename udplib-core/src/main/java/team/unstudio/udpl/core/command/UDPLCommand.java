@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import team.unstudio.udpl.command.anno.Command;
 import team.unstudio.udpl.UDPLib;
-import team.unstudio.udpl.util.ReflectionUtils;
 import team.unstudio.udpl.util.ServerUtils;
+import team.unstudio.udpl.util.reflect.ReflectionUtils;
 
 public final class UDPLCommand {
 

@@ -26,6 +26,8 @@ import team.unstudio.udpl.util.CacheUtils;
 import team.unstudio.udpl.util.PlayerUtils;
 import team.unstudio.udpl.util.PluginUtils;
 import team.unstudio.udpl.util.SignUtils;
+import team.unstudio.udpl.util.reflect.NMSReflectionUtils;
+
 import java.io.File;
 
 public final class UDPLib extends JavaPlugin{
@@ -71,12 +73,16 @@ public final class UDPLib extends JavaPlugin{
 		injector.addInjectObject("core_instance", this);
 		injector.addInjectObject("core_logger", LOGGER);
 		injector.addInjectObject("nms_manager", createNmsManager());
+		
+		injector.addClass(team.unstudio.udpl.UDPLib.class);
 		injector.addClass(MappingHelper.class);
+		injector.addClass(NMSReflectionUtils.class);
+		injector.addClass(NmsHelper.class);
+		
 		injector.addClass(SignUtils.class);
 		injector.addClass(PlayerUtils.class);
 		injector.addClass(CacheUtils.class);
-		injector.addClass(team.unstudio.udpl.UDPLib.class);
-		injector.addClass(NmsHelper.class);
+		
 		injector.inject();
 		
 		loadPluginManager();

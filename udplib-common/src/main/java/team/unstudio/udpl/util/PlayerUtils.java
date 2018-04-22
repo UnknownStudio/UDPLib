@@ -3,16 +3,12 @@ package team.unstudio.udpl.util;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListeningWhitelist;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.events.PacketListener;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.annotation.Init;
 import team.unstudio.udpl.util.reflect.NMSReflectionUtils;
@@ -50,7 +46,7 @@ public interface PlayerUtils {
 		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
 			try {
 				PLAYER_LANGUAGE_CACHE.put(player, 
-						Locale.forLanguageTag(normalizeLanguageTag((String) NMSReflectionUtils.getLocaleNMS().get(NMSReflectionUtils.getHandleNMS().invoke(player)))));
+						Locale.forLanguageTag(normalizeLanguageTag((String) NMSReflectionUtils.EntityPlayer$locale().get(NMSReflectionUtils.CraftPlayer$getHandle().invoke(player)))));
 			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				UDPLib.debug(e);
 				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);

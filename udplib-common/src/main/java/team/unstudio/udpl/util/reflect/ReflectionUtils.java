@@ -1,4 +1,4 @@
-package team.unstudio.udpl.util;
+package team.unstudio.udpl.util.reflect;
 
 import org.bukkit.Bukkit;
 
@@ -109,12 +109,13 @@ public interface ReflectionUtils {
 	 * @see DataType#getPrimitive(Class[])
 	 * @see DataType#compare(Class[], Class[])
 	 */
-	static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
+	static Method getMethod(Class<?> clazz, String methodName, boolean declared, Class<?>... parameterTypes) throws NoSuchMethodException {
 		Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-		for (Method method : clazz.getMethods()) {
+		for (Method method : declared ? clazz.getDeclaredMethods() : clazz.getMethods()) {
 			if (!method.getName().equals(methodName) || !DataType.compare(DataType.getPrimitive(method.getParameterTypes()), primitiveTypes)) {
 				continue;
 			}
+			method.setAccessible(true);
 			return method;
 		}
 		throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
@@ -132,8 +133,8 @@ public interface ReflectionUtils {
 	 * @throws ClassNotFoundException If the desired target class with the specified name and package cannot be found
 	 * @see #getMethod(Class, String, Class...)
 	 */
-	static Method getMethod(String className, PackageType packageType, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
-		return getMethod(packageType.getClass(className), methodName, parameterTypes);
+	static Method getMethod(String className, PackageType packageType, String methodName, boolean declared, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
+		return getMethod(packageType.getClass(className), methodName, declared, parameterTypes);
 	}
 
 	/**
@@ -150,8 +151,8 @@ public interface ReflectionUtils {
 	 * @see #getMethod(Class, String, Class...)
 	 * @see DataType#getPrimitive(Object[])
 	 */
-	static Object invokeMethod(Object instance, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-		return getMethod(instance.getClass(), methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
+	static Object invokeMethod(Object instance, String methodName, boolean declared, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+		return getMethod(instance.getClass(), methodName, declared, DataType.getPrimitive(arguments)).invoke(instance, arguments);
 	}
 
 	/**
@@ -169,8 +170,8 @@ public interface ReflectionUtils {
 	 * @see #getMethod(Class, String, Class...)
 	 * @see DataType#getPrimitive(Object[])
 	 */
-	static Object invokeMethod(Object instance, Class<?> clazz, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-		return getMethod(clazz, methodName, DataType.getPrimitive(arguments)).invoke(instance, arguments);
+	static Object invokeMethod(Object instance, Class<?> clazz, String methodName, boolean declared, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+		return getMethod(clazz, methodName, declared, DataType.getPrimitive(arguments)).invoke(instance, arguments);
 	}
 
 	/**
@@ -189,8 +190,8 @@ public interface ReflectionUtils {
 	 * @throws ClassNotFoundException If the desired target class with the specified name and package cannot be found
 	 * @see #invokeMethod(Object, Class, String, Object...)
 	 */
-	static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-		return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
+	static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName, boolean declared, Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+		return invokeMethod(instance, packageType.getClass(className), methodName, declared, arguments);
 	}
 
 	/**

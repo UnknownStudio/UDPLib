@@ -1,8 +1,7 @@
 package team.unstudio.udpl.nms.util;
 
-import team.unstudio.udpl.util.ReflectionUtils;
+import team.unstudio.udpl.util.BukkitVersion;
 import team.unstudio.udpl.util.ServerUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureClassLoader;
@@ -12,7 +11,7 @@ public class NmsClassLoader extends SecureClassLoader {
 	private final NmsClassTransformer transformer;
 	
 	public NmsClassLoader(){
-		this(ReflectionUtils.PackageType.getServerVersion(), ServerUtils.getMinecraftVersion());
+		this(BukkitVersion.getCurrentBukkitVersion().getPackageName(), ServerUtils.getMinecraftVersion());
 	}
 	
 	public NmsClassLoader(String targetNmsVersion, String targetMinecraftVersion) {
@@ -20,7 +19,7 @@ public class NmsClassLoader extends SecureClassLoader {
 	}
 	
 	public NmsClassLoader(ClassLoader parent) {
-		this(parent, ReflectionUtils.PackageType.getServerVersion(), ServerUtils.getMinecraftVersion());
+		this(parent, BukkitVersion.getCurrentBukkitVersion().getPackageName(), ServerUtils.getMinecraftVersion());
 	}
 
 	public NmsClassLoader(ClassLoader parent, String targetNmsVersion, String targetMinecraftVersion) {
