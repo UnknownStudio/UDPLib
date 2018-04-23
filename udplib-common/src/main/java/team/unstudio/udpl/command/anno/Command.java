@@ -60,4 +60,9 @@ public @interface Command {
 	 * 精确参数匹配
 	 */
 	boolean exactParameterMatching() default false;
+	
+	/**
+	 * 隐藏的指令，如果为true，该指令的部分信息将不会显示（例如帮助信息）
+	 */
+	boolean hide() default false;
 }

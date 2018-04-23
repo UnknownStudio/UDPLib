@@ -25,6 +25,7 @@ public class CommandWrapper {
 	private final Class<? extends CommandSender>[] senders;
 	private final boolean allowOp;
 	private final boolean exactParameterMatching;
+	private final boolean hide;
 	
 	private final String usage;
 	private final String description;
@@ -48,6 +49,7 @@ public class CommandWrapper {
 		senders = command.senders();
 		allowOp = command.allowOp();
 		exactParameterMatching = command.exactParameterMatching();
+		hide = command.hide();
 		
 		usage = Strings.nullToEmpty(command.usage());
 		description = Strings.nullToEmpty(command.description());
@@ -226,6 +228,10 @@ public class CommandWrapper {
 		return exactParameterMatching;
 	}
 	
+	public boolean isHide() {
+		return hide;
+	}
+
 	public boolean hasStringArray() {
 		return hasStringArray;
 	}
