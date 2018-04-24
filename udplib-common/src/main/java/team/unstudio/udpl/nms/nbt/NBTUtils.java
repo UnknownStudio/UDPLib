@@ -51,7 +51,7 @@ public final class NBTUtils {
 				for (int i = 0, size = jsonArray.size() - 1; i < size; i++)
 					bytes[i] = ((NBTNumber) parseFromJson(jsonArray.get(i + 1))).getInt();
 				return new NBTTagIntArray(bytes);
-			} else if (first.getAsCharacter() == 'L' || first.getAsCharacter() == 'L') {
+			} else if (first.getAsCharacter() == 'L' || first.getAsCharacter() == 'l') {
 				long[] longs = new long[jsonArray.size() - 1];
 				for (int i = 0, size = jsonArray.size() - 1; i < size; i++)
 					longs[i] = ((NBTNumber) parseFromJson(jsonArray.get(i + 1))).getLong();
