@@ -23,6 +23,10 @@ public class RequestChooseItemStackLarge extends RequestBase<IndexedItemStack>{
 		return new RequestChooseItemStackLarge();
 	}
 	
+	public static RequestChooseItemStackLarge create(){
+		return new RequestChooseItemStackLarge();
+	}
+	
 	private final List<ItemStack> itemStacks = Lists.newLinkedList();
 	private final Map<Integer, UI> pageToUi = Maps.newHashMap();
 	

@@ -18,6 +18,10 @@ public class RequestBigInteger extends RequestBase<BigInteger>{
 		return new RequestBigInteger();
 	}
 	
+	public static RequestBigInteger create(){
+		return new RequestBigInteger();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private BigInteger result;

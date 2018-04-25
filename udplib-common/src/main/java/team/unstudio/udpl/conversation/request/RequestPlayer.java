@@ -17,6 +17,10 @@ public class RequestPlayer extends RequestBase<Player>{
 		return new RequestPlayer();
 	}
 	
+	public static RequestPlayer create(){
+		return new RequestPlayer();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Player result;

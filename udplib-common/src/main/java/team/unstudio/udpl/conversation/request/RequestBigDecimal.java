@@ -18,6 +18,10 @@ public class RequestBigDecimal extends RequestBase<BigDecimal>{
 		return new RequestBigDecimal();
 	}
 	
+	public static RequestBigDecimal create(){
+		return new RequestBigDecimal();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private BigDecimal result;

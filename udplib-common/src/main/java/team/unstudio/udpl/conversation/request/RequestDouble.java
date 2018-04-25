@@ -17,6 +17,10 @@ public class RequestDouble extends RequestBase<Double>{
 		return new RequestDouble();
 	}
 	
+	public static RequestDouble create(){
+		return new RequestDouble();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Double result;

@@ -29,6 +29,10 @@ public class RequestMultiChoice extends RequestBase<Set<Integer>>{
 		return new RequestMultiChoice();
 	}
 	
+	public static RequestMultiChoice create(){
+		return new RequestMultiChoice();
+	}
+	
 	private final Listener listener = new RequestListener();
 	private final Set<String> items = Sets.newLinkedHashSet();
 	

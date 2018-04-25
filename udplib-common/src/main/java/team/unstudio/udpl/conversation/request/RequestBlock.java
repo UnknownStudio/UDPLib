@@ -16,6 +16,10 @@ public class RequestBlock extends RequestBase<Block>{
 		return new RequestBlock();
 	}
 	
+	public static RequestBlock create(){
+		return new RequestBlock();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Block result;

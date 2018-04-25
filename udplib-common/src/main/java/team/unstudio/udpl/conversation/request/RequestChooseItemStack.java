@@ -31,6 +31,22 @@ public class RequestChooseItemStack extends RequestBase<IndexedItemStack>{
 		return new RequestChooseItemStack(size, title);
 	}
 	
+	public static RequestChooseItemStack create(InventoryType type){
+		return new RequestChooseItemStack(type);
+	}
+	
+	public static RequestChooseItemStack create(int size){
+		return new RequestChooseItemStack(size);
+	}
+	
+	public static RequestChooseItemStack create(InventoryType type, String title){
+		return new RequestChooseItemStack(type, title);
+	}
+	
+	public static RequestChooseItemStack create(int size, String title){
+		return new RequestChooseItemStack(size, title);
+	}
+	
 	private final UI ui;
 	
 	public RequestChooseItemStack(InventoryType type) {

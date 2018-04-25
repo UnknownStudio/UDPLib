@@ -23,6 +23,10 @@ public class RequestMultiString extends RequestBase<Set<String>>{
 		return new RequestMultiString(endCommand);
 	}
 	
+	public static RequestMultiString create(@Nonnull String endCommand){
+		return new RequestMultiString(endCommand);
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private final Set<String> result = Sets.newLinkedHashSet();

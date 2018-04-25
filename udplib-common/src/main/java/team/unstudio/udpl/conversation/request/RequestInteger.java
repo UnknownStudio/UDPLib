@@ -17,6 +17,10 @@ public class RequestInteger extends RequestBase<Integer>{
 		return new RequestInteger();
 	}
 	
+	public static RequestInteger create(){
+		return new RequestInteger();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Integer result;

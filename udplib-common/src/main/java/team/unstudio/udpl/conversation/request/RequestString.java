@@ -17,6 +17,10 @@ public class RequestString extends RequestBase<String>{
 		return new RequestString();
 	}
 	
+	public static RequestString create(){
+		return new RequestString();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private String result;

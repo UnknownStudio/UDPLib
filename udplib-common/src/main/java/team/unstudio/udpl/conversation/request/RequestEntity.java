@@ -17,6 +17,10 @@ public class RequestEntity extends RequestBase<Entity>{
 		return new RequestEntity();
 	}
 	
+	public static RequestEntity create(){
+		return new RequestEntity();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private Entity result;

@@ -29,6 +29,10 @@ public class RequestChoice extends RequestBase<Integer>{
 		return new RequestChoice();
 	}
 	
+	public static RequestChoice create(){
+		return new RequestChoice();
+	}
+	
 	private final Listener listener = new RequestListener();
 	private final Set<String> items = Sets.newLinkedHashSet();
 	

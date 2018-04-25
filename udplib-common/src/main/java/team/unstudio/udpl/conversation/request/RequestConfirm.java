@@ -17,6 +17,10 @@ public class RequestConfirm extends RequestBase<Boolean>{
 		return new RequestConfirm();
 	}
 	
+	public static RequestConfirm create(){
+		return new RequestConfirm();
+	}
+	
 	private final Listener listener = new RequestListener();
 	
 	private boolean result;
