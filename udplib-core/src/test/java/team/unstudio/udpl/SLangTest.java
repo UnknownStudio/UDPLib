@@ -30,7 +30,7 @@ public class SLangTest {
     @Parameterized.Parameters
     public static Collection input(){
         return asList(new Object[][]{
-                {asList("key|en", "test|why"), "\\|", asList("test", "why", "hello", "hello")},
+                {asList("key|en", "test| why ", "trim|trim    ∞"), "\\|", asList("test", "why", "hello", "hello", "trim", "trim    ")},
                 {asList("en|zh-CN|en-US", "test|测试|TEST", "second|第二|QWQ"), "\\|", asList("test", "测试", "test", "TEST", "second", "第二", "second", "QWQ", "why", "why")},
                 {asList("zh-CN en", "卧槽 woc"), " ", asList("卧槽", "woc")},
         });

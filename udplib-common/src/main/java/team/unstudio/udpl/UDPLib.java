@@ -1,5 +1,6 @@
 package team.unstudio.udpl;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,6 +36,9 @@ public final class UDPLib {
 	}
 	
 	public static Logger getLogger() {
+		if (logger == null) {
+			logger = LogManager.getLogger("UDPLib");
+		}
 		return logger;
 	}
 	

@@ -3,6 +3,7 @@ package team.unstudio.udpl.i18n;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
+import team.unstudio.udpl.UDPLib;
 import team.unstudio.udpl.config.ConfigurationHelper;
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -68,6 +69,7 @@ public class YamlI18n implements I18n{
 	}
 
 
+	@SuppressWarnings("ConstantConditions")
 	public static YamlI18n fromFile(@Nonnull File path) {
 		if(!path.exists())
 			throw new IllegalArgumentException("Path isn't exist.");
@@ -99,7 +101,7 @@ public class YamlI18n implements I18n{
 				}
 			}
 		} catch (Exception e) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot read language file from class path", e);
+			UDPLib.getLogger().error("Cannot read language file from class path", e);
 		}
 
 		return new YamlI18n(map);
