@@ -14,60 +14,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class YamlI18n implements I18n{
+public class YamlI18n extends BaseI18n {
 	protected final Map<Locale,Configuration> cache;
-	
-	private Locale defaultLocale = Locale.getDefault();
-	private I18n parent;
-	
-	@Override
-	public I18n getParent() {
-		return parent;
-	}
-
-	@Override
-	public void setParent(I18n parent) {
-		this.parent = parent;
-	}
 
 	public YamlI18n(@Nonnull Map<Locale,Configuration> map) {
 		this.cache = map;
 	}
 
-	public Locale getDefaultLocale() {
-		return defaultLocale;
-	}
-
-	public void setDefaultLocale(Locale defaultLocale) {
-		this.defaultLocale = defaultLocale;
-	}
-	
-	public void setDefaultLocale(String defaultLocale) {
-		this.defaultLocale = Locale.forLanguageTag(defaultLocale);
-	}
-
-	@Override
-	public String localize(String key) {
-		return localize(defaultLocale, key);
-	}
-	
-	@Override
-	public String format(String key, Object... args){
-		return format(defaultLocale, key, args);
-	}
-	
 	@Override
 	public String localize(Locale locale, String key){
 		if(cache.containsKey(locale))
 			return cache.get(locale).getString(key, key);
-		else if(cache.containsKey(defaultLocale))
-			return cache.get(defaultLocale).getString(key, key);
+		else if(cache.containsKey(getDefaultLocale()))
+			return cache.get(getDefaultLocale()).getString(key, key);
 		else if(getParent() != null)
 			return getParent().localize(locale, key);
 		else
 			return key;
 	}
-
 
 	@SuppressWarnings("ConstantConditions")
 	public static YamlI18n fromFile(@Nonnull File path) {

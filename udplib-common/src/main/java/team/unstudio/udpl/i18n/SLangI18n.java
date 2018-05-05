@@ -16,65 +16,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class SLangI18n implements I18n {
-    private String[] data;
-    private String separator;
-
+public class SLangI18n extends BaseI18n {
     protected final Map<Locale, CachedSLang> locale2SLang = Maps.newHashMap();
     private CachedSLang cachedSLang;
 
-    private Locale defaultLocale = Locale.getDefault();
-	private I18n parent;
-	
-	@Override
-	public I18n getParent() {
-		return parent;
-	}
-
-	@Override
-	public void setParent(I18n parent) {
-		this.parent = parent;
-	}
-
     public SLangI18n(String[] data, String separator) {
-        this.data = data;
-        this.separator = separator;
-
         for (CachedSLang sLang : SLangSpliter.split(separator, data)) {
             locale2SLang.put(sLang.locale, sLang);
         }
 
-        cachedSLang = locale2SLang.get(defaultLocale);
+        cachedSLang = locale2SLang.get(getDefaultLocale());
         if (cachedSLang == null) {
             cachedSLang = locale2SLang.values().stream().findFirst().get();
         }
     }
 
-    public Locale getDefaultLocale() {
-        return defaultLocale;
-    }
-
-    public void setDefaultLocale(Locale defaultLocale) {
-        this.defaultLocale = defaultLocale;
-    }
-
-    public void setDefaultLocale(String defaultLocale) {
-        this.defaultLocale = Locale.forLanguageTag(defaultLocale);
-    }
-
-    @Override
-    public String localize(String key) {
-        return localize(defaultLocale, key);
-    }
-
-    @Override
-    public String format(String key, Object... args) {
-        return format(defaultLocale, key, args);
-    }
-
     @Override
     public String localize(Locale locale, String key) {
-        CachedSLang lang = locale == defaultLocale ? cachedSLang : locale2SLang.get(locale);
+        CachedSLang lang = locale == getDefaultLocale() ? cachedSLang : locale2SLang.get(locale);
         if (lang == null){
         	if(getParent() != null)
     			return getParent().localize(locale, key);
