@@ -9,13 +9,13 @@ import net.minecraft.server.v1_11_R1.MobSpawnerAbstract;
 import net.minecraft.server.v1_11_R1.MobSpawnerData;
 import net.minecraft.server.v1_11_R1.TileEntityMobSpawner;
 import team.unstudio.udpl.UDPLib;
-import team.unstudio.udpl.nms.NmsException;
+import team.unstudio.udpl.nms.NMSException;
 import team.unstudio.udpl.nms.nbt.NBTTagCompound;
 import team.unstudio.udpl.nms.nbt.NBTTagList;
 import team.unstudio.udpl.nms.nbt.NmsNBT;
 
 public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobSpawner> implements team.unstudio.udpl.nms.tileentity.NmsMobSpawner{
-	
+
 	private static Field mobs;
 	private static Field spawnData;
 	private static Field minSpawnDelay;
@@ -24,7 +24,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 	private static Field maxNearbyEntities;
 	private static Field requiredPlayerRange;
 	private static Field spawnRange;
-	
+
 	static{
 		try {
 			mobs = MobSpawnerAbstract.class.getDeclaredField("mobs");
@@ -60,7 +60,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 			for (MobSpawnerData data : (List<MobSpawnerData>) mobs.get(getTileEntity().getSpawner()))
 				spawnEntitiesNbt.add(NmsNBT.getInstance().toCompound(data.a()));
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 		return spawnEntitiesNbt;
 	}
@@ -71,7 +71,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			((List<MobSpawnerData>) mobs.get(getTileEntity().getSpawner())).add(new MobSpawnerData(weight, (net.minecraft.server.v1_11_R1.NBTTagCompound) NmsNBT.getInstance().toNmsNBT(nbt)));
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return NmsNBT.getInstance().toCompound(((MobSpawnerData) spawnData.get(getTileEntity().getSpawner())).b());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return (short) spawnCount.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			spawnCount.set(getTileEntity().getSpawner(), count);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return (short) spawnRange.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			spawnRange.set(getTileEntity().getSpawner(), range);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return (short) minSpawnDelay.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			maxSpawnDelay.set(getTileEntity().getSpawner(), minDelay);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return (short) maxSpawnDelay.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -167,7 +167,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			maxSpawnDelay.set(getTileEntity().getSpawner(), maxDelay);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -176,7 +176,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return (short) maxNearbyEntities.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -185,7 +185,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			maxNearbyEntities.set(getTileEntity().getSpawner(), value);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -194,7 +194,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			return (short) requiredPlayerRange.getInt(getTileEntity().getSpawner());
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 
@@ -203,7 +203,7 @@ public class NmsMobSpawner extends NmsTileEntity<CreatureSpawner, TileEntityMobS
 		try {
 			requiredPlayerRange.set(getTileEntity().getSpawner(), range);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 }

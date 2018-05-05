@@ -2,6 +2,7 @@
 
 !README.md
 !.gitignore
+!.editorconfig
 !src/
 !pom.xml
 !LICENSE

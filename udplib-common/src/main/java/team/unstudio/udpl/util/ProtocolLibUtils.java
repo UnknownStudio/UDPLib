@@ -13,6 +13,7 @@ import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.UDPLib;
+import team.unstudio.udpl.nms.nbt.NBTTagString;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
@@ -102,14 +103,24 @@ public interface ProtocolLibUtils {
         });
     }
 
-    static NbtCompound buildStringsNBTBase(String[] lines) {
+    /**
+     * 转换字符串数组为 NBTTagString[] 并封装到 NbtCompound 中，结构如下：
+     *  text1: lines[0]
+     *  text2: lines[1]
+     *  ...
+     * @param lines 文字
+     */
+    static NbtCompound buildStringsNBTBase(String... lines) {
         NbtCompound nbt = NbtFactory.ofCompound("");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < lines.length; i++) {
             nbt.put("text" + (i + 1), lines[i]);
         }
         return nbt;
     }
 
+    /**
+     * 转换字符串数组为 WrappedChatComponent[]
+     */
     static WrappedChatComponent[] buildChatComponentArray(String... components) {
         WrappedChatComponent[] cs = new WrappedChatComponent[components.length];
         for (int i = 0; i < components.length; i++) {

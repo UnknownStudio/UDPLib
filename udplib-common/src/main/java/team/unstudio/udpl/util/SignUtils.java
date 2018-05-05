@@ -22,11 +22,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Set;
 
+/**
+ * Allow you to let player open a sign gui by creating a fake sign.
+ */
 public interface SignUtils {
     ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
+    /**
+     * Players opened sign gui with fake sign.
+     */
     Set<Player> OPENED_FAKE_SIGN_PLAYERS = Sets.newConcurrentHashSet();
 
+    int FAKE_SIGN_HEIGHT = 0;
+
+    /**
+     * Register opened player list and packet listener
+     */
     @Init
     static void initSignUtils() {
         CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
@@ -34,18 +45,22 @@ public interface SignUtils {
         ProtocolLibUtils.listenOnPacketReceiving(SignUtils::handlePacket, PacketType.Play.Client.UPDATE_SIGN);
     }
 
+    /**
+     * handle packet {@link PacketType.Play.Client#UPDATE_SIGN}
+     */
     static void handlePacket(PacketEvent event) {
         Player player = event.getPlayer();
 
-        if (!OPENED_FAKE_SIGN_PLAYERS.contains(player)) return;
+        if (!OPENED_FAKE_SIGN_PLAYERS.contains(player)) return; // check if opened a fake gui
+
         OPENED_FAKE_SIGN_PLAYERS.remove(player);
 
         PacketContainer container = event.getPacket();
         BlockPosition position = container.getBlockPositionModifier().read(0);
 
-        if (position.getY() != 0) return;
+        if (position.getY() != FAKE_SIGN_HEIGHT) return;
         String[] LINES = container.getStringArrays().read(0);
-        
+
         Bukkit.getScheduler().runTask(UDPLib.getPlugin(), () -> Bukkit.getPluginManager()
                 .callEvent(new FakeSignUpdateEvent(player, LINES)));
     }
@@ -59,7 +74,7 @@ public interface SignUtils {
 
         // build fake block's location
         Location playerLocation = player.getLocation();
-        BlockPosition blockPosition = new BlockPosition(playerLocation.getBlockX(), 0, playerLocation.getBlockZ());
+        BlockPosition blockPosition = new BlockPosition(playerLocation.getBlockX(), FAKE_SIGN_HEIGHT, playerLocation.getBlockZ());
 
         {
             // fake sign post block

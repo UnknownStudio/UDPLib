@@ -14,10 +14,10 @@ import net.minecraft.server.v1_11_R1.NBTTagList;
 import net.minecraft.server.v1_11_R1.NBTTagLong;
 import net.minecraft.server.v1_11_R1.NBTTagShort;
 import net.minecraft.server.v1_11_R1.NBTTagString;
-import team.unstudio.udpl.nms.NmsException;
+import team.unstudio.udpl.nms.NMSException;
 
 public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagCompound toCompound(Object nbt){
 		if(nbt == null)
@@ -28,7 +28,7 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 			newNbt.set(key, toNBTBase(oldNbt.get(key)));
 		return newNbt;
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagList toList(Object nbt){
 		if(nbt == null)
@@ -39,70 +39,70 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 			newNbt.add(toNBTBase(oldNbt.h(i)));
 		return newNbt;
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagByte toByte(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagByte(((NBTTagByte) nbt).g());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagShort toShort(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagShort(((NBTTagShort) nbt).f());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagInt toInt(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagInt(((NBTTagInt) nbt).e());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagLong toLong(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagLong(((NBTTagLong) nbt).d());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagFloat toFloat(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagFloat(((NBTTagFloat) nbt).i());
 	}
-	
+
 	@Override
-	public team.unstudio.udpl.nms.nbt.NBTTagDouble toDouble(Object nbt){		
+	public team.unstudio.udpl.nms.nbt.NBTTagDouble toDouble(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagDouble(((NBTTagDouble) nbt).asDouble());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagString toString(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagString(((NBTTagString) nbt).c_());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagByteArray toByteArray(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagByteArray(((NBTTagByteArray) nbt).c());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTTagIntArray toIntArray(Object nbt){
 		if(nbt == null)
 			return null;
 		return new team.unstudio.udpl.nms.nbt.NBTTagIntArray(((NBTTagIntArray) nbt).d());
 	}
-	
+
 	@Override
 	public team.unstudio.udpl.nms.nbt.NBTBase toNBTBase(Object nbt){
 		if(nbt == null)
@@ -133,7 +133,7 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public NBTBase toNmsNBT(team.unstudio.udpl.nms.nbt.NBTBase nbt){
 		if(nbt == null)
@@ -183,7 +183,7 @@ public class NmsNBT implements team.unstudio.udpl.nms.nbt.NmsNBT{
 		try {
 			return toCompound(MojangsonParser.parse(json));
 		} catch (MojangsonParseException e) {
-			throw new NmsException(e);
+			throw new NMSException(e);
 		}
 	}
 }

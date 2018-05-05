@@ -17,18 +17,24 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public interface PluginUtils {
-	
+    /**
+     * 将 Jar 包中的文件夹，复制到插件的数据目录中
+     *
+     * @param plugin 插件实例
+     * @param resourcePath 文件在 Jar 包中的路径
+     * @param replace 是否替换文件
+     */
 	static void saveDirectory(@Nonnull JavaPlugin plugin, @Nonnull String resourcePath, boolean replace){
 		Validate.notNull(plugin);
 		Validate.notEmpty(resourcePath);
 		resourcePath = resourcePath.replace('\\', '/');
-		
+
 		plugin.getLogger().info("Plugin save directory. Path: " + resourcePath);
-		
+
 		URL url = plugin.getClass().getClassLoader().getResource(resourcePath);
 		if(url == null)
 			throw new IllegalArgumentException("Directory isn't found. Path: "+resourcePath);
-		
+
 		JarURLConnection jarConn;
 		try {
 			jarConn = (JarURLConnection) url.openConnection();
@@ -44,11 +50,11 @@ public interface PluginUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 	static void registerEvents(Listener listener, Plugin plugin){
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
-	
+
 	/**
 	 * Call event.
 	 */
@@ -59,7 +65,7 @@ public interface PluginUtils {
 
 	/**
 	 * Call event.
-	 * 
+	 *
 	 * @param event
 	 * @return <code>event.isCancelled()</code> or <code>false</code>
 	 */

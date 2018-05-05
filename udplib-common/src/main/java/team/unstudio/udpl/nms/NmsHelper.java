@@ -11,9 +11,9 @@ import team.unstudio.udpl.nms.nbt.NmsNBT;
 import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
 
 public final class NmsHelper {
-	
+
 	private NmsHelper(){}
-	
+
 	@Init("nms_manager")
 	private static NmsManager NMS_MANAGER;
 
@@ -24,8 +24,8 @@ public final class NmsHelper {
 		checkNmsSupported();
 		return NMS_MANAGER.getNmsNBT();
 	}
-	
-	
+
+
 	/**
 	 * 创建一个{@link NmsItemStack}对象
 	 */
@@ -33,7 +33,7 @@ public final class NmsHelper {
 		checkNmsSupported();
 		return NMS_MANAGER.createNmsItemStack(itemStack);
 	}
-	
+
 	/**
 	 * 创建一个{@link NmsEntity}对象
 	 */
@@ -41,7 +41,7 @@ public final class NmsHelper {
 		checkNmsSupported();
 		return NMS_MANAGER.createNmsEntity(entity);
 	}
-	
+
 	/**
 	 * 创建一个{@link NmsTileEntity}对象
 	 */
@@ -49,16 +49,16 @@ public final class NmsHelper {
 		checkNmsSupported();
 		return NMS_MANAGER.createNmsTileEntity(blockState);
 	}
-	
+
 	/**
 	 * 获取是否支持Nms操作
 	 */
 	public static boolean isNmsSupported() {
 		return NMS_MANAGER != null;
 	}
-	
+
 	private static void checkNmsSupported() {
 		if(!isNmsSupported())
-			throw new NmsException("Unsupported Nms.");
+			throw new NMSException("Unsupported Nms.");
 	}
 }
