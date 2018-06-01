@@ -66,11 +66,11 @@ public interface PluginUtils {
 	/**
 	 * Call event.
 	 *
-	 * @param event
+	 * @param event the event to be call
 	 * @return <code>event.isCancelled()</code> or <code>false</code>
 	 */
 	static boolean callEventIsCancelled(Event event) {
 		Bukkit.getPluginManager().callEvent(event);
-		return event instanceof Cancellable ? ((Cancellable) event).isCancelled() : false;
+		return event instanceof Cancellable && ((Cancellable) event).isCancelled();
 	}
 }

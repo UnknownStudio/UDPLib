@@ -18,18 +18,14 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public interface EntityUtils {
-	
-	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-	AtomicInteger nextEntityID = new AtomicInteger(Integer.MAX_VALUE);
-	
+    ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
+
+    AtomicInteger nextEntityID = new AtomicInteger(Integer.MAX_VALUE);
+
 	@Deprecated
 	static Result sendFakeItemEntity(@Nonnull Player player, @Nonnull ItemStack itemStack, @Nonnull Location location, @Nullable String displayName){
-		Validate.notNull(player);
-		Validate.notNull(itemStack);
-		Validate.notNull(location);
-		
 		int entityID = nextEntityID.getAndDecrement();
-		PacketContainer spawnEntityLiving = protocolManager.createPacket(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
+		PacketContainer spawnEntityLiving = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
 		spawnEntityLiving.getIntegers().write(0, entityID); //Entity ID
 		spawnEntityLiving.getUUIDs().write(0, UUID.randomUUID()); //Entity UUID
 		spawnEntityLiving.getIntegers().write(1, 2); //Entity Type
@@ -41,11 +37,11 @@ public interface EntityUtils {
 									   //Data
 									   .write(4, 1)
 									   //Velocity(X,Y,Z)
-									   .write(5, 0) 
+									   .write(5, 0)
 									   .write(6, 0)
 									   .write(7, 0);
-		
-		PacketContainer entityMetadata = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+
+		PacketContainer entityMetadata = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.ENTITY_METADATA);
 		entityMetadata.getIntegers().write(0, entityID);
 		WrappedDataWatcher dataWatcher = new WrappedDataWatcher();
 		dataWatcher.setObject(0, (byte) 0);
@@ -56,12 +52,7 @@ public interface EntityUtils {
 		dataWatcher.setObject(5, true);
 		dataWatcher.setObject(6, itemStack);
 		entityMetadata.getWatchableCollectionModifier().write(0, dataWatcher.getWatchableObjects());
-        try {
-            protocolManager.sendServerPacket(player, spawnEntityLiving);
-            protocolManager.sendServerPacket(player, entityMetadata);
-            return Result.success();
-        } catch (InvocationTargetException e) {
-        	return Result.failure(e);
-        }
+
+		return ProtocolLibUtils.send(player, spawnEntityLiving, entityMetadata);
 	}
 }

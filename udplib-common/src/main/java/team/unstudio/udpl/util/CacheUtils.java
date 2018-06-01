@@ -31,27 +31,27 @@ public final class CacheUtils {
 		Bukkit.getPluginManager().registerEvents(new CacheListener(), UDPLib.getPlugin());
 	}
 
-	public static <V> void registerPlayerCache(@Nonnull Map<Player, V> cache) {
+	public static <V> void register(@Nonnull Map<Player, V> cache) {
 		PLAYER_MAP_CACHES.add(new MapCacheWrapper<>(cache, null));
 	}
 
-	public static void registerPlayerCache(@Nonnull Collection<Player> cache) {
+	public static void register(@Nonnull Collection<Player> cache) {
 		PLAYER_COLLECTION_CACHES.add(new CollectionCacheWrapper<>(cache, null));
 	}
-	
-	public static <V> void registerPlayerCache(@Nonnull Map<Player, V> cache, MapRemoveListener<Player, V> listener) {
+
+	public static <V> void register(@Nonnull Map<Player, V> cache, MapRemoveListener<Player, V> listener) {
 		PLAYER_MAP_CACHES.add(new MapCacheWrapper<>(cache, listener));
 	}
 
-	public static void registerPlayerCache(@Nonnull Collection<Player> cache, CollectionRemoveListener<Player> listener) {
+	public static void register(@Nonnull Collection<Player> cache, CollectionRemoveListener<Player> listener) {
 		PLAYER_COLLECTION_CACHES.add(new CollectionCacheWrapper<>(cache, listener));
 	}
 
-	public static void unregisterPlayerCache(Map<Player, ?> cache) {
+	public static void unregister(Map<Player, ?> cache) {
 		PLAYER_MAP_CACHES.removeIf(wrapper->cache == wrapper.getCache());
 	}
 
-	public static void unregisterPlayerCache(Collection<Player> cache) {
+	public static void unregister(Collection<Player> cache) {
 		PLAYER_COLLECTION_CACHES.removeIf(wrapper->cache == wrapper.getCache());
 	}
 
@@ -60,7 +60,7 @@ public final class CacheUtils {
 
 		void onRemove(K key, V value);
 	}
-	
+
 	@FunctionalInterface
 	public static interface CollectionRemoveListener<E> {
 
@@ -73,12 +73,12 @@ public final class CacheUtils {
 		public void onQuit(PlayerQuitEvent event) {
 			remove(event.getPlayer());
 		}
-		
+
 		@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 		public void onKick(PlayerKickEvent event) {
 			remove(event.getPlayer());
 		}
-		
+
 		private void remove(Player player) {
 			PLAYER_MAP_CACHES.forEach(cache -> {
 				if (!cache.remove(player))
@@ -90,7 +90,7 @@ public final class CacheUtils {
 			});
 		}
 	}
-	
+
 	private static class MapCacheWrapper<K, V> {
 
 		private final WeakReference<Map<K, V>> cache;
@@ -114,14 +114,14 @@ public final class CacheUtils {
 				listener.onRemove(key, value);
 			return true;
 		}
-		
+
 		public Map<K, V> getCache() {
 			return cache.get();
 		}
 	}
-	
+
 	private static class CollectionCacheWrapper<E> {
-		
+
 		private final WeakReference<Collection<E>> cache;
 		private final CollectionRemoveListener<E> listener;
 
@@ -141,7 +141,7 @@ public final class CacheUtils {
 				listener.onRemove(element);
 			return true;
 		}
-		
+
 		public Collection<E> getCache() {
 			return cache.get();
 		}

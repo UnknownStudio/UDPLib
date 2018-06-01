@@ -26,7 +26,7 @@ import java.util.Set;
  * Allow you to let player open a sign gui by creating a fake sign.
  */
 public interface SignUtils {
-    ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+    ProtocolManager manager = ProtocolLibUtils.getManager();
 
     /**
      * Players opened sign gui with fake sign.
@@ -40,7 +40,7 @@ public interface SignUtils {
      */
     @Init
     static void initSignUtils() {
-        CacheUtils.registerPlayerCache(OPENED_FAKE_SIGN_PLAYERS);
+        CacheUtils.register(OPENED_FAKE_SIGN_PLAYERS);
 
         ProtocolLibUtils.listenOnPacketReceiving(SignUtils::handlePacket, PacketType.Play.Client.UPDATE_SIGN);
     }

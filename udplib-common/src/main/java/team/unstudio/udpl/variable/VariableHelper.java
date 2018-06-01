@@ -9,44 +9,41 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public final class VariableHelper {
+public interface VariableHelper {
+	Set<VariableHandler> REGISTERED_VARIABLE_HANDLERS = Sets.newLinkedHashSet();
 
-	private VariableHelper(){}
-	
-	private static final Set<VariableHandler> REGISTED_VARIABLE_HANDLERS = Sets.newLinkedHashSet();
-	
-	public static void registerVariable(@Nonnull VariableHandler handler){
+	static void register(@Nonnull VariableHandler handler){
 		Validate.notNull(handler);
-		REGISTED_VARIABLE_HANDLERS.add(handler);
+		REGISTERED_VARIABLE_HANDLERS.add(handler);
 	}
-	
-	public static void unregisterVariable(@Nonnull VariableHandler handler){
+
+	static void unregister(@Nonnull VariableHandler handler){
 		Validate.notNull(handler);
-		REGISTED_VARIABLE_HANDLERS.remove(handler);
+		REGISTERED_VARIABLE_HANDLERS.remove(handler);
 	}
-	
-	public static void unregisterVariable(@Nonnull String name){
+
+	static void unregister(@Nonnull String name){
 		Validate.notEmpty(name);
-		REGISTED_VARIABLE_HANDLERS.removeIf(handler->name.equals(handler.getName()));
+		REGISTERED_VARIABLE_HANDLERS.removeIf(handler->name.equals(handler.getName()));
 	}
-	
-	public static void unregisterVariable(@Nonnull Plugin plugin){
+
+	static void unregister(@Nonnull Plugin plugin){
 		Validate.notNull(plugin);
-		REGISTED_VARIABLE_HANDLERS.removeIf(handler->plugin.equals(handler.getPlugin()));
+		REGISTERED_VARIABLE_HANDLERS.removeIf(handler->plugin.equals(handler.getPlugin()));
 	}
-	
-	public static String apply(Player player, String value){
+
+	static String apply(Player player, String value){
 		return apply(player, value, '%', '%');
 	}
-	
-	public static String apply(Player player, String value, char handlerStart, char handlerEnd){
+
+	static String apply(Player player, String value, char handlerStart, char handlerEnd){
 		StringBuilder result = new StringBuilder(value.length());
 		StringBuilder handlerName = new StringBuilder();
-		boolean handlerMatchesing = false;
+		boolean handlerMatching = false;
 		for(char c:value.toCharArray()){
-			if(handlerMatchesing){
+			if(handlerMatching){
 				if(c == handlerEnd){
-					handlerMatchesing = false;
+					handlerMatching = false;
 					String handler = getValue(player, handlerName.toString());
 					if(Strings.isNullOrEmpty(handler))
 						result.append(handlerStart).append(handlerName.toString()).append(handlerEnd);
@@ -57,22 +54,19 @@ public final class VariableHelper {
 					handlerName.append(c);
 			}else{
 				if(c == handlerStart)
-					handlerMatchesing = true;
+					handlerMatching = true;
 				else
 					result.append(c);
 			}
 		}
 		return result.toString();
 	}
-	
-	private static String getValue(Player player, String name){
-		for(VariableHandler handler : REGISTED_VARIABLE_HANDLERS){
+
+	static String getValue(Player player, String name){
+		for(VariableHandler handler : REGISTERED_VARIABLE_HANDLERS){
 			try{
 				String value = handler.get(player, name);
-				if(value == null)
-					continue;
-				
-				return value;
+				if(value != null) return value;
 			}catch(Exception ignored){}
 		}
 		return null;

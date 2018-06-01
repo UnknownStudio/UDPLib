@@ -25,9 +25,10 @@ public interface ProtocolLibUtils {
         return PROTOCOL_MANAGER;
     }
 
-    static Result send(Player player, PacketContainer packet){
+    static Result send(Player player, PacketContainer... packets){
         try {
-            PROTOCOL_MANAGER.sendServerPacket(player, packet);
+            for (PacketContainer packet : packets)
+                PROTOCOL_MANAGER.sendServerPacket(player, packet);
         } catch (InvocationTargetException e) {
             return Result.failure(e);
         }

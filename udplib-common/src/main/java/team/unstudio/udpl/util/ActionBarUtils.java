@@ -8,15 +8,13 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * An action bar helper with ProtocolLib,
  * also called overlay message in client.
  */
-public interface ActionBar {
+public interface ActionBarUtils {
 
-	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
+	ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
 
     /**
      * sending an action bar to a player
@@ -33,11 +31,6 @@ public interface ActionBar {
             container.getEnumModifier(EnumWrappers.ChatType.class, 0).write(0, EnumWrappers.ChatType.GAME_INFO);
         }
 
-        try {
-            PROTOCOL_MANAGER.sendServerPacket(player, container);
-            return Result.success();
-        } catch (InvocationTargetException e) {
-        	return Result.failure(e);
-        }
+        return ProtocolLibUtils.send(player, container);
     }
 }

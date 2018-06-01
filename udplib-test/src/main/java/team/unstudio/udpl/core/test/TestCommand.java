@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 public final class TestCommand {
-	
+
 	@Command
 	@Alias("help")
 	public boolean help(CommandSender sender,String[] args){
@@ -38,7 +38,7 @@ public final class TestCommand {
 			sender.sendMessage("多参数测试成功.");
 		return true;
 	}
-	
+
 	@Command(value = "area", senders = Player.class)
 	public void area(Player sender,
 						@Required(complete= {"a","b"}) int x1,
@@ -49,27 +49,27 @@ public final class TestCommand {
 						@Required int z2){
 		TestLoader.areaManager.addArea(new Area(new Location(sender.getWorld(), x1, y1, z1), new Location(sender.getWorld(), x2, y2, z2)));
 	}
-	
+
 	@Command(value = "send", senders = Player.class)
 	public void send(Player sender,@Required String message){
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 	}
-	
+
 	@Command(value = "sendjson", senders = Player.class)
 	public void sendjson(Player sender,@Required String message){
 		sender.spigot().sendMessage(ComponentSerializer.parse(message));
 	}
-	
+
 	@Command(value = "language", senders = Player.class)
 	public void language(Player sender){
 		sender.sendMessage(PlayerUtils.getLanguage(sender));
 	}
-	
+
 	@Command(value = "nmsitem", senders = Player.class)
 	public void nmsitem(Player sender){
 		sender.sendMessage(NmsHelper.createNmsItemStack(sender.getInventory().getItemInMainHand()).save().toString());
 	}
-	
+
 	@Command(value = "scoreboard", senders = Player.class)
 	public void scoreboard(Player sender){
 		 BiScoreboard scoreboard = new BiScoreboard();
@@ -82,42 +82,42 @@ public final class TestCommand {
 	}
 
 	@Command(value = "title", senders = Player.class)
-	public void title(Player sender, @Required(name = "Title") String title,
+	public void title(Player sender, @Required(name = "TitleUtils") String title,
 			@Required(name = "SubTitle") String subTitle, @Optional(value = "10", name = "FadeIn") int fadeIn,
 			@Optional(value = "20", name = "Stay") int stay, @Optional(value = "10", name = "FadeOut") int fadeOut) {
-		Title.title(sender, title, subTitle, fadeIn, stay, fadeOut);
+		TitleUtils.title(sender, title, subTitle, fadeIn, stay, fadeOut);
 	}
-	
+
 	@Command(value = "actionbar", senders = Player.class)
 	public void actionbar(Player sender, @Required(name = "Text") String text){
-		ActionBar.send(sender, text);
+		ActionBarUtils.send(sender, text);
 	}
-	
+
 	@Command(value = "blockbreakanima", senders = Player.class)
 	public void blockBreakAnima(Player sender, @Required(name = "State") byte state){
 		BlockUtils.sendBlockBreakAnimation(sender, sender.getLocation().subtract(0, 1, 0), state);
 	}
-	
+
 	@Command(value = "sign", senders = Player.class)
 	public void sign(Player sender, @Required(name = "Text") String text){
 		SignUtils.open(sender, new String[]{text,"","",""});
 	}
-	
+
 	@Command("save")
 	public void saveDirectory(CommandSender sender){
 		PluginUtils.saveDirectory(UDPLib.getInstance(), "lang", true);
 	}
-	
+
 	@Command(value = "fakeitem", senders = Player.class)
 	public void fakeItem(Player sender){
 		EntityUtils.sendFakeItemEntity(sender, new ItemStack(Material.STONE), sender.getLocation(), "Stone");
 	}
-	
+
 	@Command(value = "openbook", senders = Player.class)
 	public void openBook(Player sender){
 		BookUtils.open(sender, sender.getInventory().getItemInMainHand());
 	}
-	
+
 	@Command(value = "spawner", senders = Player.class)
 	public void spawner(Player sender){
 		Location location = sender.getLocation().subtract(0, 1, 0);
@@ -128,7 +128,7 @@ public final class TestCommand {
 		nmsSpawner.setSpawnCount((short) 10);
 		sender.sendMessage(Short.toString(nmsSpawner.getSpawnCount()));
 	}
-	
+
 	@Command(value = "conversation", senders = Player.class)
 	public void conversation(Player sender){
 		new Conversation(UDPLib.getInstance())
@@ -155,7 +155,7 @@ public final class TestCommand {
 					con.getPlayer().sendMessage(con.getRequest(9).getResult().get().toString());
 				}).start(sender);
 	}
-	
+
 	@Command("serialize")
 	public void serialize(CommandSender sender) throws IOException{
 		File file = new File(UDPLib.getInstance().getDataFolder(),"test.yml");
@@ -165,12 +165,12 @@ public final class TestCommand {
 		configuration = ConfigurationHelper.loadConfiguration(file);
 		sender.sendMessage(Integer.toString(((TestSerialization)configuration.get("test")).getItem()));
 	}
-	
+
 	@Command(value = "permission", senders = Player.class, permission = "udpl.test.permission")
 	public void permission(Player sender){
 		sender.sendMessage(PlayerUtils.getLanguage(sender));
 	}
-	
+
 	@TabComplete(value = "permission")
 	public List<String> tabComplete(String[] args){
 		return Collections.singletonList("TabComplete");

@@ -66,7 +66,7 @@ public abstract class UI implements Cloneable {
      */
 
     /* ===================================
-     *           Title Start >>>
+     *           TitleUtils Start >>>
      * ===================================
      */
     private String title;
@@ -83,7 +83,7 @@ public abstract class UI implements Cloneable {
         return getTitle();
     }
     /* ===================================
-     *            <<< Title End
+     *            <<< TitleUtils End
      * ===================================
      */
 

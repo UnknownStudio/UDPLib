@@ -10,12 +10,11 @@ import team.unstudio.udpl.nms.nbt.NmsNBT;
 import team.unstudio.udpl.nms.tileentity.NmsTileEntity;
 
 public interface NmsManager {
-	
 	NmsNBT getNmsNBT();
-	
+
 	NmsItemStack createNmsItemStack(ItemStack itemStack);
-	
+
 	NmsEntity createNmsEntity(Entity entity);
-	
+
 	NmsTileEntity createNmsTileEntity(BlockState state);
 }

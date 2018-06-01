@@ -13,7 +13,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public interface ZipUtils {
-	static boolean zip(File zipFile, File... inputFiles) throws FileNotFoundException, IOException  {
+	static boolean zip(File zipFile, File... inputFiles) throws IOException  {
 		try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile))) {
 			for (File file : inputFiles) {
 				if (file.isDirectory())

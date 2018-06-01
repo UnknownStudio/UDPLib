@@ -19,10 +19,11 @@ import java.util.Locale;
 import java.util.Map;
 
 public interface PlayerUtils {
-	
-	ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-	Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
-	
+
+    ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
+
+    Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
+
 	@Init
 	static void initPlayerUtils(){
 		ProtocolLibUtils.listenOnPacketReceiving(event -> {
@@ -36,16 +37,16 @@ public interface PlayerUtils {
 			PLAYER_LANGUAGE_CACHE.put(player, locale);
 		}, PacketType.Play.Client.SETTINGS);
 	}
-	
+
 	Locale DEFAULT_LANGUAGE = Locale.US;
 	static String getLanguage(Player player){
 		return getLanguageLocale(player).toLanguageTag();
 	}
-	
+
 	static Locale getLanguageLocale(Player player){
 		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
 			try {
-				PLAYER_LANGUAGE_CACHE.put(player, 
+				PLAYER_LANGUAGE_CACHE.put(player,
 						Locale.forLanguageTag(normalizeLanguageTag((String) NMSReflectionUtils.EntityPlayer$locale().get(NMSReflectionUtils.CraftPlayer$getHandle().invoke(player)))));
 			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				UDPLib.debug(e);
@@ -54,7 +55,7 @@ public interface PlayerUtils {
 		}
 		return PLAYER_LANGUAGE_CACHE.get(player);
 	}
-	
+
 	static String normalizeLanguageTag(String languageTag){
 		languageTag = languageTag.replaceAll("_", "-");
 		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
@@ -66,12 +67,12 @@ public interface PlayerUtils {
 			return languageTag.substring(0, first+1) + languageTag.substring(first+1,second).toUpperCase() + languageTag.substring(second);
 		}
 	}
-	
+
 	@Nullable
 	static Block getTargetBlock(Player player){
 		return player.getTargetBlock(Sets.newHashSet(Material.AIR), 100);
 	}
-	
+
 	//exp helper
 	/**
 	 * 设置总经验

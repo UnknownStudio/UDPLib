@@ -18,8 +18,7 @@ public class ASMClassLoader extends ClassLoader {
 	}
 
 	public Class<?> loadClass(String name, byte[] b, int off, int len) {
-		Class<?> clazz = defineClass(name, b, off, len);
-		return clazz;
+        return defineClass(name, b, off, len);
 	}
 
 	public boolean hasClass(String name) {

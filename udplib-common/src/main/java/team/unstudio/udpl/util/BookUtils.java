@@ -26,10 +26,10 @@ import java.util.concurrent.atomic.AtomicReference;
  *  An util worked with ProtocolLib can help you edit & open book easily
  */
 public interface BookUtils {
-	
-	ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
-	
-	AtomicReference<PacketContainer> BOOK_OPEN_PACKET = new AtomicReference<>();
+
+    ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
+
+    AtomicReference<PacketContainer> BOOK_OPEN_PACKET = new AtomicReference<>();
 
 	/**
 	 * Open book from {@link ItemStack}, needn't the item in player's inventory
@@ -40,7 +40,7 @@ public interface BookUtils {
 	static Result open(Player player, ItemStack book){
 		ItemStack held = player.getInventory().getItemInMainHand();
 		player.getInventory().setItemInMainHand(book);
-		
+
 		PacketContainer container = BOOK_OPEN_PACKET.get();
 		if(container == null) {
 			container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CUSTOM_PAYLOAD);
