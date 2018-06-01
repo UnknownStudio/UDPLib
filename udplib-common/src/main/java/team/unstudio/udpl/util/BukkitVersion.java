@@ -5,8 +5,8 @@ import team.unstudio.udpl.util.reflect.ReflectionUtils;
 /**
  * Bukkit version checker
  */
-public enum BukkitVersion{
-	
+public enum BukkitVersion {
+
 	V1_12_R1("v1_12_R1","1.12.2"),
 	V1_11_R1("v1_11_R1","1.11.2"),
 	V1_10_R1("v1_10_R1","1.10.2"),
@@ -16,10 +16,10 @@ public enum BukkitVersion{
 	V1_8_R2("v1_8_R2","1.8.3"),
 	V1_8_R1("v1_8_R1","1.8"),
 	UNKNOWN(ReflectionUtils.PackageType.getServerVersion(),ServerUtils.getMinecraftVersion());
-	
+
 	private final String packetName;
 	private final String lastMinecraftVersion;
-	
+
 	BukkitVersion(String packetName,String lastMinecraftVersion) {
 		this.packetName = packetName;
 		this.lastMinecraftVersion = lastMinecraftVersion;
@@ -48,13 +48,24 @@ public enum BukkitVersion{
 		return compareTo(value) >= 0;
 	}
 
+    /**
+     * if version equal the current version.
+     * In version 1.12.2, you will get
+     * {@code V1_12_R1.isCurrent() == true}
+     *
+     * @return true if equal the current version
+     */
+	public boolean isCurrent() {
+	   return this == getCurrentBukkitVersion();
+    }
+
 	/**
 	 * get package name like "v1_12_R1"
 	 */
 	public String getPackageName(){
 		return packetName;
 	}
-	
+
 	public String getLastMinecraftVersion(){
 		return lastMinecraftVersion;
 	}

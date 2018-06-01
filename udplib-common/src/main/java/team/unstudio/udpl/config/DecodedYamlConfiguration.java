@@ -53,12 +53,6 @@ public class DecodedYamlConfiguration extends YamlConfiguration {
         this.load(new InputStreamReader(new FileInputStream(file), getCharset()));
     }
 
-    @Override
-    @Deprecated
-    public void load(InputStream stream) throws IOException, InvalidConfigurationException {
-        this.load(new InputStreamReader(stream, getCharset()));
-    }
-
     public Charset getCharset() {
         return charset;
     }
