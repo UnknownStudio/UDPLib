@@ -6,7 +6,6 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
