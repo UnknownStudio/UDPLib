@@ -27,8 +27,8 @@ public interface ActionBarUtils {
         container.getChatComponents().write(0, WrappedChatComponent.fromJson("{\"text\": \"" + text + "\"}"));
         if (container.getBytes().size() > 0) {
             container.getBytes().write(0, (byte) 2);
-        } else if (container.getEnumModifier(EnumWrappers.ChatType.class, 0).size() > 0) {
-            container.getEnumModifier(EnumWrappers.ChatType.class, 0).write(0, EnumWrappers.ChatType.GAME_INFO);
+        } else if (container.getEnumModifier(EnumWrappers.ChatType.class, 2).size() > 0) {
+            container.getEnumModifier(EnumWrappers.ChatType.class, 2).write(0, EnumWrappers.ChatType.GAME_INFO);
         }
 
         return ProtocolLibUtils.send(player, container);
