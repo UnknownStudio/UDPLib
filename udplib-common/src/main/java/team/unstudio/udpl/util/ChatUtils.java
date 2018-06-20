@@ -2,6 +2,7 @@ package team.unstudio.udpl.util;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public interface ChatUtils {
@@ -12,22 +13,22 @@ public interface ChatUtils {
 	/**
 	 * 发送分割线
 	 */
-	static void sendSplitter(Player player){
-		player.sendMessage(SPLITTER);
+	static void sendSplitter(CommandSender sender){
+		sender.sendMessage(SPLITTER);
 	}
 
 	/**
 	 * 发送空行
 	 */
-	static void sendEmpty(Player player){
-		player.sendMessage("");
+	static void sendEmpty(CommandSender sender){
+		sender.sendMessage("");
 	}
 
 	/**
 	 * 发送清屏消息
 	 */
-	static void sendCleanScreen(Player player) {
-		for (int i = 0; i < 20; i++) sendEmpty(player);
+	static void sendCleanScreen(CommandSender sender) {
+		for (int i = 0; i < 20; i++) sendEmpty(sender);
 	}
 
 	/**
