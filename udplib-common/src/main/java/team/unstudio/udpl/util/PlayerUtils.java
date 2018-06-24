@@ -1,7 +1,6 @@
 package team.unstudio.udpl.util;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.google.common.collect.Maps;
@@ -19,12 +18,17 @@ import java.util.Locale;
 import java.util.Map;
 
 public interface PlayerUtils {
-
     ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
 
+    /**
+     * cached locale map
+     */
     Map<Player, Locale> PLAYER_LANGUAGE_CACHE = Maps.newConcurrentMap();
 
-	@Init
+    /**
+     * Registering packet listener
+     */
+    @Init
 	static void initPlayerUtils(){
 		ProtocolLibUtils.listenOnPacketReceiving(event -> {
 			Player player = event.getPlayer();
@@ -38,24 +42,65 @@ public interface PlayerUtils {
 		}, PacketType.Play.Client.SETTINGS);
 	}
 
-	Locale DEFAULT_LANGUAGE = Locale.US;
+    /**
+     * Default language ({@link Locale#getDefault()})
+     */
+	Locale DEFAULT_LANGUAGE = Locale.getDefault();
+
+    /**
+     * Get a player's Minecraft Client language, and return as "xx-YY",
+     * but the language subtag "xx" and the region subtag "YY" are invalid
+     * because they are not registered in the IANA Language Subtag Registry.
+     *
+     * @param player player
+     * @return a BCP47 language tag representing the locale
+     */
 	static String getLanguage(Player player){
 		return getLanguageLocale(player).toLanguageTag();
 	}
 
+    /**
+     * Get a player's Minecraft Client language
+     *
+     * @param player player
+     * @return {@link PlayerUtils#DEFAULT_LANGUAGE} if couldn't get NMS object
+     */
 	static Locale getLanguageLocale(Player player){
-		if(!PLAYER_LANGUAGE_CACHE.containsKey(player)){
+        Locale locale = PLAYER_LANGUAGE_CACHE.get(player);
+
+		if(locale == null){
+		    // getting locale from nms
 			try {
-				PLAYER_LANGUAGE_CACHE.put(player,
-						Locale.forLanguageTag(normalizeLanguageTag((String) NMSReflectionUtils.EntityPlayer$locale().get(NMSReflectionUtils.CraftPlayer$getHandle().invoke(player)))));
-			} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+				PLAYER_LANGUAGE_CACHE.put(
+				    player,
+					Locale.forLanguageTag(normalizeLanguageTag(getNMSPlayerLocale(player)))
+                );
+                System.out.println(NMSReflectionUtils.EntityPlayer$locale().get(NMSReflectionUtils.CraftPlayer$getHandle().invoke(player)));
+            } catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				UDPLib.debug(e);
-				PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
+                // put default locale if thrown exception
+                PLAYER_LANGUAGE_CACHE.put(player, DEFAULT_LANGUAGE);
 			}
 		}
-		return PLAYER_LANGUAGE_CACHE.get(player);
+		return locale;
 	}
 
+    /**
+     * get NMS native player language tag
+     *
+     * @return locale tag like "zh_cn", "en_us"
+     */
+	static String getNMSPlayerLocale(Player player) throws InvocationTargetException, IllegalAccessException {
+	    return (String) NMSReflectionUtils.EntityPlayer$locale().get(NMSReflectionUtils.CraftPlayer$getHandle().invoke(player));
+    }
+
+    /**
+     * transform NMS native language tag like "zh_cn", "en_us"
+     * into normalized language tag like "zh-CN"
+     *
+     * @param languageTag NMS native language tag
+     * @return normalized language tag like "zh-CN", "en-US"
+     */
 	static String normalizeLanguageTag(String languageTag){
 		languageTag = languageTag.replaceAll("_", "-");
 		int first = languageTag.indexOf("-"), second = languageTag.indexOf("-", first+1);
@@ -73,7 +118,6 @@ public interface PlayerUtils {
 		return player.getTargetBlock(Sets.newHashSet(Material.AIR), 100);
 	}
 
-	//exp helper
 	/**
 	 * 设置总经验
 	 */
@@ -107,7 +151,7 @@ public interface PlayerUtils {
 	}
 
 	/**
-	 * 获取到该等级的经验
+	 * 获取该等级对应的经验
 	 */
 	static int getExpAtLevel(int level) {
 		if (level > 29) {
@@ -120,6 +164,7 @@ public interface PlayerUtils {
 	}
 
 	/**
+     * Get the experience required to upgrade to a certain level from level zero.<br>
 	 * 获取升级到某等级所需经验
 	 */
 	static int getExpToLevel(int level) {
@@ -137,6 +182,7 @@ public interface PlayerUtils {
 	}
 
 	/**
+     * Get player's total experience.<br>
 	 * 获取总经验
 	 */
 	static int getTotalExperience(Player player) {
@@ -154,7 +200,11 @@ public interface PlayerUtils {
 	}
 
 	/**
-	 * 获取到下一等级的还缺少的经验
+     * Get the experience required to upgrade to the next level.<br>
+	 * 获取升级到下一等级的还缺少的经验
+     *
+     * @param player Player
+     * @return required exp to next level
 	 */
 	static int getExpUntilNextLevel(Player player) {
 		int exp = Math.round(getExpAtLevel(player) * player.getExp());

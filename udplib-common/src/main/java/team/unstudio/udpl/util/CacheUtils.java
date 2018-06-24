@@ -47,10 +47,12 @@ public final class CacheUtils {
 		PLAYER_COLLECTION_CACHES.add(new CollectionCacheWrapper<>(cache, listener));
 	}
 
+	@Deprecated
 	public static void unregister(Map<Player, ?> cache) {
 		PLAYER_MAP_CACHES.removeIf(wrapper->cache == wrapper.getCache());
 	}
 
+    @Deprecated
 	public static void unregister(Collection<Player> cache) {
 		PLAYER_COLLECTION_CACHES.removeIf(wrapper->cache == wrapper.getCache());
 	}

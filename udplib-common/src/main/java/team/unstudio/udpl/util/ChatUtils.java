@@ -11,6 +11,7 @@ public interface ChatUtils {
 	char DEFAULT_COLOR_CHAR = '&';
 
 	/**
+     * Send splitter line.<br>
 	 * 发送分割线
 	 */
 	static void sendSplitter(CommandSender sender){
@@ -18,6 +19,7 @@ public interface ChatUtils {
 	}
 
 	/**
+     * Send blank line.<br>
 	 * 发送空行
 	 */
 	static void sendEmpty(CommandSender sender){

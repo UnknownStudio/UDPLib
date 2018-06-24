@@ -82,7 +82,7 @@ public final class TestCommand {
 	}
 
 	@Command(value = "title", senders = Player.class)
-	public void title(Player sender, @Required(name = "TitleUtils") String title,
+	public void title(Player sender, @Required(name = "Title") String title,
 			@Required(name = "SubTitle") String subTitle, @Optional(value = "10", name = "FadeIn") int fadeIn,
 			@Optional(value = "20", name = "Stay") int stay, @Optional(value = "10", name = "FadeOut") int fadeOut) {
 		TitleUtils.title(sender, title, subTitle, fadeIn, stay, fadeOut);

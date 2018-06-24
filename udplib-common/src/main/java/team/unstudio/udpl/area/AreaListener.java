@@ -74,9 +74,4 @@ public final class AreaListener implements Listener{
 	private boolean isMove(Location from,Location to) {
 		return to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ();
 	}
-
-	@Override
-	protected void finalize() throws Throwable {
-		CacheUtils.register(playerArea);
-	}
 }
