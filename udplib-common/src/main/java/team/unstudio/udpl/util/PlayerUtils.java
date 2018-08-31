@@ -18,8 +18,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public interface PlayerUtils {
-    ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
-
     /**
      * cached locale map
      */

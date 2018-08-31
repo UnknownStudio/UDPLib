@@ -91,8 +91,9 @@ public final class UDPLib extends JavaPlugin{
 		
 		if(CONFIG.enableTest)
 			onEnableTest();
-		
-		runVersionCheck();
+
+		//TODO: Fixed VersionChecker
+//		runVersionCheck();
 	}
 
 	@Override

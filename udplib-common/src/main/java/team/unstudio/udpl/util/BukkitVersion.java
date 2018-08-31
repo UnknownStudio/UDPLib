@@ -7,6 +7,8 @@ import team.unstudio.udpl.util.reflect.ReflectionUtils;
  */
 public enum BukkitVersion {
 
+	V1_13_R2("v1_13_R2","1.13.1"),
+	V1_13_R1("v1_13_R1","1.13"),
 	V1_12_R1("v1_12_R1","1.12.2"),
 	V1_11_R1("v1_11_R1","1.11.2"),
 	V1_10_R1("v1_10_R1","1.10.2"),
@@ -15,7 +17,7 @@ public enum BukkitVersion {
 	V1_8_R3("v1_8_R3","1.8.7"),
 	V1_8_R2("v1_8_R2","1.8.3"),
 	V1_8_R1("v1_8_R1","1.8"),
-	UNKNOWN(ReflectionUtils.PackageType.getServerVersion(),ServerUtils.getMinecraftVersion());
+	UNKNOWN(ReflectionUtils.PackageType.getServerVersion(), ServerUtils.getMinecraftVersion());
 
 	private final String packetName;
 	private final String lastMinecraftVersion;

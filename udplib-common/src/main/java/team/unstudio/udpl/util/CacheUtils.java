@@ -58,14 +58,12 @@ public final class CacheUtils {
 	}
 
 	@FunctionalInterface
-	public static interface MapRemoveListener<K, V> {
-
+	public interface MapRemoveListener<K, V> {
 		void onRemove(K key, V value);
 	}
 
 	@FunctionalInterface
-	public static interface CollectionRemoveListener<E> {
-
+	public interface CollectionRemoveListener<E> {
 		void onRemove(E element);
 	}
 
