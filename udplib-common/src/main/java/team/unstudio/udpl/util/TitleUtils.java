@@ -94,9 +94,9 @@ public interface TitleUtils {
     class Builder implements Cloneable, Serializable {
         private String title;
         private String subTitle;
-        private int fadeIn;
-        private int stay;
-        private int fadeOut;
+        private int fadeIn = 5;
+        private int stay = 20 * 2;
+        private int fadeOut = 5;
 
         public Builder() {
         }
