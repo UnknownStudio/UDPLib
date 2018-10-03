@@ -1,7 +1,6 @@
 package team.unstudio.udpl.util;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
@@ -13,9 +12,6 @@ import org.bukkit.entity.Player;
  * also called overlay message in client.
  */
 public interface ActionBarUtils {
-
-	ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
-
     /**
      * sending an action bar to a player
      *
@@ -23,7 +19,7 @@ public interface ActionBarUtils {
      * @param text the message to send
      */
     static Result send(Player player, String text){
-        PacketContainer container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CHAT);
+        PacketContainer container = ProtocolLibUtils.of(PacketType.Play.Server.CHAT);
         container.getChatComponents().write(0, WrappedChatComponent.fromJson("{\"text\": \"" + text + "\"}"));
         if (container.getBytes().size() > 0) {
             container.getBytes().write(0, (byte) 2);

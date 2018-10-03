@@ -1,7 +1,6 @@
 package team.unstudio.udpl.util;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.utility.MinecraftReflection;
@@ -26,9 +25,6 @@ import java.util.concurrent.atomic.AtomicReference;
  *  An util worked with ProtocolLib can help you edit & open book easily
  */
 public interface BookUtils {
-
-    ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
-
     AtomicReference<PacketContainer> BOOK_OPEN_PACKET = new AtomicReference<>();
 
 	/**
@@ -43,7 +39,7 @@ public interface BookUtils {
 
 		PacketContainer container = BOOK_OPEN_PACKET.get();
 		if(container == null) {
-			container = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.CUSTOM_PAYLOAD);
+			container = ProtocolLibUtils.of(PacketType.Play.Server.CUSTOM_PAYLOAD);
 			container.getStrings().write(0, "MC|BOpen");
 			ByteBuf byteBuf = Unpooled.buffer();
 			byteBuf.writeByte(0); // Main Hand.
@@ -51,16 +47,11 @@ public interface BookUtils {
 			container.getModifier().withType(ByteBuf.class).write(0, serializer);
 			BOOK_OPEN_PACKET.set(container);
 		}
-
-		try {
-			PROTOCOL_MANAGER.sendServerPacket(player, container);
-			return Result.success();
-		} catch (InvocationTargetException e) {
-			UDPLib.debug(e);
-			return Result.failure(e);
-		} finally {
-			player.getInventory().setItemInMainHand(held);
-		}
+        return ProtocolLibUtils.send(
+            player,
+            () -> player.getInventory().setItemInMainHand(held),
+            container
+        );
 	}
 
 	/**

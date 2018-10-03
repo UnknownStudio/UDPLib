@@ -1,31 +1,26 @@
 package team.unstudio.udpl.util;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.google.common.base.Strings;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public interface EntityUtils {
-    ProtocolManager PROTOCOL_MANAGER = ProtocolLibUtils.getManager();
-
     AtomicInteger nextEntityID = new AtomicInteger(Integer.MAX_VALUE);
 
 	@Deprecated
 	static Result sendFakeItemEntity(@Nonnull Player player, @Nonnull ItemStack itemStack, @Nonnull Location location, @Nullable String displayName){
 		int entityID = nextEntityID.getAndDecrement();
-		PacketContainer spawnEntityLiving = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
+		PacketContainer spawnEntityLiving = ProtocolLibUtils.of(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
 		spawnEntityLiving.getIntegers().write(0, entityID); //Entity ID
 		spawnEntityLiving.getUUIDs().write(0, UUID.randomUUID()); //Entity UUID
 		spawnEntityLiving.getIntegers().write(1, 2); //Entity Type
@@ -41,7 +36,7 @@ public interface EntityUtils {
 									   .write(6, 0)
 									   .write(7, 0);
 
-		PacketContainer entityMetadata = PROTOCOL_MANAGER.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+		PacketContainer entityMetadata = ProtocolLibUtils.of(PacketType.Play.Server.ENTITY_METADATA);
 		entityMetadata.getIntegers().write(0, entityID);
 		WrappedDataWatcher dataWatcher = new WrappedDataWatcher();
 		dataWatcher.setObject(0, (byte) 0);

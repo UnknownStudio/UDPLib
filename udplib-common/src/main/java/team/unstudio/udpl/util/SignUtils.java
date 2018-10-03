@@ -1,13 +1,11 @@
 package team.unstudio.udpl.util;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,15 +17,12 @@ import team.unstudio.udpl.event.FakeSignUpdateEvent;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Set;
 
 /**
  * Allow you to let player open a sign gui by creating a fake sign.
  */
 public interface SignUtils {
-    ProtocolManager manager = ProtocolLibUtils.getManager();
-
     /**
      * Players opened sign gui with fake sign.
      */
@@ -78,20 +73,17 @@ public interface SignUtils {
 
         {
             // fake sign post block
-            PacketContainer container = manager.createPacket(PacketType.Play.Server.BLOCK_CHANGE);
+            PacketContainer container = ProtocolLibUtils.of(PacketType.Play.Server.BLOCK_CHANGE);
             container.getBlockPositionModifier().write(0, blockPosition);
             container.getBlockData().write(0, WrappedBlockData.createData(Material.SIGN_POST));
 
-            try {
-                manager.sendServerPacket(player, container);
-            } catch (InvocationTargetException e) {
-                return Result.failure(e);
-            }
+            Result result = ProtocolLibUtils.send(player, container);
+            if (result.isFailure()) return result;
         }
 
         {
             // send fake block data contained lines
-            PacketContainer container = manager.createPacket(PacketType.Play.Server.UPDATE_SIGN);
+            PacketContainer container = ProtocolLibUtils.of(PacketType.Play.Server.UPDATE_SIGN);
             container.getBlockPositionModifier().write(0, blockPosition);
 
             if (container.getIntegers().size() > 0) container.getIntegers().write(0, 9);
@@ -104,22 +96,17 @@ public interface SignUtils {
                 container.getStringArrays().write(0, lines);
             }
 
-            try {
-                manager.sendServerPacket(player, container);
-            } catch (InvocationTargetException e) {
-                return Result.failure(e);
-            }
+            Result result = ProtocolLibUtils.send(player, container);
+            if (result.isFailure()) return result;
         }
 
         {
             // open sign editor
-            PacketContainer container = manager.createPacket(PacketType.Play.Server.OPEN_SIGN_EDITOR);
+            PacketContainer container = ProtocolLibUtils.of(PacketType.Play.Server.OPEN_SIGN_EDITOR);
             container.getBlockPositionModifier().write(0, blockPosition);
-            try {
-                manager.sendServerPacket(player, container);
-            } catch (InvocationTargetException e) {
-                return Result.failure(e);
-            }
+
+            Result result = ProtocolLibUtils.send(player, container);
+            if (result.isFailure()) return result;
         }
 
         OPENED_FAKE_SIGN_PLAYERS.add(player);

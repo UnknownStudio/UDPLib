@@ -13,36 +13,58 @@ import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import team.unstudio.udpl.UDPLib;
-import team.unstudio.udpl.nms.nbt.NBTTagString;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 public interface ProtocolLibUtils {
-    ProtocolManager PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
+    /**
+     * @deprecated the field may be null
+     */
+    @Deprecated
+    ProtocolManager PROTOCOL_MANAGER = get();
 
-    static ProtocolManager getManager() {
-        return PROTOCOL_MANAGER;
+    /**
+     * @return get {@code ProtocolManager}
+     */
+    static ProtocolManager get() {
+        return ProtocolLibrary.getProtocolManager();
     }
 
-    static Result send(Player player, PacketContainer... packets){
+    static PacketContainer of(PacketType type) {
+        return get().createPacket(type);
+    }
+
+    static Result send(Player player, PacketContainer... packets) {
         try {
-            for (PacketContainer packet : packets)
-                PROTOCOL_MANAGER.sendServerPacket(player, packet);
-        } catch (InvocationTargetException e) {
+            ProtocolManager manager = get();
+            for (PacketContainer packet : packets) {
+                if (packet.getType().isServer())
+                    manager.sendServerPacket(player, packet);
+                else
+                    manager.recieveClientPacket(player, packet);
+            }
+        } catch (InvocationTargetException | IllegalAccessException e) {
             return Result.failure(e);
         }
         return Result.success();
     }
 
+    static Result send(Player player, Runnable whileException, PacketContainer... packets) {
+        Result result = send(player, packets);
+        if (result.isFailure()) whileException.run();
+        return result;
+    }
+
     /**
      * 监听包的发送
      *
-     * @param consumer 发送处理
+     * @param consumer         发送处理
      * @param sendingWhiteList 需要监听的包
      */
     static void listenOnPacketSending(Consumer<PacketEvent> consumer, PacketType... sendingWhiteList) {
-        PROTOCOL_MANAGER.addPacketListener(new PacketListener() {
+        get().addPacketListener(new PacketListener() {
             @Override
             public void onPacketSending(PacketEvent event) {
                 consumer.accept(event);
@@ -73,11 +95,11 @@ public interface ProtocolLibUtils {
     /**
      * 监听包的接收
      *
-     * @param consumer 接收处理
+     * @param consumer           接收处理
      * @param receivingWhiteList 需要监听的包
      */
     static void listenOnPacketReceiving(Consumer<PacketEvent> consumer, PacketType... receivingWhiteList) {
-        PROTOCOL_MANAGER.addPacketListener(new PacketListener() {
+        get().addPacketListener(new PacketListener() {
             @Override
             public void onPacketSending(PacketEvent event) {
             }
@@ -106,9 +128,10 @@ public interface ProtocolLibUtils {
 
     /**
      * 转换字符串数组为 NBTTagString[] 并封装到 NbtCompound 中，结构如下：
-     *  text1: lines[0]
-     *  text2: lines[1]
-     *  ...
+     * text1: lines[0]
+     * text2: lines[1]
+     * ...
+     *
      * @param lines 文字
      */
     static NbtCompound buildStringsNBTBase(String... lines) {
