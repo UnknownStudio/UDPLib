@@ -9,6 +9,10 @@ import org.bukkit.entity.Player;
 
 public class ParticleWrapper implements Cloneable {
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
 	private Particle particle;
 	private int count;
 	private double offsetX = 0;
@@ -127,12 +131,75 @@ public class ParticleWrapper implements Cloneable {
 
 	@Override
 	public ParticleWrapper clone() {
-		ParticleWrapper particle = null;
+		ParticleWrapper particle;
 		try {
 			particle = (ParticleWrapper) super.clone();
+			particle.setParticle(getParticle());
+			particle.setCount(getCount());
+			particle.setOffsetX(getOffsetX());
+			particle.setOffsetY(getOffsetY());
+			particle.setOffsetZ(getOffsetZ());
+			particle.setExtra(getExtra());
+			particle.setData(getData());
+            return particle;
 		} catch (CloneNotSupportedException e) {
 			throw new Error(e);
 		}
-		return particle;
 	}
+
+	public static class Builder {
+        private Particle particle;
+        private int count;
+        private double offsetX = 0;
+        private double offsetY = 0;
+        private double offsetZ = 0;
+        private double extra = 1;
+        private Object data = null;
+
+        public ParticleWrapper build() {
+            return new ParticleWrapper(particle, count, offsetX, offsetY, offsetZ, extra, data);
+        }
+
+        public Builder particle(Particle particle) {
+            this.particle = particle;
+            return this;
+        }
+
+        public Builder count(int count) {
+            this.count = count;
+            return this;
+        }
+
+        public Builder offestX(double offsetX) {
+            this.offsetX = offsetX;
+            return this;
+        }
+
+        public Builder offestY(double offsetY) {
+            this.offsetY = offsetY;
+            return this;
+        }
+
+        public Builder offestZ(double offsetZ) {
+            this.offsetZ = offsetZ;
+            return this;
+        }
+
+        public Builder offest(double offsetX, double offsetY, double offsetZ) {
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
+            this.offsetZ = offsetZ;
+            return this;
+        }
+
+        public Builder extra(double extra) {
+            this.extra = extra;
+            return this;
+        }
+
+        public Builder data(Object data) {
+            this.data = data;
+            return this;
+        }
+    }
 }
