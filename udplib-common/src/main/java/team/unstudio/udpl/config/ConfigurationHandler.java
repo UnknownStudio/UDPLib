@@ -29,12 +29,17 @@ public abstract class ConfigurationHandler {
      */
     private final Map<String, Object> defaults = new HashMap<>();
 
-    private Config config;
+    private final Config config;
 
     /**
      * 是否已经加载过配置项默认值
      */
     private boolean loaded = false;
+
+
+    public ConfigurationHandler(File file){
+        this(new FileConfig(file));
+    }
 
     public ConfigurationHandler(Config config) {
         this.config = config;
