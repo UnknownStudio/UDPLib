@@ -6,5 +6,5 @@ import team.unstudio.udpl.area.Area;
 import java.util.function.BiConsumer;
 
 @FunctionalInterface
-public interface PlayerLeaveAreaCallback extends BiConsumer<Player, Area>{
+public interface PlayerLeaveAreaCallback extends BiConsumer<Player, Area> {
 }
