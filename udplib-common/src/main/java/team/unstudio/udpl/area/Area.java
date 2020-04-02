@@ -115,7 +115,7 @@ public class Area implements ConfigurationSerializable {
      * @param other 区域
      */
     public boolean intersect(final Area other) {
-        return max.getX() >= other.min.getX() && max.getY() >= other.min.getY() && min.getZ() >= min.getZ() &&
+        return max.getX() >= other.min.getX() && max.getY() >= other.min.getY() && max.getZ() >= other.min.getZ() &&
             min.getX() <= other.max.getX() && min.getY() <= other.max.getY() && min.getZ() <= other.max.getZ();
     }
 
